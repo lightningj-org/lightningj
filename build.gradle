@@ -1,0 +1,206 @@
+group 'org.lightningj'
+version '0.1-Beta'
+
+apply plugin: "groovy"
+apply plugin: 'com.google.protobuf'
+apply plugin: 'idea'
+apply plugin: 'org.asciidoctor.convert'
+apply plugin: 'project-report'
+apply plugin: 'org.ajoberstar.git-publish'
+
+description = "LightningJ - Lightning APIs for Java"
+
+sourceCompatibility = 1.7
+
+
+repositories {
+    // Spock releases are available from Maven Central
+    mavenCentral()
+    // Spock snapshots are available from the Sonatype OSS snapshot repository
+   // maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url "https://dl.bintray.com/asciidoctor/maven/"}
+    }
+    dependencies {
+        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.1"
+        classpath "org.spockframework:spock-core:1.1-groovy-2.4"
+
+        // optional dependencies for using Spock
+        classpath "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
+        classpath "net.bytebuddy:byte-buddy:1.6.5"          // allows mocking of classes (in addition to interfaces)
+        classpath "org.objenesis:objenesis:2.5.1"    // allows mocking of classes without default constructor (together with CGLIB)
+
+        // Documentation generation
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.7'
+        classpath 'org.ajoberstar:gradle-git-publish:0.3.2'
+    }
+}
+
+dependencies {
+    //gRPC
+    compile group: 'com.google.api.grpc', name: 'googleapis-common-protos', version: '0.0.3'
+    compile 'io.netty:netty-tcnative-boringssl-static:2.0.6.Final'
+    compile 'io.grpc:grpc-netty:1.7.0'
+    compile 'io.grpc:grpc-protobuf:1.7.0'
+    compile 'io.grpc:grpc-stub:1.7.0'
+
+    // JSON-P
+    compile 'javax.json:javax.json-api:1.0'
+    compile 'org.glassfish:javax.json:1.1.2'
+
+    // mandatory dependencies for using Spock
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
+
+    // optional dependencies for using Spock
+    testCompile "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
+    testRuntime "net.bytebuddy:byte-buddy:1.6.5"          // allows mocking of classes (in addition to interfaces)
+    testRuntime "org.objenesis:objenesis:2.5.1"    // allows mocking of classes without default constructor (together with CGLIB)
+
+}
+
+/*
+  Task for generating Lowlevel LND GRPC API
+ */
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.4.0"
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.7.0'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+/**
+ * Adds generated High Level APIs to the list of source directories to compile.
+ */
+compileJava {
+    source += ['build/generated/source/wrapper/main/java']
+}
+
+
+/*
+   Generate High Level LDN API using custom WrapperClassGenerator in buildSrc
+ */
+task generateWrappers(type: WrapperClassGenerator, dependsOn:compileJava){
+
+}
+
+/*
+  Compile High Level LND API Java classes.
+ */
+task compileWrapperMessages(type: JavaCompile, dependsOn: generateWrappers){
+    source = compileJava.source
+    //classpath = files('build/classes/main')
+    classpath = compileJava.classpath + files('build/classes/main')
+    destinationDir = compileJava.destinationDir
+}
+
+/*
+  Generate XSD of all generated High Level Message classes, fist dependency configuration then
+  the actual task.
+ */
+configurations{
+    xsdClassPathConf
+}
+dependencies {
+    xsdClassPathConf 'javax.json:javax.json-api:1.0'
+    xsdClassPathConf 'org.glassfish:javax.json:1.1.2'
+}
+
+task generateXSD(type: XSDGenerator, dependsOn: compileWrapperMessages){
+    classpath=compileJava.classpath.asPath
+}
+
+/*
+  Indicates that all high level api and XSD generation should be done before 'jar' task is executed.
+ */
+jar.dependsOn.add(generateXSD)
+
+/*
+  Adds generated source directories to be included in javadoc generation.
+ */
+javadoc {
+    source += ['build/generated/source/proto/main/grpc','build/generated/source/proto/main/java','build/generated/source/wrapper/main/java']
+    failOnError= false
+}
+
+asciidoctor {
+    sourceDir = file('docs')
+    outputDir = file('build/docs')
+    attributes= [stylesheet: "$projectDir/docs/stylesheets/colony.css",
+                 toc: 'left', 'toc-title': 'Table of Contents'
+    ]
+}
+
+task ('doc',type: Copy,dependsOn: [javadoc, asciidoctor, htmlDependencyReport]){
+    from('build/reports/project/'){
+        include('dependencies/**')
+    }
+    from('build/docs/'){
+        include('javadoc/**')
+    }
+    from('build/reports/tests'){
+        include('test/**')
+    }
+    from('build/resources/main'){
+        include('*.xsd')
+    }
+    from('LICENSE.txt'){
+    }
+    from('docs'){
+        include('CNAME')
+    }
+    into('build/docs/html5')
+}
+
+/*
+  Task for specifying for Intellij which source directories to use.
+ */
+idea {
+    module {
+        sourceDirs += new File('build/generated/source/proto/main/grpc')
+        sourceDirs += new File('build/generated/source/proto/main/java')
+        sourceDirs += new File('build/generated/source/wrapper/main/java')
+        sourceDirs += new File('build/resources/main')
+        sourceDirs += new File('src/examples')
+    }
+}
+
+gitPublish {
+    // where to publish to (repo must exist)
+    repoUri = 'https://github.com/lightningj-org/lightningj.git'
+    // (or 'https://github.com/ajoberstar/test-repo.git', depending on authentication)
+
+    // branch will be created if it doesn't exist
+    branch = 'gh-pages'
+
+    // generally, you don't need to touch this
+    //repoDir = file("$buildDir/somewhereelse") // defaults to $buildDir/gitPublish
+
+    // what to publish, this is a standard CopySpec
+    contents {
+        from 'build/docs/html5'
+    }
+
+    // what to keep in the existing branch (include=keep)
+//    preserve {
+//        include '1.0.0/**'
+//        exclude '1.0.0/temp.txt'
+//    }
+
+    // message used when committing changes
+    commitMessage = 'Publishing a new page' // defaults to 'Generated by gradle-git-publish'
+}

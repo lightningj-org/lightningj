@@ -1,0 +1,39 @@
+    /**
+     * Method to generate a ${methodName} request.
+     *
+     * @see org.lightningj.lnd.proto.${grpcClass}.${stubClass}#${methodName}(LightningApi.${requestType})
+     * @return a wrapped ${responseType}
+     * @throws StatusException if problems occurred in underlying GRPC call. Can be of one of three sub exceptions
+     * <li>ClientSideException: if problems was found in the request data, such as invalid or unexpected data.
+     * <li>ServerSideException: if server side problems was detected when processing the request.
+     * <li>CommunicationException: if communication related problems occurred during the call.
+     * @throws ValidationException if validation problems found in request or response data.
+     */
+    public ${responseType} ${methodName}(${parameters}) throws StatusException,ValidationException{
+      ${requestType} request = new ${requestType}();
+      ${setMethods}
+      return ${methodName}(request);
+    }
+
+    /**
+     * Method to send a ${methodName} request.
+     *
+     * @see org.lightningj.lnd.proto.${grpcClass}.${stubClass}#${methodName}(LightningApi.${requestType})
+     * @return a wrapped ${responseType}
+     * @throws StatusException if problems occurred in underlying GRPC call. Can be of one of three sub exceptions
+     * <li>ClientSideException: if problems was found in the request data, such as invalid or unexpected data.
+     * <li>ServerSideException: if server side problems was detected when processing the request.
+     * <li>CommunicationException: if communication related problems occurred during the call.
+     * @throws ValidationException if validation problems found in request or response data.
+     */
+    public ${responseType} ${methodName}(${requestType} request) throws StatusException,ValidationException{
+       try{
+         return (${responseType}) processResponse(
+           new ${responseType}(
+             getStub().${methodName}(
+               (LightningApi.${requestType})
+                  processRequest(request))));
+        }catch(io.grpc.StatusRuntimeException e){
+            throw statusExceptionWrapper.wrap(e);
+        }
+    }

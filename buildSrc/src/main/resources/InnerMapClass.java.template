@@ -1,0 +1,77 @@
+
+    /**
+     * Wrapping class used for conversion between Map and XML notation.
+     */
+${entriesXmlType}
+    public static class ${wrappingClassName}{
+
+        protected List<${innerClassName}> entry;
+
+        ${xmlElement}
+        public List<${innerClassName}> getEntry() {
+            if (entry == null) {
+                entry = new ArrayList<>();
+            }
+            return this.entry;
+        }
+
+    }
+
+    /**
+     * Inner class ${innerClassName} for class ${className}.
+     *
+     *
+     * @see org.lightningj.lnd.wrapper.Message
+     * Generated Automatically.
+     */
+${xmlType}
+    public static class ${innerClassName} {
+
+        ${fieldKeyType} key;
+        ${fieldValueType} value;
+
+        /**
+         * Empty Constructor
+         */
+        public ${innerClassName}(){
+        }
+
+        /**
+         * Json Parsing Constructor
+         */
+        public ${innerClassName}(${fieldKeyType} key, ${fieldValueType} value){
+           this.key = key;
+           this.value = value;
+        }
+
+         /**
+          * Getter for key.
+          */
+         ${xmlKeyElement}
+         public ${fieldKeyType} getKey() {
+             return key;
+         }
+
+         /**
+          * Setter for key.
+          */
+         public void setKey(${fieldKeyType} key) {
+             this.key = key;
+         }
+
+         /**
+          * Getter for value.
+          */
+         ${xmlValueElement}
+         public ${fieldValueType} getValue() {
+             return value;
+         }
+
+         /**
+          * Setter for value.
+          */
+         public void setValue(${fieldValueType} value) {
+             this.value = value;
+         }
+
+    }
