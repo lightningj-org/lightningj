@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.6.1">
+<meta name="description" content="LightningJ is a project with the intention to simplify the integration of existing Lightning node implementations for Java developers. It contains simple to use API implementations and converters between JSON, XML.">
+<meta name="keywords" content="bitcoin,lightning,java,lnd,lightningj">
+<title>LightningJ</title>
+<style>
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize */
+/* ========================================================================== HTML5 display definitions ========================================================================== */
+/** Correct `block` display not defined in IE 8/9. */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
+
+/** Correct `inline-block` display not defined in IE 8/9. */
+audio, canvas, video { display: inline-block; }
+
+/** Prevent modern browsers from displaying `audio` without controls. Remove excess height in iOS 5 devices. */
+audio:not([controls]) { display: none; height: 0; }
+
+/** Address `[hidden]` styling not present in IE 8/9. Hide the `template` element in IE, Safari, and Firefox < 22. */
+[hidden], template { display: none; }
+
+script { display: none !important; }
+
+/* ========================================================================== Base ========================================================================== */
+/** 1. Set default font family to sans-serif. 2. Prevent iOS text size adjust after orientation change, without disabling user zoom. */
+html { font-family: sans-serif; /* 1 */ -ms-text-size-adjust: 100%; /* 2 */ -webkit-text-size-adjust: 100%; /* 2 */ }
+
+/** Remove default margin. */
+body { margin: 0; }
+
+/* ========================================================================== Links ========================================================================== */
+/** Remove the gray background color from active links in IE 10. */
+a { background: transparent; }
+
+/** Address `outline` inconsistency between Chrome and other browsers. */
+a:focus { outline: thin dotted; }
+
+/** Improve readability when focused and also mouse hovered in all browsers. */
+a:active, a:hover { outline: 0; }
+
+/* ========================================================================== Typography ========================================================================== */
+/** Address variable `h1` font-size and margin within `section` and `article` contexts in Firefox 4+, Safari 5, and Chrome. */
+h1 { font-size: 2em; margin: 0.67em 0; }
+
+/** Address styling not present in IE 8/9, Safari 5, and Chrome. */
+abbr[title] { border-bottom: 1px dotted; }
+
+/** Address style set to `bolder` in Firefox 4+, Safari 5, and Chrome. */
+b, strong { font-weight: bold; }
+
+/** Address styling not present in Safari 5 and Chrome. */
+dfn { font-style: italic; }
+
+/** Address differences between Firefox and other browsers. */
+hr { -moz-box-sizing: content-box; box-sizing: content-box; height: 0; }
+
+/** Address styling not present in IE 8/9. */
+mark { background: #ff0; color: #000; }
+
+/** Correct font family set oddly in Safari 5 and Chrome. */
+code, kbd, pre, samp { font-family: monospace, serif; font-size: 1em; }
+
+/** Improve readability of pre-formatted text in all browsers. */
+pre { white-space: pre-wrap; }
+
+/** Set consistent quote types. */
+q { quotes: "\201C" "\201D" "\2018" "\2019"; }
+
+/** Address inconsistent and variable font size in all browsers. */
+small { font-size: 80%; }
+
+/** Prevent `sub` and `sup` affecting `line-height` in all browsers. */
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+
+sup { top: -0.5em; }
+
+sub { bottom: -0.25em; }
+
+/* ========================================================================== Embedded content ========================================================================== */
+/** Remove border when inside `a` element in IE 8/9. */
+img { border: 0; }
+
+/** Correct overflow displayed oddly in IE 9. */
+svg:not(:root) { overflow: hidden; }
+
+/* ========================================================================== Figures ========================================================================== */
+/** Address margin not present in IE 8/9 and Safari 5. */
+figure { margin: 0; }
+
+/* ========================================================================== Forms ========================================================================== */
+/** Define consistent border, margin, and padding. */
+fieldset { border: 1px solid #c0c0c0; margin: 0 2px; padding: 0.35em 0.625em 0.75em; }
+
+/** 1. Correct `color` not being inherited in IE 8/9. 2. Remove padding so people aren't caught out if they zero out fieldsets. */
+legend { border: 0; /* 1 */ padding: 0; /* 2 */ }
+
+/** 1. Correct font family not being inherited in all browsers. 2. Correct font size not being inherited in all browsers. 3. Address margins set differently in Firefox 4+, Safari 5, and Chrome. */
+button, input, select, textarea { font-family: inherit; /* 1 */ font-size: 100%; /* 2 */ margin: 0; /* 3 */ }
+
+/** Address Firefox 4+ setting `line-height` on `input` using `!important` in the UA stylesheet. */
+button, input { line-height: normal; }
+
+/** Address inconsistent `text-transform` inheritance for `button` and `select`. All other form control elements do not inherit `text-transform` values. Correct `button` style inheritance in Chrome, Safari 5+, and IE 8+. Correct `select` style inheritance in Firefox 4+ and Opera. */
+button, select { text-transform: none; }
+
+/** 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. 2. Correct inability to style clickable `input` types in iOS. 3. Improve usability and consistency of cursor style between image-type `input` and others. */
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance: button; /* 2 */ cursor: pointer; /* 3 */ }
+
+/** Re-set default cursor for disabled elements. */
+button[disabled], html input[disabled] { cursor: default; }
+
+/** 1. Address box sizing set to `content-box` in IE 8/9. 2. Remove excess padding in IE 8/9. */
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; /* 1 */ padding: 0; /* 2 */ }
+
+/** 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome. 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome (include `-moz` to future-proof). */
+input[type="search"] { -webkit-appearance: textfield; /* 1 */ -moz-box-sizing: content-box; -webkit-box-sizing: content-box; /* 2 */ box-sizing: content-box; }
+
+/** Remove inner padding and search cancel button in Safari 5 and Chrome on OS X. */
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+/** Remove inner padding and border in Firefox 4+. */
+button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
+
+/** 1. Remove default vertical scrollbar in IE 8/9. 2. Improve readability and alignment in all browsers. */
+textarea { overflow: auto; /* 1 */ vertical-align: top; /* 2 */ }
+
+/* ========================================================================== Tables ========================================================================== */
+/** Remove most spacing between table cells. */
+table { border-collapse: collapse; border-spacing: 0; }
+
+meta.foundation-mq-small { font-family: "only screen and (min-width: 768px)"; width: 768px; }
+
+meta.foundation-mq-medium { font-family: "only screen and (min-width:1280px)"; width: 1280px; }
+
+meta.foundation-mq-large { font-family: "only screen and (min-width:1440px)"; width: 1440px; }
+
+*, *:before, *:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+html, body { font-size: 100%; }
+
+body { background: white; color: #222222; padding: 0; margin: 0; font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: normal; font-style: normal; line-height: 1; position: relative; cursor: auto; }
+
+a:hover { cursor: pointer; }
+
+img, object, embed { max-width: 100%; height: auto; }
+
+object, embed { height: 100%; }
+
+img { -ms-interpolation-mode: bicubic; }
+
+#map_canvas img, #map_canvas embed, #map_canvas object, .map_canvas img, .map_canvas embed, .map_canvas object { max-width: none !important; }
+
+.left { float: left !important; }
+
+.right { float: right !important; }
+
+.text-left { text-align: left !important; }
+
+.text-right { text-align: right !important; }
+
+.text-center { text-align: center !important; }
+
+.text-justify { text-align: justify !important; }
+
+.hide { display: none; }
+
+.antialiased { -webkit-font-smoothing: antialiased; }
+
+img { display: inline-block; vertical-align: middle; }
+
+textarea { height: auto; min-height: 50px; }
+
+select { width: 100%; }
+
+object, svg { display: inline-block; vertical-align: middle; }
+
+.center { margin-left: auto; margin-right: auto; }
+
+.spread { width: 100%; }
+
+p.lead, .paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p { font-size: 1.21875em; line-height: 1.6; }
+
+.subheader, .admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title { line-height: 1.4; color: #003b6b; font-weight: 300; margin-top: 0.2em; margin-bottom: 0.5em; }
+
+/* Typography resets */
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6, pre, form, p, blockquote, th, td { margin: 0; padding: 0; direction: ltr; }
+
+/* Default Link Styles */
+a { color: #00579e; text-decoration: none; line-height: inherit; }
+a:hover, a:focus { color: #333333; }
+a img { border: none; }
+
+/* Default paragraph styles */
+p { font-family: Arial, sans-serif; font-weight: normal; font-size: 1em; line-height: 1.6; margin-bottom: 0.75em; text-rendering: optimizeLegibility; }
+p aside { font-size: 0.875em; line-height: 1.35; font-style: italic; }
+
+/* Default header styles */
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { font-family: Arial, sans-serif; font-weight: normal; font-style: normal; color: #7b2d00; text-rendering: optimizeLegibility; margin-top: 0.5em; margin-bottom: 0.5em; line-height: 1.2125em; }
+h1 small, h2 small, h3 small, #toctitle small, .sidebarblock > .content > .title small, h4 small, h5 small, h6 small { font-size: 60%; color: #ff6b15; line-height: 0; }
+
+h1 { font-size: 2.125em; }
+
+h2 { font-size: 1.6875em; }
+
+h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.375em; }
+
+h4 { font-size: 1.125em; }
+
+h5 { font-size: 1.125em; }
+
+h6 { font-size: 1em; }
+
+hr { border: solid #dddddd; border-width: 1px 0 0; clear: both; margin: 1.25em 0 1.1875em; height: 0; }
+
+/* Helpful Typography Defaults */
+em, i { font-style: italic; line-height: inherit; }
+
+strong, b { font-weight: bold; line-height: inherit; }
+
+small { font-size: 60%; line-height: inherit; }
+
+code { font-family: Consolas, "Liberation Mono", Courier, monospace; font-weight: bold; color: #003426; }
+
+/* Lists */
+ul, ol, dl { font-size: 1em; line-height: 1.6; margin-bottom: 0.75em; list-style-position: outside; font-family: Arial, sans-serif; }
+
+ul, ol { margin-left: 1.5em; }
+ul.no-bullet, ol.no-bullet { margin-left: 1.5em; }
+
+/* Unordered Lists */
+ul li ul, ul li ol { margin-left: 1.25em; margin-bottom: 0; font-size: 1em; /* Override nested font-size change */ }
+ul.square li ul, ul.circle li ul, ul.disc li ul { list-style: inherit; }
+ul.square { list-style-type: square; }
+ul.circle { list-style-type: circle; }
+ul.disc { list-style-type: disc; }
+ul.no-bullet { list-style: none; }
+
+/* Ordered Lists */
+ol li ul, ol li ol { margin-left: 1.25em; margin-bottom: 0; }
+
+/* Definition Lists */
+dl dt { margin-bottom: 0.3em; font-weight: bold; }
+dl dd { margin-bottom: 0.75em; }
+
+/* Abbreviations */
+abbr, acronym { text-transform: uppercase; font-size: 90%; color: black; border-bottom: 1px dotted #dddddd; cursor: help; }
+
+abbr { text-transform: none; }
+
+/* Blockquotes */
+blockquote { margin: 0 0 0.75em; padding: 0.5625em 1.25em 0 1.1875em; border-left: 1px solid #dddddd; }
+blockquote cite { display: block; font-size: 0.8125em; color: #e15200; }
+blockquote cite:before { content: "\2014 \0020"; }
+blockquote cite a, blockquote cite a:visited { color: #e15200; }
+
+blockquote, blockquote p { line-height: 1.6; color: #333333; }
+
+/* Microformats */
+.vcard { display: inline-block; margin: 0 0 1.25em 0; border: 1px solid #dddddd; padding: 0.625em 0.75em; }
+.vcard li { margin: 0; display: block; }
+.vcard .fn { font-weight: bold; font-size: 0.9375em; }
+
+.vevent .summary { font-weight: bold; }
+.vevent abbr { cursor: auto; text-decoration: none; font-weight: bold; border: none; padding: 0 0.0625em; }
+
+@media only screen and (min-width: 768px) { h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { line-height: 1.4; }
+  h1 { font-size: 2.75em; }
+  h2 { font-size: 2.3125em; }
+  h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.6875em; }
+  h4 { font-size: 1.4375em; } }
+/* Tables */
+table { background: white; margin-bottom: 1.25em; border: solid 1px #d8d8ce; }
+table thead, table tfoot { background: -webkit-linear-gradient(top, #add386, #90b66a); font-weight: bold; }
+table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td { padding: 0.5em 0.625em 0.625em; font-size: inherit; color: white; text-align: left; }
+table tr th, table tr td { padding: 0.5625em 0.625em; font-size: inherit; color: #6d6e71; }
+table tr.even, table tr.alt, table tr:nth-of-type(even) { background: #edf2f2; }
+table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { display: table-cell; line-height: 1.4; }
+
+body { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; tab-size: 4; }
+
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { line-height: 1.4; }
+
+a:hover, a:focus { text-decoration: underline; }
+
+.clearfix:before, .clearfix:after, .float-group:before, .float-group:after { content: " "; display: table; }
+.clearfix:after, .float-group:after { clear: both; }
+
+*:not(pre) > code { font-size: inherit; font-style: normal !important; letter-spacing: 0; padding: 3px 2px 1px 2px; background-color: #eeeeee; border: 1px solid #dddddd; -webkit-border-radius: 0; border-radius: 0; line-height: inherit; word-wrap: break-word; }
+*:not(pre) > code.nobreak { word-wrap: normal; }
+*:not(pre) > code.nowrap { white-space: nowrap; }
+
+pre, pre > code { line-height: 1.6; color: black; font-family: Consolas, "Liberation Mono", Courier, monospace; font-weight: normal; }
+
+em em { font-style: normal; }
+
+strong strong { font-weight: normal; }
+
+.keyseq { color: #333333; }
+
+kbd { font-family: Consolas, "Liberation Mono", Courier, monospace; display: inline-block; color: black; font-size: 0.65em; line-height: 1.45; background-color: #f7f7f7; border: 1px solid #ccc; -webkit-border-radius: 3px; border-radius: 3px; -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 0.1em white inset; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 0.1em white inset; margin: 0 0.15em; padding: 0.2em 0.5em; vertical-align: middle; position: relative; top: -0.1em; white-space: nowrap; }
+
+.keyseq kbd:first-child { margin-left: 0; }
+
+.keyseq kbd:last-child { margin-right: 0; }
+
+.menuseq, .menuref { color: #000; }
+
+.menuseq b:not(.caret), .menuref { font-weight: inherit; }
+
+.menuseq { word-spacing: -0.02em; }
+.menuseq b.caret { font-size: 1.25em; line-height: 0.8; }
+.menuseq i.caret { font-weight: bold; text-align: center; width: 0.45em; }
+
+b.button:before, b.button:after { position: relative; top: -1px; font-weight: normal; }
+
+b.button:before { content: "["; padding: 0 3px 0 2px; }
+
+b.button:after { content: "]"; padding: 0 2px 0 3px; }
+
+#header, #content, #footnotes, #footer { width: 100%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0; max-width: 62.5em; *zoom: 1; position: relative; padding-left: 1.5em; padding-right: 1.5em; }
+#header:before, #header:after, #content:before, #content:after, #footnotes:before, #footnotes:after, #footer:before, #footer:after { content: " "; display: table; }
+#header:after, #content:after, #footnotes:after, #footer:after { clear: both; }
+
+#content { margin-top: 1.25em; }
+
+#content:before { content: none; }
+
+#header > h1:first-child { color: #7b2d00; margin-top: 2.25rem; margin-bottom: 0; }
+#header > h1:first-child + #toc { margin-top: 8px; border-top: 1px solid #dddddd; }
+#header > h1:only-child, body.toc2 #header > h1:nth-last-child(2) { border-bottom: 1px solid #dddddd; padding-bottom: 8px; }
+#header .details { border-bottom: 1px solid #dddddd; line-height: 1.45; padding-top: 0.25em; padding-bottom: 0.25em; padding-left: 0.25em; color: #e15200; display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; }
+#header .details span:first-child { margin-left: -0.125em; }
+#header .details span.email a { color: #333333; }
+#header .details br { display: none; }
+#header .details br + span:before { content: "\00a0\2013\00a0"; }
+#header .details br + span.author:before { content: "\00a0\22c5\00a0"; color: #333333; }
+#header .details br + span#revremark:before { content: "\00a0|\00a0"; }
+#header #revnumber { text-transform: capitalize; }
+#header #revnumber:after { content: "\00a0"; }
+
+#content > h1:first-child:not([class]) { color: #7b2d00; border-bottom: 1px solid #dddddd; padding-bottom: 8px; margin-top: 0; padding-top: 1rem; margin-bottom: 1.25rem; }
+
+#toc { border-bottom: 0 solid #dddddd; padding-bottom: 0.5em; }
+#toc > ul { margin-left: 0.125em; }
+#toc ul.sectlevel0 > li > a { font-style: italic; }
+#toc ul.sectlevel0 ul.sectlevel1 { margin: 0.5em 0; }
+#toc ul { font-family: Arial, sans-serif; list-style-type: none; }
+#toc li { line-height: 1.3334; margin-top: 0.3334em; }
+#toc a { text-decoration: none; }
+#toc a:active { text-decoration: underline; }
+
+#toctitle { color: #003b6b; font-size: 1.2em; }
+
+@media only screen and (min-width: 768px) { #toctitle { font-size: 1.375em; }
+  body.toc2 { padding-left: 15em; padding-right: 0; }
+  #toc.toc2 { margin-top: 0 !important; background-color: white; position: fixed; width: 15em; left: 0; top: 0; border-right: 1px solid #dddddd; border-top-width: 0 !important; border-bottom-width: 0 !important; z-index: 1000; padding: 1.25em 1em; height: 100%; overflow: auto; }
+  #toc.toc2 #toctitle { margin-top: 0; margin-bottom: 0.8rem; font-size: 1.2em; }
+  #toc.toc2 > ul { font-size: 0.9em; margin-bottom: 0; }
+  #toc.toc2 ul ul { margin-left: 0; padding-left: 1em; }
+  #toc.toc2 ul.sectlevel0 ul.sectlevel1 { padding-left: 0; margin-top: 0.5em; margin-bottom: 0.5em; }
+  body.toc2.toc-right { padding-left: 0; padding-right: 15em; }
+  body.toc2.toc-right #toc.toc2 { border-right-width: 0; border-left: 1px solid #dddddd; left: auto; right: 0; } }
+@media only screen and (min-width: 1280px) { body.toc2 { padding-left: 20em; padding-right: 0; }
+  #toc.toc2 { width: 20em; }
+  #toc.toc2 #toctitle { font-size: 1.375em; }
+  #toc.toc2 > ul { font-size: 0.95em; }
+  #toc.toc2 ul ul { padding-left: 1.25em; }
+  body.toc2.toc-right { padding-left: 0; padding-right: 20em; } }
+#content #toc { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: white; -webkit-border-radius: 0; border-radius: 0; }
+#content #toc > :first-child { margin-top: 0; }
+#content #toc > :last-child { margin-bottom: 0; }
+
+#footer { max-width: 100%; background-color: none; padding: 1.25em; }
+
+#footer-text { color: black; line-height: 1.44; }
+
+#content { margin-bottom: 0.625em; }
+
+.sect1 { padding-bottom: 0.625em; }
+
+@media only screen and (min-width: 768px) { #content { margin-bottom: 1.25em; }
+  .sect1 { padding-bottom: 1.25em; } }
+.sect1:last-child { padding-bottom: 0; }
+
+.sect1 + .sect1 { border-top: 0 solid #dddddd; }
+
+#content h1 > a.anchor, h2 > a.anchor, h3 > a.anchor, #toctitle > a.anchor, .sidebarblock > .content > .title > a.anchor, h4 > a.anchor, h5 > a.anchor, h6 > a.anchor { position: absolute; z-index: 1001; width: 1.5ex; margin-left: -1.5ex; display: block; text-decoration: none !important; visibility: hidden; text-align: center; font-weight: normal; }
+#content h1 > a.anchor:before, h2 > a.anchor:before, h3 > a.anchor:before, #toctitle > a.anchor:before, .sidebarblock > .content > .title > a.anchor:before, h4 > a.anchor:before, h5 > a.anchor:before, h6 > a.anchor:before { content: "\00A7"; font-size: 0.85em; display: block; padding-top: 0.1em; }
+#content h1:hover > a.anchor, #content h1 > a.anchor:hover, h2:hover > a.anchor, h2 > a.anchor:hover, h3:hover > a.anchor, #toctitle:hover > a.anchor, .sidebarblock > .content > .title:hover > a.anchor, h3 > a.anchor:hover, #toctitle > a.anchor:hover, .sidebarblock > .content > .title > a.anchor:hover, h4:hover > a.anchor, h4 > a.anchor:hover, h5:hover > a.anchor, h5 > a.anchor:hover, h6:hover > a.anchor, h6 > a.anchor:hover { visibility: visible; }
+#content h1 > a.link, h2 > a.link, h3 > a.link, #toctitle > a.link, .sidebarblock > .content > .title > a.link, h4 > a.link, h5 > a.link, h6 > a.link { color: #7b2d00; text-decoration: none; }
+#content h1 > a.link:hover, h2 > a.link:hover, h3 > a.link:hover, #toctitle > a.link:hover, .sidebarblock > .content > .title > a.link:hover, h4 > a.link:hover, h5 > a.link:hover, h6 > a.link:hover { color: #622400; }
+
+.audioblock, .imageblock, .literalblock, .listingblock, .stemblock, .videoblock { margin-bottom: 1.25em; }
+
+.admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title { text-rendering: optimizeLegibility; text-align: left; }
+
+table.tableblock > caption.title { white-space: nowrap; overflow: visible; max-width: 0; }
+
+.paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p { color: #7b2d00; }
+
+table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p { font-size: inherit; }
+
+.admonitionblock > table { border-collapse: separate; border: 0; background: none; width: 100%; }
+.admonitionblock > table td.icon { text-align: center; width: 80px; }
+.admonitionblock > table td.icon img { max-width: none; }
+.admonitionblock > table td.icon .title { font-weight: bold; font-family: Arial, sans-serif; text-transform: uppercase; }
+.admonitionblock > table td.content { padding-left: 1.125em; padding-right: 1.25em; border-left: 1px solid #dddddd; color: #e15200; }
+.admonitionblock > table td.content > :last-child > :last-child { margin-bottom: 0; }
+
+.exampleblock > .content { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: white; -webkit-border-radius: 0; border-radius: 0; }
+.exampleblock > .content > :first-child { margin-top: 0; }
+.exampleblock > .content > :last-child { margin-bottom: 0; }
+
+.sidebarblock { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: white; -webkit-border-radius: 0; border-radius: 0; }
+.sidebarblock > :first-child { margin-top: 0; }
+.sidebarblock > :last-child { margin-bottom: 0; }
+.sidebarblock > .content > .title { color: #003b6b; margin-top: 0; }
+
+.exampleblock > .content > :last-child > :last-child, .exampleblock > .content .olist > ol > li:last-child > :last-child, .exampleblock > .content .ulist > ul > li:last-child > :last-child, .exampleblock > .content .qlist > ol > li:last-child > :last-child, .sidebarblock > .content > :last-child > :last-child, .sidebarblock > .content .olist > ol > li:last-child > :last-child, .sidebarblock > .content .ulist > ul > li:last-child > :last-child, .sidebarblock > .content .qlist > ol > li:last-child > :last-child { margin-bottom: 0; }
+
+.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint { background: #eeeeee; }
+.sidebarblock .literalblock pre, .sidebarblock .listingblock pre:not(.highlight), .sidebarblock .listingblock pre[class="highlight"], .sidebarblock .listingblock pre[class^="highlight "], .sidebarblock .listingblock pre.CodeRay, .sidebarblock .listingblock pre.prettyprint { background: #f2f1f1; }
+
+.literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { border: 1px dashed #666666; -webkit-border-radius: 0; border-radius: 0; word-wrap: break-word; padding: 1.25em 1.5625em 1.125em 1.5625em; font-size: 0.8125em; }
+.literalblock pre.nowrap, .literalblock pre[class].nowrap, .listingblock pre.nowrap, .listingblock pre[class].nowrap { overflow-x: auto; white-space: pre; word-wrap: normal; }
+@media only screen and (min-width: 768px) { .literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { font-size: 0.90625em; } }
+@media only screen and (min-width: 1280px) { .literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { font-size: 1em; } }
+
+.literalblock.output pre { color: #eeeeee; background-color: black; }
+
+.listingblock pre.highlightjs { padding: 0; }
+.listingblock pre.highlightjs > code { padding: 1.25em 1.5625em 1.125em 1.5625em; -webkit-border-radius: 0; border-radius: 0; }
+
+.listingblock > .content { position: relative; }
+
+.listingblock code[data-lang]:before { display: none; content: attr(data-lang); position: absolute; font-size: 0.75em; top: 0.425rem; right: 0.5rem; line-height: 1; text-transform: uppercase; color: #999; }
+
+.listingblock:hover code[data-lang]:before { display: block; }
+
+.listingblock.terminal pre .command:before { content: attr(data-prompt); padding-right: 0.5em; color: #999; }
+
+.listingblock.terminal pre .command:not([data-prompt]):before { content: "$"; }
+
+table.pyhltable { border-collapse: separate; border: 0; margin-bottom: 0; background: none; }
+
+table.pyhltable td { vertical-align: top; padding-top: 0; padding-bottom: 0; line-height: 1.6; }
+
+table.pyhltable td.code { padding-left: .75em; padding-right: 0; }
+
+pre.pygments .lineno, table.pyhltable td:not(.code) { color: #999; padding-left: 0; padding-right: .5em; border-right: 1px solid #dddddd; }
+
+pre.pygments .lineno { display: inline-block; margin-right: .25em; }
+
+table.pyhltable .linenodiv { background: none !important; padding-right: 0 !important; }
+
+.quoteblock { margin: 0 1em 0.75em 1.5em; display: table; }
+.quoteblock > .title { margin-left: -1.5em; margin-bottom: 0.75em; }
+.quoteblock blockquote, .quoteblock blockquote p { color: #333333; font-size: 1.15rem; line-height: 1.75; word-spacing: 0.1em; letter-spacing: 0; font-style: italic; text-align: justify; }
+.quoteblock blockquote { margin: 0; padding: 0; border: 0; }
+.quoteblock blockquote:before { content: "\201c"; float: left; font-size: 2.75em; font-weight: bold; line-height: 0.6em; margin-left: -0.6em; color: #003b6b; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+.quoteblock blockquote > .paragraph:last-child p { margin-bottom: 0; }
+.quoteblock .attribution { margin-top: 0.5em; margin-right: 0.5ex; text-align: right; }
+.quoteblock .quoteblock { margin-left: 0; margin-right: 0; padding: 0.5em 0; border-left: 3px solid #e15200; }
+.quoteblock .quoteblock blockquote { padding: 0 0 0 0.75em; }
+.quoteblock .quoteblock blockquote:before { display: none; }
+
+.verseblock { margin: 0 1em 0.75em 1em; }
+.verseblock pre { font-family: "Open Sans", "DejaVu Sans", sans; font-size: 1.15rem; color: #333333; font-weight: 300; text-rendering: optimizeLegibility; }
+.verseblock pre strong { font-weight: 400; }
+.verseblock .attribution { margin-top: 1.25rem; margin-left: 0.5ex; }
+
+.quoteblock .attribution, .verseblock .attribution { font-size: 0.8125em; line-height: 1.45; font-style: italic; }
+.quoteblock .attribution br, .verseblock .attribution br { display: none; }
+.quoteblock .attribution cite, .verseblock .attribution cite { display: block; letter-spacing: -0.025em; color: #e15200; }
+
+.quoteblock.abstract { margin: 0 0 0.75em 0; display: block; }
+.quoteblock.abstract blockquote, .quoteblock.abstract blockquote p { text-align: left; word-spacing: 0; }
+.quoteblock.abstract blockquote:before, .quoteblock.abstract blockquote p:first-of-type:before { display: none; }
+
+table.tableblock { max-width: 100%; border-collapse: separate; }
+table.tableblock td > .paragraph:last-child p > p:last-child, table.tableblock th > p:last-child, table.tableblock td > p:last-child { margin-bottom: 0; }
+
+table.tableblock, th.tableblock, td.tableblock { border: 0 solid #d8d8ce; }
+
+table.grid-all > thead > tr > .tableblock, table.grid-all > tbody > tr > .tableblock { border-width: 0 1px 1px 0; }
+
+table.grid-all > tfoot > tr > .tableblock { border-width: 1px 1px 0 0; }
+
+table.grid-cols > * > tr > .tableblock { border-width: 0 1px 0 0; }
+
+table.grid-rows > thead > tr > .tableblock, table.grid-rows > tbody > tr > .tableblock { border-width: 0 0 1px 0; }
+
+table.grid-rows > tfoot > tr > .tableblock { border-width: 1px 0 0 0; }
+
+table.grid-all > * > tr > .tableblock:last-child, table.grid-cols > * > tr > .tableblock:last-child { border-right-width: 0; }
+
+table.grid-all > tbody > tr:last-child > .tableblock, table.grid-all > thead:last-child > tr > .tableblock, table.grid-rows > tbody > tr:last-child > .tableblock, table.grid-rows > thead:last-child > tr > .tableblock { border-bottom-width: 0; }
+
+table.frame-all { border-width: 1px; }
+
+table.frame-sides { border-width: 0 1px; }
+
+table.frame-topbot { border-width: 1px 0; }
+
+th.halign-left, td.halign-left { text-align: left; }
+
+th.halign-right, td.halign-right { text-align: right; }
+
+th.halign-center, td.halign-center { text-align: center; }
+
+th.valign-top, td.valign-top { vertical-align: top; }
+
+th.valign-bottom, td.valign-bottom { vertical-align: bottom; }
+
+th.valign-middle, td.valign-middle { vertical-align: middle; }
+
+table thead th, table tfoot th { font-weight: bold; }
+
+tbody tr th { display: table-cell; line-height: 1.4; background: -webkit-linear-gradient(top, #add386, #90b66a); }
+
+tbody tr th, tbody tr th p, tfoot tr th, tfoot tr th p { color: white; font-weight: bold; }
+
+p.tableblock > code:only-child { background: none; padding: 0; }
+
+p.tableblock { font-size: 1em; }
+
+td > div.verse { white-space: pre; }
+
+ol { margin-left: 1.75em; }
+
+ul li ol { margin-left: 1.5em; }
+
+dl dd { margin-left: 1.125em; }
+
+dl dd:last-child, dl dd:last-child > :last-child { margin-bottom: 0; }
+
+ol > li p, ul > li p, ul dd, ol dd, .olist .olist, .ulist .ulist, .ulist .olist, .olist .ulist { margin-bottom: 0.375em; }
+
+ul.checklist, ul.none, ol.none, ul.no-bullet, ol.no-bullet, ol.unnumbered, ul.unstyled, ol.unstyled { list-style-type: none; }
+
+ul.no-bullet, ol.no-bullet, ol.unnumbered { margin-left: 0.625em; }
+
+ul.unstyled, ol.unstyled { margin-left: 0; }
+
+ul.checklist { margin-left: 0.625em; }
+
+ul.checklist li > p:first-child > .fa-square-o:first-child, ul.checklist li > p:first-child > .fa-check-square-o:first-child { width: 1.25em; font-size: 0.8em; position: relative; bottom: 0.125em; }
+
+ul.checklist li > p:first-child > input[type="checkbox"]:first-child { margin-right: 0.25em; }
+
+ul.inline { display: -ms-flexbox; display: -webkit-box; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; list-style: none; margin: 0 0 0.375em -0.75em; }
+
+ul.inline > li { margin-left: 0.75em; }
+
+.unstyled dl dt { font-weight: normal; font-style: normal; }
+
+ol.arabic { list-style-type: decimal; }
+
+ol.decimal { list-style-type: decimal-leading-zero; }
+
+ol.loweralpha { list-style-type: lower-alpha; }
+
+ol.upperalpha { list-style-type: upper-alpha; }
+
+ol.lowerroman { list-style-type: lower-roman; }
+
+ol.upperroman { list-style-type: upper-roman; }
+
+ol.lowergreek { list-style-type: lower-greek; }
+
+.hdlist > table, .colist > table { border: 0; background: none; }
+.hdlist > table > tbody > tr, .colist > table > tbody > tr { background: none; }
+
+td.hdlist1, td.hdlist2 { vertical-align: top; padding: 0 0.625em; }
+
+td.hdlist1 { font-weight: bold; padding-bottom: 0.75em; }
+
+.literalblock + .colist, .listingblock + .colist { margin-top: -0.5em; }
+
+.colist td:not([class]):first-child { padding: 0.4em 0.75em 0 0.75em; line-height: 1; vertical-align: top; }
+.colist td:not([class]):first-child img { max-width: none; }
+.colist td:not([class]):last-child { padding: 0.25em 0; }
+
+.thumb, .th { line-height: 0; display: inline-block; border: solid 4px white; -webkit-box-shadow: 0 0 0 1px #dddddd; box-shadow: 0 0 0 1px #dddddd; }
+
+.imageblock.left, .imageblock[style*="float: left"] { margin: 0.25em 0.625em 1.25em 0; }
+.imageblock.right, .imageblock[style*="float: right"] { margin: 0.25em 0 1.25em 0.625em; }
+.imageblock > .title { margin-bottom: 0; }
+.imageblock.thumb, .imageblock.th { border-width: 6px; }
+.imageblock.thumb > .title, .imageblock.th > .title { padding: 0 0.125em; }
+
+.image.left, .image.right { margin-top: 0.25em; margin-bottom: 0.25em; display: inline-block; line-height: 0; }
+.image.left { margin-right: 0.625em; }
+.image.right { margin-left: 0.625em; }
+
+a.image { text-decoration: none; display: inline-block; }
+a.image object { pointer-events: none; }
+
+sup.footnote, sup.footnoteref { font-size: 0.875em; position: static; vertical-align: super; }
+sup.footnote a, sup.footnoteref a { text-decoration: none; }
+sup.footnote a:active, sup.footnoteref a:active { text-decoration: underline; }
+
+#footnotes { padding-top: 0.75em; padding-bottom: 0.75em; margin-bottom: 0.625em; }
+#footnotes hr { width: 20%; min-width: 6.25em; margin: -0.25em 0 0.75em 0; border-width: 1px 0 0 0; }
+#footnotes .footnote { padding: 0 0.375em 0 0.225em; line-height: 1.3334; font-size: 0.875em; margin-left: 1.2em; margin-bottom: 0.2em; }
+#footnotes .footnote a:first-of-type { font-weight: bold; text-decoration: none; margin-left: -1.05em; }
+#footnotes .footnote:last-of-type { margin-bottom: 0; }
+#content #footnotes { margin-top: -0.625em; margin-bottom: 0; padding: 0.75em 0; }
+
+.gist .file-data > table { border: 0; background: #fff; width: 100%; margin-bottom: 0; }
+.gist .file-data > table td.line-data { width: 99%; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+.big { font-size: larger; }
+
+.small { font-size: smaller; }
+
+.underline { text-decoration: underline; }
+
+.overline { text-decoration: overline; }
+
+.line-through { text-decoration: line-through; }
+
+.aqua { color: #00bfbf; }
+
+.aqua-background { background-color: #00fafa; }
+
+.black { color: black; }
+
+.black-background { background-color: black; }
+
+.blue { color: #0000bf; }
+
+.blue-background { background-color: #0000fa; }
+
+.fuchsia { color: #bf00bf; }
+
+.fuchsia-background { background-color: #fa00fa; }
+
+.gray { color: #606060; }
+
+.gray-background { background-color: #7d7d7d; }
+
+.green { color: #006000; }
+
+.green-background { background-color: #007d00; }
+
+.lime { color: #00bf00; }
+
+.lime-background { background-color: #00fa00; }
+
+.maroon { color: #600000; }
+
+.maroon-background { background-color: #7d0000; }
+
+.navy { color: #000060; }
+
+.navy-background { background-color: #00007d; }
+
+.olive { color: #606000; }
+
+.olive-background { background-color: #7d7d00; }
+
+.purple { color: #600060; }
+
+.purple-background { background-color: #7d007d; }
+
+.red { color: #bf0000; }
+
+.red-background { background-color: #fa0000; }
+
+.silver { color: #909090; }
+
+.silver-background { background-color: #bcbcbc; }
+
+.teal { color: #006060; }
+
+.teal-background { background-color: #007d7d; }
+
+.white { color: #bfbfbf; }
+
+.white-background { background-color: #fafafa; }
+
+.yellow { color: #bfbf00; }
+
+.yellow-background { background-color: #fafa00; }
+
+span.icon > .fa { cursor: default; }
+a span.icon > .fa { cursor: inherit; }
+
+.admonitionblock td.icon [class^="fa icon-"] { font-size: 2.5em; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); cursor: default; }
+.admonitionblock td.icon .icon-note:before { content: "\f05a"; color: #004176; }
+.admonitionblock td.icon .icon-tip:before { content: "\f0eb"; text-shadow: 1px 1px 2px rgba(155, 155, 0, 0.8); color: #111; }
+.admonitionblock td.icon .icon-warning:before { content: "\f071"; color: #bf6900; }
+.admonitionblock td.icon .icon-caution:before { content: "\f06d"; color: #bf3400; }
+.admonitionblock td.icon .icon-important:before { content: "\f06a"; color: #bf0000; }
+
+.conum[data-value] { display: inline-block; color: #fff !important; background-color: black; -webkit-border-radius: 100px; border-radius: 100px; text-align: center; font-size: 0.75em; width: 1.67em; height: 1.67em; line-height: 1.67em; font-family: "Open Sans", "DejaVu Sans", sans-serif; font-style: normal; font-weight: bold; }
+.conum[data-value] * { color: #fff !important; }
+.conum[data-value] + b { display: none; }
+.conum[data-value]:after { content: attr(data-value); }
+pre .conum[data-value] { position: relative; top: -0.125em; }
+
+b.conum * { color: inherit !important; }
+
+.conum:not([data-value]):empty { display: none; }
+
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { border-bottom: 1px solid #dddddd; }
+
+.sect1 { padding-bottom: 0; }
+
+#toctitle { color: #00406F; font-weight: normal; margin-top: 1.5em; }
+
+.sidebarblock { border-color: #aaa; }
+
+code { -webkit-border-radius: 4px; border-radius: 4px; }
+
+p.tableblock.header { color: #6d6e71; }
+
+.literalblock pre, .listingblock pre { background: #eeeeee; }
+
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>LightningJ</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#_what_lightningj_is_not">What LightningJ is Not</a></li>
+<li><a href="#_license">License</a></li>
+</ul>
+</li>
+<li><a href="#_whats_new">Whats New</a>
+<ul class="sectlevel2">
+<li><a href="#_roadmap">Roadmap</a></li>
+</ul>
+</li>
+<li><a href="#_using_the_lnd_api">Using the LND API</a>
+<ul class="sectlevel2">
+<li><a href="#_getting_started_with_lnd">Getting started with LND</a></li>
+<li><a href="#_using_the_high_level_api">Using the High Level API</a>
+<ul class="sectlevel3">
+<li><a href="#_synchronous_api">Synchronous API</a></li>
+<li><a href="#_asynchronous_api">Asynchronous API</a></li>
+</ul>
+</li>
+<li><a href="#_json_conversion">Json Conversion</a></li>
+<li><a href="#_xml_conversion">XML Conversion</a></li>
+<li><a href="#_validation">Validation</a>
+<ul class="sectlevel3">
+<li><a href="#_validation_internationalization">Validation Internationalization</a></li>
+</ul>
+</li>
+<li><a href="#_exception_handling">Exception Handling</a>
+<ul class="sectlevel3">
+<li><a href="#_high_level_api">High Level API</a></li>
+<li><a href="#_low_level_api">Low Level API</a></li>
+</ul>
+</li>
+<li><a href="#_logging">Logging</a></li>
+<li><a href="#_using_the_low_level_api_directly">Using the Low Level API Directly</a></li>
+</ul>
+</li>
+<li><a href="#_javadoc_api_documentation">JavaDoc API Documentation</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#_using_intellij">Using Intellij</a></li>
+<li><a href="#_test_reports">Test Reports</a></li>
+<li><a href="#_for_lightningj_developers">For LightningJ Developers</a>
+<ul class="sectlevel2">
+<li><a href="#_how_to_update_rpc_proto_file">How to update rpc.proto file</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>Lightning APIs for Java</em>
+V 0.1-Beta, 2018-01-28</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>LightningJ is a project with the intention to simplify the integration of
+existing Lightning node implementations for Java developers. It contains
+simple to use API implementations and converters between JSON, XML.</p>
+</div>
+<div class="paragraph">
+<p>More information and source code can be found on the <a href="https://github.com/lightningj-org/lightningj">Github site</a>.
+There it is possible to report issues and contribute code.</p>
+</div>
+<div class="paragraph">
+<p><em>Important</em>: This API is still in beta and API methods might change before real production release.<br>
+<strong>All use of this library is on your own risk.</strong></p>
+</div>
+<div class="sect2">
+<h3 id="_what_lightningj_is_not">What LightningJ is Not</h3>
+<div class="paragraph">
+<p>LightningJ is not itself a Lightning Node implementation but
+contains APIs to easy integrate existing Lightning (currently LND)
+implementations using Java.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_license">License</h3>
+<div class="paragraph">
+<p>This library is Open Source and released under the LGPL v3 License. A link
+to the license agreement can be found <a href="LICENSE.txt">here</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_whats_new">Whats New</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>0.1-Beta This is the initial release with generated APIs (Synchronous and Asynchronous) for
+LND.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_roadmap">Roadmap</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Publish library to Maven Central.</p>
+</li>
+<li>
+<p>LND: Support Macaroons Authentication.</p>
+</li>
+<li>
+<p>Implement equivalent API for Lightning-c and or Eclair</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_the_lnd_api">Using the LND API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section contains information on how to use the APIs to connect
+and communicate with a LND node.</p>
+</div>
+<div class="paragraph">
+<p>The LightningJ takes the LND GRPC (gRPC Remote Procedure Calls) proto specification
+file (rpc.proto) and first generates the low-level GRPC API using standard GRPC Java.
+Then it generates a wrapping high level API and adds JSON, XML and validation features
+on top of the underlying GRPC message objects.</p>
+</div>
+<div class="paragraph">
+<p>In the source there is a directory src/examples/lnd that also contains tips and tricks
+on how to use the API.</p>
+</div>
+<div class="sect2">
+<h3 id="_getting_started_with_lnd">Getting started with LND</h3>
+<div class="paragraph">
+<p>To get started with a LND node, see the LND developer site: <a href="http://dev.lightning.community/" class="bare">http://dev.lightning.community/</a>.
+There is an installation guide and a tutorial.</p>
+</div>
+<div class="paragraph">
+<p>Currently is Macaroon authentication not implemented and LND must be started
+with the <em>--no-macaroon</em> flag set.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_high_level_api">Using the High Level API</h3>
+<div class="paragraph">
+<p>The high level api contains <em>wrapper</em> classes and a API interface for both synchronous and asynchronous
+calls. There is two APIs generated, the main LND API and Wallet Unlocker API.</p>
+</div>
+<div class="paragraph">
+<p>For more details about each call see <a href="http://api.lightning.community/">LND API documentation</a></p>
+</div>
+<div class="sect3">
+<h4 id="_synchronous_api">Synchronous API</h4>
+<div class="paragraph">
+<p>The synchronous APIs are SynchronousLndAPI and SynchronousWalletUnlockerAPI that waits for
+response before continuing the thread.</p>
+</div>
+<div class="paragraph">
+<p>Below is an example on how to use a Synchronous API.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// To create a synchronousAPI there are three constructors available
+// One simple with host,port and certificat to trust
+SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,new File("/Library/Application Support/Lnd/tls.cert"));
+// A second with host,port and a custom SSL Context for more advanced SSL Context settings.
+//SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,sSLContext);
+// The third that takes a ManagedChannel, with full customization capabilities of underlying API
+// See GRPC Java documentation for details.
+//SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI(managedChannel);
+
+// By default is validation performed on all inbound and outbound messages, to turn of validation:
+//synchronousLndAPI.setPerformValidation(false);
+
+// Example call to get channel balance and write output as JSON (pretty printed)
+System.out.println(synchronousLndAPI.channelBalance().toJsonAsString(true));
+
+// Calls returns a wrapped response or Iterator of wrapped responses.
+// Example to get a response:
+ListPeersResponse listPeersResponse = synchronousLndAPI.listPeers();
+// The response can be converted to XML or JSON or just parsed.
+
+
+// A more advanced call returning an iterator is for example openChannel().
+
+// To generate a request call, there are two ways to generate a request.
+// Either build up a request object like below:
+OpenChannelRequest openChannelRequest = new OpenChannelRequest();
+openChannelRequest.setTargetPeerId(1);
+openChannelRequest.setNodePubkeyString("02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02");
+openChannelRequest.setLocalFundingAmount(40000);
+openChannelRequest.setPushSat(25000);
+openChannelRequest.setSatPerByte(0);
+
+// Alternatively it is possible to specify the parameters directly without having to create a request.
+// Iterator&lt;OpenStatusUpdate&gt; result = synchronousLndAPI.openChannel(1,null,"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02", 40000L,25000L,null,0L,null,null);
+
+// Perform the call using alternative 1
+Iterator&lt;OpenStatusUpdate&gt; result = synchronousLndAPI.openChannel(openChannelRequest);
+
+// This call will wait for a the channel has opened, which means confirmation block must
+// generated in btc. If simnet is used you can manually generate blocks with
+// 'btcctl --simnet --rpcuser=kek --rpcpass=kek generate 3'
+
+while(result.hasNext()){
+    System.out.println("Received Update: " + result.next().toJsonAsString(true));
+}
+
+// To close the api use the method
+synchronousLndAPI.close();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_asynchronous_api">Asynchronous API</h4>
+<div class="paragraph">
+<p>The asynchronous is a non-blocking API that doesn&#8217;t wait for a response but
+expects a StreamObserver implementation handling the response at a later time and
+is useful i GUI applications to give a more fluent experience.</p>
+</div>
+<div class="paragraph">
+<p>The variants of Asynchronous APIs are AsynchronousLndAPI and AsynchronousWalletUnlockerAPI.</p>
+</div>
+<div class="paragraph">
+<p>And example on how to use the Asynchronous API</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Create  API, using the most simple constructor. There are alternatives
+// where it is possible to specify custom SSLContext or just a managed channel.
+// See SynchronousLndAPIExample for details.
+AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File("/Users/philip/Library/Application Support/Lnd/tls.cert"));
+
+try {
+    // Example of a simple asynchronous call.
+    System.out.println("Sending WalletBalance request...");
+    asynchronousLndAPI.walletBalance(true, new StreamObserver&lt;WalletBalanceResponse&gt;() {
+
+        // Each response is sent in a onNext call.
+        @Override
+        public void onNext(WalletBalanceResponse value) {
+            System.out.println("Received WalletBalance response: " + value.toJsonAsString(true));
+        }
+
+        // Errors during the stream is showed here.
+        @Override
+        public void onError(Throwable t) {
+            System.err.println("Error occurred during WalletBalance call: " + t.getMessage());
+            t.printStackTrace(System.err);
+        }
+
+        // When the stream have finished is onCompleted called.
+        @Override
+        public void onCompleted() {
+            System.out.println("WalletBalance call closed.");
+        }
+    });
+
+    // Call to subscribe for invoices.
+    // To recieve invoices you can use the lncli to send payment of an invoice to your LND node.
+    // and it will show up here.
+    System.out.println("Subscribing to invoices call...");
+    asynchronousLndAPI.subscribeInvoices(new StreamObserver&lt;Invoice&gt;() {
+        @Override
+        public void onNext(Invoice value) {
+            System.out.println("Received Invoice: " + value.toJsonAsString(true));
+        }
+
+        @Override
+        public void onError(Throwable t) {
+            System.err.println("Error occurred during subscribeInvoices call: " + t.getMessage());
+            t.printStackTrace(System.err);
+        }
+
+        @Override
+        public void onCompleted() {
+            System.out.println("subscribeInvoices call closed.");
+        }
+    });
+
+    System.out.println("Press Ctrl-C to stop listening for invoices");
+    while (true) {
+        Thread.sleep(1000);
+    }
+
+}finally {
+    // To close the api use the method
+    asynchronousLndAPI.close();
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_json_conversion">Json Conversion</h3>
+<div class="paragraph">
+<p>The libarary uses the JSR 374 javax.json api to generate and parse JSON.</p>
+</div>
+<div class="paragraph">
+<p>To convert between JSON and High Level API object is pretty straight forward as shown
+in following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Get API
+SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
+
+// To convert JSON request data to a wrapped request object (High level)
+// Do the following
+String jsonData = "{\"target_peer_id\":1,\"node_pubkey\":\"\",\"node_pubkey_string\":\"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02\",\"local_funding_amount\":40000,\"push_sat\":25000,\"targetConf\":0,\"satPerByte\":0,\"private\":false,\"min_htlc_msat\":0}";
+
+// The library uses the javax.json-api 1.0 (JSR 374) API to parse and generate JSON.
+// To parse a JSON String, start by creating a JsonReader
+JsonReader jsonReader = Json.createReader(new StringReader(jsonData));
+
+// Then parse by creating a Wrapped Message object.
+OpenChannelRequest openChannelRequest = new OpenChannelRequest(jsonReader);
+
+// Perform the call.
+Iterator&lt;OpenStatusUpdate&gt; result = synchronousLndAPI.openChannel(openChannelRequest);
+
+// This call will wait for a the channel has opened, which means confirmation block must
+// generated in btc. If simnet is used you can manually generate blocks with
+// 'btcctl --simnet --rpcuser=kek --rpcpass=kek generate 3'
+
+while(result.hasNext()){
+    // To generate JSON from a response there are three possiblities, either
+    OpenStatusUpdate next = result.next();
+    // To get JSON as String
+    System.out.println("Received Update: " + next.toJsonAsString(false));
+    // To have the result more human readable set pretty print to true
+    System.out.println("Received Update: " + next.toJsonAsString(true));
+    // It is also possible to get the JSON as a populated JsonObjectBuilder
+    JsonObjectBuilder jsonObjectBuilder = next.toJson();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_xml_conversion">XML Conversion</h3>
+<div class="paragraph">
+<p>For XML parsing and generation is JAXB used. And to convert between XML data
+and high level wrapper object is a XMLParser used.</p>
+</div>
+<div class="paragraph">
+<p>Use XMLParserFactory to retrieve a XMLParser for the used XML Schema version (currently only
+version "1.0" exist and should still not be considered final and could change.)</p>
+</div>
+<div class="paragraph">
+<p>An example on XML conversion:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Get API
+SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
+
+// Create a XMLParserFactory
+XMLParserFactory xmlParserFactory = new XMLParserFactory();
+
+// Retrieve XML Parser for a given XML version schema. (Currently "1.0")
+XMLParser xmlParser = xmlParserFactory.getXMLParser("1.0");
+
+byte[] xmlRequestData = "&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?&gt;&lt;OpenChannelRequest xmlns=\"http://lightningj.org/xsd/lndjapi_1_0\"&gt;&lt;targetPeerId&gt;1&lt;/targetPeerId&gt;&lt;nodePubkey&gt;&lt;/nodePubkey&gt;&lt;nodePubkeyString&gt;02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02&lt;/nodePubkeyString&gt;&lt;localFundingAmount&gt;40000&lt;/localFundingAmount&gt;&lt;pushSat&gt;25000&lt;/pushSat&gt;&lt;targetConf&gt;0&lt;/targetConf&gt;&lt;satPerByte&gt;0&lt;/satPerByte&gt;&lt;private&gt;false&lt;/private&gt;&lt;minHtlcMsat&gt;0&lt;/minHtlcMsat&gt;&lt;/OpenChannelRequest&gt;".getBytes("UTF-8");
+
+// Convert to a wrapped high level message object.
+OpenChannelRequest openChannelRequest = (OpenChannelRequest) xmlParser.unmarshall(xmlRequestData);
+
+// Perform the call.
+Iterator&lt;OpenStatusUpdate&gt; result = synchronousLndAPI.openChannel(openChannelRequest);
+
+// This call will wait for a the channel has opened, which means confirmation block must
+// generated in btc. If simnet is used you can manually generate blocks with
+// 'btcctl --simnet --rpcuser=kek --rpcpass=kek generate 3'
+
+while(result.hasNext()){
+    // To generate XML from a response do the following:
+    OpenStatusUpdate next = result.next();
+    // To get XML as byte[]
+    byte[] responseData = xmlParser.marshall(next);
+    System.out.println("XML Response data: " + new String(responseData,"UTF-8"));
+    // To get XML pretty printed
+    byte[] responseDataPrettyPrinted = xmlParser.marshall(next,true);
+    System.out.println("Pretty Printed XML Response data: Œ" + new String(responseDataPrettyPrinted,"UTF-8"));
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The latest XSD schema can be found here <a href="lnd_v1.xsd">lnd_v1.xsd</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_validation">Validation</h3>
+<div class="paragraph">
+<p>The library also have a validation functionality to validate messages. It uses the
+underlying proto specification to check that each field has accepted values. Currently there
+are not that many validation related parameters specified in the rpc.proto but might improve in
+the future that will make the validation parts of the library more useful.</p>
+</div>
+<div class="paragraph">
+<p>Below is an example of how validation can be done:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Get API
+SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
+
+// To manually validate a wrapped Message it is possible to call the validate() method.
+OpenChannelRequest openChannelRequest = genOpenChannelRequest();
+// To validate call validate() and it will return ValidationResult
+ValidationResult validationResult = openChannelRequest.validate();
+// The ValidationResult.isValid() returns true if the message was valud.
+validationResult.isValid();
+// If there is problems it is possible to retrieve the problems found either
+// in a single aggregated list for all sub-messages.
+List&lt;ValidationProblems&gt; allProblems= validationResult.getAggregatedValidationErrors();
+// Or as a tree structure with all problems in this message in:
+validationResult.getMessageErrors();
+// and all sub messages as their own report.
+validationResult.getSubMessageResults();
+
+
+try{
+    // Each call might throw a ValidationException
+    synchronousLndAPI.channelBalance();
+}catch(ValidationException ve){
+    // A ValidationException has the faulty messages ValidationReport as a field.
+    ValidationResult vr = ve.getValidationResult();
+}catch(StatusException se){
+    //...
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_validation_internationalization">Validation Internationalization</h4>
+<div class="paragraph">
+<p>Each ValidationProblem has a translatable message resource key as a field. The message resource file
+bundle is in src/main/resources/lightningj_messages</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exception_handling">Exception Handling</h3>
+<div class="sect3">
+<h4 id="_high_level_api">High Level API</h4>
+<div class="paragraph">
+<p>The High Level API has two categories of exceptions that can be thrown during an API
+call. One is ValidationException indicating that a message didn&#8217;t conform to GRPC Proto
+specification. The other category consist of a base StatusException, (wrapping the low level
+ io.grpc.StatusException or io.grpc.StatusRuntimeException), and three sub exception
+indicating the type of status problem that occurred and that could be handled differently.</p>
+</div>
+<div class="paragraph">
+<p>Here is a list of status exceptions</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Types of Status Exceptions</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Exception</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StatusException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base exception for all types of GRPC related problems.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ClientSideException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicate there is some problem on the client side such as invalid request data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServerSideException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicate there is some problem on the server side that might persist for some time.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CommunicationException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This could indicate timeout or dropped package and request can be retried.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>So when calling an API call you can either choose to just handle ValidationException
+or StatusException or to do more fine pruned error handling by managing ClientSideException,
+ServerSideException or CommunicationException separately.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">// Get API
+SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
+
+try{
+    // Perform a call
+    synchronousLndAPI.channelBalance();
+}catch(ValidationException ve){
+    // Thrown if request or response contained invalid data
+}catch(StatusException se){
+    // Thrown if GRPC related exception happened.
+}
+
+// Example of more fine grained exception handling.
+try{
+    synchronousLndAPI.channelBalance();
+}catch(ValidationException ve){
+    // Thrown if request or response contained invalid data
+}catch(ClientSideException cse){
+    // Thrown if there is some problem on the client side such as invalid request data.
+}catch(ServerSideException sse){
+    // Thrown if there is some problem on the server side that might persist for some time.
+}catch(CommunicationException ce){
+    // Thrown if communication problems occurred such as  timeout or dropped package and request can be retried.
+}
+
+AsynchronousLndAPI asynchronousLndAPI = getAsynchronousLndAPI();
+
+asynchronousLndAPI.channelBalance(new StreamObserver&lt;ChannelBalanceResponse&gt;() {
+    @Override
+    public void onNext(ChannelBalanceResponse value) {
+        // Handle ok resonses
+    }
+
+    @Override
+    public void onError(Throwable t) {
+        // Here is exceptions sent of same type as thrown by synchronous API.
+    }
+
+    @Override
+    public void onCompleted() {
+        // Call completed
+    }
+});</code></pre>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_status_code_to_high_level_status_exception_mappings">Status Code to High Level Status Exception Mappings</h5>
+<div class="paragraph">
+<p>Below is a table detailing which high level excpetion is thrown for a given
+status code.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. Status Code to High Level Status Exception Mappings</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Status Code</th>
+<th class="tableblock halign-left valign-top">Exception</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CANCELLED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ClientSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UNKNOWN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServerSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INVALID_ARGUMENT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ClientSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DEADLINE_EXCEEDED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CommunicationException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NOT_FOUND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ClientSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ALREADY_EXISTS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ClientSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PERMISSION_DENIED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ClientSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RESOURCE_EXHAUSTED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServerSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAILED_PRECONDITION</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServerSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ABORTED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServerSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OUT_OF_RANGE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ClientSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UNIMPLEMENTED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServerSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INTERNAL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServerSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UNAVAILABLE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CommunicationException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DATA_LOSS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ServerSideException</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UNAUTHENTICATED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ClientSideException</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_low_level_api">Low Level API</h4>
+<div class="paragraph">
+<p>The low level API throws either the io.grpc.StatusException and io.grpc.StatusRuntimeException
+when problems occur containing a Status value. See GRPC Java documentation
+for more details.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_logging">Logging</h3>
+<div class="paragraph">
+<p>The library uses the standard java.logging API for logging. Which is the same
+library as the underlying GRPC Java uses.</p>
+</div>
+<div class="paragraph">
+<p>It has one Logger defined "org.lightningj.lnd.wrapper.API" and it is possible to setting it to
+LogLevel.FINE to have incoming and outgoing messages logged in pretty printed JSON format
+to help out when debugging.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_low_level_api_directly">Using the Low Level API Directly</h3>
+<div class="paragraph">
+<p>If performance is most important and there is no need for JSON/XML convertion
+in your project you can use the auto-generated GRPC API directly.</p>
+</div>
+<div class="paragraph">
+<p>It is generated from the LND <em>rpc.proto</em> specification and contains all supported
+messages and calls.</p>
+</div>
+<div class="paragraph">
+<p>Example for using the low level API :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">File trustedServerCertificate = new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert");
+// Method to create SSL Context, trusting a specified LND node TLS certificate.
+// It is possible to customize the SSL setting by supplying a javax.net.ssl.SSLContext as well
+SslContext sslContext = GrpcSslContexts.configure(SslContextBuilder.forClient(), SslProvider.OPENSSL)
+        .trustManager(trustedServerCertificate)
+        .build();
+
+// Then create a managed communication channed
+ManagedChannel channel = NettyChannelBuilder.forAddress("localhost", 10001)
+        .sslContext(sslContext)
+        .build();
+
+// Then create the low level API by calling.
+LightningGrpc.LightningBlockingStub stub = LightningGrpc.newBlockingStub(channel);
+// To create asynchronous API us LightningGrpc.newStub(channel)
+
+// Create a request object using messages in "org.lightningj.lnd.proto.LightningApi"
+LightningApi.WalletBalanceRequest.Builder walletBalanceRequest = LightningApi.WalletBalanceRequest.newBuilder();
+walletBalanceRequest.setWitnessOnly(true);
+try{
+    LightningApi.WalletBalanceResponse response = stub.walletBalance(walletBalanceRequest.build());
+    System.out.println("Wallet Balance: " + response.getTotalBalance());
+}catch(StatusRuntimeException sre){
+    // Handle exceptions a with status code in sre.getStatus()
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>More info about using GRPC Java API can be found at their
+<a href="https://github.com/grpc/grpc-java">Github</a> or a their
+<a href="https://grpc.io/docs/tutorials/basic/java.html">tutorial site</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_javadoc_api_documentation">JavaDoc API Documentation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The LightningJ JavaDoc API Reference can be found <a href="javadoc/index.html">here</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">Dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A dependency report on dependent JAR files can be found <a href="dependencies/index.html">here</a>.</p>
+</div>
+<div class="paragraph">
+<p>To view the requirements for run-time see the <em>runtime</em> section.</p>
+</div>
+<div class="paragraph">
+<p>The JSON Libraries is built upon JSR 374 and probably can the glassfish
+dependency be replaced with whatever JSR 374 compliant implementation used
+by your container.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_intellij">Using Intellij</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If using LigtningJ source code with Intellij, there can be a problem with the
+generated low level API class files being too large.</p>
+</div>
+<div class="paragraph">
+<p>To fix this must the accepted file size be enhanced. This can be done by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In Menu: Help &#8594; Edit Custom Properties</p>
+</li>
+<li>
+<p>In idea.properties add:</p>
+<div class="literalblock">
+<div class="content">
+<pre>idea.max.intellisense.filesize=3000</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Restart IntelliJ</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_reports">Test Reports</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A report of performed unit tests of the API can be found <a href="test/index.html">here</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_for_lightningj_developers">For LightningJ Developers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>LightningJ is a Java project built using Gradle. Unit tests is written
+using Groovy and Spock Framework.</p>
+</div>
+<div class="paragraph">
+<p>To build the project use:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>./gradlew build</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The build jar file is located in <em>build/libs</em>.</p>
+</div>
+<div class="paragraph">
+<p>To generate documentation use:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>./gradlew build doc</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will generate documentation in <em>build/docs/html5</em>.</p>
+</div>
+<div class="paragraph">
+<p>To clean the project use:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>./gradlew build doc</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_update_rpc_proto_file">How to update rpc.proto file</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Download the file from the LND repository:</p>
+<div class="literalblock">
+<div class="content">
+<pre>lnd/lnrpc/rpc.proto</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Update file into src/main/proto/lightning.api.proto</p>
+</li>
+<li>
+<p>In the header of the file below 'package lnrpc' add:</p>
+<div class="literalblock">
+<div class="content">
+<pre>option java_package = "org.lightningj.proto";</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Then run</p>
+<div class="literalblock">
+<div class="content">
+<pre>./gradlew clean build</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-01-27 13:03:52 CET
+</div>
+</div>
+</body>
+</html>

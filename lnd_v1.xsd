@@ -1,0 +1,1073 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="ActiveChannel" type="ActiveChannelType"/>
+
+  <xs:element name="AddInvoiceResponse" type="AddInvoiceResponseType"/>
+
+  <xs:element name="ChanInfoRequest" type="ChanInfoRequestType"/>
+
+  <xs:element name="ChannelBalanceRequest" type="ChannelBalanceRequestType"/>
+
+  <xs:element name="ChannelBalanceResponse" type="ChannelBalanceResponseType"/>
+
+  <xs:element name="ChannelCloseUpdate" type="ChannelCloseUpdateType"/>
+
+  <xs:element name="ChannelEdge" type="ChannelEdgeType"/>
+
+  <xs:element name="ChannelEdgeUpdate" type="ChannelEdgeUpdateType"/>
+
+  <xs:element name="ChannelFeeReport" type="ChannelFeeReportType"/>
+
+  <xs:element name="ChannelGraph" type="ChannelGraphType"/>
+
+  <xs:element name="ChannelGraphRequest" type="ChannelGraphRequestType"/>
+
+  <xs:element name="ChannelOpenUpdate" type="ChannelOpenUpdateType"/>
+
+  <xs:element name="ChannelPoint" type="ChannelPointType"/>
+
+  <xs:element name="CloseChannelRequest" type="CloseChannelRequestType"/>
+
+  <xs:element name="CloseStatusUpdate" type="CloseStatusUpdateType"/>
+
+  <xs:element name="ClosedChannelUpdate" type="ClosedChannelUpdateType"/>
+
+  <xs:element name="ConfirmationUpdate" type="ConfirmationUpdateType"/>
+
+  <xs:element name="ConnectPeerRequest" type="ConnectPeerRequestType"/>
+
+  <xs:element name="ConnectPeerResponse" type="ConnectPeerResponseType"/>
+
+  <xs:element name="CreateWalletRequest" type="CreateWalletRequestType"/>
+
+  <xs:element name="CreateWalletResponse" type="CreateWalletResponseType"/>
+
+  <xs:element name="DebugLevelRequest" type="DebugLevelRequestType"/>
+
+  <xs:element name="DebugLevelResponse" type="DebugLevelResponseType"/>
+
+  <xs:element name="DeleteAllPaymentsRequest" type="DeleteAllPaymentsRequestType"/>
+
+  <xs:element name="DeleteAllPaymentsResponse" type="DeleteAllPaymentsResponseType"/>
+
+  <xs:element name="DisconnectPeerRequest" type="DisconnectPeerRequestType"/>
+
+  <xs:element name="DisconnectPeerResponse" type="DisconnectPeerResponseType"/>
+
+  <xs:element name="FeeReportRequest" type="FeeReportRequestType"/>
+
+  <xs:element name="FeeReportResponse" type="FeeReportResponseType"/>
+
+  <xs:element name="GetInfoRequest" type="GetInfoRequestType"/>
+
+  <xs:element name="GetInfoResponse" type="GetInfoResponseType"/>
+
+  <xs:element name="GetTransactionsRequest" type="GetTransactionsRequestType"/>
+
+  <xs:element name="GraphTopologySubscription" type="GraphTopologySubscriptionType"/>
+
+  <xs:element name="GraphTopologyUpdate" type="GraphTopologyUpdateType"/>
+
+  <xs:element name="HTLC" type="HTLCType"/>
+
+  <xs:element name="Hop" type="HopType"/>
+
+  <xs:element name="Invoice" type="InvoiceType"/>
+
+  <xs:element name="InvoiceSubscription" type="InvoiceSubscriptionType"/>
+
+  <xs:element name="LightningAddress" type="LightningAddressType"/>
+
+  <xs:element name="LightningNode" type="LightningNodeType"/>
+
+  <xs:element name="ListChannelsRequest" type="ListChannelsRequestType"/>
+
+  <xs:element name="ListChannelsResponse" type="ListChannelsResponseType"/>
+
+  <xs:element name="ListInvoiceRequest" type="ListInvoiceRequestType"/>
+
+  <xs:element name="ListInvoiceResponse" type="ListInvoiceResponseType"/>
+
+  <xs:element name="ListPaymentsRequest" type="ListPaymentsRequestType"/>
+
+  <xs:element name="ListPaymentsResponse" type="ListPaymentsResponseType"/>
+
+  <xs:element name="ListPeersRequest" type="ListPeersRequestType"/>
+
+  <xs:element name="ListPeersResponse" type="ListPeersResponseType"/>
+
+  <xs:element name="NetworkInfo" type="NetworkInfoType"/>
+
+  <xs:element name="NetworkInfoRequest" type="NetworkInfoRequestType"/>
+
+  <xs:element name="NewAddressRequest" type="NewAddressRequestType"/>
+
+  <xs:element name="NewAddressResponse" type="NewAddressResponseType"/>
+
+  <xs:element name="NewWitnessAddressRequest" type="NewWitnessAddressRequestType"/>
+
+  <xs:element name="NodeAddress" type="NodeAddressType"/>
+
+  <xs:element name="NodeInfo" type="NodeInfoType"/>
+
+  <xs:element name="NodeInfoRequest" type="NodeInfoRequestType"/>
+
+  <xs:element name="NodeUpdate" type="NodeUpdateType"/>
+
+  <xs:element name="OpenChannelRequest" type="OpenChannelRequestType"/>
+
+  <xs:element name="OpenStatusUpdate" type="OpenStatusUpdateType"/>
+
+  <xs:element name="PayReq" type="PayReqType"/>
+
+  <xs:element name="PayReqString" type="PayReqStringType"/>
+
+  <xs:element name="Payment" type="PaymentType"/>
+
+  <xs:element name="PaymentHash" type="PaymentHashType"/>
+
+  <xs:element name="Peer" type="PeerType"/>
+
+  <xs:element name="PendingChannelsRequest" type="PendingChannelsRequestType"/>
+
+  <xs:element name="PendingChannelsResponse" type="PendingChannelsResponseType"/>
+
+  <xs:element name="PendingHTLC" type="PendingHTLCType"/>
+
+  <xs:element name="PendingUpdate" type="PendingUpdateType"/>
+
+  <xs:element name="PolicyUpdateRequest" type="PolicyUpdateRequestType"/>
+
+  <xs:element name="PolicyUpdateResponse" type="PolicyUpdateResponseType"/>
+
+  <xs:element name="QueryRoutesRequest" type="QueryRoutesRequestType"/>
+
+  <xs:element name="QueryRoutesResponse" type="QueryRoutesResponseType"/>
+
+  <xs:element name="Route" type="RouteType"/>
+
+  <xs:element name="RoutingPolicy" type="RoutingPolicyType"/>
+
+  <xs:element name="SendCoinsRequest" type="SendCoinsRequestType"/>
+
+  <xs:element name="SendCoinsResponse" type="SendCoinsResponseType"/>
+
+  <xs:element name="SendManyRequest" type="SendManyRequestType"/>
+
+  <xs:element name="SendManyResponse" type="SendManyResponseType"/>
+
+  <xs:element name="SendRequest" type="SendRequestType"/>
+
+  <xs:element name="SendResponse" type="SendResponseType"/>
+
+  <xs:element name="SignMessageRequest" type="SignMessageRequestType"/>
+
+  <xs:element name="SignMessageResponse" type="SignMessageResponseType"/>
+
+  <xs:element name="StopRequest" type="StopRequestType"/>
+
+  <xs:element name="StopResponse" type="StopResponseType"/>
+
+  <xs:element name="Transaction" type="TransactionType"/>
+
+  <xs:element name="TransactionDetails" type="TransactionDetailsType"/>
+
+  <xs:element name="UnlockWalletRequest" type="UnlockWalletRequestType"/>
+
+  <xs:element name="UnlockWalletResponse" type="UnlockWalletResponseType"/>
+
+  <xs:element name="VerifyMessageRequest" type="VerifyMessageRequestType"/>
+
+  <xs:element name="VerifyMessageResponse" type="VerifyMessageResponseType"/>
+
+  <xs:element name="WalletBalanceRequest" type="WalletBalanceRequestType"/>
+
+  <xs:element name="WalletBalanceResponse" type="WalletBalanceResponseType"/>
+
+  <xs:complexType name="CreateWalletRequestType">
+    <xs:sequence>
+      <xs:element name="password" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CreateWalletResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="UnlockWalletRequestType">
+    <xs:sequence>
+      <xs:element name="password" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UnlockWalletResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="TransactionType">
+    <xs:sequence>
+      <xs:element name="txHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="numConfirmations" type="xs:int"/>
+      <xs:element name="blockHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="blockHeight" type="xs:int"/>
+      <xs:element name="timeStamp" type="xs:long"/>
+      <xs:element name="totalFees" type="xs:long"/>
+      <xs:element name="dest_addresses" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="destAddresses" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetTransactionsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="TransactionDetailsType">
+    <xs:sequence>
+      <xs:element name="transactions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Transaction" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendRequestType">
+    <xs:sequence>
+      <xs:element name="dest" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="destString" type="xs:string" minOccurs="0"/>
+      <xs:element name="amt" type="xs:long"/>
+      <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="paymentHashString" type="xs:string" minOccurs="0"/>
+      <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendResponseType">
+    <xs:sequence>
+      <xs:element name="paymentError" type="xs:string" minOccurs="0"/>
+      <xs:element name="paymentPreimage" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="paymentRoute" type="RouteType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RouteType">
+    <xs:sequence>
+      <xs:element name="totalTimeLock" type="xs:int"/>
+      <xs:element name="totalFees" type="xs:long"/>
+      <xs:element name="totalAmt" type="xs:long"/>
+      <xs:element name="hops" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Hop" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HopType">
+    <xs:sequence>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="chanCapacity" type="xs:long"/>
+      <xs:element name="amtToForward" type="xs:long"/>
+      <xs:element name="fee" type="xs:long"/>
+      <xs:element name="expiry" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelPointType">
+    <xs:sequence>
+      <xs:element name="fundingTxid" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="fundingTxidStr" type="xs:string" minOccurs="0"/>
+      <xs:element name="outputIndex" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LightningAddressType">
+    <xs:sequence>
+      <xs:element name="pubkey" type="xs:string" minOccurs="0"/>
+      <xs:element name="host" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendManyRequestType">
+    <xs:sequence>
+      <xs:element name="addrToAmountEntries" type="AddrToAmountEntriesType" minOccurs="0"/>
+      <xs:element name="targetConf" type="xs:int"/>
+      <xs:element name="satPerByte" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AddrToAmountEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="AddrToAmountEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AddrToAmountEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendManyResponseType">
+    <xs:sequence>
+      <xs:element name="txid" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendCoinsRequestType">
+    <xs:sequence>
+      <xs:element name="addr" type="xs:string" minOccurs="0"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="targetConf" type="xs:int"/>
+      <xs:element name="satPerByte" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendCoinsResponseType">
+    <xs:sequence>
+      <xs:element name="txid" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NewAddressRequestType">
+    <xs:sequence>
+      <xs:element name="type" type="addressType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NewWitnessAddressRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="NewAddressResponseType">
+    <xs:sequence>
+      <xs:element name="address" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignMessageRequestType">
+    <xs:sequence>
+      <xs:element name="msg" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignMessageResponseType">
+    <xs:sequence>
+      <xs:element name="signature" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VerifyMessageRequestType">
+    <xs:sequence>
+      <xs:element name="msg" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="signature" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VerifyMessageResponseType">
+    <xs:sequence>
+      <xs:element name="valid" type="xs:boolean"/>
+      <xs:element name="pubkey" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConnectPeerRequestType">
+    <xs:sequence>
+      <xs:element name="addr" type="LightningAddressType" minOccurs="0"/>
+      <xs:element name="perm" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConnectPeerResponseType">
+    <xs:sequence>
+      <xs:element name="peerId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DisconnectPeerRequestType">
+    <xs:sequence>
+      <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DisconnectPeerResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="HTLCType">
+    <xs:sequence>
+      <xs:element name="incoming" type="xs:boolean"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="hashLock" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="expirationHeight" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ActiveChannelType">
+    <xs:sequence>
+      <xs:element name="active" type="xs:boolean"/>
+      <xs:element name="remotePubkey" type="xs:string" minOccurs="0"/>
+      <xs:element name="channelPoint" type="xs:string" minOccurs="0"/>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="capacity" type="xs:long"/>
+      <xs:element name="localBalance" type="xs:long"/>
+      <xs:element name="remoteBalance" type="xs:long"/>
+      <xs:element name="commitFee" type="xs:long"/>
+      <xs:element name="commitWeight" type="xs:long"/>
+      <xs:element name="feePerKw" type="xs:long"/>
+      <xs:element name="unsettledBalance" type="xs:long"/>
+      <xs:element name="totalSatoshisSent" type="xs:long"/>
+      <xs:element name="totalSatoshisReceived" type="xs:long"/>
+      <xs:element name="numUpdates" type="xs:long"/>
+      <xs:element name="pending_htlcs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="HTLC" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="csvDelay" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListChannelsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ListChannelsResponseType">
+    <xs:sequence>
+      <xs:element name="channels" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ActiveChannel" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PeerType">
+    <xs:sequence>
+      <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="peerId" type="xs:int"/>
+      <xs:element name="address" type="xs:string" minOccurs="0"/>
+      <xs:element name="bytesSent" type="xs:long"/>
+      <xs:element name="bytesRecv" type="xs:long"/>
+      <xs:element name="satSent" type="xs:long"/>
+      <xs:element name="satRecv" type="xs:long"/>
+      <xs:element name="inbound" type="xs:boolean"/>
+      <xs:element name="pingTime" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListPeersRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ListPeersResponseType">
+    <xs:sequence>
+      <xs:element name="peers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Peer" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetInfoRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="GetInfoResponseType">
+    <xs:sequence>
+      <xs:element name="identityPubkey" type="xs:string" minOccurs="0"/>
+      <xs:element name="alias" type="xs:string" minOccurs="0"/>
+      <xs:element name="numPendingChannels" type="xs:int"/>
+      <xs:element name="numActiveChannels" type="xs:int"/>
+      <xs:element name="numPeers" type="xs:int"/>
+      <xs:element name="blockHeight" type="xs:int"/>
+      <xs:element name="blockHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="syncedToChain" type="xs:boolean"/>
+      <xs:element name="testnet" type="xs:boolean"/>
+      <xs:element name="chains" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="chains" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="uris" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="uris" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConfirmationUpdateType">
+    <xs:sequence>
+      <xs:element name="blockSha" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="blockHeight" type="xs:int"/>
+      <xs:element name="numConfsLeft" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelOpenUpdateType">
+    <xs:sequence>
+      <xs:element name="channelPoint" type="ChannelPointType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelCloseUpdateType">
+    <xs:sequence>
+      <xs:element name="closingTxid" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="success" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CloseChannelRequestType">
+    <xs:sequence>
+      <xs:element name="channelPoint" type="ChannelPointType" minOccurs="0"/>
+      <xs:element name="force" type="xs:boolean"/>
+      <xs:element name="targetConf" type="xs:int"/>
+      <xs:element name="satPerByte" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CloseStatusUpdateType">
+    <xs:sequence>
+      <xs:element name="closePending" type="PendingUpdateType" minOccurs="0"/>
+      <xs:element name="confirmation" type="ConfirmationUpdateType" minOccurs="0"/>
+      <xs:element name="chanClose" type="ChannelCloseUpdateType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PendingUpdateType">
+    <xs:sequence>
+      <xs:element name="txid" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="outputIndex" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OpenChannelRequestType">
+    <xs:sequence>
+      <xs:element name="targetPeerId" type="xs:int"/>
+      <xs:element name="nodePubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="nodePubkeyString" type="xs:string" minOccurs="0"/>
+      <xs:element name="localFundingAmount" type="xs:long"/>
+      <xs:element name="pushSat" type="xs:long"/>
+      <xs:element name="targetConf" type="xs:int"/>
+      <xs:element name="satPerByte" type="xs:long"/>
+      <xs:element name="private" type="xs:boolean"/>
+      <xs:element name="minHtlcMsat" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OpenStatusUpdateType">
+    <xs:sequence>
+      <xs:element name="chanPending" type="PendingUpdateType" minOccurs="0"/>
+      <xs:element name="confirmation" type="ConfirmationUpdateType" minOccurs="0"/>
+      <xs:element name="chanOpen" type="ChannelOpenUpdateType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PendingHTLCType">
+    <xs:sequence>
+      <xs:element name="incoming" type="xs:boolean"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="outpoint" type="xs:string" minOccurs="0"/>
+      <xs:element name="maturityHeight" type="xs:int"/>
+      <xs:element name="blocksTilMaturity" type="xs:int"/>
+      <xs:element name="stage" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PendingChannelsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="PendingChannelsResponseType">
+    <xs:sequence>
+      <xs:element name="totalLimboBalance" type="xs:long"/>
+      <xs:element name="pending_open_channels" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="PendingOpenChannel" type="PendingOpenChannelType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="pending_closing_channels" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ClosedChannel" type="ClosedChannelType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="pending_force_closing_channels" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ForceClosedChannel" type="ForceClosedChannelType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PendingOpenChannelType">
+    <xs:sequence>
+      <xs:element name="channel" type="PendingChannelType" minOccurs="0"/>
+      <xs:element name="confirmationHeight" type="xs:int"/>
+      <xs:element name="commitFee" type="xs:long"/>
+      <xs:element name="commitWeight" type="xs:long"/>
+      <xs:element name="feePerKw" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PendingChannelType">
+    <xs:sequence>
+      <xs:element name="remoteNodePub" type="xs:string" minOccurs="0"/>
+      <xs:element name="channelPoint" type="xs:string" minOccurs="0"/>
+      <xs:element name="capacity" type="xs:long"/>
+      <xs:element name="localBalance" type="xs:long"/>
+      <xs:element name="remoteBalance" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ClosedChannelType">
+    <xs:sequence>
+      <xs:element name="channel" type="PendingChannelType" minOccurs="0"/>
+      <xs:element name="closingTxid" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ForceClosedChannelType">
+    <xs:sequence>
+      <xs:element name="channel" type="PendingChannelType" minOccurs="0"/>
+      <xs:element name="closingTxid" type="xs:string" minOccurs="0"/>
+      <xs:element name="limboBalance" type="xs:long"/>
+      <xs:element name="maturityHeight" type="xs:int"/>
+      <xs:element name="blocksTilMaturity" type="xs:int"/>
+      <xs:element name="recoveredBalance" type="xs:long"/>
+      <xs:element name="pending_htlcs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PendingHTLC" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="WalletBalanceRequestType">
+    <xs:sequence>
+      <xs:element name="witnessOnly" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="WalletBalanceResponseType">
+    <xs:sequence>
+      <xs:element name="totalBalance" type="xs:long"/>
+      <xs:element name="confirmedBalance" type="xs:long"/>
+      <xs:element name="unconfirmedBalance" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelBalanceRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelBalanceResponseType">
+    <xs:sequence>
+      <xs:element name="balance" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryRoutesRequestType">
+    <xs:sequence>
+      <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="amt" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryRoutesResponseType">
+    <xs:sequence>
+      <xs:element name="routes" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Route" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeInfoRequestType">
+    <xs:sequence>
+      <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeInfoType">
+    <xs:sequence>
+      <xs:element name="node" type="LightningNodeType" minOccurs="0"/>
+      <xs:element name="numChannels" type="xs:int"/>
+      <xs:element name="totalCapacity" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LightningNodeType">
+    <xs:sequence>
+      <xs:element name="lastUpdate" type="xs:int"/>
+      <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="alias" type="xs:string" minOccurs="0"/>
+      <xs:element name="addresses" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="NodeAddress" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="color" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeAddressType">
+    <xs:sequence>
+      <xs:element name="network" type="xs:string" minOccurs="0"/>
+      <xs:element name="addr" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RoutingPolicyType">
+    <xs:sequence>
+      <xs:element name="timeLockDelta" type="xs:int"/>
+      <xs:element name="minHtlc" type="xs:long"/>
+      <xs:element name="feeBaseMsat" type="xs:long"/>
+      <xs:element name="feeRateMilliMsat" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelEdgeType">
+    <xs:sequence>
+      <xs:element name="channelId" type="xs:long"/>
+      <xs:element name="chanPoint" type="xs:string" minOccurs="0"/>
+      <xs:element name="lastUpdate" type="xs:int"/>
+      <xs:element name="node1Pub" type="xs:string" minOccurs="0"/>
+      <xs:element name="node2Pub" type="xs:string" minOccurs="0"/>
+      <xs:element name="capacity" type="xs:long"/>
+      <xs:element name="node1Policy" type="RoutingPolicyType" minOccurs="0"/>
+      <xs:element name="node2Policy" type="RoutingPolicyType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelGraphRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelGraphType">
+    <xs:sequence>
+      <xs:element name="nodes" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="LightningNode" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="edges" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ChannelEdge" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChanInfoRequestType">
+    <xs:sequence>
+      <xs:element name="chanId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NetworkInfoRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="NetworkInfoType">
+    <xs:sequence>
+      <xs:element name="graphDiameter" type="xs:int"/>
+      <xs:element name="avgOutDegree" type="xs:double"/>
+      <xs:element name="maxOutDegree" type="xs:int"/>
+      <xs:element name="numNodes" type="xs:int"/>
+      <xs:element name="numChannels" type="xs:int"/>
+      <xs:element name="totalNetworkCapacity" type="xs:long"/>
+      <xs:element name="avgChannelSize" type="xs:double"/>
+      <xs:element name="minChannelSize" type="xs:long"/>
+      <xs:element name="maxChannelSize" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="StopRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="StopResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="GraphTopologySubscriptionType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="GraphTopologyUpdateType">
+    <xs:sequence>
+      <xs:element name="node_updates" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="NodeUpdate" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="channel_updates" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ChannelEdgeUpdate" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="closed_chans" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ClosedChannelUpdate" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeUpdateType">
+    <xs:sequence>
+      <xs:element name="addresses" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="addresses" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="identityKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="globalFeatures" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="alias" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelEdgeUpdateType">
+    <xs:sequence>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="chanPoint" type="ChannelPointType" minOccurs="0"/>
+      <xs:element name="capacity" type="xs:long"/>
+      <xs:element name="routingPolicy" type="RoutingPolicyType" minOccurs="0"/>
+      <xs:element name="advertisingNode" type="xs:string" minOccurs="0"/>
+      <xs:element name="connectingNode" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ClosedChannelUpdateType">
+    <xs:sequence>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="capacity" type="xs:long"/>
+      <xs:element name="closedHeight" type="xs:int"/>
+      <xs:element name="chanPoint" type="ChannelPointType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InvoiceType">
+    <xs:sequence>
+      <xs:element name="memo" type="xs:string" minOccurs="0"/>
+      <xs:element name="receipt" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="RPreimage" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="RHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="value" type="xs:long"/>
+      <xs:element name="settled" type="xs:boolean"/>
+      <xs:element name="creationDate" type="xs:long"/>
+      <xs:element name="settleDate" type="xs:long"/>
+      <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
+      <xs:element name="descriptionHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="expiry" type="xs:long"/>
+      <xs:element name="fallbackAddr" type="xs:string" minOccurs="0"/>
+      <xs:element name="cltvExpiry" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AddInvoiceResponseType">
+    <xs:sequence>
+      <xs:element name="RHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PaymentHashType">
+    <xs:sequence>
+      <xs:element name="RHashStr" type="xs:string" minOccurs="0"/>
+      <xs:element name="RHash" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListInvoiceRequestType">
+    <xs:sequence>
+      <xs:element name="pendingOnly" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListInvoiceResponseType">
+    <xs:sequence>
+      <xs:element name="invoices" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Invoice" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InvoiceSubscriptionType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="PaymentType">
+    <xs:sequence>
+      <xs:element name="paymentHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:long"/>
+      <xs:element name="creationDate" type="xs:long"/>
+      <xs:element name="path" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="path" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="fee" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListPaymentsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ListPaymentsResponseType">
+    <xs:sequence>
+      <xs:element name="payments" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Payment" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DeleteAllPaymentsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="DeleteAllPaymentsResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="DebugLevelRequestType">
+    <xs:sequence>
+      <xs:element name="show" type="xs:boolean"/>
+      <xs:element name="levelSpec" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DebugLevelResponseType">
+    <xs:sequence>
+      <xs:element name="subSystems" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PayReqStringType">
+    <xs:sequence>
+      <xs:element name="payReq" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PayReqType">
+    <xs:sequence>
+      <xs:element name="destination" type="xs:string" minOccurs="0"/>
+      <xs:element name="paymentHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="numSatoshis" type="xs:long"/>
+      <xs:element name="timestamp" type="xs:long"/>
+      <xs:element name="expiry" type="xs:long"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="descriptionHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="fallbackAddr" type="xs:string" minOccurs="0"/>
+      <xs:element name="cltvExpiry" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FeeReportRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelFeeReportType">
+    <xs:sequence>
+      <xs:element name="chanPoint" type="xs:string" minOccurs="0"/>
+      <xs:element name="baseFeeMsat" type="xs:long"/>
+      <xs:element name="feePerMil" type="xs:long"/>
+      <xs:element name="feeRate" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FeeReportResponseType">
+    <xs:sequence>
+      <xs:element name="channel_fees" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ChannelFeeReport" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PolicyUpdateRequestType">
+    <xs:sequence>
+      <xs:element name="global" type="xs:boolean"/>
+      <xs:element name="chanPoint" type="ChannelPointType" minOccurs="0"/>
+      <xs:element name="baseFeeMsat" type="xs:long"/>
+      <xs:element name="feeRate" type="xs:double"/>
+      <xs:element name="timeLockDelta" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PolicyUpdateResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:simpleType name="addressType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="WITNESS_PUBKEY_HASH"/>
+      <xs:enumeration value="NESTED_PUBKEY_HASH"/>
+      <xs:enumeration value="PUBKEY_HASH"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+
