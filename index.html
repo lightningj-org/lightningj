@@ -743,6 +743,12 @@ p.tableblock.header { color: #6d6e71; }
 <li><a href="#_roadmap">Roadmap</a></li>
 </ul>
 </li>
+<li><a href="#_using_lightningj_library">Using LightningJ Library</a>
+<ul class="sectlevel2">
+<li><a href="#_from_maven_central">From Maven Central</a></li>
+<li><a href="#_from_source">From Source</a></li>
+</ul>
+</li>
 <li><a href="#_using_the_lnd_api">Using the LND API</a>
 <ul class="sectlevel2">
 <li><a href="#_getting_started_with_lnd">Getting started with LND</a></li>
@@ -776,6 +782,7 @@ p.tableblock.header { color: #6d6e71; }
 <li><a href="#_for_lightningj_developers">For LightningJ Developers</a>
 <ul class="sectlevel2">
 <li><a href="#_how_to_update_rpc_proto_file">How to update rpc.proto file</a></li>
+<li><a href="#_gpg_sign_releases_using_smartcard">GPG Sign Releases using SmartCard</a></li>
 </ul>
 </li>
 </ul>
@@ -786,7 +793,7 @@ p.tableblock.header { color: #6d6e71; }
 <div class="sectionbody">
 <div class="paragraph">
 <p><em>Lightning APIs for Java</em>
-V 0.1-Beta, 2018-01-28</p>
+V 0.1-Beta, 2018-02-01</p>
 </div>
 </div>
 </div>
@@ -839,15 +846,60 @@ LND.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Publish library to Maven Central.</p>
-</li>
-<li>
 <p>LND: Support Macaroons Authentication.</p>
 </li>
 <li>
 <p>Implement equivalent API for Lightning-c and or Eclair</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_lightningj_library">Using LightningJ Library</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use this library you can either add it as a dependency from maven central repository or
+build it from source.</p>
+</div>
+<div class="sect2">
+<h3 id="_from_maven_central">From Maven Central</h3>
+<div class="paragraph">
+<p>Add the following dependency to your pom.xml</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">   &lt;dependency&gt;
+      &lt;groupId&gt;org.lightningj&lt;/groupId&gt;
+      &lt;artifactId&gt;lightningj&lt;/artifactId&gt;
+      &lt;version&gt;0.1-Beta&lt;/version&gt;
+   &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or to your build.gradle</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    compile 'org.lightningj:lightningj:0.1-Beta'</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_from_source">From Source</h3>
+<div class="paragraph">
+<p>To build from source clone the repository and use gradlew to build.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>git clone https://github.com/lightningj-org/lightningj.git
+cd lightningj
+./gradlew build</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The generated jars is located in <em>build/libs</em>.</p>
 </div>
 </div>
 </div>
@@ -900,7 +952,7 @@ response before continuing the thread.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// To create a synchronousAPI there are three constructors available
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// To create a synchronousAPI there are three constructors available
 // One simple with host,port and certificat to trust
 SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,new File("/Library/Application Support/Lnd/tls.cert"));
 // A second with host,port and a custom SSL Context for more advanced SSL Context settings.
@@ -966,7 +1018,7 @@ is useful i GUI applications to give a more fluent experience.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// Create  API, using the most simple constructor. There are alternatives
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Create  API, using the most simple constructor. There are alternatives
 // where it is possible to specify custom SSLContext or just a managed channel.
 // See SynchronousLndAPIExample for details.
 AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File("/Users/philip/Library/Application Support/Lnd/tls.cert"));
@@ -1042,7 +1094,7 @@ in following example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// Get API
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Get API
 SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
 // To convert JSON request data to a wrapped request object (High level)
@@ -1091,7 +1143,7 @@ version "1.0" exist and should still not be considered final and could change.)<
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// Get API
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Get API
 SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
 // Create a XMLParserFactory
@@ -1141,7 +1193,7 @@ the future that will make the validation parts of the library more useful.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// Get API
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Get API
 SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
 // To manually validate a wrapped Message it is possible to call the validate() method.
@@ -1230,7 +1282,7 @@ ServerSideException or CommunicationException separately.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// Get API
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Get API
 SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
 try{
@@ -1398,7 +1450,7 @@ messages and calls.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">File trustedServerCertificate = new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert");
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">File trustedServerCertificate = new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert");
 // Method to create SSL Context, trusting a specified LND node TLS certificate.
 // It is possible to customize the SSL setting by supplying a javax.net.ssl.SSLContext as well
 SslContext sslContext = GrpcSslContexts.configure(SslContextBuilder.forClient(), SslProvider.OPENSSL)
@@ -1566,13 +1618,31 @@ using Groovy and Spock Framework.</p>
 </ul>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_gpg_sign_releases_using_smartcard">GPG Sign Releases using SmartCard</h3>
+<div class="paragraph">
+<p>To GPG Sign generated archives before publishing them to central repository using GPG Smartcard make
+sure to configure the
+following in ~/.gradle/gradle.properties</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>signing.gnupg.executable=gpg2
+signing.gnupg.useLegacyGpg=false
+signing.gnupg.keyName=&lt;your key id&gt;</pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-01-27 13:03:52 CET
+Last updated 2018-02-01 14:55:59 CET
 </div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
 </body>
 </html>
