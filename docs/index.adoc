@@ -1,6 +1,7 @@
 :toclevels: 3
 :keywords: bitcoin,lightning,java,lnd,lightningj
 :description: LightningJ is a project with the intention to simplify the integration of existing Lightning node implementations for Java developers. It contains simple to use API implementations and converters between JSON, XML.
+:source-highlighter: highlightjs
 
 = LightningJ
 
@@ -37,11 +38,43 @@ LND.
 
 === Roadmap
 
-* Publish library to Maven Central.
-
 * LND: Support Macaroons Authentication.
 
 * Implement equivalent API for Lightning-c and or Eclair
+
+== Using LightningJ Library
+
+To use this library you can either add it as a dependency from maven central repository or
+build it from source.
+
+=== From Maven Central
+
+Add the following dependency to your pom.xml
+
+[source,xml,subs="attributes+"]
+----
+   <dependency>
+      <groupId>org.lightningj</groupId>
+      <artifactId>lightningj</artifactId>
+      <version>{project-version}</version>
+   </dependency>
+----
+
+Or to your build.gradle
+
+[subs="attributes"]
+----
+    compile 'org.lightningj:lightningj:{project-version}'
+----
+=== From Source
+
+To build from source clone the repository and use gradlew to build.
+
+    git clone https://github.com/lightningj-org/lightningj.git
+    cd lightningj
+    ./gradlew build
+
+The generated jars is located in _build/libs_.
 
 == Using the LND API
 
@@ -574,3 +607,13 @@ To clean the project use:
 * Then run
 
     ./gradlew clean build
+
+=== GPG Sign Releases using SmartCard
+
+To GPG Sign generated archives before publishing them to central repository using GPG Smartcard make
+sure to configure the
+following in ~/.gradle/gradle.properties
+
+    signing.gnupg.executable=gpg2
+    signing.gnupg.useLegacyGpg=false
+    signing.gnupg.keyName=<your key id>
