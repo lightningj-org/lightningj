@@ -29,7 +29,7 @@ class XSDGenerator extends DefaultTask{
 
     def classpath
 
-    String compileClasses = "build/classes/main"
+    String compileClasses = "build/classes/java/main"
 
     String generatedResourcesDir = "build/resources/main"
 

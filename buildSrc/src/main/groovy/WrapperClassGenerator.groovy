@@ -25,7 +25,7 @@ class WrapperClassGenerator extends DefaultTask{
 
     String ligtningAPIClassPath = "org.lightningj.lnd.proto.LightningApi"
 
-    String compileClasses = "build/classes/main"
+    String compileClasses = "build/classes/java/main"
 
     String messageOutputDir = "build/generated/source/wrapper/main/java/org/lightningj/lnd/wrapper/message/"
     String callerOutputDir = "build/generated/source/wrapper/main/java/org/lightningj/lnd/wrapper/"

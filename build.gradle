@@ -104,7 +104,7 @@ task generateWrappers(type: WrapperClassGenerator, dependsOn:compileJava){
 task compileWrapperMessages(type: JavaCompile, dependsOn: generateWrappers){
     source = compileJava.source
     //classpath = files('build/classes/main')
-    classpath = compileJava.classpath + files('build/classes/main')
+    classpath = compileJava.classpath + files('build/classes/java/main')
     destinationDir = compileJava.destinationDir
 }
 
