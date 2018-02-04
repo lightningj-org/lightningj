@@ -33,7 +33,7 @@ public class AsynchronousLndAPIExample {
         // Create  API, using the most simple constructor. There are alternatives
         // where it is possible to specify custom SSLContext or just a managed channel.
         // See SynchronousLndAPIExample for details.
-        AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert"));
+        AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert"), null);
 
         try {
             // Example of a simple asynchronous call.

@@ -1,6 +1,6 @@
 group 'org.lightningj'
 
-version '0.1-Beta'
+version '0.2-Beta'
 
 apply plugin: "groovy"
 apply plugin: 'com.google.protobuf'
@@ -55,6 +55,9 @@ dependencies {
     // JSON-P
     compile 'javax.json:javax.json-api:1.0'
     compile 'org.glassfish:javax.json:1.1.2'
+
+    // JMacaroon
+    compile 'com.github.nitram509:jmacaroons:0.3.1'
 
     // mandatory dependencies for using Spock
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
@@ -178,6 +181,8 @@ idea {
         sourceDirs += new File('build/generated/source/wrapper/main/java')
         sourceDirs += new File('build/resources/main')
         sourceDirs += new File('src/examples')
+
+        contentRoot = project.projectDir
     }
 }
 

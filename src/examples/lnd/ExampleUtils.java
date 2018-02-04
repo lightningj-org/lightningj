@@ -13,6 +13,7 @@
 package lnd;
 
 import org.lightningj.lnd.wrapper.AsynchronousLndAPI;
+import org.lightningj.lnd.wrapper.ClientSideException;
 import org.lightningj.lnd.wrapper.SynchronousLndAPI;
 import org.lightningj.lnd.wrapper.message.OpenChannelRequest;
 
@@ -26,12 +27,12 @@ import java.io.File;
  */
 public class ExampleUtils {
 
-    static SynchronousLndAPI getSynchronousLndAPI() throws SSLException {
-        return new SynchronousLndAPI("localhost",10001,new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert"));
+    static SynchronousLndAPI getSynchronousLndAPI() throws SSLException, ClientSideException {
+        return new SynchronousLndAPI("localhost",10001,new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert"),null);
     }
 
-    static AsynchronousLndAPI getAsynchronousLndAPI() throws SSLException {
-        return new AsynchronousLndAPI("localhost",10001,new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert"));
+    static AsynchronousLndAPI getAsynchronousLndAPI() throws SSLException, ClientSideException {
+        return new AsynchronousLndAPI("localhost",10001,new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert"),null);
     }
 
     static OpenChannelRequest genOpenChannelRequest() {

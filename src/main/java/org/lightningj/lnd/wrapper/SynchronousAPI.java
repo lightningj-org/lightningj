@@ -34,10 +34,12 @@ abstract public class SynchronousAPI extends API{
      * @param host                     the hostname of ldn application
      * @param port                     the port of the application.
      * @param trustedServerCertificate a link of the SSL certificate used by the LND Application.
+     * @param macaroonFile the file pointing to the macaroon to use, or null if no macaroons are used.
      * @throws SSLException if problems occurred setting up the SSL Connection.
+     * @throws ClientSideException if problems occurred reading the macaroon file.
      */
-    protected SynchronousAPI(String host, int port, File trustedServerCertificate) throws SSLException {
-        super(host, port, trustedServerCertificate);
+    protected SynchronousAPI(String host, int port, File trustedServerCertificate, File macaroonFile) throws SSLException, ClientSideException {
+        super(host, port, trustedServerCertificate, macaroonFile);
     }
 
     /**
@@ -47,9 +49,10 @@ abstract public class SynchronousAPI extends API{
      * @param host       the hostname of ldn application
      * @param port       the port of the application.
      * @param sslContext the SSL Context used when connecting the LND Application.
+     * @param macaroonContext the macaroon context to use.
      */
-    protected SynchronousAPI(String host, int port, SslContext sslContext) {
-        super(host, port, sslContext);
+    protected SynchronousAPI(String host, int port, SslContext sslContext, MacaroonContext macaroonContext) {
+        super(host, port, sslContext, macaroonContext);
     }
 
     /**
