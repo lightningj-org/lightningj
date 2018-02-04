@@ -50,7 +50,7 @@ signature c706ada85cea02671ed5b862e51ac79d34029fd9a9a4a02eb8ce86a9328ed84e
         new StaticFileMacaroonContext(macaroonPath)
         then:
         def e = thrown ClientSideException
-        e.message == "Error reading macaroon from path '/Users/philip/Documents/git-repos/lightningj/build/resources/test/invalid.macaroon', message: Not enough data bytes available. Needed 21773 bytes, but was only 134"
+        e.message =~ "invalid.macaroon', message: Not enough data bytes available. Needed 21773 bytes, but was only 134"
         e.status == null
     }
 
