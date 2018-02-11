@@ -12,12 +12,10 @@
  *************************************************************************/
 package org.lightningj.lnd.wrapper;
 
-import com.github.nitram509.jmacaroons.Macaroon;
-import com.github.nitram509.jmacaroons.MacaroonsBuilder;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 /**
  * MacaroonContext that reads a static file during construction
@@ -29,7 +27,7 @@ import java.io.IOException;
  */
 public class StaticFileMacaroonContext implements MacaroonContext{
 
-    Macaroon currentMacaroon;
+    String currentMacaroonData;
     /**
      * Constructor to read a specified macaroon path.
      *
@@ -43,7 +41,7 @@ public class StaticFileMacaroonContext implements MacaroonContext{
             fis.read(data);
             fis.close();
 
-            currentMacaroon = MacaroonsBuilder.deserialize(com.github.nitram509.jmacaroons.util.Base64.encodeUrlSafeToString(data));
+            currentMacaroonData = DatatypeConverter.printHexBinary(data);
         }catch(Exception e){
             throw new ClientSideException("Error reading macaroon from path '" + macaroonPath + "', message: " + e.getMessage(),null,e);
         }
@@ -55,7 +53,7 @@ public class StaticFileMacaroonContext implements MacaroonContext{
      * @return the current macaroon or null of no valid macaroon is available.
      */
     @Override
-    public Macaroon getCurrentMacaroon() {
-        return currentMacaroon;
+    public String getCurrentMacaroonAsHex() {
+        return currentMacaroonData;
     }
 }

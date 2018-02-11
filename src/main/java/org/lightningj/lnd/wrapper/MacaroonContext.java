@@ -12,7 +12,7 @@
  *************************************************************************/
 package org.lightningj.lnd.wrapper;
 
-import com.github.nitram509.jmacaroons.Macaroon;
+
 
 /**
  * Interface for MacaroonContext used to manage which Macaroon that should be used
@@ -25,9 +25,10 @@ import com.github.nitram509.jmacaroons.Macaroon;
 public interface MacaroonContext {
 
     /**
-     * Method that should return the macaroon that should be used in header for calls towards server node.
+     * Method that should return the macaroon in serialized (hex encoded form) that should be used in header
+     * for calls towards server node.
      *
      * @return the current macaroon or null of no valid macaroon is available.
      */
-    Macaroon getCurrentMacaroon();
+    String getCurrentMacaroonAsHex();
 }

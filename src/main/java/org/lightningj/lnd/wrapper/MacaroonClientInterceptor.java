@@ -12,9 +12,7 @@
  *************************************************************************/
 package org.lightningj.lnd.wrapper;
 
-import com.github.nitram509.jmacaroons.Macaroon;
-import com.github.nitram509.jmacaroons.util.Base64;
-import com.github.nitram509.jmacaroons.util.BinHex;
+
 import io.grpc.*;
 
 import static io.grpc.Metadata.ASCII_STRING_MARSHALLER;
@@ -58,12 +56,12 @@ public class MacaroonClientInterceptor implements io.grpc.ClientInterceptor {
         return new ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT>(next.newCall(method, callOptions)) {
             @Override
             public void start(Listener<RespT> responseListener, Metadata headers) {
-                Macaroon macaroon = null;
+                String macaroonData = null;
                 if(macaroonContext != null){
-                    macaroon = macaroonContext.getCurrentMacaroon();
+                    macaroonData = macaroonContext.getCurrentMacaroonAsHex();
                 }
-                if(macaroon != null) {
-                    headers.put(MACAROON_METADATA_KEY, BinHex.bin2hex(Base64.decode(macaroon.serialize())));
+                if(macaroonData != null) {
+                    headers.put(MACAROON_METADATA_KEY, macaroonData);
                 }
                 super.start(responseListener, headers);
             }

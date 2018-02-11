@@ -27,10 +27,7 @@ class StaticFileMacaroonContextSpec extends Specification {
         when:
         StaticFileMacaroonContext macaroonContext = new StaticFileMacaroonContext(macaroonPath)
         then:
-        macaroonContext.currentMacaroon.inspect() =~ """location lnd
-identifier 0-5fc1b14ade4344d889a38696e4ac6680
-signature c706ada85cea02671ed5b862e51ac79d34029fd9a9a4a02eb8ce86a9328ed84e
-"""
+        macaroonContext.currentMacaroonAsHex == """303031316C6F636174696F6E206C6E640A303033326964656E74696669657220302D35666331623134616465343334346438383961333836393665346163363638300A303032667369676E617475726520C706ADA85CEA02671ED5B862E51AC79D34029FD9A9A4A02EB8CE86A9328ED84E0A"""
     }
 
     def "Verify that ClientSideException is thrown if macaroon file is not found"(){
@@ -39,18 +36,6 @@ signature c706ada85cea02671ed5b862e51ac79d34029fd9a9a4a02eb8ce86a9328ed84e
         then:
         def e = thrown ClientSideException
         e.message == "Error reading macaroon from path 'notexists.macaroon', message: notexists.macaroon (No such file or directory)"
-        e.status == null
-    }
-
-
-    def "Verify that ClientSideException is thrown if macaroon was unparsable"(){
-        setup:
-        File macaroonPath = new File(this.getClass().getResource("/invalid.macaroon").path)
-        when:
-        new StaticFileMacaroonContext(macaroonPath)
-        then:
-        def e = thrown ClientSideException
-        e.message =~ "invalid.macaroon', message: Not enough data bytes available. Needed 21773 bytes, but was only 134"
         e.status == null
     }
 
