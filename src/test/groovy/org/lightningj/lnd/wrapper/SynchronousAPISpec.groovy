@@ -33,8 +33,10 @@ class SynchronousAPISpec extends Specification {
     }
 
     def "SynchronousAPI initializes constructors properly."(){
+        setup:
+        File macaroonPath = new File(this.getClass().getResource("/admin.macaroon").path)
         when: // This constructor
-        SynchronousLndAPI api1 = new SynchronousLndAPI("localhost",8080,new File("src/test/resources/cert.pem"))
+        SynchronousLndAPI api1 = new SynchronousLndAPI("localhost",8080,new File("src/test/resources/cert.pem"),macaroonPath)
         then:
         api1.channel != null
     }

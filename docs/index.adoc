@@ -33,12 +33,13 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
-* 0.1-Beta This is the initial release with generated APIs (Synchronous and Asynchronous) for
+* 0.2-Beta : Added support for Macaroons authentication.
+* 0.1-Beta : This is the initial release with generated APIs (Synchronous and Asynchronous) for
 LND.
 
 === Roadmap
 
-* LND: Support Macaroons Authentication.
+* LND: Keep rpc.proto specification updated with latest LND release.
 
 * Implement equivalent API for Lightning-c and or Eclair
 
@@ -94,13 +95,14 @@ on how to use the API.
 To get started with a LND node, see the LND developer site: link:http://dev.lightning.community/[].
 There is an installation guide and a tutorial.
 
-Currently is Macaroon authentication not implemented and LND must be started
-with the _--no-macaroon_ flag set.
-
 === Using the High Level API
 
 The high level api contains _wrapper_ classes and a API interface for both synchronous and asynchronous
 calls. There is two APIs generated, the main LND API and Wallet Unlocker API.
+
+When creating an instance it is possible to either specify the trusted SSL Certificate
+and the macaroon file that should be used. (If no macaroon is required by the LND node is null acceptable
+as parameter). Or specify a custom SSL Context and Macaroon Context for more advanced control.
 
 For more details about each call see link:http://api.lightning.community/[LND API documentation]
 
@@ -114,10 +116,12 @@ Below is an example on how to use a Synchronous API.
 [source,java]
 ----
 // To create a synchronousAPI there are three constructors available
-// One simple with host,port and certificat to trust
-SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,new File("/Library/Application Support/Lnd/tls.cert"));
-// A second with host,port and a custom SSL Context for more advanced SSL Context settings.
-//SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,sSLContext);
+// One simple with host,port and certificate to trust, last file is the file path to the macaroon, use null if no macaroons are used.
+SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,
+new File("/Library/Application Support/Lnd/tls.cert"),
+new File(System.getProperty("user.home")+ "/Library/Application Support/Lnd/admin.macaroon"));
+// A second with host,port and a custom SSL Context for more advanced SSL Context and Macaroon Context settings.
+//SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,sSLContext, macaroonContext);
 // The third that takes a ManagedChannel, with full customization capabilities of underlying API
 // See GRPC Java documentation for details.
 //SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI(managedChannel);
@@ -179,7 +183,7 @@ And example on how to use the Asynchronous API
 // Create  API, using the most simple constructor. There are alternatives
 // where it is possible to specify custom SSLContext or just a managed channel.
 // See SynchronousLndAPIExample for details.
-AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File("/Users/philip/Library/Application Support/Lnd/tls.cert"));
+AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File("/Users/philip/Library/Application Support/Lnd/tls.cert"), null);
 
 try {
     // Example of a simple asynchronous call.

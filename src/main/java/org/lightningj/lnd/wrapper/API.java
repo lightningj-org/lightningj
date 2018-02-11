@@ -48,25 +48,30 @@ abstract public class API {
      * @param host the hostname of ldn application
      * @param port the port of the application.
      * @param trustedServerCertificate a link of the SSL certificate used by the LND Application.
+     * @param macaroonFile the file pointing to the macaroon to use, or null if no macaroons are used.
      * @throws SSLException if problems occurred setting up the SSL Connection.
+     * @throws ClientSideException if problems occurred reading the macaroon file.
      */
-    protected API(String host, int port, File trustedServerCertificate) throws SSLException {
+    protected API(String host, int port, File trustedServerCertificate, File macaroonFile) throws SSLException, ClientSideException {
         this(host,port, GrpcSslContexts.configure(SslContextBuilder.forClient(), SslProvider.OPENSSL)
                 .trustManager(trustedServerCertificate)
-                .build());
+                .build(),
+                macaroonFile != null ? new StaticFileMacaroonContext(macaroonFile) : null);
     }
 
     /**
      * Constructor for setting up a connection with LND Application with more flexible
-     * SSL context parameters.
+     * SSL context parameters and macaroon Context.
      *
      * @param host the hostname of ldn application
      * @param port the port of the application.
      * @param sslContext the SSL Context used when connecting the LND Application.
+     * @param macaroonContext the macaroon context to use.
      */
-    protected API(String host, int port, SslContext sslContext){
+    protected API(String host, int port, SslContext sslContext, MacaroonContext macaroonContext){
         this(NettyChannelBuilder.forAddress(host, port)
                 .sslContext(sslContext)
+                .intercept(new MacaroonClientInterceptor(macaroonContext))
                 .build());
     }
 

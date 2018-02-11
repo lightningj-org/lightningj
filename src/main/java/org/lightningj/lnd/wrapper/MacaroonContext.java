@@ -10,33 +10,25 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.lightningj.lnd.wrapper
+package org.lightningj.lnd.wrapper;
 
-import io.grpc.ManagedChannel
-import spock.lang.Specification
 
-import java.util.logging.Logger
 
 /**
- * Unit tests for AsynchronousAPI methods.
+ * Interface for MacaroonContext used to manage which Macaroon that should be used
+ * for API calls.
  *
- * Created by Philip Vendil.
+ * @see org.lightningj.lnd.wrapper.StaticFileMacaroonContext
+ *
+ * Created by Philip Vendil on 2018-02-04.
  */
-class AsynchronousAPISpec extends Specification {
+public interface MacaroonContext {
 
-    AsynchronousLndAPI api = new AsynchronousLndAPI(Mock(ManagedChannel))
-
-    def setup(){
-        api.log = Mock(Logger)
-    }
-
-    def "AsynchronousLndAPI initializes constructors properly."(){
-        setup:
-        File macaroonPath = new File(this.getClass().getResource("/admin.macaroon").path)
-        when: // This constructor
-        AsynchronousLndAPI api1 = new AsynchronousLndAPI("localhost",8080,new File("src/test/resources/cert.pem"), macaroonPath)
-        then:
-        api1.channel != null
-    }
-
+    /**
+     * Method that should return the macaroon in serialized (hex encoded form) that should be used in header
+     * for calls towards server node.
+     *
+     * @return the current macaroon or null of no valid macaroon is available.
+     */
+    String getCurrentMacaroonAsHex();
 }
