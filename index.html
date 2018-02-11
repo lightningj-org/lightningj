@@ -793,7 +793,7 @@ p.tableblock.header { color: #6d6e71; }
 <div class="sectionbody">
 <div class="paragraph">
 <p><em>Lightning APIs for Java</em>
-V 0.1-Beta, 2018-02-01</p>
+V 0.2-Beta, 2018-02-11</p>
 </div>
 </div>
 </div>
@@ -836,7 +836,10 @@ to the license agreement can be found <a href="LICENSE.txt">here</a>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>0.1-Beta This is the initial release with generated APIs (Synchronous and Asynchronous) for
+<p>0.2-Beta : Added support for Macaroons authentication.</p>
+</li>
+<li>
+<p>0.1-Beta : This is the initial release with generated APIs (Synchronous and Asynchronous) for
 LND.</p>
 </li>
 </ul>
@@ -846,7 +849,7 @@ LND.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>LND: Support Macaroons Authentication.</p>
+<p>LND: Keep rpc.proto specification updated with latest LND release.</p>
 </li>
 <li>
 <p>Implement equivalent API for Lightning-c and or Eclair</p>
@@ -873,7 +876,7 @@ build it from source.</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">   &lt;dependency&gt;
       &lt;groupId&gt;org.lightningj&lt;/groupId&gt;
       &lt;artifactId&gt;lightningj&lt;/artifactId&gt;
-      &lt;version&gt;0.1-Beta&lt;/version&gt;
+      &lt;version&gt;0.2-Beta&lt;/version&gt;
    &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -882,7 +885,7 @@ build it from source.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>    compile 'org.lightningj:lightningj:0.1-Beta'</pre>
+<pre>    compile 'org.lightningj:lightningj:0.2-Beta'</pre>
 </div>
 </div>
 </div>
@@ -927,16 +930,17 @@ on how to use the API.</p>
 <p>To get started with a LND node, see the LND developer site: <a href="http://dev.lightning.community/" class="bare">http://dev.lightning.community/</a>.
 There is an installation guide and a tutorial.</p>
 </div>
-<div class="paragraph">
-<p>Currently is Macaroon authentication not implemented and LND must be started
-with the <em>--no-macaroon</em> flag set.</p>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_using_the_high_level_api">Using the High Level API</h3>
 <div class="paragraph">
 <p>The high level api contains <em>wrapper</em> classes and a API interface for both synchronous and asynchronous
 calls. There is two APIs generated, the main LND API and Wallet Unlocker API.</p>
+</div>
+<div class="paragraph">
+<p>When creating an instance it is possible to either specify the trusted SSL Certificate
+and the macaroon file that should be used. (If no macaroon is required by the LND node is null acceptable
+as parameter). Or specify a custom SSL Context and Macaroon Context for more advanced control.</p>
 </div>
 <div class="paragraph">
 <p>For more details about each call see <a href="http://api.lightning.community/">LND API documentation</a></p>
@@ -953,10 +957,12 @@ response before continuing the thread.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// To create a synchronousAPI there are three constructors available
-// One simple with host,port and certificat to trust
-SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,new File("/Library/Application Support/Lnd/tls.cert"));
-// A second with host,port and a custom SSL Context for more advanced SSL Context settings.
-//SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,sSLContext);
+// One simple with host,port and certificate to trust, last file is the file path to the macaroon, use null if no macaroons are used.
+SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,
+new File("/Library/Application Support/Lnd/tls.cert"),
+new File(System.getProperty("user.home")+ "/Library/Application Support/Lnd/admin.macaroon"));
+// A second with host,port and a custom SSL Context for more advanced SSL Context and Macaroon Context settings.
+//SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,sSLContext, macaroonContext);
 // The third that takes a ManagedChannel, with full customization capabilities of underlying API
 // See GRPC Java documentation for details.
 //SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI(managedChannel);
@@ -1021,7 +1027,7 @@ is useful i GUI applications to give a more fluent experience.</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Create  API, using the most simple constructor. There are alternatives
 // where it is possible to specify custom SSLContext or just a managed channel.
 // See SynchronousLndAPIExample for details.
-AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File("/Users/philip/Library/Application Support/Lnd/tls.cert"));
+AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File("/Users/philip/Library/Application Support/Lnd/tls.cert"), null);
 
 try {
     // Example of a simple asynchronous call.
@@ -1638,7 +1644,7 @@ signing.gnupg.keyName=&lt;your key id&gt;</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-02-01 14:55:59 CET
+Last updated 2018-02-11 07:54:46 CET
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

@@ -248,6 +248,7 @@
       <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="paymentHashString" type="xs:string" minOccurs="0"/>
       <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
+      <xs:element name="finalCltvDelta" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -286,7 +287,7 @@
 
   <xs:complexType name="ChannelPointType">
     <xs:sequence>
-      <xs:element name="fundingTxid" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="fundingTxidBytes" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="fundingTxidStr" type="xs:string" minOccurs="0"/>
       <xs:element name="outputIndex" type="xs:int"/>
     </xs:sequence>
@@ -963,6 +964,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="fee" type="xs:long"/>
+      <xs:element name="paymentPreimage" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
