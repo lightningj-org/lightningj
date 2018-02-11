@@ -30,10 +30,12 @@ public class SynchronousLndAPIExample {
     public static void main(String[] args) throws Exception{
 
         // To create a synchronousAPI there are three constructors available
-        // One simple with host,port and certificat to trust
-        SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert"));
-        // A second with host,port and a custom SSL Context for more advanced SSL Context settings.
-        //SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,sSLContext);
+        // One simple with host,port and certificate to trust, last file is the file path to the macaroon, use null if no macaroons are used.
+        SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,
+                new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert"),
+                new File(System.getProperty("user.home")+ "/Library/Application Support/Lnd/admin.macaroon"));
+        // A second with host,port and a custom SSL Context for more advanced SSL Context and Macaroon Context settings.
+        //SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,sSLContext, macaroonContext);
         // The third that takes a ManagedChannel, with full customization capabilities of underlying API
         // See GRPC Java documentation for details.
         //SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI(managedChannel);
