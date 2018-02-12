@@ -168,6 +168,9 @@ task ('doc',type: Copy,dependsOn: [javadoc, asciidoctor, htmlDependencyReport]){
     from('docs'){
         include('CNAME')
     }
+    from('docs'){
+        include('lightningj-release-pubkey.asc')
+    }
     into('build/docs/html5')
 }
 
