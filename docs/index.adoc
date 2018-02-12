@@ -67,6 +67,13 @@ Or to your build.gradle
 ----
     compile 'org.lightningj:lightningj:{project-version}'
 ----
+
+All tags and releases is signed with the following link:lightningj-release-pubkey.asc[GPG Key].
+
+GPG Key Fingerprint:
+
+    7C0F 80B8 BD9F E3B8 1388  4BA1 9515 B31D DD9B BCCD
+
 === From Source
 
 To build from source clone the repository and use gradlew to build.
