@@ -38,7 +38,7 @@ public class AsynchronousLndAPIExample {
         try {
             // Example of a simple asynchronous call.
             System.out.println("Sending WalletBalance request...");
-            asynchronousLndAPI.walletBalance(true, new StreamObserver<WalletBalanceResponse>() {
+            asynchronousLndAPI.walletBalance(new StreamObserver<WalletBalanceResponse>() {
 
                 // Each response is sent in a onNext call.
                 @Override

@@ -57,7 +57,6 @@ public class SynchronousLndAPIExample {
         // To generate a request call, there are two ways to generate a request.
         // Either build up a request object like below:
         OpenChannelRequest openChannelRequest = new OpenChannelRequest();
-        openChannelRequest.setTargetPeerId(1);
         openChannelRequest.setNodePubkeyString("02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02");
         openChannelRequest.setLocalFundingAmount(40000);
         openChannelRequest.setPushSat(25000);

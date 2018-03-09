@@ -32,13 +32,12 @@ class MessageSpec extends Specification {
 
     def "Verify that JSON Parsing constructor populates fields properly"(){
         setup:
-        String jsonData = "{\"target_peer_id\":1,\"node_pubkey\":\"\",\"node_pubkey_string\":\"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02\",\"local_funding_amount\":40000,\"push_sat\":25000,\"targetConf\":0,\"satPerByte\":0,\"private\":false,\"min_htlc_msat\":0}"
+        String jsonData = "{\"node_pubkey\":\"\",\"node_pubkey_string\":\"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02\",\"local_funding_amount\":40000,\"push_sat\":25000,\"targetConf\":0,\"satPerByte\":0,\"private\":false,\"min_htlc_msat\":0}"
         JsonReader jsonReader = Json.createReader(new StringReader(jsonData))
         when:
         OpenChannelRequest openChannelRequest = new OpenChannelRequest(jsonReader)
 
         then:
-        openChannelRequest.getTargetPeerId() == 1
         openChannelRequest.getLocalFundingAmount() == 40000L
     }
 
@@ -54,16 +53,14 @@ class MessageSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder = genOpenChannelRequest().toJson()
         JsonObject jsonObject = jsonObjectBuilder.build()
         then:
-        jsonObject.getInt("target_peer_id") == 1
         jsonObject.getString("node_pubkey_string") == "02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02"
     }
 
     def "Verify that toJsonAsString returns json in string format"(){
         expect:
-        genOpenChannelRequest().toJsonAsString(false) == '{"target_peer_id":1,"node_pubkey":"","node_pubkey_string":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","local_funding_amount":40000,"push_sat":25000,"targetConf":0,"satPerByte":0,"private":false,"min_htlc_msat":0}'
+        genOpenChannelRequest().toJsonAsString(false) == '{"node_pubkey":"","node_pubkey_string":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","local_funding_amount":40000,"push_sat":25000,"targetConf":0,"satPerByte":0,"private":false,"min_htlc_msat":0}'
         genOpenChannelRequest().toJsonAsString(true) == """
 {
-    "target_peer_id": 1,
     "node_pubkey": "",
     "node_pubkey_string": "02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02",
     "local_funding_amount": 40000,
@@ -93,7 +90,6 @@ class MessageSpec extends Specification {
         expect:
         genOpenChannelRequest().toString() == """OpenChannelRequest: 
 {
-    "target_peer_id": 1,
     "node_pubkey": "",
     "node_pubkey_string": "02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02",
     "local_funding_amount": 40000,
@@ -129,7 +125,6 @@ class MessageSpec extends Specification {
 
     private OpenChannelRequest genOpenChannelRequest(long localAmount=40000){
         OpenChannelRequest openChannelRequest = new OpenChannelRequest()
-        openChannelRequest.setTargetPeerId(1)
         openChannelRequest.setNodePubkeyString("02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02")
         openChannelRequest.setLocalFundingAmount(localAmount)
         openChannelRequest.setPushSat(25000)
