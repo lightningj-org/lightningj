@@ -36,7 +36,7 @@ import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.LONG
 import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.MESSAGE
 import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.STRING
 import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.ENUM
-import static org.lightningj.lnd.proto.LightningApi.NewAddressRequest.AddressType.PUBKEY_HASH
+import static org.lightningj.lnd.proto.LightningApi.NewAddressRequest.AddressType.WITNESS_PUBKEY_HASH
 
 /**
  * Unit test for class JsonGenUtils
@@ -100,7 +100,7 @@ class JsonGenUtilsSpec extends Specification {
         LONG              | LightningApi.Payment.newInstance()           | "fee"                | 1292817282L                 | '{"fee":1292817282}'
         BOOLEAN           | LightningApi.Invoice.newInstance()           | "settled"            | true                        | '{"settled":true}'
         BYTE_STRING       | LightningApi.Invoice.newInstance()           | "receipt"            | byteString                  | '{"receipt":"' + base64EncodedByteString + '"}'
-        ENUM              | LightningApi.NewAddressRequest.newInstance() | "type"               | PUBKEY_HASH                 | '{"type":"PUBKEY_HASH"}'
+        ENUM              | LightningApi.NewAddressRequest.newInstance() | "type"               | WITNESS_PUBKEY_HASH                 | '{"type":"WITNESS_PUBKEY_HASH"}'
         MESSAGE           | LightningApi.SendResponse.newInstance()      | "payment_route"      | createRoute().build()       | '{"payment_route":{"total_time_lock":0,"total_fees":543234,"total_amt":123,"hops":[]}}'
     }
 
@@ -130,7 +130,7 @@ class JsonGenUtilsSpec extends Specification {
         LONG              | LightningApi.Payment.newInstance()           | "fee"                | 1292817282L                 | '{"fee":1292817282}'
         BOOLEAN           | LightningApi.Invoice.newInstance()           | "settled"            | true                        | '{"settled":true}'
         BYTE_STRING       | LightningApi.Invoice.newInstance()           | "receipt"            | byteString                  | '{"receipt":"' + base64EncodedByteString + '"}'
-        ENUM              | LightningApi.NewAddressRequest.newInstance() | "type"               | PUBKEY_HASH                 | '{"type":"PUBKEY_HASH"}'
+        ENUM              | LightningApi.NewAddressRequest.newInstance() | "type"               | WITNESS_PUBKEY_HASH                 | '{"type":"WITNESS_PUBKEY_HASH"}'
         MESSAGE           | LightningApi.SendResponse.newInstance()      | "payment_route"      | createRoute().build()       | '{"payment_route":{"total_time_lock":0,"total_fees":543234,"total_amt":123}}'
 
     }

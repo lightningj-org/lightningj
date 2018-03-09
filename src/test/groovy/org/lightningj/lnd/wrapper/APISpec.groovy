@@ -106,7 +106,7 @@ class APISpec extends Specification {
         LightningApi.WalletBalanceRequest result = api.processRequest(walletBalanceRequest)
         then:
         result != null
-        1 * api.log.fine('Sending request message: WalletBalanceRequest: \n{\n    "witnessOnly": false\n}')
+        1 * api.log.fine('Sending request message: WalletBalanceRequest: \n{\n}')
     }
 
     def "Verify getter and setter for perform validation"(){
