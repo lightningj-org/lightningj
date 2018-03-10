@@ -51,7 +51,6 @@ public class LowLevelAPIExample {
 
         // Create a request object using messages in "org.lightningj.lnd.proto.LightningApi"
         LightningApi.WalletBalanceRequest.Builder walletBalanceRequest = LightningApi.WalletBalanceRequest.newBuilder();
-        walletBalanceRequest.setWitnessOnly(true);
         try{
             LightningApi.WalletBalanceResponse response = stub.walletBalance(walletBalanceRequest.build());
             System.out.println("Wallet Balance: " + response.getTotalBalance());

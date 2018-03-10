@@ -158,6 +158,11 @@ class ApiGenerator {
                 String fieldValueType = ClassNameUtils.toObject(mapTypes[1].type)
 
                 fieldJavaType = "Map<${fieldKeyType},${fieldValueType}>"
+            }else {
+                // if not map but repeated it is probably a list.
+                if (it.isRepeated()) {
+                    fieldJavaType = "List<${fieldJavaType}>"
+                }
             }
             parameters << "${fieldJavaType} ${fieldName}"
             if(it.optional) {
