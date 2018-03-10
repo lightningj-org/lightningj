@@ -38,7 +38,7 @@ public class JSONConvertExample {
 
         // To convert JSON request data to a wrapped request object (High level)
         // Do the following
-        String jsonData = "{\"target_peer_id\":1,\"node_pubkey\":\"\",\"node_pubkey_string\":\"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02\",\"local_funding_amount\":40000,\"push_sat\":25000,\"targetConf\":0,\"satPerByte\":0,\"private\":false,\"min_htlc_msat\":0}";
+        String jsonData = "{\"node_pubkey\":\"\",\"node_pubkey_string\":\"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02\",\"local_funding_amount\":40000,\"push_sat\":25000,\"targetConf\":0,\"satPerByte\":0,\"private\":false,\"min_htlc_msat\":0}";
 
         // The library uses the javax.json-api 1.0 (JSR 374) API to parse and generate JSON.
         // To parse a JSON String, start by creating a JsonReader

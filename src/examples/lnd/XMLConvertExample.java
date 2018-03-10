@@ -40,7 +40,7 @@ public class XMLConvertExample {
         // Retrieve XML Parser for a given XML version schema. (Currently "1.0")
         XMLParser xmlParser = xmlParserFactory.getXMLParser("1.0");
 
-        byte[] xmlRequestData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><OpenChannelRequest xmlns=\"http://lightningj.org/xsd/lndjapi_1_0\"><targetPeerId>1</targetPeerId><nodePubkey></nodePubkey><nodePubkeyString>02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02</nodePubkeyString><localFundingAmount>40000</localFundingAmount><pushSat>25000</pushSat><targetConf>0</targetConf><satPerByte>0</satPerByte><private>false</private><minHtlcMsat>0</minHtlcMsat></OpenChannelRequest>".getBytes("UTF-8");
+        byte[] xmlRequestData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><OpenChannelRequest xmlns=\"http://lightningj.org/xsd/lndjapi_1_0\"><nodePubkey></nodePubkey><nodePubkeyString>02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02</nodePubkeyString><localFundingAmount>40000</localFundingAmount><pushSat>25000</pushSat><targetConf>0</targetConf><satPerByte>0</satPerByte><private>false</private><minHtlcMsat>0</minHtlcMsat></OpenChannelRequest>".getBytes("UTF-8");
 
         // Convert to a wrapped high level message object.
         OpenChannelRequest openChannelRequest = (OpenChannelRequest) xmlParser.unmarshall(xmlRequestData);
