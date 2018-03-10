@@ -33,7 +33,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
-* 0.3-Beta : Z-Base32 encoder/decoder.
+* 0.3-Beta : Z-Base32 encoder/decoder, updated API to support new Wallet Seed generation.
 * 0.2-Beta : Added support for Macaroons authentication.
 * 0.1-Beta : This is the initial release with generated APIs (Synchronous and Asynchronous) for
 LND.
@@ -41,6 +41,8 @@ LND.
 === Roadmap
 
 * LND: Keep rpc.proto specification updated with latest LND release.
+
+* Grails Plugin: A easy to use grails plugin with an example web application.
 
 * Implement equivalent API for Lightning-c and or Eclair
 
@@ -151,7 +153,6 @@ ListPeersResponse listPeersResponse = synchronousLndAPI.listPeers();
 // To generate a request call, there are two ways to generate a request.
 // Either build up a request object like below:
 OpenChannelRequest openChannelRequest = new OpenChannelRequest();
-openChannelRequest.setTargetPeerId(1);
 openChannelRequest.setNodePubkeyString("02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02");
 openChannelRequest.setLocalFundingAmount(40000);
 openChannelRequest.setPushSat(25000);
@@ -196,7 +197,7 @@ AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001
 try {
     // Example of a simple asynchronous call.
     System.out.println("Sending WalletBalance request...");
-    asynchronousLndAPI.walletBalance(true, new StreamObserver<WalletBalanceResponse>() {
+    asynchronousLndAPI.walletBalance(new StreamObserver<WalletBalanceResponse>() {
 
         // Each response is sent in a onNext call.
         @Override
@@ -265,7 +266,7 @@ SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
 // To convert JSON request data to a wrapped request object (High level)
 // Do the following
-String jsonData = "{\"target_peer_id\":1,\"node_pubkey\":\"\",\"node_pubkey_string\":\"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02\",\"local_funding_amount\":40000,\"push_sat\":25000,\"targetConf\":0,\"satPerByte\":0,\"private\":false,\"min_htlc_msat\":0}";
+String jsonData = "{\"node_pubkey\":\"\",\"node_pubkey_string\":\"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02\",\"local_funding_amount\":40000,\"push_sat\":25000,\"targetConf\":0,\"satPerByte\":0,\"private\":false,\"min_htlc_msat\":0}";
 
 // The library uses the javax.json-api 1.0 (JSR 374) API to parse and generate JSON.
 // To parse a JSON String, start by creating a JsonReader
@@ -313,7 +314,7 @@ XMLParserFactory xmlParserFactory = new XMLParserFactory();
 // Retrieve XML Parser for a given XML version schema. (Currently "1.0")
 XMLParser xmlParser = xmlParserFactory.getXMLParser("1.0");
 
-byte[] xmlRequestData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><OpenChannelRequest xmlns=\"http://lightningj.org/xsd/lndjapi_1_0\"><targetPeerId>1</targetPeerId><nodePubkey></nodePubkey><nodePubkeyString>02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02</nodePubkeyString><localFundingAmount>40000</localFundingAmount><pushSat>25000</pushSat><targetConf>0</targetConf><satPerByte>0</satPerByte><private>false</private><minHtlcMsat>0</minHtlcMsat></OpenChannelRequest>".getBytes("UTF-8");
+byte[] xmlRequestData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><OpenChannelRequest xmlns=\"http://lightningj.org/xsd/lndjapi_1_0\"><nodePubkey></nodePubkey><nodePubkeyString>02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02</nodePubkeyString><localFundingAmount>40000</localFundingAmount><pushSat>25000</pushSat><targetConf>0</targetConf><satPerByte>0</satPerByte><private>false</private><minHtlcMsat>0</minHtlcMsat></OpenChannelRequest>".getBytes("UTF-8");
 
 // Convert to a wrapped high level message object.
 OpenChannelRequest openChannelRequest = (OpenChannelRequest) xmlParser.unmarshall(xmlRequestData);

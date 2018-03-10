@@ -22,6 +22,7 @@ import org.lightningj.lnd.wrapper.message.NewAddressRequest.AddressType;
 import javax.net.ssl.SSLException;
 import java.io.File;
 import java.util.Map;
+import java.util.List;
 
 /**
  * API Class for generating ${type} API calls to LDN server using wrapped objects.
