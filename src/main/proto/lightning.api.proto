@@ -1,9 +1,8 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * Downloaded 2018-03-09
+ * LND 0.4-Beta tag : Downloaded 2018-03-16
  */
-
 syntax = "proto3";
 
 import "google/api/annotations.proto";
