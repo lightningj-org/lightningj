@@ -232,7 +232,7 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
-// Use external gpg2 command to support signing by hardware keys (i.e. trezor) and sign only
+// Use external gpg2 command to support signing by hardware keys (i.e. SmartCard) and sign only
 // if build should be uploaded to Maven Central.
 signing {
     required { gradle.taskGraph.hasTask(uploadArchives) }
