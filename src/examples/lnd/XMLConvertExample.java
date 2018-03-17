@@ -60,7 +60,7 @@ public class XMLConvertExample {
             System.out.println("XML Response data: " + new String(responseData,"UTF-8"));
             // To get XML pretty printed
             byte[] responseDataPrettyPrinted = xmlParser.marshall(next,true);
-            System.out.println("Pretty Printed XML Response data: Œ" + new String(responseDataPrettyPrinted,"UTF-8"));
+            System.out.println("Pretty Printed XML Response data: " + new String(responseDataPrettyPrinted,"UTF-8"));
         }
     }
 }
