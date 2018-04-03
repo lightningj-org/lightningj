@@ -36,11 +36,12 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
-* 0.4-Beta : API generated from LDN rpc.proto for LND 0.4-Beta tag. Also check out
+* 0.4.1-Beta : Generated API from LND 0.4.1 Beta release.
+* 0.4-Beta   : API generated from LDN rpc.proto for LND 0.4-Beta tag. Also check out
 the new grails plugin as link:http://grails.lightningj.org[]
-* 0.3-Beta : Z-Base32 encoder/decoder, updated API to support new Wallet Seed generation.
-* 0.2-Beta : Added support for Macaroons authentication.
-* 0.1-Beta : This is the initial release with generated APIs (Synchronous and Asynchronous) for
+* 0.3-Beta   : Z-Base32 encoder/decoder, updated API to support new Wallet Seed generation.
+* 0.2-Beta   : Added support for Macaroons authentication.
+* 0.1-Beta   : This is the initial release with generated APIs (Synchronous and Asynchronous) for
 LND.
 
 === Roadmap
