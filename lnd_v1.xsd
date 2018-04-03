@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-  <xs:element name="ActiveChannel" type="ActiveChannelType"/>
-
   <xs:element name="AddInvoiceResponse" type="AddInvoiceResponseType"/>
 
   <xs:element name="ChanInfoRequest" type="ChanInfoRequestType"/>
+
+  <xs:element name="Channel" type="ChannelType"/>
 
   <xs:element name="ChannelBalanceRequest" type="ChannelBalanceRequestType"/>
 
@@ -452,7 +452,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="ActiveChannelType">
+  <xs:complexType name="ChannelType">
     <xs:sequence>
       <xs:element name="active" type="xs:boolean"/>
       <xs:element name="remotePubkey" type="xs:string" minOccurs="0"/>
@@ -476,11 +476,17 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="csvDelay" type="xs:int"/>
+      <xs:element name="private" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ListChannelsRequestType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="activeOnly" type="xs:boolean"/>
+      <xs:element name="inactiveOnly" type="xs:boolean"/>
+      <xs:element name="publicOnly" type="xs:boolean"/>
+      <xs:element name="privateOnly" type="xs:boolean"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ListChannelsResponseType">
@@ -488,7 +494,7 @@
       <xs:element name="channels" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
-            <xs:element ref="ActiveChannel" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="Channel" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -612,6 +618,7 @@
       <xs:element name="satPerByte" type="xs:long"/>
       <xs:element name="private" type="xs:boolean"/>
       <xs:element name="minHtlcMsat" type="xs:long"/>
+      <xs:element name="remoteCsvDelay" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
