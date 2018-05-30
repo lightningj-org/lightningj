@@ -53,7 +53,7 @@ class JsonGenUtilsSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder1 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         JsonObjectBuilder jsonObjectBuilder2 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         expect:
-        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345}'
+        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false}'
         JsonGenUtils.jsonToString(jsonObjectBuilder2,true) == """
 {
     "memo": "SomeMemo",
@@ -68,7 +68,10 @@ class JsonGenUtilsSpec extends Specification {
     "description_hash": "VGVzdA==",
     "expiry": 5432343,
     "fallback_addr": "",
-    "cltv_expiry": 12345
+    "cltv_expiry": 12345,
+    "route_hints": [
+    ],
+    "private": false
 }"""
     }
 
@@ -101,7 +104,7 @@ class JsonGenUtilsSpec extends Specification {
         BOOLEAN           | LightningApi.Invoice.newInstance()           | "settled"            | true                        | '{"settled":true}'
         BYTE_STRING       | LightningApi.Invoice.newInstance()           | "receipt"            | byteString                  | '{"receipt":"' + base64EncodedByteString + '"}'
         ENUM              | LightningApi.NewAddressRequest.newInstance() | "type"               | WITNESS_PUBKEY_HASH                 | '{"type":"WITNESS_PUBKEY_HASH"}'
-        MESSAGE           | LightningApi.SendResponse.newInstance()      | "payment_route"      | createRoute().build()       | '{"payment_route":{"total_time_lock":0,"total_fees":543234,"total_amt":123,"hops":[]}}'
+        MESSAGE           | LightningApi.SendResponse.newInstance()      | "payment_route"      | createRoute().build()       | '{"payment_route":{"total_time_lock":0,"total_fees":543234,"total_amt":123,"hops":[],"total_fees_msat":0,"total_amt_msat":0}}'
     }
 
     @Unroll
@@ -151,7 +154,7 @@ class JsonGenUtilsSpec extends Specification {
         where:
         javaType          | instance                                       | field                | values                                                     | jsonData
         STRING            | LightningApi.GetInfoResponse.newInstance()     | "chains"             | ["SomeString1","SomeString2"]                              | '{"chains":["SomeString1","SomeString2"]}'
-        MESSAGE           | LightningApi.QueryRoutesResponse.newInstance() | "routes"             | [createRoute().build(),createRoute(321L).build()] | '{"routes":[{"total_time_lock":0,"total_fees":543234,"total_amt":123,"hops":[]},{"total_time_lock":0,"total_fees":543234,"total_amt":321,"hops":[]}]}'
+        MESSAGE           | LightningApi.QueryRoutesResponse.newInstance() | "routes"             | [createRoute().build(),createRoute(321L).build()] | '{"routes":[{"total_time_lock":0,"total_fees":543234,"total_amt":123,"hops":[],"total_fees_msat":0,"total_amt_msat":0},{"total_time_lock":0,"total_fees":543234,"total_amt":321,"hops":[],"total_fees_msat":0,"total_amt_msat":0}]}'
     }
 
     @Unroll
@@ -211,7 +214,7 @@ class JsonGenUtilsSpec extends Specification {
         when:
         JsonObjectBuilder result = JsonGenUtils.messageToJson(createInvoice(),LightningApi.Invoice.descriptor)
         then:
-        result.build().toString() == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345}'
+        result.build().toString() == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false}'
     }
 
     def "Verify that jsonToMessage converts json to a message fields that contain single values"(){

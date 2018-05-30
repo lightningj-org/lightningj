@@ -36,6 +36,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.4.2-Beta : Generated API from LND 0.4.2 Beta release.
 * 0.4.1-Beta : Generated API from LND 0.4.1 Beta release.
 * 0.4-Beta   : API generated from LDN rpc.proto for LND 0.4-Beta tag. Also check out
 the new grails plugin as link:http://grails.lightningj.org[]
