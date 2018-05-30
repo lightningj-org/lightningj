@@ -162,7 +162,7 @@ class XMLParserSpec extends Specification {
     }
 
 
-    def invoiceXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ListInvoiceResponse xmlns="http://lightningj.org/xsd/lndjapi_1_0"><invoices><Invoice><memo>memo1</memo><receipt>U29tZVJlY2VpcHQ=</receipt><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry></Invoice><Invoice><memo>memo2</memo><receipt>U29tZVJlY2VpcHQ=</receipt><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry></Invoice><Invoice><memo>memo3</memo><receipt>U29tZVJlY2VpcHQ=</receipt><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry></Invoice></invoices></ListInvoiceResponse>"""
+    def invoiceXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ListInvoiceResponse xmlns="http://lightningj.org/xsd/lndjapi_1_0"><invoices><Invoice><memo>memo1</memo><receipt>U29tZVJlY2VpcHQ=</receipt><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private></Invoice><Invoice><memo>memo2</memo><receipt>U29tZVJlY2VpcHQ=</receipt><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private></Invoice><Invoice><memo>memo3</memo><receipt>U29tZVJlY2VpcHQ=</receipt><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private></Invoice></invoices></ListInvoiceResponse>"""
 
     def prettyPrintedInvoiceXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ListInvoiceResponse xmlns="http://lightningj.org/xsd/lndjapi_1_0">
@@ -181,6 +181,8 @@ class XMLParserSpec extends Specification {
             <expiry>0</expiry>
             <fallbackAddr></fallbackAddr>
             <cltvExpiry>0</cltvExpiry>
+            <route_hints/>
+            <private>false</private>
         </Invoice>
         <Invoice>
             <memo>memo2</memo>
@@ -196,6 +198,8 @@ class XMLParserSpec extends Specification {
             <expiry>0</expiry>
             <fallbackAddr></fallbackAddr>
             <cltvExpiry>0</cltvExpiry>
+            <route_hints/>
+            <private>false</private>
         </Invoice>
         <Invoice>
             <memo>memo3</memo>
@@ -211,6 +215,8 @@ class XMLParserSpec extends Specification {
             <expiry>0</expiry>
             <fallbackAddr></fallbackAddr>
             <cltvExpiry>0</cltvExpiry>
+            <route_hints/>
+            <private>false</private>
         </Invoice>
     </invoices>
 </ListInvoiceResponse>
