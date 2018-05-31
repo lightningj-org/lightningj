@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class org.lightningj.util.ZBase32Spec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class org.lightningj.util.ZBase32Spec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/org.lightningj.util.html">org.lightningj.util</a> &gt; ZBase32Spec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">53</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.031s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">Double check with other zbase32 examples from other implementations.</td>
+<td>0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded  to data 0x with 0 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 4t7ye to data 0xd47a04 with 24 bits.</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 4t7ye to data 0xd47a04 without specifying bits.</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 6im54d to data 0xf557bd0c with 30 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 6n9hq to data 0xf0bfc7 with 24 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 6n9hq to data 0xf0bfc7 without specifying bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 99999999 to data 0xffffffffff with 40 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 99999999 to data 0xffffffffff without specifying bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 999999999h to data 0xffffffffffff with 48 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 999999999h to data 0xffffffffffff without specifying bits.</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 99o to data 0xffe0 with 11 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 9h to data 0xff with 8 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded 9h to data 0xff without specifying bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded a to data 0xc0 with 2 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded ab3sr1ix8fhfnuzaeo75fkn3a7xh8udk6jsiiko to data 0xc073624aaf3978514ef8443bb2a859c75fc3cc6af26d5aaa with 192 bits.</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded ab3sr1ix8fhfnuzaeo75fkn3a7xh8udk6jsiiko to data 0xc073624aaf3978514ef8443bb2a859c75fc3cc6af26d5aaa without specifying bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded e to data 0x40 with 2 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded gtpy to data 0x345a without specifying bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded nyet to data 0x101110 with 20 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded nyety to data 0x101110 with 24 bits.</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded o to data 0x80 with 1 bits.</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded on to data 0x8080 with 10 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded sw to data 0xb5 without specifying bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded tqre to data 0x8b8880 with 20 bits.</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded y to data 0x00 with 1 bits.</td>
+<td>0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that decoding z-base32 encoded yy to data 0x0000 with 10 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encode of 345a without specifying bits encodes into gtpy</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encode of b5 without specifying bits encodes into sw</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encode of c073624aaf3978514ef8443bb2a859c75fc3cc6af26d5aaa without specifying bits encodes into ab3sr1ix8fhfnuzaeo75fkn3a7xh8udk6jsiiko</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encode of d47a04 without specifying bits encodes into 4t7ye</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encode of f0bfc7 without specifying bits encodes into 6n9hq</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encode of ff without specifying bits encodes into 9h</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encode of ffffffffff without specifying bits encodes into 99999999</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encode of ffffffffffff without specifying bits encodes into 999999999h</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x with 0 bits results in z-base32 encoding </td>
+<td>0.014s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x00 with 1 bits results in z-base32 encoding y</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x0000 with 10 bits results in z-base32 encoding yy</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x101110 with 20 bits results in z-base32 encoding nyet</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x101110 with 24 bits results in z-base32 encoding nyety</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x40 with 2 bits results in z-base32 encoding e</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x80 with 1 bits results in z-base32 encoding o</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x8080 with 10 bits results in z-base32 encoding on</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x8b8880 with 20 bits results in z-base32 encoding tqre</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0xc0 with 2 bits results in z-base32 encoding a</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0xc073624aaf3978514ef8443bb2a859c75fc3cc6af26d5aaa with 192 bits results in z-base32 encoding ab3sr1ix8fhfnuzaeo75fkn3a7xh8udk6jsiiko</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0xd47a04 with 24 bits results in z-base32 encoding 4t7ye</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0xf0bfc7 with 24 bits results in z-base32 encoding 6n9hq</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0xf557bd0c with 30 bits results in z-base32 encoding 6im54d</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0xff with 8 bits results in z-base32 encoding 9h</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0xffe0 with 11 bits results in z-base32 encoding 99o</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0xffffffffff with 40 bits results in z-base32 encoding 99999999</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0xffffffffffff with 48 bits results in z-base32 encoding 999999999h</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 4.5</a> at May 31, 2018 6:57:25 AM</p>
+</div>
+</div>
+</body>
+</html>
