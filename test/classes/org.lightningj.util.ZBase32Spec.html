@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.031s</div>
+<div class="counter">0.036s</div>
 <p>duration</p>
 </div>
 </td>
@@ -76,22 +76,22 @@
 </thead>
 <tr>
 <td class="success">Double check with other zbase32 examples from other implementations.</td>
-<td>0.003s</td>
+<td>0.005s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that decoding z-base32 encoded  to data 0x with 0 bits.</td>
-<td>0s</td>
+<td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that decoding z-base32 encoded 4t7ye to data 0xd47a04 with 24 bits.</td>
-<td>0.001s</td>
+<td>0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that decoding z-base32 encoded 4t7ye to data 0xd47a04 without specifying bits.</td>
-<td>0.001s</td>
+<td>0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -101,7 +101,7 @@
 </tr>
 <tr>
 <td class="success">Verify that decoding z-base32 encoded 6n9hq to data 0xf0bfc7 with 24 bits.</td>
-<td>0s</td>
+<td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -116,7 +116,7 @@
 </tr>
 <tr>
 <td class="success">Verify that decoding z-base32 encoded 99999999 to data 0xffffffffff without specifying bits.</td>
-<td>0s</td>
+<td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -126,7 +126,7 @@
 </tr>
 <tr>
 <td class="success">Verify that decoding z-base32 encoded 999999999h to data 0xffffffffffff without specifying bits.</td>
-<td>0.001s</td>
+<td>0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -156,7 +156,7 @@
 </tr>
 <tr>
 <td class="success">Verify that decoding z-base32 encoded ab3sr1ix8fhfnuzaeo75fkn3a7xh8udk6jsiiko to data 0xc073624aaf3978514ef8443bb2a859c75fc3cc6af26d5aaa without specifying bits.</td>
-<td>0s</td>
+<td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -176,7 +176,7 @@
 </tr>
 <tr>
 <td class="success">Verify that decoding z-base32 encoded nyety to data 0x101110 with 24 bits.</td>
-<td>0.001s</td>
+<td>0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -191,17 +191,17 @@
 </tr>
 <tr>
 <td class="success">Verify that decoding z-base32 encoded sw to data 0xb5 without specifying bits.</td>
-<td>0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">Verify that decoding z-base32 encoded tqre to data 0x8b8880 with 20 bits.</td>
 <td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">Verify that decoding z-base32 encoded tqre to data 0x8b8880 with 20 bits.</td>
+<td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">Verify that decoding z-base32 encoded y to data 0x00 with 1 bits.</td>
-<td>0.002s</td>
+<td>0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -216,12 +216,12 @@
 </tr>
 <tr>
 <td class="success">Verify that encode of b5 without specifying bits encodes into sw</td>
-<td>0.001s</td>
+<td>0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that encode of c073624aaf3978514ef8443bb2a859c75fc3cc6af26d5aaa without specifying bits encodes into ab3sr1ix8fhfnuzaeo75fkn3a7xh8udk6jsiiko</td>
-<td>0s</td>
+<td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -231,7 +231,7 @@
 </tr>
 <tr>
 <td class="success">Verify that encode of f0bfc7 without specifying bits encodes into 6n9hq</td>
-<td>0.001s</td>
+<td>0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -241,7 +241,7 @@
 </tr>
 <tr>
 <td class="success">Verify that encode of ffffffffff without specifying bits encodes into 99999999</td>
-<td>0s</td>
+<td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -256,7 +256,7 @@
 </tr>
 <tr>
 <td class="success">Verify that encoding 0x00 with 1 bits results in z-base32 encoding y</td>
-<td>0s</td>
+<td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -266,17 +266,17 @@
 </tr>
 <tr>
 <td class="success">Verify that encoding 0x101110 with 20 bits results in z-base32 encoding nyet</td>
-<td>0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">Verify that encoding 0x101110 with 24 bits results in z-base32 encoding nyety</td>
 <td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">Verify that encoding 0x40 with 2 bits results in z-base32 encoding e</td>
+<td class="success">Verify that encoding 0x101110 with 24 bits results in z-base32 encoding nyety</td>
 <td>0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that encoding 0x40 with 2 bits results in z-base32 encoding e</td>
+<td>0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -296,12 +296,12 @@
 </tr>
 <tr>
 <td class="success">Verify that encoding 0xc0 with 2 bits results in z-base32 encoding a</td>
-<td>0.001s</td>
+<td>0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that encoding 0xc073624aaf3978514ef8443bb2a859c75fc3cc6af26d5aaa with 192 bits results in z-base32 encoding ab3sr1ix8fhfnuzaeo75fkn3a7xh8udk6jsiiko</td>
-<td>0.001s</td>
+<td>0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -349,7 +349,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 4.5</a> at May 31, 2018 6:57:25 AM</p>
+<a href="http://www.gradle.org">Gradle 4.5</a> at Jun 13, 2018 5:25:40 PM</p>
 </div>
 </div>
 </body>
