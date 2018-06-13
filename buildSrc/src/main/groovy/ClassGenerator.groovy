@@ -347,15 +347,19 @@ class ClassGenerator {
                         repeatableFields += """
 
         ((LightningApi.${className}.Builder) builder).clear${fieldJavaName}();
-        for(${fieldJavaType} next : ${fieldName}){
-          ((LightningApi.${className}.Builder) builder).add${fieldJavaName}(next.getApiObject());
+        if(${fieldName} != null){
+          for(${fieldJavaType} next : ${fieldName}){
+            ((LightningApi.${className}.Builder) builder).add${fieldJavaName}(next.getApiObject());
+          }
         }"""
                     } else {
                         repeatableFields += """
 
         ((LightningApi.${className}.Builder) builder).clear${fieldJavaName}();
-        for(${fieldJavaType} next : ${fieldName}){
-          ((LightningApi.${className}.Builder) builder).add${fieldJavaName}(next);
+        if(${fieldName} != null){
+          for(${fieldJavaType} next : ${fieldName}){
+            ((LightningApi.${className}.Builder) builder).add${fieldJavaName}(next);
+          }
         }"""
                     }
 
@@ -364,8 +368,10 @@ class ClassGenerator {
                     repeatableFields += """
 
         ((LightningApi.${className}.Builder) builder).clear${fieldJavaName}();
-        for(${fieldJavaType} entry : ${fieldName}Entries.getEntry()){
-          ((LightningApi.${className}.Builder) builder).put${fieldJavaName}(entry.getKey(),entry.getValue());
+        if(${fieldName}Entries != null){
+          for(${fieldJavaType} entry : ${fieldName}Entries.getEntry()){
+            ((LightningApi.${className}.Builder) builder).put${fieldJavaName}(entry.getKey(),entry.getValue());
+          }
         }"""
                 }
             }
