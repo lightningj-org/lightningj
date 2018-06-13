@@ -18,7 +18,9 @@ More information and source code can be found on the link:https://github.com/lig
 There it is possible to report issues and contribute code.
 
 If you are developing using the grails framework there is also a Grails 3.3+ plugin at
-link:http://grails.lightningj.org[]
+link:https://grails.lightningj.org[]
+
+If you want updates on this project, follow https://twitter.com/LightningJ_org on twitter.
 
 _Important_: This API is still in beta and API methods might change before real production release. +
 *All use of this library is on your own risk.*
@@ -36,13 +38,14 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
-* 0.4.2-Beta : Generated API from LND 0.4.2 Beta release.
-* 0.4.1-Beta : Generated API from LND 0.4.1 Beta release.
-* 0.4-Beta   : API generated from LDN rpc.proto for LND 0.4-Beta tag. Also check out
-the new grails plugin as link:http://grails.lightningj.org[]
-* 0.3-Beta   : Z-Base32 encoder/decoder, updated API to support new Wallet Seed generation.
-* 0.2-Beta   : Added support for Macaroons authentication.
-* 0.1-Beta   : This is the initial release with generated APIs (Synchronous and Asynchronous) for
+* 0.4.2-Beta-2 : Bugfix for null pointer problem generating invoices and other messages containing unset repeatable fields.
+* 0.4.2-Beta   : Generated API from LND 0.4.2 Beta release.
+* 0.4.1-Beta   : Generated API from LND 0.4.1 Beta release.
+* 0.4-Beta     : API generated from LDN rpc.proto for LND 0.4-Beta tag. Also check out
+the new grails plugin as link:https://grails.lightningj.org[]
+* 0.3-Beta     : Z-Base32 encoder/decoder, updated API to support new Wallet Seed generation.
+* 0.2-Beta     : Added support for Macaroons authentication.
+* 0.1-Beta     : This is the initial release with generated APIs (Synchronous and Asynchronous) for
 LND.
 
 === Roadmap
