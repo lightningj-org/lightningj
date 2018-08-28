@@ -38,21 +38,20 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
-* 0.4.2-Beta-2 : Bugfix for null pointer problem generating invoices and other messages containing unset repeatable fields.
-* 0.4.2-Beta   : Generated API from LND 0.4.2 Beta release.
-* 0.4.1-Beta   : Generated API from LND 0.4.1 Beta release.
-* 0.4-Beta     : API generated from LDN rpc.proto for LND 0.4-Beta tag. Also check out
+* 0.5.0-Beta-rc1 : Generated API from LND 0.5.0 Beta RC1 release.
+* 0.4.2-Beta-2   : Bugfix for null pointer problem generating invoices and other messages containing unset repeatable fields.
+* 0.4.2-Beta     : Generated API from LND 0.4.2 Beta release.
+* 0.4.1-Beta     : Generated API from LND 0.4.1 Beta release.
+* 0.4-Beta       : API generated from LDN rpc.proto for LND 0.4-Beta tag. Also check out
 the new grails plugin as link:https://grails.lightningj.org[]
-* 0.3-Beta     : Z-Base32 encoder/decoder, updated API to support new Wallet Seed generation.
-* 0.2-Beta     : Added support for Macaroons authentication.
-* 0.1-Beta     : This is the initial release with generated APIs (Synchronous and Asynchronous) for
+* 0.3-Beta       : Z-Base32 encoder/decoder, updated API to support new Wallet Seed generation.
+* 0.2-Beta       : Added support for Macaroons authentication.
+* 0.1-Beta       : This is the initial release with generated APIs (Synchronous and Asynchronous) for
 LND.
 
 === Roadmap
 
 * LND: Keep rpc.proto specification updated with latest LND release.
-
-* Grails Plugin: A easy to use grails plugin with an example web application.
 
 * Implement equivalent API for Lightning-c and or Eclair
 
