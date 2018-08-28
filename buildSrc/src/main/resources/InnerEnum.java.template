@@ -10,7 +10,7 @@
 ${enumValues}
 
         private LightningApi.${className}.${enumName} apiObject;
-        AddressType(LightningApi.${className}.${enumName} apiObject){
+        ${enumName}(LightningApi.${className}.${enumName} apiObject){
             this.apiObject = apiObject;
         }
         public LightningApi.${className}.${enumName} getApiObject(){

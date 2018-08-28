@@ -53,7 +53,7 @@ class JsonGenUtilsSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder1 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         JsonObjectBuilder jsonObjectBuilder2 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         expect:
-        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false}'
+        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0}'
         JsonGenUtils.jsonToString(jsonObjectBuilder2,true) == """
 {
     "memo": "SomeMemo",
@@ -71,7 +71,10 @@ class JsonGenUtilsSpec extends Specification {
     "cltv_expiry": 12345,
     "route_hints": [
     ],
-    "private": false
+    "private": false,
+    "add_index": 0,
+    "settle_index": 0,
+    "amt_paid": 0
 }"""
     }
 
@@ -214,7 +217,7 @@ class JsonGenUtilsSpec extends Specification {
         when:
         JsonObjectBuilder result = JsonGenUtils.messageToJson(createInvoice(),LightningApi.Invoice.descriptor)
         then:
-        result.build().toString() == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false}'
+        result.build().toString() == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0}'
     }
 
     def "Verify that jsonToMessage converts json to a message fields that contain single values"(){
