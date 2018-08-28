@@ -66,7 +66,7 @@ public class AsynchronousLndAPIExample {
             // To recieve invoices you can use the lncli to send payment of an invoice to your LND node.
             // and it will show up here.
             System.out.println("Subscribing to invoices call...");
-            asynchronousLndAPI.subscribeInvoices(new StreamObserver<Invoice>() {
+            asynchronousLndAPI.subscribeInvoices(null,null,new StreamObserver<Invoice>() {
                 @Override
                 public void onNext(Invoice value) {
                     System.out.println("Received Invoice: " + value.toJsonAsString(true));
