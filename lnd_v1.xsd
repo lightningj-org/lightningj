@@ -5,11 +5,17 @@
 
   <xs:element name="ChanInfoRequest" type="ChanInfoRequestType"/>
 
+  <xs:element name="ChangePasswordRequest" type="ChangePasswordRequestType"/>
+
+  <xs:element name="ChangePasswordResponse" type="ChangePasswordResponseType"/>
+
   <xs:element name="Channel" type="ChannelType"/>
 
   <xs:element name="ChannelBalanceRequest" type="ChannelBalanceRequestType"/>
 
   <xs:element name="ChannelBalanceResponse" type="ChannelBalanceResponseType"/>
+
+  <xs:element name="ChannelCloseSummary" type="ChannelCloseSummaryType"/>
 
   <xs:element name="ChannelCloseUpdate" type="ChannelCloseUpdateType"/>
 
@@ -33,6 +39,10 @@
 
   <xs:element name="ClosedChannelUpdate" type="ClosedChannelUpdateType"/>
 
+  <xs:element name="ClosedChannelsRequest" type="ClosedChannelsRequestType"/>
+
+  <xs:element name="ClosedChannelsResponse" type="ClosedChannelsResponseType"/>
+
   <xs:element name="ConfirmationUpdate" type="ConfirmationUpdateType"/>
 
   <xs:element name="ConnectPeerRequest" type="ConnectPeerRequestType"/>
@@ -50,6 +60,8 @@
   <xs:element name="DisconnectPeerRequest" type="DisconnectPeerRequestType"/>
 
   <xs:element name="DisconnectPeerResponse" type="DisconnectPeerResponseType"/>
+
+  <xs:element name="FeeLimit" type="FeeLimitType"/>
 
   <xs:element name="FeeReportRequest" type="FeeReportRequestType"/>
 
@@ -175,6 +187,8 @@
 
   <xs:element name="SendResponse" type="SendResponseType"/>
 
+  <xs:element name="SendToRouteRequest" type="SendToRouteRequestType"/>
+
   <xs:element name="SignMessageRequest" type="SignMessageRequestType"/>
 
   <xs:element name="SignMessageResponse" type="SignMessageResponseType"/>
@@ -249,6 +263,17 @@
     <xs:all/>
   </xs:complexType>
 
+  <xs:complexType name="ChangePasswordRequestType">
+    <xs:sequence>
+      <xs:element name="currentPassword" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="newPassword" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangePasswordResponseType">
+    <xs:all/>
+  </xs:complexType>
+
   <xs:complexType name="TransactionType">
     <xs:sequence>
       <xs:element name="txHash" type="xs:string" minOccurs="0"/>
@@ -284,6 +309,13 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="FeeLimitType">
+    <xs:sequence>
+      <xs:element name="fixed" type="xs:long"/>
+      <xs:element name="percent" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="SendRequestType">
     <xs:sequence>
       <xs:element name="dest" type="xs:base64Binary" minOccurs="0"/>
@@ -293,6 +325,7 @@
       <xs:element name="paymentHashString" type="xs:string" minOccurs="0"/>
       <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
       <xs:element name="finalCltvDelta" type="xs:int"/>
+      <xs:element name="feeLimit" type="FeeLimitType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -330,6 +363,20 @@
       <xs:element name="expiry" type="xs:int"/>
       <xs:element name="amtToForwardMsat" type="xs:long"/>
       <xs:element name="feeMsat" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendToRouteRequestType">
+    <xs:sequence>
+      <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="paymentHashString" type="xs:string" minOccurs="0"/>
+      <xs:element name="routes" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Route" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -511,6 +558,43 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ChannelCloseSummaryType">
+    <xs:sequence>
+      <xs:element name="channelPoint" type="xs:string" minOccurs="0"/>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="chainHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="closingTxHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="remotePubkey" type="xs:string" minOccurs="0"/>
+      <xs:element name="capacity" type="xs:long"/>
+      <xs:element name="closeHeight" type="xs:int"/>
+      <xs:element name="settledBalance" type="xs:long"/>
+      <xs:element name="timeLockedBalance" type="xs:long"/>
+      <xs:element name="closeType" type="closureType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ClosedChannelsRequestType">
+    <xs:sequence>
+      <xs:element name="cooperative" type="xs:boolean"/>
+      <xs:element name="localForce" type="xs:boolean"/>
+      <xs:element name="remoteForce" type="xs:boolean"/>
+      <xs:element name="breach" type="xs:boolean"/>
+      <xs:element name="fundingCanceled" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ClosedChannelsResponseType">
+    <xs:sequence>
+      <xs:element name="channels" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ChannelCloseSummary" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="PeerType">
     <xs:sequence>
       <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
@@ -630,6 +714,7 @@
       <xs:element name="private" type="xs:boolean"/>
       <xs:element name="minHtlcMsat" type="xs:long"/>
       <xs:element name="remoteCsvDelay" type="xs:int"/>
+      <xs:element name="minConfs" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -770,6 +855,8 @@
       <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
       <xs:element name="amt" type="xs:long"/>
       <xs:element name="numRoutes" type="xs:int"/>
+      <xs:element name="finalCltvDelta" type="xs:int"/>
+      <xs:element name="feeLimit" type="FeeLimitType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -828,6 +915,7 @@
       <xs:element name="minHtlc" type="xs:long"/>
       <xs:element name="feeBaseMsat" type="xs:long"/>
       <xs:element name="feeRateMilliMsat" type="xs:long"/>
+      <xs:element name="disabled" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1009,6 +1097,9 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="private" type="xs:boolean"/>
+      <xs:element name="addIndex" type="xs:long"/>
+      <xs:element name="settleIndex" type="xs:long"/>
+      <xs:element name="amtPaid" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1016,6 +1107,7 @@
     <xs:sequence>
       <xs:element name="RHash" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
+      <xs:element name="addIndex" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1029,6 +1121,8 @@
   <xs:complexType name="ListInvoiceRequestType">
     <xs:sequence>
       <xs:element name="pendingOnly" type="xs:boolean"/>
+      <xs:element name="indexOffset" type="xs:int"/>
+      <xs:element name="numMaxInvoices" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1041,11 +1135,15 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="lastIndexOffset" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="InvoiceSubscriptionType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="addIndex" type="xs:long"/>
+      <xs:element name="settleIndex" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="PaymentType">
@@ -1208,6 +1306,16 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="WITNESS_PUBKEY_HASH"/>
       <xs:enumeration value="NESTED_PUBKEY_HASH"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="closureType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="COOPERATIVE_CLOSE"/>
+      <xs:enumeration value="LOCAL_FORCE_CLOSE"/>
+      <xs:enumeration value="REMOTE_FORCE_CLOSE"/>
+      <xs:enumeration value="BREACH_CLOSE"/>
+      <xs:enumeration value="FUNDING_CANCELED"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>
