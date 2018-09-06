@@ -1,9 +1,8 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND 0.5.0-beta-rc1 tag : Downloaded 2018-08-28
+ * LND 0.5.0-beta-rc2 tag : Downloaded 2018-09-06
  */
-
 syntax = "proto3";
 
 import "google/api/annotations.proto";
@@ -11,6 +10,7 @@ import "google/api/annotations.proto";
 package lnrpc;
 
 option java_package = "org.lightningj.lnd.proto";
+
 /**
  * Comments in this file will be directly parsed into the API
  * Documentation as descriptions of the associated method, message, or field.
@@ -30,7 +30,7 @@ option java_package = "org.lightningj.lnd.proto";
  *
  * More information on how exactly the gRPC documentation is generated from
  * this proto file can be found here:
- * https://github.com/MaxFangX/lightning-api
+ * https://github.com/lightninglabs/lightning-api
  */
 
 // The WalletUnlocker service is used to set up a wallet password for
