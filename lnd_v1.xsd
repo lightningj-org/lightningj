@@ -1100,6 +1100,8 @@
       <xs:element name="addIndex" type="xs:long"/>
       <xs:element name="settleIndex" type="xs:long"/>
       <xs:element name="amtPaid" type="xs:long"/>
+      <xs:element name="amtPaidSat" type="xs:long"/>
+      <xs:element name="amtPaidMsat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1121,8 +1123,9 @@
   <xs:complexType name="ListInvoiceRequestType">
     <xs:sequence>
       <xs:element name="pendingOnly" type="xs:boolean"/>
-      <xs:element name="indexOffset" type="xs:int"/>
-      <xs:element name="numMaxInvoices" type="xs:int"/>
+      <xs:element name="indexOffset" type="xs:long"/>
+      <xs:element name="numMaxInvoices" type="xs:long"/>
+      <xs:element name="reversed" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1135,7 +1138,8 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="lastIndexOffset" type="xs:int"/>
+      <xs:element name="lastIndexOffset" type="xs:long"/>
+      <xs:element name="firstIndexOffset" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
