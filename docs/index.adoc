@@ -38,6 +38,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.5.1-Beta-rc2 : Generated API from LND 0.5.1 Beta RC2 release.
 * 0.5.0-Beta     : Generated API from LND 0.5.0 Beta release.
 * 0.5.0-Beta-rc2 : Generated API from LND 0.5.0 Beta RC2 release.
 * 0.5.0-Beta-rc1 : Generated API from LND 0.5.0 Beta RC1 release.
