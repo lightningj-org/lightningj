@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+  <xs:element name="AbandonChannelRequest" type="AbandonChannelRequestType"/>
+
+  <xs:element name="AbandonChannelResponse" type="AbandonChannelResponseType"/>
+
   <xs:element name="AddInvoiceResponse" type="AddInvoiceResponseType"/>
 
   <xs:element name="ChanInfoRequest" type="ChanInfoRequestType"/>
@@ -128,8 +132,6 @@
   <xs:element name="NewAddressRequest" type="NewAddressRequestType"/>
 
   <xs:element name="NewAddressResponse" type="NewAddressResponseType"/>
-
-  <xs:element name="NewWitnessAddressRequest" type="NewWitnessAddressRequestType"/>
 
   <xs:element name="NodeAddress" type="NodeAddressType"/>
 
@@ -363,6 +365,7 @@
       <xs:element name="expiry" type="xs:int"/>
       <xs:element name="amtToForwardMsat" type="xs:long"/>
       <xs:element name="feeMsat" type="xs:long"/>
+      <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -441,10 +444,6 @@
     <xs:sequence>
       <xs:element name="type" type="addressType" minOccurs="0"/>
     </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="NewWitnessAddressRequestType">
-    <xs:all/>
   </xs:complexType>
 
   <xs:complexType name="NewAddressResponseType">
@@ -580,6 +579,7 @@
       <xs:element name="remoteForce" type="xs:boolean"/>
       <xs:element name="breach" type="xs:boolean"/>
       <xs:element name="fundingCanceled" type="xs:boolean"/>
+      <xs:element name="abandoned" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -655,6 +655,7 @@
       </xs:element>
       <xs:element name="bestHeaderTimestamp" type="xs:long"/>
       <xs:element name="version" type="xs:string" minOccurs="0"/>
+      <xs:element name="numInactiveChannels" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -715,6 +716,7 @@
       <xs:element name="minHtlcMsat" type="xs:long"/>
       <xs:element name="remoteCsvDelay" type="xs:int"/>
       <xs:element name="minConfs" type="xs:int"/>
+      <xs:element name="spendUnconfirmed" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -933,7 +935,9 @@
   </xs:complexType>
 
   <xs:complexType name="ChannelGraphRequestType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="includeUnannounced" type="xs:boolean"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ChannelGraphType">
@@ -1164,6 +1168,8 @@
       </xs:element>
       <xs:element name="fee" type="xs:long"/>
       <xs:element name="paymentPreimage" type="xs:string" minOccurs="0"/>
+      <xs:element name="valueSat" type="xs:long"/>
+      <xs:element name="valueMsat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1188,6 +1194,16 @@
   </xs:complexType>
 
   <xs:complexType name="DeleteAllPaymentsResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="AbandonChannelRequestType">
+    <xs:sequence>
+      <xs:element name="channelPoint" type="ChannelPointType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AbandonChannelResponseType">
     <xs:all/>
   </xs:complexType>
 
@@ -1320,6 +1336,7 @@
       <xs:enumeration value="REMOTE_FORCE_CLOSE"/>
       <xs:enumeration value="BREACH_CLOSE"/>
       <xs:enumeration value="FUNDING_CANCELED"/>
+      <xs:enumeration value="ABANDONED"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>
