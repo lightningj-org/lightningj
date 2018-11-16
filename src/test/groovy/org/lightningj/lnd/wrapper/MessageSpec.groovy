@@ -59,7 +59,7 @@ class MessageSpec extends Specification {
 
     def "Verify that toJsonAsString returns json in string format"(){
         expect:
-        genOpenChannelRequest().toJsonAsString(false) == '{"node_pubkey":"","node_pubkey_string":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","local_funding_amount":40000,"push_sat":25000,"targetConf":0,"satPerByte":0,"private":false,"min_htlc_msat":0,"remote_csv_delay":0,"min_confs":0}'
+        genOpenChannelRequest().toJsonAsString(false) == '{"node_pubkey":"","node_pubkey_string":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","local_funding_amount":40000,"push_sat":25000,"targetConf":0,"satPerByte":0,"private":false,"min_htlc_msat":0,"remote_csv_delay":0,"min_confs":0,"spend_unconfirmed":false}'
         genOpenChannelRequest().toJsonAsString(true) == """
 {
     "node_pubkey": "",
@@ -71,7 +71,8 @@ class MessageSpec extends Specification {
     "private": false,
     "min_htlc_msat": 0,
     "remote_csv_delay": 0,
-    "min_confs": 0
+    "min_confs": 0,
+    "spend_unconfirmed": false
 }"""
     }
 
@@ -102,7 +103,8 @@ class MessageSpec extends Specification {
     "private": false,
     "min_htlc_msat": 0,
     "remote_csv_delay": 0,
-    "min_confs": 0
+    "min_confs": 0,
+    "spend_unconfirmed": false
 }"""
     }
 
