@@ -1,6 +1,6 @@
 group 'org.lightningj'
 
-version '0.5.1-Beta-rc2'
+version '0.5.1-Beta'
 
 apply plugin: "groovy"
 apply plugin: 'com.google.protobuf'
