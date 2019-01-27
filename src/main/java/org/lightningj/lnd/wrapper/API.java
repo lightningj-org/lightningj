@@ -33,6 +33,8 @@ import java.util.logging.Logger;
  */
 abstract public class API {
 
+    protected static final int DEFAULT_MAX_INBOUND_MESSAGE_SIZE = 1024 * 1024 * 50;
+
     protected static Logger log =
             Logger.getLogger(API.class.getName());
 
@@ -72,6 +74,7 @@ abstract public class API {
     protected API(String host, int port, SslContext sslContext, MacaroonContext macaroonContext){
         this(NettyChannelBuilder.forAddress(host, port)
                 .sslContext(sslContext)
+                .maxInboundMessageSize(DEFAULT_MAX_INBOUND_MESSAGE_SIZE)
                 .intercept(new MacaroonClientInterceptor(macaroonContext))
                 .build());
     }
