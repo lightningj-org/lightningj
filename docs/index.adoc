@@ -38,6 +38,8 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.5.2-Beta-rc2 : Generated API from LND 0.5.2 Beta  RC2 release. Also changed
+                   default message max size limit in to 50 MB to reflect settings in LND.
 * 0.5.1-Beta     : Generated API from LND 0.5.1 Beta release.
 * 0.5.1-Beta-rc2 : Generated API from LND 0.5.1 Beta RC2 release.
 * 0.5.0-Beta     : Generated API from LND 0.5.0 Beta release.
@@ -57,7 +59,7 @@ LND.
 
 * LND: Keep rpc.proto specification updated with latest LND release.
 
-* Implement equivalent API for Lightning-c and or Eclair
+* Implement equivalent API for Lightning-c and or Eclair.
 
 == Using LightningJ Library
 
