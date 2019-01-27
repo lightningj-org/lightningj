@@ -140,6 +140,8 @@ jar.dependsOn.add(generateXSD)
 javadoc {
     source += ['build/generated/source/proto/main/grpc','build/generated/source/proto/main/java','build/generated/source/wrapper/main/java']
     failOnError= false
+    options.outputLevel = JavadocOutputLevel.QUIET
+    options.addBooleanOption('Xdoclint:none', true)
 }
 
 asciidoctor {
