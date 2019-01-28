@@ -234,6 +234,9 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
+// Add integration test task, with source sets etc.
+apply from: 'integrationTest.gradle'
+
 // Use external gpg2 command to support signing by hardware keys (i.e. SmartCard) and sign only
 // if build should be uploaded to Maven Central.
 signing {
