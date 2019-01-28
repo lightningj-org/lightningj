@@ -1,0 +1,73 @@
+
+sourceSets{
+    integrationTest {
+
+        java{
+            srcDirs = ['src/integration-test/java']
+        }
+
+        resources{
+            srcDirs = ['src/integration-test/resources']
+        }
+
+        groovy{
+            srcDirs = ['src/integration-test/groovy']
+        }
+
+
+        compileClasspath += project.sourceSets.main.output
+        runtimeClasspath += project.sourceSets.main.output
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testCompile
+    integrationTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+task integrationTest(type: Test, group: "verification", description: "Runs integration tests using live LND node."){
+    doFirst{
+        def host = project.hasProperty("lightningj.integration.test.lnd.host") ? project.property("lightningj.integration.test.lnd.host") : null
+        def port = project.hasProperty("lightningj.integration.test.lnd.port") ? project.property("lightningj.integration.test.lnd.port") : null
+        def tlsCert = project.hasProperty("lightningj.integration.test.lnd.tlscertpath") ? project.property("lightningj.integration.test.lnd.tlscertpath")  : null
+        def macaroon = project.hasProperty("lightningj.integration.test.lnd.macaroonpath") ? project.property("lightningj.integration.test.lnd.macaroonpath")  : null
+        if(!host || !port || !tlsCert || !macaroon){
+            println """LND Settings missing in gradle properies. Please update with following properties:
+
+  lightningj.integration.test.lnd.host=<host to connect to>
+  lightningj.integration.test.lnd.port=<port>
+  lightningj.integration.test.lnd.tlscertpath=<Path to TLS Cert>
+  lightningj.integration.test.lnd.macaroonpath=<Path to Macaroon>
+"""
+            System.exit(-1)
+        }else{
+            println """Using LND Settings:
+    host             : ${host}
+    port             : ${port}
+    Path to TLS Cert : ${tlsCert}
+    Path to Macaroon : ${macaroon}
+"""
+            systemProperty "lightningj.integration.test.lnd.host",host
+            systemProperty "lightningj.integration.test.lnd.port",port
+            systemProperty "lightningj.integration.test.lnd.tlscertpath",tlsCert
+            systemProperty "lightningj.integration.test.lnd.macaroonpath",macaroon
+        }
+    }
+    testClassesDirs = project.sourceSets.integrationTest.output.classesDirs
+    classpath = project.sourceSets.integrationTest.runtimeClasspath
+}
+
+integrationTest.shouldRunAfter test
+
+/*
+  Task for specifying for Intellij which source directories to use.
+ */
+idea {
+    module {
+        testSourceDirs += file('src/integration-test/java')
+        testSourceDirs += file('src/integration-test/groovy')
+        //testResourceDirs += file('src/integration-test/resources')
+
+        contentRoot = project.projectDir
+    }
+}
