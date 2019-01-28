@@ -1,6 +1,6 @@
 group 'org.lightningj'
 
-version '0.5.1-Beta'
+version '0.5.2-Beta-rc3'
 
 apply plugin: "groovy"
 apply plugin: 'com.google.protobuf'
@@ -140,6 +140,8 @@ jar.dependsOn.add(generateXSD)
 javadoc {
     source += ['build/generated/source/proto/main/grpc','build/generated/source/proto/main/java','build/generated/source/wrapper/main/java']
     failOnError= false
+    options.outputLevel = JavadocOutputLevel.QUIET
+    options.addBooleanOption('Xdoclint:none', true)
 }
 
 asciidoctor {
@@ -231,6 +233,9 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives javadocJar, sourcesJar
 }
+
+// Add integration test task, with source sets etc.
+apply from: 'integrationTest.gradle'
 
 // Use external gpg2 command to support signing by hardware keys (i.e. SmartCard) and sign only
 // if build should be uploaded to Maven Central.
