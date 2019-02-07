@@ -38,6 +38,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.5.2-Beta     : Basically the same as 0.5.2-Beta-rc3, no changes to RPC
 * 0.5.2-Beta-rc3 : Generated API from LND 0.5.2 Beta  RC3 release. Also changed
                    default message max size limit in to 50 MB to reflect settings in LND.
 * 0.5.1-Beta     : Generated API from LND 0.5.1 Beta release.
