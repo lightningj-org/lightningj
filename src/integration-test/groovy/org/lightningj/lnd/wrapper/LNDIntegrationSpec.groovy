@@ -83,7 +83,6 @@ class LNDIntegrationSpec extends Specification{
     def "Verify describeGraph fetches the entire graph"(){
         when:
         ChannelGraph channelGraph = synchronousLndAPI.describeGraph(true)
-        println channelGraph
         then:
         channelGraph != null
     }
