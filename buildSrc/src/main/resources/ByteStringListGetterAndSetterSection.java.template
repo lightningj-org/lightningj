@@ -1,0 +1,27 @@
+
+    private List<byte[]> ${fieldName} = null;
+
+    /**
+     * Getter for a list of ${fieldJsonName}.
+     * @throws ClientSideException if problems occurred constructing the wrapped object.
+     */
+    ${xmlElement}
+    ${xmlElementWrapper}
+    public List<byte[]> get${fieldJavaName}() throws ClientSideException{
+        if(${fieldName} == null){
+          int size = ((LightningApi.${className}.Builder) builder).get${fieldJavaName}Count();
+          ${fieldName} = new ArrayList<>(size);
+          for(int i=0; i< size; i++){
+            ByteString bs = (ByteString) ((LightningApi.${className}.Builder) builder).get${fieldJavaName}(i);
+            ${fieldName}.add(bs.toByteArray());
+          }
+        }
+        return ${fieldName};
+    }
+
+    /**
+     * Setter for list of ${fieldJsonName}.
+     */
+    public void set${fieldJavaName}(List<byte[]> valueList) {
+        ${fieldName} = valueList;
+    }

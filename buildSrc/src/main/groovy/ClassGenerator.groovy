@@ -58,6 +58,30 @@ class ClassGenerator {
     }
 
     /**
+     * Main method to generate a wrapped enum for a given proto class descriptor.
+     */
+    static void genEnum(Descriptors.EnumDescriptor enumDescriptor, String outputDir){
+        String enumTemplate = getTemplate("WrappedEnum.java.template")
+
+        String enumName = ClassNameUtils.convertToJavaBean(enumDescriptor.name)
+        String xmlType = "@XmlEnum()"
+        List enumValueList = []
+        enumDescriptor.values.each{ def value ->
+            enumValueList << "        ${value.name}(LightningApi.${enumName}.${value.name})"
+        }
+        String enumValues = enumValueList.join(",\n") + ";"
+
+        def engine = new SimpleTemplateEngine()
+        String generatedEnum = engine.createTemplate(enumTemplate).make([enumName: enumName,
+                                                                 enumValues: enumValues,
+                                                                 xmlType: xmlType]).toString()
+
+        new File(outputDir + enumName + ".java").write(generatedEnum)
+
+
+    }
+
+    /**
      * Method to generate the package-info.java file for JAXB context.
      */
     static void genPackageInfo(String outputDir){
@@ -194,7 +218,7 @@ class ClassGenerator {
 
         String innerClassName = innerClassDescriptor.name
         String messageType = getMessageType(innerClassDescriptor)
-        String xmlType = genXMLType(innerClassDescriptor,innerClassName,"    ")
+        String xmlType = genXMLType(innerClassDescriptor,className+innerClassName,"    ")
 
         String innerEnums = genInnerEnums(innerClassDescriptor,className+"."+innerClassName)
         String getterAndSetters = genGetterAndSetters(innerClassDescriptor, className+"."+innerClassName, "     ")
@@ -254,8 +278,8 @@ class ClassGenerator {
         String innerClassName = innerClassDescriptor.name
         String wrappingClassName = innerClassName.replaceAll("Entry", "Entries")
         String messageType = getMessageType(innerClassDescriptor)
-        String xmlType = genXMLType(innerClassDescriptor, innerClassName, "    ")
-        String entriesXmlType = genXMLType(innerClassDescriptor,wrappingClassName,"    ", ["entry"])
+        String xmlType = genXMLType(innerClassDescriptor, className+innerClassName, "    ")
+        String entriesXmlType = genXMLType(innerClassDescriptor,className+wrappingClassName,"    ", ["entry"])
         FieldDescriptor mappingFieldDesc = getMapFields(innerClassDescriptor.containingType).find{FieldDescriptor fd -> fd.messageType.fullName == innerClassDescriptor.fullName}
         ClassNameUtils.MappingType[] mappingFields = ClassNameUtils.getMappingTypes(mappingFieldDesc)
         String fieldKeyType = mappingFields[0].type
@@ -323,6 +347,10 @@ class ClassGenerator {
             return "StringListGetterAndSetterSection.java.template"
         }
 
+        if(ft.javaType == FieldDescriptor.JavaType.BYTE_STRING && ft.isRepeated()){
+            return "ByteStringListGetterAndSetterSection.java.template"
+        }
+
         if(ft.javaType == FieldDescriptor.JavaType.BYTE_STRING){
             return "ByteStringGetterAndSetterSection.java.template"
         }
@@ -354,7 +382,17 @@ class ClassGenerator {
           }
         }"""
                     } else {
-                        repeatableFields += """
+                        if (it.javaType == FieldDescriptor.JavaType.BYTE_STRING) {
+                            repeatableFields += """
+
+        ((LightningApi.${className}.Builder) builder).clear${fieldJavaName}();
+        if(${fieldName} != null){
+          for(byte[] next : ${fieldName}){
+            ((LightningApi.${className}.Builder) builder).add${fieldJavaName}(ByteString.copyFrom(next));
+          }
+        }"""
+                        } else {
+                            repeatableFields += """
 
         ((LightningApi.${className}.Builder) builder).clear${fieldJavaName}();
         if(${fieldName} != null){
@@ -362,8 +400,8 @@ class ClassGenerator {
             ((LightningApi.${className}.Builder) builder).add${fieldJavaName}(next);
           }
         }"""
+                        }
                     }
-
                 } else {
 
                     repeatableFields += """

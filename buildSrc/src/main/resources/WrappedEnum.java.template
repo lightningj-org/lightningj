@@ -1,0 +1,44 @@
+/************************************************************************
+ *                                                                       *
+ *  LightningJ                                                           *
+ *                                                                       *
+ *  This software is free software; you can redistribute it and/or       *
+ *  modify it under the terms of the GNU Lesser General Public License   *
+ *  (LGPL-3.0-or-later)                                                  *
+ *  License as published by the Free Software Foundation; either         *
+ *  version 3 of the License, or any later version.                      *
+ *                                                                       *
+ *  See terms of license at gnu.org.                                     *
+ *                                                                       *
+ *************************************************************************/
+package org.lightningj.lnd.wrapper.message;
+
+import org.lightningj.lnd.proto.LightningApi;
+
+import org.lightningj.lnd.wrapper.*;
+import javax.xml.bind.annotation.*;
+
+
+/**
+ * Wrapper enum ${enumName}.
+ *
+ * @see org.lightningj.lnd.proto.LightningApi.${enumName}
+ * Generated Automatically.
+ */
+${xmlType}
+public enum ${enumName} {
+${enumValues}
+
+    private LightningApi.${enumName} apiObject;
+    ${enumName}(LightningApi.${enumName} apiObject){
+      this.apiObject = apiObject;
+    }
+
+    public LightningApi.${enumName} getApiObject(){
+       return apiObject;
+    }
+
+    public static ${enumName} wrap(LightningApi.${enumName} apiObject){
+       return valueOf(apiObject.name());
+    }
+}

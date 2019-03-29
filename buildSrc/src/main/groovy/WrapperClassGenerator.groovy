@@ -40,6 +40,9 @@ class WrapperClassGenerator extends DefaultTask{
 
         createOutputDir()
 
+        descriptor.enumTypes.each {
+            ClassGenerator.genEnum(it,messageOutputDir)
+        }
         descriptor.messageTypes.each {
             ClassGenerator.genClass(it,messageOutputDir)
         }

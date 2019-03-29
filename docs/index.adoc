@@ -592,7 +592,7 @@ To fix this must the accepted file size be enhanced. This can be done by:
 
 * In idea.properties add:
 
-    idea.max.intellisense.filesize=3000
+    idea.max.intellisense.filesize=4000
 
 * Restart IntelliJ
 

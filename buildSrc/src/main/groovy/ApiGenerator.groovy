@@ -149,6 +149,7 @@ class ApiGenerator {
 
             String fieldJavaName = ClassNameUtils.convertToJavaBean(it.name)
             String fieldJavaType = getJavaType(it)
+            String setMethodName = fieldJavaName
             String fieldName = checkReservedNames(ClassNameUtils.lowerCaseFirst(fieldJavaName))
 
 
@@ -167,9 +168,9 @@ class ApiGenerator {
             }
             parameters << "${fieldJavaType} ${fieldName}"
             if(it.optional) {
-                setMethodList << "if(${fieldName} != null) request.set${fieldJavaName}(${fieldName});"
+                setMethodList << "if(${fieldName} != null) request.set${setMethodName}(${fieldName});"
             }else{
-                setMethodList << "request.set${fieldJavaName}(${fieldName});"
+                setMethodList << "request.set${setMethodName}(${fieldName});"
             }
         }
 
@@ -187,7 +188,6 @@ class ApiGenerator {
                                                                                           ]).toString()
         return  methodDeclaration
     }
-
 
     private static String strippedName(Class c){
         return strippedName(c.name)
