@@ -24,50 +24,50 @@ import java.lang.reflect.Method
  */
 class WrapperClassGenerator extends DefaultTask{
 
-    String ligtningAPIClassPath = "org.lightningj.lnd.proto.LightningApi"
+    List protocols
 
     String compileClasses = "build/classes/java/main"
-
-    String messageOutputDir = "build/generated/source/wrapper/main/java/org/lightningj/lnd/wrapper/message/"
-    String callerOutputDir = "build/generated/source/wrapper/main/java/org/lightningj/lnd/wrapper/"
-    String resourcesOutputDir = "build/resources/main/org/lightningj/lnd/wrapper/message/"
-
 
     @TaskAction
     def generate() {
 
-        Descriptors.FileDescriptor descriptor = getLightningAPIFileDescriptor()
+        for(String protocol : protocols) {
+            ProtocolSettings protocolSettings = new ProtocolSettings(protocol: protocol)
 
-        createOutputDir()
+            Descriptors.FileDescriptor descriptor = getAPIFileDescriptor(protocolSettings)
 
-        descriptor.enumTypes.each {
-            ClassGenerator.genEnum(it,messageOutputDir)
+            createOutputDir(protocolSettings)
+
+            descriptor.enumTypes.each {
+                ClassGenerator.genEnum(it, protocolSettings)
+            }
+            descriptor.messageTypes.each {
+                ClassGenerator.genClass(it, protocolSettings)
+            }
+
+            ClassGenerator.genJaxbIndex(descriptor, protocolSettings.resourcesOutputDir)
+
+            ClassGenerator.genPackageInfo(protocolSettings)
+
+            ApiGenerator.generateBlockingAPIs(protocolSettings, compileClasses, descriptor)
+
         }
-        descriptor.messageTypes.each {
-            ClassGenerator.genClass(it,messageOutputDir)
-        }
-
-        ClassGenerator.genJaxbIndex(descriptor,resourcesOutputDir)
-
-        ClassGenerator.genPackageInfo(messageOutputDir)
-
-        ApiGenerator.generateBlockingAPIs(callerOutputDir,compileClasses,descriptor)
 
     }
 
-    private Descriptors.FileDescriptor getLightningAPIFileDescriptor(){
-        // Load LightningAPI Class
+    private Descriptors.FileDescriptor getAPIFileDescriptor(ProtocolSettings protocolSettings){
+        // Load  Class
         def ncl = new GroovyClassLoader()
         ncl.addClasspath(compileClasses)
-        Class c = ncl.loadClass(ligtningAPIClassPath)
+        Class c = ncl.loadClass(protocolSettings.getAPIClassPath())
 
         // Call getDescriptor
         Method m = c.getMethod("getDescriptor")
         return  m.invoke(null)
     }
 
-    private File createOutputDir(){
-        File dir = new File(messageOutputDir)
+    private File createOutputDir(ProtocolSettings protocolSettings){
+        File dir = new File(protocolSettings.messageOutputDir)
         dir.mkdirs()
         return dir
     }

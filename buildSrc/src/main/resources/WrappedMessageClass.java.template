@@ -11,13 +11,12 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.lightningj.lnd.wrapper.message;
+package ${wrapperBasePackageName}.message;
 
-import org.lightningj.lnd.proto.LightningApi;
-
+import ${apiClassPath};
+import org.lightningj.lnd.wrapper.*;
 import javax.json.JsonReader;
 import javax.json.JsonException;
-import org.lightningj.lnd.wrapper.*;
 import com.google.protobuf.ByteString;
 import java.util.List;
 import java.util.ArrayList;
@@ -29,14 +28,14 @@ import javax.xml.bind.annotation.*;
 /**
  * Wrapper class for ${className}.
  *
+ * Written by Philip Vendil
  *
  * @see org.lightningj.lnd.wrapper.Message
- * @see org.lightningj.lnd.proto.LightningApi.${className}
- * Written by Philip Vendil
+ * @see ${apiClassPath}.${className}
  */
 @XmlRootElement(name = "${className}")
 ${xmlType}
-public class ${className} extends ${messageType}<LightningApi.${className}> {
+public class ${className} extends ${messageType}<${apiClassName}.${className}> {
 
 ${innerEnums}
 ${fields}
@@ -45,7 +44,7 @@ ${fields}
      * Empty Constructor
      */
     public ${className}(){
-        super(LightningApi.${className}.newBuilder());
+        super(${apiClassName}.${className}.newBuilder());
     }
 
     /**
@@ -54,13 +53,13 @@ ${fields}
      * @throws JsonException if problems was found with the supplied JSON data.
      */
     public ${className}(JsonReader jsonReader) throws JsonException{
-        super(jsonReader, LightningApi.${className}.newBuilder());
+        super(jsonReader, ${apiClassName}.${className}.newBuilder());
     }
 
     /**
      * Constructor using underlying Lightning API Object
      */
-    public ${className}(LightningApi.${className} apiObject){
+    public ${className}(${apiClassName}.${className} apiObject){
         super(apiObject.toBuilder());
     }
 
@@ -68,8 +67,8 @@ ${fields}
      * @return the underlying Lightning API Object Builder.
      */
     @XmlTransient
-    LightningApi.${className}.Builder getBuilder(){
-        return (LightningApi.${className}.Builder) builder;
+    ${apiClassName}.${className}.Builder getBuilder(){
+        return (${apiClassName}.${className}.Builder) builder;
     }
 
 ${getterAndSetters}

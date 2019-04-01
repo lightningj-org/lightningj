@@ -11,34 +11,34 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.lightningj.lnd.wrapper.message;
+package ${wrapperBasePackageName}.message;
 
-import org.lightningj.lnd.proto.LightningApi;
+import ${apiClassPath};
 
-import org.lightningj.lnd.wrapper.*;
+import ${wrapperBasePackageName}.*;
 import javax.xml.bind.annotation.*;
 
 
 /**
  * Wrapper enum ${enumName}.
  *
- * @see org.lightningj.lnd.proto.LightningApi.${enumName}
  * Generated Automatically.
+ * @see ${apiClassPath}.${enumName}
  */
 ${xmlType}
 public enum ${enumName} {
 ${enumValues}
 
-    private LightningApi.${enumName} apiObject;
-    ${enumName}(LightningApi.${enumName} apiObject){
+    private ${apiClassName}.${enumName} apiObject;
+    ${enumName}(${apiClassName}.${enumName} apiObject){
       this.apiObject = apiObject;
     }
 
-    public LightningApi.${enumName} getApiObject(){
+    public ${apiClassName}.${enumName} getApiObject(){
        return apiObject;
     }
 
-    public static ${enumName} wrap(LightningApi.${enumName} apiObject){
+    public static ${enumName} wrap(${apiClassName}.${enumName} apiObject){
        return valueOf(apiObject.name());
     }
 }

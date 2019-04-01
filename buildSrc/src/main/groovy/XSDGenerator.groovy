@@ -28,6 +28,8 @@ import java.lang.reflect.Method
  */
 class XSDGenerator extends DefaultTask{
 
+    List protocols
+
     def classpath
 
     String compileClasses = "build/classes/java/main"
@@ -36,23 +38,20 @@ class XSDGenerator extends DefaultTask{
 
     String systemId = "http://SomeURL"
 
-    String jaxbSrcDirectory = "org.lightningj.lnd.wrapper.message"
-
-    String schemaName = "lnd_v1.xsd"
-
     @TaskAction
     def generate() {
+        for(String protocol : protocols) {
+            ProtocolSettings protocolSettings = new ProtocolSettings(protocol: protocol)
 
-        JAXBContext jaxbContext = getJAXBContext()
-        ByteArraySchemaOutputResolver sor = new ByteArraySchemaOutputResolver()
-        jaxbContext.generateSchema(sor)
+            JAXBContext jaxbContext = getJAXBContext(protocolSettings)
+            ByteArraySchemaOutputResolver sor = new ByteArraySchemaOutputResolver()
+            jaxbContext.generateSchema(sor)
 
-        new File(generatedResourcesDir+ "/" + schemaName).write(new String(sor.bytes,"UTF-8"))
-
+            new File(generatedResourcesDir+ "/" + protocolSettings.getXSDName()).write(new String(sor.bytes,"UTF-8"))
+        }
     }
 
-    JAXBContext getJAXBContext(){
-
+    JAXBContext getJAXBContext(ProtocolSettings protocolSettings){
         List classPaths = classpath.split(":")
         def ncl = new GroovyClassLoader(this.class.classLoader)
         classPaths.each {
@@ -60,11 +59,11 @@ class XSDGenerator extends DefaultTask{
         }
         ncl.addClasspath(compileClasses)
         ncl.addClasspath(generatedResourcesDir)
-        URL f = ncl.getResource("org/lightningj/lnd/wrapper/message/jaxb.index")
+        URL f = ncl.getResource(protocolSettings.getJAXBIndexResouceLocation())
         Class c = ncl.loadClass("javax.xml.bind.JAXBContext")
 
         Method m = c.getMethod("newInstance",String.class,ClassLoader.class)
-        return  m.invoke(null,jaxbSrcDirectory,ncl)
+        return  m.invoke(null,protocolSettings.getJaxbSrcDirectory(),ncl)
     }
 
 

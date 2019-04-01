@@ -4,12 +4,12 @@
      */
     ${xmlElement}
     public ${fieldJavaType} get${fieldJavaName}() {
-        return ${fieldJavaType}.wrap(((LightningApi.${className}.Builder) builder).get${fieldJavaName}());
+        return ${fieldJavaType}.wrap(((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}());
     }
 
     /**
      * Setter for ${fieldJsonName}.
      */
     public void set${fieldJavaName}(${fieldJavaType} value) {
-        ((LightningApi.${className}.Builder) builder).set${fieldJavaName}(value.getApiObject());
+        ((${apiClassName}.${className}.Builder) builder).set${fieldJavaName}(value.getApiObject());
     }
