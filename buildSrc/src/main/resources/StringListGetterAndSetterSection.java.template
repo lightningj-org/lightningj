@@ -9,10 +9,10 @@
     ${xmlElementWrapper}
     public List<${fieldJavaType}> get${fieldJavaName}() throws ClientSideException{
         if(${fieldName} == null){
-          int size = ((LightningApi.${className}.Builder) builder).get${fieldJavaName}Count();
+          int size = ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}Count();
           ${fieldName} = new ArrayList<>(size);
           for(int i=0; i< size; i++){
-            ${fieldName}.add((${fieldJavaType}) ((LightningApi.${className}.Builder) builder).get${fieldJavaName}(i));
+            ${fieldName}.add((${fieldJavaType}) ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}(i));
           }
         }
         return ${fieldName};

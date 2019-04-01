@@ -4,7 +4,7 @@
      */
     ${xmlElement}
     public byte[] get${fieldJavaName}() {
-        ByteString value = ((LightningApi.${className}.Builder) builder).get${fieldJavaName}();
+        ByteString value = ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}();
         if(value != null){
           return value.toByteArray();
         }
@@ -16,6 +16,6 @@
      */
     public void set${fieldJavaName}(byte[] value) {
       if(value != null){
-        ((LightningApi.${className}.Builder) builder).set${fieldJavaName}(ByteString.copyFrom(value));
+        ((${apiClassName}.${className}.Builder) builder).set${fieldJavaName}(ByteString.copyFrom(value));
       }
     }

@@ -2,22 +2,23 @@
     /**
      * Inner enum ${enumName} for class ${className}
      *
-     * @see org.lightningj.lnd.proto.LightningApi.${className}.${enumName}
      * Generated Automatically.
+     *
+     * @see org.lightningj.lnd.proto.${apiClassName}.${className}.${enumName}
      */
     ${xmlType}
     public enum ${enumName} {
 ${enumValues}
 
-        private LightningApi.${className}.${enumName} apiObject;
-        ${enumName}(LightningApi.${className}.${enumName} apiObject){
+        private ${apiClassName}.${className}.${enumName} apiObject;
+        ${enumName}(${apiClassName}.${className}.${enumName} apiObject){
             this.apiObject = apiObject;
         }
-        public LightningApi.${className}.${enumName} getApiObject(){
+        public ${apiClassName}.${className}.${enumName} getApiObject(){
             return apiObject;
         }
 
-        public static ${enumName} wrap(LightningApi.${className}.${enumName} apiObject){
+        public static ${enumName} wrap(${apiClassName}.${className}.${enumName} apiObject){
             return valueOf(apiObject.name());
         }
     }

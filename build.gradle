@@ -13,7 +13,7 @@ apply plugin: 'maven'
 
 description = "LightningJ - Lightning APIs for Java"
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 repositories {
     // Spock releases are available from Maven Central
@@ -100,7 +100,7 @@ compileJava {
    Generate High Level LDN API using custom WrapperClassGenerator in buildSrc
  */
 task generateWrappers(type: WrapperClassGenerator, dependsOn:compileJava){
-
+    protocols = ["lnrpc","autopilot"]
 }
 
 /*
@@ -127,6 +127,7 @@ dependencies {
 
 task generateXSD(type: XSDGenerator, dependsOn: compileWrapperMessages){
     classpath=compileJava.classpath.asPath
+    protocols = ["lnrpc","autopilot"]
 }
 
 /*

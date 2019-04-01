@@ -38,31 +38,23 @@ class ApiGenerator {
 
     static def engine = new SimpleTemplateEngine()
 
-    static void generateBlockingAPIs(String outputDir, String compileClasses, Descriptors.FileDescriptor descriptor){
+    static void generateBlockingAPIs(ProtocolSettings protocolSettings, String compileClasses, Descriptors.FileDescriptor descriptor){
 
-        generateAPI(outputDir,compileClasses,descriptor,'org.lightningj.lnd.proto.LightningGrpc$LightningBlockingStub',
-                "SynchronousLndAPI","LightningGrpc",
-                "LightningBlockingStub","SynchronousLndAPI.java",
-                TYPE_SYNCHRONOUS)
-        generateAPI(outputDir,compileClasses,descriptor,'org.lightningj.lnd.proto.WalletUnlockerGrpc$WalletUnlockerBlockingStub',
-                "SynchronousWalletUnlockerAPI","WalletUnlockerGrpc",
-                "WalletUnlockerBlockingStub","SynchronousWalletUnlockerAPI.java",
-                TYPE_SYNCHRONOUS)
-        generateAPI(outputDir,compileClasses,descriptor,'org.lightningj.lnd.proto.LightningGrpc$LightningStub',
-                "AsynchronousLndAPI","LightningGrpc",
-                "LightningStub","AsynchronousLndAPI.java",
-                TYPE_ASYNCHRONOUS)
-        generateAPI(outputDir,compileClasses,descriptor,'org.lightningj.lnd.proto.WalletUnlockerGrpc$WalletUnlockerStub',
-                "AsynchronousWalletUnlockerAPI","WalletUnlockerGrpc",
-                "WalletUnlockerStub","AsynchronousWalletUnlockerAPI.java",
-                TYPE_ASYNCHRONOUS)
+        protocolSettings.apiSettings.each{ ApiSettings it ->
+            for(String type : [TYPE_SYNCHRONOUS, TYPE_ASYNCHRONOUS]) {
+                generateAPI(protocolSettings, it, compileClasses, descriptor, it.getGrpcClassPath(type),
+                        it.getApiClassName(type), it.getGrpcClassName(),
+                        it.getStubClass(type), it.getFileName(type),
+                        type)
+            }
+        }
     }
 
-    static void generateAPI(String outputDir, String compileClasses, Descriptors.FileDescriptor descriptor,
-                                    String apiClasspath, String apiClassName, String grpcClass, String stubClass,
+    static void generateAPI(ProtocolSettings settings, ApiSettings apiSettings, String compileClasses, Descriptors.FileDescriptor descriptor,
+                                    String grpcClasspath, String apiClassName, String grpcClass, String stubClass,
                                     String fileName, String type){
 
-        Class aPIClass = getClassInstance(apiClasspath,compileClasses)
+        Class aPIClass = getClassInstance(grpcClasspath,compileClasses)
 
         String newStubMethodName = type == TYPE_SYNCHRONOUS ? "newBlockingStub" : "newStub"
 
@@ -71,13 +63,13 @@ class ApiGenerator {
             switch(type){
                 case TYPE_SYNCHRONOUS:
                     if(method.parameterTypes.size() == 1 && method.parameterTypes[0].superclass == GeneratedMessageV3.class) {
-                        requestMethods << genRequestMethod(type,method,descriptor, grpcClass,stubClass)
+                        requestMethods << genRequestMethod(settings,apiSettings,type,method,descriptor, grpcClass,stubClass)
                     }
                     break
                 case TYPE_ASYNCHRONOUS:
                     Type[] genericParameterTypes = method.getGenericParameterTypes()
                     if(method.genericParameterTypes.length == 2 && genericParameterTypes[1] instanceof ParameterizedType){
-                        requestMethods << genRequestMethod(type,method,descriptor, grpcClass,stubClass)
+                        requestMethods << genRequestMethod(settings,apiSettings,type,method,descriptor, grpcClass,stubClass)
                     }
                     break
                 default:
@@ -86,17 +78,21 @@ class ApiGenerator {
         }
 
         String classDeclarationTemplate = ClassGenerator.getTemplate("API.java.template")
-        String classDeclaration = engine.createTemplate(classDeclarationTemplate).make([callMethods: requestMethods.join("\n"),
-                                                                                        apiClassName: apiClassName,
-                                                                                        grpcClass: grpcClass,
-                                                                                        stubClass: stubClass,
-                                                                                        type: type,
-                                                                                        apiType: API_TYPES[type],
-                                                                                        newStubMethodName: newStubMethodName
+        String classDeclaration = engine.createTemplate(classDeclarationTemplate).make([
+                wrapperBasePackageName: settings.wrapperBasePackageName,
+                aPIPackage: settings.getAPIPackage(),
+                specialAPIImports : settings.getSpecialAPIImports(),
+                callMethods: requestMethods.join("\n"),
+                apiClassName: apiClassName,
+                grpcClass: grpcClass,
+                stubClass: stubClass,
+                type: type,
+                apiType: API_TYPES[type],
+                newStubMethodName: newStubMethodName
         ]).toString()
 
 
-        new File(outputDir + "/" + fileName).write(classDeclaration)
+        new File(settings.getCallerOutputDir() + "/" + fileName).write(classDeclaration)
 
 
     }
@@ -110,7 +106,7 @@ class ApiGenerator {
         return c
     }
 
-    static String genRequestMethod(String type, Method method, Descriptors.FileDescriptor descriptor, String grpcClass, String stubClass){
+    static String genRequestMethod(ProtocolSettings settings, ApiSettings apiSettings, String type, Method method, Descriptors.FileDescriptor descriptor, String grpcClass, String stubClass){
         List parameters = []
         List setMethodList = []
 
@@ -118,7 +114,7 @@ class ApiGenerator {
         String methodTemplateSource
         String responseType = ""
         String responseObserverType = ""
-        String requestType = strippedName(method.parameterTypes[0])
+        String requestType = strippedName(apiSettings,method.parameterTypes[0])
         String observerTypeName = ""
         String observerTypeParameterName = ""
         if(type == TYPE_SYNCHRONOUS) {
@@ -126,10 +122,10 @@ class ApiGenerator {
             if (method.genericReturnType instanceof ParameterizedType) {
                 ParameterizedType innerTypeParam = (ParameterizedType) method.genericReturnType
                 Class<?> innerTypeClass = (Class<?>) innerTypeParam.getActualTypeArguments()[0]
-                responseType = strippedName(method.returnType) + "<" + strippedName(innerTypeClass) + ">"
+                responseType = strippedName(apiSettings,method.returnType) + "<" + strippedName(apiSettings,innerTypeClass) + ">"
                 methodTemplateSource = "SynchronousRepeatableResponseMethod.java.template"
             } else {
-                responseType = strippedName(method.returnType)
+                responseType = strippedName(apiSettings,method.returnType)
             }
         }
         if(type == TYPE_ASYNCHRONOUS) {
@@ -137,7 +133,7 @@ class ApiGenerator {
             Type[] genericParameterTypes = method.getGenericParameterTypes()
             ParameterizedType updateType = genericParameterTypes[1]
             observerTypeName = updateType.rawType.typeName
-            observerTypeParameterName = strippedName(updateType.actualTypeArguments[0].typeName)
+            observerTypeParameterName = strippedName(apiSettings, updateType.actualTypeArguments[0].typeName)
             responseObserverType = observerTypeName + "<" + observerTypeParameterName + ">"
         }
 
@@ -175,26 +171,29 @@ class ApiGenerator {
         }
 
         String methodDeclarationTemplate = ClassGenerator.getTemplate(methodTemplateSource)
-        String methodDeclaration = engine.createTemplate(methodDeclarationTemplate).make([requestType: requestType,
-                                                                                          responseType: responseType,
-                                                                                          methodName: methodName,
-                                                                                          setMethods: setMethodList.join("\n      "),
-                                                                                          parameters: mergeParameters(type,parameters),
-                                                                                          grpcClass: grpcClass,
-                                                                                          stubClass: stubClass,
-                                                                                          responseObserverType: responseObserverType,
-                                                                                          observerTypeName: observerTypeName,
-                                                                                          observerTypeParameterName: observerTypeParameterName
-                                                                                          ]).toString()
+        String methodDeclaration = engine.createTemplate(methodDeclarationTemplate).make([
+                requestType: requestType,
+                responseType: responseType,
+                apiClassName: settings.getAPIClassName(),
+                apiPackage: settings.getAPIPackage(),
+                methodName: methodName,
+                setMethods: setMethodList.join("\n      "),
+                parameters: mergeParameters(type,parameters),
+                grpcClass: grpcClass,
+                stubClass: stubClass,
+                responseObserverType: responseObserverType,
+                observerTypeName: observerTypeName,
+                observerTypeParameterName: observerTypeParameterName
+        ]).toString()
         return  methodDeclaration
     }
 
-    private static String strippedName(Class c){
-        return strippedName(c.name)
+    private static String strippedName(ApiSettings apiSettings, Class c){
+        return strippedName(apiSettings, c.name)
     }
 
-    private static String strippedName(String name){
-        return name.replace("org.lightningj.lnd.proto.LightningApi\$", "")
+    private static String strippedName(ApiSettings apiSettings,String name){
+        return name.replace(apiSettings.getBaseProtoClassPath()+ "\$", "")
     }
 
     private static String getJavaType(Descriptors.FieldDescriptor fieldDescriptor){
