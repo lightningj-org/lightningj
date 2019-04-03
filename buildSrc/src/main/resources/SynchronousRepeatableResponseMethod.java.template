@@ -1,7 +1,7 @@
     /**
      * Method to generate a ${methodName} request.
      *
-     * @see org.lightningj.lnd.proto.${grpcClass}.LightningBlockingStub#${methodName}(${apiClassName}.${requestType})
+     * @see ${apiPackage}.${grpcClass}.${stubClass}#${methodName}(${apiClassName}.${requestType})
      * @return a wrapped ${responseType}
      * @throws StatusException if problems occurred in underlying GRPC call. Can be of one of three sub exceptions
      * <li>ClientSideException: if problems was found in the request data, such as invalid or unexpected data.
@@ -18,7 +18,7 @@
     /**
      * Method to send a ${methodName} request.
      *
-     * @see org.lightningj.lnd.proto.${grpcClass}.LightningBlockingStub#${methodName}(${apiClassName}.${requestType})
+     * @see ${apiPackage}.${grpcClass}.${stubClass}#${methodName}(${apiClassName}.${requestType})
      * @return a wrapped ${responseType}
      * @throws StatusException if problems occurred in underlying GRPC call. Can be of one of three sub exceptions
      * <li>ClientSideException: if problems was found in the request data, such as invalid or unexpected data.

@@ -44,7 +44,7 @@ class XSDGenerator extends DefaultTask{
             ProtocolSettings protocolSettings = new ProtocolSettings(protocol: protocol)
 
             JAXBContext jaxbContext = getJAXBContext(protocolSettings)
-            ByteArraySchemaOutputResolver sor = new ByteArraySchemaOutputResolver()
+            ByteArraySchemaOutputResolver sor = new ByteArraySchemaOutputResolver(protocolSettings.getXMLNameSpace())
             jaxbContext.generateSchema(sor)
 
             new File(generatedResourcesDir+ "/" + protocolSettings.getXSDName()).write(new String(sor.bytes,"UTF-8"))
@@ -70,17 +70,37 @@ class XSDGenerator extends DefaultTask{
 
     class ByteArraySchemaOutputResolver extends SchemaOutputResolver {
 
+        String expectedNameSpace
+
+        ByteArraySchemaOutputResolver(String expectedNameSpace){
+           this.expectedNameSpace = expectedNameSpace
+        }
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
 
         Result createOutput(String namespaceURI, String suggestedFileName) throws IOException {
-            StreamResult result = new StreamResult(baos)
-            result.setSystemId(systemId)
-            return result
+            if(namespaceURI == expectedNameSpace) {
+                StreamResult result = new StreamResult(baos)
+                result.setSystemId(systemId)
+                return result
+            }else{
+                StreamResult result = new StreamResult(new ByteArrayOutputStream())
+                result.setSystemId(getImportXSDReference(namespaceURI))
+                return result
+            }
+
         }
 
         byte[] getBytes(){
             return baos.toByteArray()
         }
 
+    }
+
+    private String getImportXSDReference(String namespaceURI){
+        if(namespaceURI == "http://lightningj.org/xsd/lndjapi_1_0"){
+            return "./lnd_v1.xsd"
+        }
+        return "./" + namespaceURI.split("/").last().replaceAll("_1_0","_v1.xsd")
     }
 }

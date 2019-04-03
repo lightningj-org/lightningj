@@ -1,3 +1,7 @@
+import com.google.protobuf.Descriptors
+
+import java.lang.reflect.Method
+
 /************************************************************************
  *                                                                       *
  *  LightningJ                                                           *
@@ -24,6 +28,10 @@ abstract class BaseProtocolSettings {
     String protocol
 
     abstract String getAPIClassPath()
+
+    abstract Map getImportedRequestApiClassPathes()
+
+    abstract String getSpecialApiResponseClassName(String methodName, String requestType)
 
     String getMessageOutputDir(){
         if(protocol == "lnrpc"){
@@ -71,12 +79,24 @@ abstract class BaseProtocolSettings {
         if(protocol == "lnrpc"){
             return "http://lightningj.org/xsd/lndjapi_1_0"
         }
-        return "http://lightningj.org/xsd/lndjapi/${protocol}_1_0"
+        return "http://lightningj.org/xsd/${protocol}_1_0"
     }
 
-    String getAPIClassName(){
+
+    String getAPIClassName(String requestType=null){
+        if(requestType && getImportedRequestApiClassPathes()[requestType]){
+            return getImportedRequestApiClassPathes()[requestType]
+        }
         String[] values = getAPIClassPath().split("\\.")
         return values[values.length-1]
+    }
+
+    String getAPIResponseClassName(String methodName, String requestType){
+        String retval = getSpecialApiResponseClassName(methodName,requestType)
+        if(retval == null){
+            retval = getAPIClassName(requestType)
+        }
+        return retval
     }
 
     String getXSDName(){
@@ -92,4 +112,10 @@ abstract class BaseProtocolSettings {
         }
         return "org.lightningj.lnd.wrapper.${protocol}.message"
     }
+
+
+    Descriptors.FileDescriptor getAPIFileDescriptor(){
+       return ProtocolManager.getAPIFileDescriptor(protocol)
+    }
+
 }

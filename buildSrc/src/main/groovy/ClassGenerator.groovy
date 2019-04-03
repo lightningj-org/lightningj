@@ -45,6 +45,7 @@ class ClassGenerator {
 
         def engine = new SimpleTemplateEngine()
         String generatedClass = engine.createTemplate(classTemplate).make([
+                specialAPIImports: settings.getSpecialAPIImports(),
                 wrapperBasePackageName: settings.wrapperBasePackageName,
                 apiClassPath: settings.getAPIClassPath(),
                 apiClassName: settings.getAPIClassName(),
@@ -77,6 +78,7 @@ class ClassGenerator {
 
         def engine = new SimpleTemplateEngine()
         String generatedEnum = engine.createTemplate(enumTemplate).make([
+                specialAPIImports: settings.getSpecialAPIImports(),
                 wrapperBasePackageName: settings.wrapperBasePackageName,
                 apiClassPath: settings.getAPIClassPath(),
                 apiClassName: settings.getAPIClassName(),
@@ -97,6 +99,7 @@ class ClassGenerator {
         def engine = new SimpleTemplateEngine()
         String generatedPackageInfo = engine.createTemplate(template).make([
                 wrapperBasePackageName: settings.wrapperBasePackageName,
+                externalNameSpaces: settings.getExternalNamespaces(),
                 namespace: settings.getXMLNameSpace()]).toString()
         new File(settings.messageOutputDir + "package-info.java").write(generatedPackageInfo)
     }
