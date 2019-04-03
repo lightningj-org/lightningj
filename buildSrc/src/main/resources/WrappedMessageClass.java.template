@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import javax.xml.bind.annotation.*;
-
+${specialAPIImports}
 
 /**
  * Wrapper class for ${className}.

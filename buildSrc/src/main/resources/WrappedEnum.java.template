@@ -17,7 +17,7 @@ import ${apiClassPath};
 
 import ${wrapperBasePackageName}.*;
 import javax.xml.bind.annotation.*;
-
+${specialAPIImports}
 
 /**
  * Wrapper enum ${enumName}.

@@ -100,7 +100,7 @@ compileJava {
    Generate High Level LDN API using custom WrapperClassGenerator in buildSrc
  */
 task generateWrappers(type: WrapperClassGenerator, dependsOn:compileJava){
-    protocols = ["lnrpc","autopilot"]
+    protocols = ["lnrpc","autopilot","chainnotifier","invoices","router","signer","walletkit"]
 }
 
 /*
@@ -127,7 +127,7 @@ dependencies {
 
 task generateXSD(type: XSDGenerator, dependsOn: compileWrapperMessages){
     classpath=compileJava.classpath.asPath
-    protocols = ["lnrpc","autopilot"]
+    protocols = ["lnrpc","autopilot","chainnotifier","invoices","router","signer","walletkit"]
 }
 
 /*

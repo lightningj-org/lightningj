@@ -140,7 +140,12 @@ class ApiGenerator {
 
         Descriptors.Descriptor requestMessageDesc = descriptor.findMessageTypeByName(requestType)
 
-
+        if(requestMessageDesc == null){
+            requestMessageDesc = ProtocolManager.allProtocolFindMessageTypeByName(requestType)
+        }
+        if(requestMessageDesc == null){
+            throw new Exception("Couldn't find message description for requestType: ${requestType}")
+        }
         requestMessageDesc.fields.each{
 
             String fieldJavaName = ClassNameUtils.convertToJavaBean(it.name)
@@ -174,7 +179,8 @@ class ApiGenerator {
         String methodDeclaration = engine.createTemplate(methodDeclarationTemplate).make([
                 requestType: requestType,
                 responseType: responseType,
-                apiClassName: settings.getAPIClassName(),
+                apiClassName: settings.getAPIClassName(requestType),
+                apiResponseClassName: settings.getAPIResponseClassName(methodName,requestType),
                 apiPackage: settings.getAPIPackage(),
                 methodName: methodName,
                 setMethods: setMethodList.join("\n      "),
@@ -193,7 +199,11 @@ class ApiGenerator {
     }
 
     private static String strippedName(ApiSettings apiSettings,String name){
-        return name.replace(apiSettings.getBaseProtoClassPath()+ "\$", "")
+        name = name.replace(apiSettings.getBaseProtoClassPath()+ "\$", "")
+
+        name = ProtocolManager.allProtocolsStrippedName(name)
+
+        return name
     }
 
     private static String getJavaType(Descriptors.FieldDescriptor fieldDescriptor){

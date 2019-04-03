@@ -11,22 +11,15 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.lightningj.lnd.wrapper.autopilot
+package org.lightningj.lnd.wrapper.chainnotifier
 
 import io.grpc.ManagedChannel
-import io.grpc.Status
-import io.grpc.StatusRuntimeException
-import org.lightningj.lnd.proto.LightningApi
-import org.lightningj.lnd.wrapper.*
-import org.lightningj.lnd.wrapper.message.WalletBalanceRequest
+import org.lightningj.lnd.wrapper.autopilot.AsynchronousAutopilotAPI
+import org.lightningj.lnd.wrapper.autopilot.SynchronousAutopilotAPI
 import spock.lang.Specification
 
-import java.util.concurrent.TimeUnit
-import java.util.logging.Level
-import java.util.logging.Logger
-
 /**
- * Unit tests for Autopilot API classes.
+ * Unit tests for ChainNotifier API classes.
  * <p>
  * This class just verifies that the API classes have been generated.
  * Functional tests is in the integration tests.
@@ -34,12 +27,12 @@ import java.util.logging.Logger
  *
  * Created by Philip Vendil.
  */
-class AutopilotAPISpec extends Specification {
+class ChainNotifierAPISpec extends Specification {
 
     // Initialization is tested in SynchronousAPISpec
 
-    def asyncApi = new AsynchronousAutopilotAPI(Mock(ManagedChannel))
-    def syncApi = new SynchronousAutopilotAPI(Mock(ManagedChannel))
+    def asyncApi = new AsynchronousChainNotifierAPI(Mock(ManagedChannel))
+    def syncApi = new SynchronousChainNotifierAPI(Mock(ManagedChannel))
 
     def "Verify that apis have been created."(){
         expect:

@@ -25,6 +25,6 @@
      * @throws ValidationException if validation problems found in request or response data.
      */
     public void ${methodName}(${requestType} request, ${responseObserverType} responseObserver) throws StatusException,ValidationException{
-         StreamObserverWrapper<${apiClassName}.${observerTypeParameterName}> observerWrapper = new StreamObserverWrapper<>(responseObserver, performValidation, "${observerTypeParameterName}");
+         StreamObserverWrapper<${apiResponseClassName}.${observerTypeParameterName}> observerWrapper = new StreamObserverWrapper<>(responseObserver, performValidation, "${observerTypeParameterName}");
          getStub().${methodName}((${apiClassName}.${requestType}) processRequest(request), observerWrapper);
     }

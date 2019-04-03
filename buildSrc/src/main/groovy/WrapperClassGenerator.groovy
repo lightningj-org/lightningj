@@ -15,7 +15,6 @@ import com.google.protobuf.Descriptors
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
-import java.lang.reflect.Method
 
 /**
  * Class for generating Wrapper classes for LND API.
@@ -26,15 +25,17 @@ class WrapperClassGenerator extends DefaultTask{
 
     List protocols
 
-    String compileClasses = "build/classes/java/main"
+
 
     @TaskAction
     def generate() {
 
+        ProtocolManager.init(protocols)
+
         for(String protocol : protocols) {
             ProtocolSettings protocolSettings = new ProtocolSettings(protocol: protocol)
 
-            Descriptors.FileDescriptor descriptor = getAPIFileDescriptor(protocolSettings)
+            Descriptors.FileDescriptor descriptor = protocolSettings.getAPIFileDescriptor()
 
             createOutputDir(protocolSettings)
 
@@ -49,21 +50,10 @@ class WrapperClassGenerator extends DefaultTask{
 
             ClassGenerator.genPackageInfo(protocolSettings)
 
-            ApiGenerator.generateBlockingAPIs(protocolSettings, compileClasses, descriptor)
+            ApiGenerator.generateBlockingAPIs(protocolSettings, ProtocolManager.compileClasses, descriptor)
 
         }
 
-    }
-
-    private Descriptors.FileDescriptor getAPIFileDescriptor(ProtocolSettings protocolSettings){
-        // Load  Class
-        def ncl = new GroovyClassLoader()
-        ncl.addClasspath(compileClasses)
-        Class c = ncl.loadClass(protocolSettings.getAPIClassPath())
-
-        // Call getDescriptor
-        Method m = c.getMethod("getDescriptor")
-        return  m.invoke(null)
     }
 
     private File createOutputDir(ProtocolSettings protocolSettings){
