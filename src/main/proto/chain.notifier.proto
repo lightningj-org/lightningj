@@ -1,3 +1,8 @@
+/**
+ * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
+ * And is distributed under LNDs MIT License.
+ * LND 0.6-beta-rc1 (d06f6c1) tag : Downloaded 2019-04-03
+ */
 syntax = "proto3";
 
 package chainrpc;
