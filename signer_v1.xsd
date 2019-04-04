@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/signer_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/signer_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:element name="InputScript" type="tns:InputScriptType"/>
+
+  <xs:element name="InputScriptResp" type="tns:InputScriptRespType"/>
+
+  <xs:element name="KeyDescriptor" type="tns:KeyDescriptorType"/>
+
+  <xs:element name="KeyLocator" type="tns:KeyLocatorType"/>
+
+  <xs:element name="SignDescriptor" type="tns:SignDescriptorType"/>
+
+  <xs:element name="SignReq" type="tns:SignReqType"/>
+
+  <xs:element name="SignResp" type="tns:SignRespType"/>
+
+  <xs:element name="TxOut" type="tns:TxOutType"/>
+
+  <xs:complexType name="KeyLocatorType">
+    <xs:sequence>
+      <xs:element name="keyFamily" type="xs:int"/>
+      <xs:element name="keyIndex" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="KeyDescriptorType">
+    <xs:sequence>
+      <xs:element name="rawKeyBytes" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="keyLoc" type="tns:KeyLocatorType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TxOutType">
+    <xs:sequence>
+      <xs:element name="value" type="xs:long"/>
+      <xs:element name="pkScript" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignDescriptorType">
+    <xs:sequence>
+      <xs:element name="keyDesc" type="tns:KeyDescriptorType" minOccurs="0"/>
+      <xs:element name="singleTweak" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="doubleTweak" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="witnessScript" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="output" type="tns:TxOutType" minOccurs="0"/>
+      <xs:element name="sighash" type="xs:int"/>
+      <xs:element name="inputIndex" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignReqType">
+    <xs:sequence>
+      <xs:element name="rawTxBytes" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="sign_descs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:SignDescriptor" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignRespType">
+    <xs:sequence>
+      <xs:element name="raw_sigs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="rawSigs" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InputScriptType">
+    <xs:sequence>
+      <xs:element name="witness" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="witness" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="sigScript" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InputScriptRespType">
+    <xs:sequence>
+      <xs:element name="input_scripts" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:InputScript" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/autopilot_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/autopilot_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:element name="ModifyStatusRequest" type="tns:ModifyStatusRequestType"/>
+
+  <xs:element name="ModifyStatusResponse" type="tns:ModifyStatusResponseType"/>
+
+  <xs:element name="QueryScoresRequest" type="tns:QueryScoresRequestType"/>
+
+  <xs:element name="QueryScoresResponse" type="tns:QueryScoresResponseType"/>
+
+  <xs:element name="SetScoresRequest" type="tns:SetScoresRequestType"/>
+
+  <xs:element name="SetScoresResponse" type="tns:SetScoresResponseType"/>
+
+  <xs:element name="StatusRequest" type="tns:StatusRequestType"/>
+
+  <xs:element name="StatusResponse" type="tns:StatusResponseType"/>
+
+  <xs:complexType name="StatusRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="StatusResponseType">
+    <xs:sequence>
+      <xs:element name="active" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ModifyStatusRequestType">
+    <xs:sequence>
+      <xs:element name="enable" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ModifyStatusResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="QueryScoresRequestType">
+    <xs:sequence>
+      <xs:element name="pubkeys" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pubkeys" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ignoreLocalState" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryScoresResponseType">
+    <xs:sequence>
+      <xs:element name="results" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="HeuristicResult" type="tns:QueryScoresResponseHeuristicResultType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryScoresResponseHeuristicResultType">
+    <xs:sequence>
+      <xs:element name="heuristic" type="xs:string" minOccurs="0"/>
+      <xs:element name="scoresEntries" type="tns:QueryScoresResponseScoresEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryScoresResponseScoresEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="tns:QueryScoresResponseScoresEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryScoresResponseScoresEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetScoresRequestType">
+    <xs:sequence>
+      <xs:element name="heuristic" type="xs:string" minOccurs="0"/>
+      <xs:element name="scoresEntries" type="tns:SetScoresRequestScoresEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetScoresRequestScoresEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="tns:SetScoresRequestScoresEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetScoresRequestScoresEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetScoresResponseType">
+    <xs:all/>
+  </xs:complexType>
+</xs:schema>
+

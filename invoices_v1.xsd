@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/invoices_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/invoices_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
+
+  <xs:element name="AddHoldInvoiceRequest" type="tns:AddHoldInvoiceRequestType"/>
+
+  <xs:element name="AddHoldInvoiceResp" type="tns:AddHoldInvoiceRespType"/>
+
+  <xs:element name="CancelInvoiceMsg" type="tns:CancelInvoiceMsgType"/>
+
+  <xs:element name="CancelInvoiceResp" type="tns:CancelInvoiceRespType"/>
+
+  <xs:element name="SettleInvoiceMsg" type="tns:SettleInvoiceMsgType"/>
+
+  <xs:element name="SettleInvoiceResp" type="tns:SettleInvoiceRespType"/>
+
+  <xs:complexType name="CancelInvoiceMsgType">
+    <xs:sequence>
+      <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CancelInvoiceRespType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="AddHoldInvoiceRequestType">
+    <xs:sequence>
+      <xs:element name="memo" type="xs:string" minOccurs="0"/>
+      <xs:element name="hash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="value" type="xs:long"/>
+      <xs:element name="descriptionHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="expiry" type="xs:long"/>
+      <xs:element name="fallbackAddr" type="xs:string" minOccurs="0"/>
+      <xs:element name="cltvExpiry" type="xs:long"/>
+      <xs:element name="route_hints" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="RouteHint" type="RouteHintType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="private" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AddHoldInvoiceRespType">
+    <xs:sequence>
+      <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SettleInvoiceMsgType">
+    <xs:sequence>
+      <xs:element name="preimage" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SettleInvoiceRespType">
+    <xs:all/>
+  </xs:complexType>
+</xs:schema>
+

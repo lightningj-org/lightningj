@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/router_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/router_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:element name="PaymentRequest" type="tns:PaymentRequestType"/>
+
+  <xs:element name="PaymentResponse" type="tns:PaymentResponseType"/>
+
+  <xs:element name="RouteFeeRequest" type="tns:RouteFeeRequestType"/>
+
+  <xs:element name="RouteFeeResponse" type="tns:RouteFeeResponseType"/>
+
+  <xs:complexType name="PaymentRequestType">
+    <xs:sequence>
+      <xs:element name="payReq" type="xs:string" minOccurs="0"/>
+      <xs:element name="feeLimitSat" type="xs:long"/>
+      <xs:element name="cltvLimit" type="xs:int"/>
+      <xs:element name="timeoutSeconds" type="xs:int"/>
+      <xs:element name="outgoingChannelId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PaymentResponseType">
+    <xs:sequence>
+      <xs:element name="payHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="preImage" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="paymentErr" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RouteFeeRequestType">
+    <xs:sequence>
+      <xs:element name="dest" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="amtSat" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RouteFeeResponseType">
+    <xs:sequence>
+      <xs:element name="routingFeeMsat" type="xs:long"/>
+      <xs:element name="timeLockDelay" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

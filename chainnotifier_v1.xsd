@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/chainnotifier_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:element name="BlockEpoch" type="tns:BlockEpochType"/>
+
+  <xs:element name="ConfDetails" type="tns:ConfDetailsType"/>
+
+  <xs:element name="ConfEvent" type="tns:ConfEventType"/>
+
+  <xs:element name="ConfRequest" type="tns:ConfRequestType"/>
+
+  <xs:element name="Outpoint" type="tns:OutpointType"/>
+
+  <xs:element name="Reorg" type="tns:ReorgType"/>
+
+  <xs:element name="SpendDetails" type="tns:SpendDetailsType"/>
+
+  <xs:element name="SpendEvent" type="tns:SpendEventType"/>
+
+  <xs:element name="SpendRequest" type="tns:SpendRequestType"/>
+
+  <xs:complexType name="ConfRequestType">
+    <xs:sequence>
+      <xs:element name="txid" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="script" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="numConfs" type="xs:int"/>
+      <xs:element name="heightHint" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConfDetailsType">
+    <xs:sequence>
+      <xs:element name="rawTx" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="blockHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="blockHeight" type="xs:int"/>
+      <xs:element name="txIndex" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReorgType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ConfEventType">
+    <xs:sequence>
+      <xs:element name="conf" type="tns:ConfDetailsType" minOccurs="0"/>
+      <xs:element name="reorg" type="tns:ReorgType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OutpointType">
+    <xs:sequence>
+      <xs:element name="hash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="index" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SpendRequestType">
+    <xs:sequence>
+      <xs:element name="outpoint" type="tns:OutpointType" minOccurs="0"/>
+      <xs:element name="script" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="heightHint" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SpendDetailsType">
+    <xs:sequence>
+      <xs:element name="spendingOutpoint" type="tns:OutpointType" minOccurs="0"/>
+      <xs:element name="rawSpendingTx" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="spendingTxHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="spendingInputIndex" type="xs:int"/>
+      <xs:element name="spendingHeight" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SpendEventType">
+    <xs:sequence>
+      <xs:element name="spend" type="tns:SpendDetailsType" minOccurs="0"/>
+      <xs:element name="reorg" type="tns:ReorgType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BlockEpochType">
+    <xs:sequence>
+      <xs:element name="hash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="height" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

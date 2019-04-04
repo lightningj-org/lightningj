@@ -756,6 +756,7 @@ p.tableblock.header { color: #6d6e71; }
 <ul class="sectlevel3">
 <li><a href="#_synchronous_api">Synchronous API</a></li>
 <li><a href="#_asynchronous_api">Asynchronous API</a></li>
+<li><a href="#_available_apis">Available APIs</a></li>
 </ul>
 </li>
 <li><a href="#_json_conversion">Json Conversion</a></li>
@@ -793,7 +794,7 @@ p.tableblock.header { color: #6d6e71; }
 <div class="sectionbody">
 <div class="paragraph">
 <p><em>Lightning APIs for Java</em>
-V 0.5.2-Beta, 2019-02-07</p>
+V 0.6.0-Beta-rc2, 2019-04-04</p>
 </div>
 </div>
 </div>
@@ -842,6 +843,11 @@ to the license agreement can be found <a href="LICENSE.txt">here</a>.</p>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
+<li>
+<p>0.6.0-Beta-rc2 : Generated API for LND 0.6.0 Beta rc1 and added APIs for the new Autopilot, ChainNotifier
+Invoices, Router, Signer and WalletKit APIs. XML Schema was also split up to have one
+schema for each API.</p>
+</li>
 <li>
 <p>0.5.2-Beta     : Basically the same as 0.5.2-Beta-rc3, no changes to RPC</p>
 </li>
@@ -896,9 +902,6 @@ LND.</p>
 <li>
 <p>LND: Keep rpc.proto specification updated with latest LND release.</p>
 </li>
-<li>
-<p>Implement equivalent API for Lightning-c and or Eclair.</p>
-</li>
 </ul>
 </div>
 </div>
@@ -921,7 +924,7 @@ build it from source.</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">   &lt;dependency&gt;
       &lt;groupId&gt;org.lightningj&lt;/groupId&gt;
       &lt;artifactId&gt;lightningj&lt;/artifactId&gt;
-      &lt;version&gt;0.5.2-Beta&lt;/version&gt;
+      &lt;version&gt;0.6.0-Beta-rc2&lt;/version&gt;
    &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -930,7 +933,7 @@ build it from source.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>    compile 'org.lightningj:lightningj:0.5.2-Beta'</pre>
+<pre>    compile 'org.lightningj:lightningj:0.6.0-Beta-rc2'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1004,11 +1007,13 @@ as parameter). Or specify a custom SSL Context and Macaroon Context for more adv
 <div class="sect3">
 <h4 id="_synchronous_api">Synchronous API</h4>
 <div class="paragraph">
-<p>The synchronous APIs are SynchronousLndAPI and SynchronousWalletUnlockerAPI that waits for
-response before continuing the thread.</p>
+<p>The synchronous APIs are API calls that waits for response before continuing the thread.</p>
 </div>
 <div class="paragraph">
-<p>Below is an example on how to use a Synchronous API.</p>
+<p>See section Available APIs for a list of available Asynchronous APIs.</p>
+</div>
+<div class="paragraph">
+<p>Below is an example on how to use a Synchronous API using the main LND API.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1072,10 +1077,10 @@ expects a StreamObserver implementation handling the response at a later time an
 is useful i GUI applications to give a more fluent experience.</p>
 </div>
 <div class="paragraph">
-<p>The variants of Asynchronous APIs are AsynchronousLndAPI and AsynchronousWalletUnlockerAPI.</p>
+<p>See section Available APIs for a list of available Asynchronous APIs.</p>
 </div>
 <div class="paragraph">
-<p>And example on how to use the Asynchronous API</p>
+<p>And example on how to use the main LDN Asynchronous API</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1143,6 +1148,89 @@ try {
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_available_apis">Available APIs</h4>
+<div class="paragraph">
+<p>Starting from 0.6.0 there are several different APIs to the different services.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. List of Available APIs</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">API Name</th>
+<th class="tableblock halign-left valign-top">Comment</th>
+<th class="tableblock halign-left valign-top">Syncronious API Class</th>
+<th class="tableblock halign-left valign-top">Asynchronous API Class</th>
+<th class="tableblock halign-left valign-top">Since Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lightning API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Main API for LND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.SynchronousLndAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.AsynchronousLndAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1-Beta</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wallet API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unlocking of Wallet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.SynchronousWalletUnlockerAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.AsynchronousWalletUnlockerAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1-Beta</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Autopilot API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for managing autopilot</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.autopilot.SynchronousAutopilotAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.autopilot.AsynchronousAutopilotAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ChainNotifier API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for the chain notifier service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.chainnotifier.SynchronousChainNotifierAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.chainnotifier.AsynchronousChainNotifierAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoices API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoices is a service that can be used to create, accept, settle and cancel invoices</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.invoices.SynchronousInvoicesAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.invoices.AsynchronousInvoicesAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Router API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for the router service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.router.SynchronousRouterAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.router.AsynchronousRouterAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signer API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for the signer service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.signer.SynchronousSignerAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.signer.AsynchronousSignerAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WalletKit API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for the wallet kit service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.walletkit.SynchronousWalletKitAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.walletkit.AsynchronousWalletKitAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_json_conversion">Json Conversion</h3>
@@ -1197,7 +1285,7 @@ and high level wrapper object is a XMLParser used.</p>
 </div>
 <div class="paragraph">
 <p>Use XMLParserFactory to retrieve a XMLParser for the used XML Schema version (currently only
-version "1.0" exist and should still not be considered final and could change.)</p>
+version "1.0" exist and should still not be considered final and could change until LND releases a final release.)</p>
 </div>
 <div class="paragraph">
 <p>An example on XML conversion:</p>
@@ -1233,13 +1321,101 @@ while(result.hasNext()){
     System.out.println("XML Response data: " + new String(responseData,"UTF-8"));
     // To get XML pretty printed
     byte[] responseDataPrettyPrinted = xmlParser.marshall(next,true);
-    System.out.println("Pretty Printed XML Response data: Œ" + new String(responseDataPrettyPrinted,"UTF-8"));
+    System.out.println("Pretty Printed XML Response data: " + new String(responseDataPrettyPrinted,"UTF-8"));
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The latest XSD schema can be found here <a href="lnd_v1.xsd">lnd_v1.xsd</a></p>
+<p>In 0.6.0 was the schema updated and there exists several schemas for each separate service. See table
+below for link to each schema, namespace and default prefix.</p>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. List of Available APIs</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Schema name</th>
+<th class="tableblock halign-left valign-top">Comment</th>
+<th class="tableblock halign-left valign-top">Prefix</th>
+<th class="tableblock halign-left valign-top">Namespace</th>
+<th class="tableblock halign-left valign-top">Link</th>
+<th class="tableblock halign-left valign-top">Since Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lightning API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Main API for LND</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/lndjapi_1_0" class="bare">http://lightningj.org/xsd/lndjapi_1_0</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="lnd_v1.xsd">lnd_v1.xsd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1-Beta</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wallet API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unlocking of Wallet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/lndjapi_1_0" class="bare">http://lightningj.org/xsd/lndjapi_1_0</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="lnd_v1.xsd">lnd_v1.xsd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1-Beta</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Autopilot API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for managing autopilot</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">autopilot:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/autopilot_1_0" class="bare">http://lightningj.org/xsd/autopilot_1_0</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="autopilot_v1.xsd">autopilot_v1.xsd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ChainNotifier API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for the chain notifier service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">chainnotifier:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/chainnotifier_1_0" class="bare">http://lightningj.org/xsd/chainnotifier_1_0</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="chainnotifier_v1.xsd">chainnotifier_v1.xsd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoices API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoices is a service that can be used to create, accept, settle and cancel invoices</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">invoices:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/invoices_1_0" class="bare">http://lightningj.org/xsd/invoices_1_0</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="invoices_v1.xsd">invoices_v1.xsd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Router API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for the router service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">router:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/router_1_0" class="bare">http://lightningj.org/xsd/router_1_0</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="router_v1.xsd">router_v1.xsd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signer API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for the signer service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">signer:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/signer_1_0" class="bare">http://lightningj.org/xsd/signer_1_0</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="signer_v1.xsd">signer_v1.xsd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WalletKit API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains methods for the wallet kit service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">walletkit:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/walletkit_1_0" class="bare">http://lightningj.org/xsd/walletkit_1_0</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="walletkit_v1.xsd">walletkit_v1.xsd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.6-Beta-rc1</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_validation">Validation</h3>
@@ -1306,7 +1482,7 @@ indicating the type of status problem that occurred and that could be handled di
 <p>Here is a list of status exceptions</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. Types of Status Exceptions</caption>
+<caption class="title">Table 3. Types of Status Exceptions</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1395,7 +1571,7 @@ asynchronousLndAPI.channelBalance(new StreamObserver&lt;ChannelBalanceResponse&g
 status code.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 2. Status Code to High Level Status Exception Mappings</caption>
+<caption class="title">Table 4. Status Code to High Level Status Exception Mappings</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1589,7 +1765,7 @@ generated low level API class files being too large.</p>
 <p>In idea.properties add:</p>
 <div class="literalblock">
 <div class="content">
-<pre>idea.max.intellisense.filesize=3000</pre>
+<pre>idea.max.intellisense.filesize=4000</pre>
 </div>
 </div>
 </li>
@@ -1699,7 +1875,7 @@ signing.gnupg.keyName=&lt;your key id&gt;</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-02-07 15:07:21 CET
+Last updated 2019-04-04 23:19:05 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
