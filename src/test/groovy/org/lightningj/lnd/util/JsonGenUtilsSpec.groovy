@@ -37,7 +37,7 @@ import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.LONG
 import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.MESSAGE
 import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.STRING
 import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.ENUM
-import static org.lightningj.lnd.proto.LightningApi.NewAddressRequest.AddressType.WITNESS_PUBKEY_HASH
+import static org.lightningj.lnd.proto.LightningApi.AddressType.WITNESS_PUBKEY_HASH
 
 /**
  * Unit test for class JsonGenUtils
@@ -54,7 +54,7 @@ class JsonGenUtilsSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder1 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         JsonObjectBuilder jsonObjectBuilder2 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         expect:
-        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0}'
+        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0,"state":"OPEN"}'
         JsonGenUtils.jsonToString(jsonObjectBuilder2,true) == """
 {
     "memo": "SomeMemo",
@@ -77,7 +77,8 @@ class JsonGenUtilsSpec extends Specification {
     "settle_index": 0,
     "amt_paid": 0,
     "amt_paid_sat": 0,
-    "amt_paid_msat": 0
+    "amt_paid_msat": 0,
+    "state": "OPEN"
 }"""
     }
 
@@ -159,7 +160,7 @@ class JsonGenUtilsSpec extends Specification {
         jsonObjectBuilder.build().toString() == jsonData
         where:
         javaType          | instance                                       | field                | values                                                     | jsonData
-        STRING            | LightningApi.GetInfoResponse.newInstance()     | "chains"             | ["SomeString1","SomeString2"]                              | '{"chains":["SomeString1","SomeString2"]}'
+        STRING            | LightningApi.GetInfoResponse.newInstance()     | "uris"             | ["SomeString1","SomeString2"]                              | '{"uris":["SomeString1","SomeString2"]}'
         MESSAGE           | LightningApi.QueryRoutesResponse.newInstance() | "routes"             | [createRoute().build(),createRoute(321L).build()] | '{"routes":[{"total_time_lock":0,"total_fees":543234,"total_amt":123,"hops":[],"total_fees_msat":0,"total_amt_msat":0},{"total_time_lock":0,"total_fees":543234,"total_amt":321,"hops":[],"total_fees_msat":0,"total_amt_msat":0}]}'
     }
 
@@ -181,7 +182,7 @@ class JsonGenUtilsSpec extends Specification {
 
         where:
         javaType          | instance                                       | field                | values                                                     | jsonData
-        STRING            | LightningApi.GetInfoResponse.newInstance()     | "chains"             | ["SomeString1","SomeString2"]                              | '{"chains":["SomeString1","SomeString2"]}'
+        STRING            | LightningApi.GetInfoResponse.newInstance()     | "uris"             | ["SomeString1","SomeString2"]                              | '{"uris":["SomeString1","SomeString2"]}'
         MESSAGE           | LightningApi.QueryRoutesResponse.newInstance() | "routes"             | [createRoute().build(),createRoute(321L).build()] | '{"routes":[{"total_time_lock":0,"total_fees":543234,"total_amt":123,"hops":[]},{"total_time_lock":0,"total_fees":543234,"total_amt":321,"hops":[]}]}'
     }
 
@@ -220,7 +221,7 @@ class JsonGenUtilsSpec extends Specification {
         when:
         JsonObjectBuilder result = JsonGenUtils.messageToJson(createInvoice(),LightningApi.Invoice.descriptor)
         then:
-        result.build().toString() == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0}'
+        result.build().toString() == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0,"state":"OPEN"}'
     }
 
     def "Verify that jsonToMessage converts json to a message fields that contain single values"(){

@@ -30,29 +30,63 @@ class ClassGenerator {
     /**
      * Main method to generate a wrapped class for a given proto class descriptor.
      */
-    static void genClass(Descriptor classDescriptor, String outputDir){
+    static void genClass(Descriptor classDescriptor, ProtocolSettings settings){
         String classTemplate = getTemplate("WrappedMessageClass.java.template")
 
         String className = classDescriptor.name
         String fields = genFields(classDescriptor, className)
         String messageType = getMessageType(classDescriptor)
 
-        String innerEnums = genInnerEnums(classDescriptor,className)
-        String getterAndSetters = genGetterAndSetters(classDescriptor, className)
-        String innerClasses = genInnerClasses(classDescriptor, className)
-        String xmlType = genXMLType(classDescriptor,className)
-        String populateRepeatableFields = genPopulateRepeatableFields(classDescriptor,className)
+        String innerEnums = genInnerEnums(settings, classDescriptor,className)
+        String getterAndSetters = genGetterAndSetters(settings,classDescriptor, className)
+        String innerClasses = genInnerClasses(settings, classDescriptor, className)
+        String xmlType = genXMLType( classDescriptor,className)
+        String populateRepeatableFields = genPopulateRepeatableFields(settings, classDescriptor,className)
 
         def engine = new SimpleTemplateEngine()
-        String generatedClass = engine.createTemplate(classTemplate).make([className: className,
-                                                   messageType: messageType, innerEnums:innerEnums,
-                                                   fields: fields,
-                                                   getterAndSetters: getterAndSetters,
-                                                   innerClasses: innerClasses,
-                                                   xmlType: xmlType,
-                                                   populateRepeatableFields: populateRepeatableFields]).toString()
+        String generatedClass = engine.createTemplate(classTemplate).make([
+                specialAPIImports: settings.getSpecialAPIImports(),
+                wrapperBasePackageName: settings.wrapperBasePackageName,
+                apiClassPath: settings.getAPIClassPath(),
+                apiClassName: settings.getAPIClassName(),
+                className: className,
+                messageType: messageType, innerEnums:innerEnums,
+                fields: fields,
+                getterAndSetters: getterAndSetters,
+                innerClasses: innerClasses,
+                xmlType: xmlType,
+                populateRepeatableFields: populateRepeatableFields]).toString()
 
-        new File(outputDir + className + ".java").write(generatedClass)
+        new File(settings.getMessageOutputDir() + className + ".java").write(generatedClass)
+
+
+    }
+
+    /**
+     * Main method to generate a wrapped enum for a given proto class descriptor.
+     */
+    static void genEnum(Descriptors.EnumDescriptor enumDescriptor, ProtocolSettings settings){
+        String enumTemplate = getTemplate("WrappedEnum.java.template")
+
+        String enumName = ClassNameUtils.convertToJavaBean(enumDescriptor.name)
+        String xmlType = "@XmlEnum()"
+        List enumValueList = []
+        enumDescriptor.values.each{ def value ->
+            enumValueList << "        ${value.name}(LightningApi.${enumName}.${value.name})"
+        }
+        String enumValues = enumValueList.join(",\n") + ";"
+
+        def engine = new SimpleTemplateEngine()
+        String generatedEnum = engine.createTemplate(enumTemplate).make([
+                specialAPIImports: settings.getSpecialAPIImports(),
+                wrapperBasePackageName: settings.wrapperBasePackageName,
+                apiClassPath: settings.getAPIClassPath(),
+                apiClassName: settings.getAPIClassName(),
+                enumName: enumName,
+                enumValues: enumValues,
+                xmlType: xmlType]).toString()
+
+        new File(settings.getMessageOutputDir() + enumName + ".java").write(generatedEnum)
 
 
     }
@@ -60,9 +94,14 @@ class ClassGenerator {
     /**
      * Method to generate the package-info.java file for JAXB context.
      */
-    static void genPackageInfo(String outputDir){
-        String classTemplate = getTemplate("package-info.java.template")
-        new File(outputDir + "package-info.java").write(classTemplate)
+    static void genPackageInfo(ProtocolSettings settings){
+        String template = getTemplate("package-info.java.template")
+        def engine = new SimpleTemplateEngine()
+        String generatedPackageInfo = engine.createTemplate(template).make([
+                wrapperBasePackageName: settings.wrapperBasePackageName,
+                externalNameSpaces: settings.getExternalNamespaces(),
+                namespace: settings.getXMLNameSpace()]).toString()
+        new File(settings.messageOutputDir + "package-info.java").write(generatedPackageInfo)
     }
 
     static void genJaxbIndex(Descriptors.FileDescriptor fileDescriptor, String resourcesOutputDir){
@@ -98,7 +137,7 @@ class ClassGenerator {
      * @param classDescriptor the class descriptor
      * @return a generated getter and setter template
      */
-    static String genInnerEnums(Descriptor classDescriptor, String className){
+    static String genInnerEnums(ProtocolSettings settings, Descriptor classDescriptor, String className){
         String retval = ""
         classDescriptor.enumTypes.each{
             String innerEnumTemplate = getTemplate("InnerEnum.java.template")
@@ -107,7 +146,7 @@ class ClassGenerator {
             String xmlType = "@XmlEnum()"
             List enumValueList = []
             it.values.each{ def value ->
-                enumValueList << "        ${value.name}(LightningApi.${className}.${enumName}.${value.name})"
+                enumValueList << "        ${value.name}(${settings.getAPIClassName()}.${className}.${enumName}.${value.name})"
             }
             String enumValues = enumValueList.join(",\n") + ";"
 
@@ -115,6 +154,7 @@ class ClassGenerator {
             retval += engine.createTemplate(innerEnumTemplate).make([enumName: enumName,
                                                                      enumValues: enumValues,
                                                                      className: className,
+                                                                     apiClassName: settings.getAPIClassName(),
                                                                      xmlType: xmlType]).toString()
 
         }
@@ -127,7 +167,7 @@ class ClassGenerator {
      * @param classDescriptor the class descriptor
      * @return a generated getter and setter template
      */
-    static String genGetterAndSetters(Descriptor classDescriptor, String className, String indentation=""){
+    static String genGetterAndSetters(ProtocolSettings settings, Descriptor classDescriptor, String className, String indentation=""){
         String retval = ""
         classDescriptor.fields.each{
             String getterAndSetterTemplate = getTemplate(getTemplateName(it))
@@ -156,6 +196,7 @@ class ClassGenerator {
                                                                  fieldJavaName: fieldJavaName,
                                                                  fieldJavaType: fieldJavaType,
                                                                  className: className,
+                                                                 apiClassName: settings.getAPIClassName(),
                                                                  fieldKeyType: fieldKeyType,
                                                                  fieldValueType: fieldValueType,
                                                                  fieldName: fieldName,
@@ -174,13 +215,13 @@ class ClassGenerator {
      * Method that iterates a class descriptors all inner message types that
      * will be generated as inner classes.
      */
-    static String genInnerClasses(Descriptor classDescriptor, String className){
+    static String genInnerClasses(ProtocolSettings settings, Descriptor classDescriptor, String className){
         String retval = ""
         classDescriptor.getNestedTypes().each{
             if(getMapFields(classDescriptor).find{FieldDescriptor fd -> fd.messageType.fullName == it.fullName} != null){
-                retval += genInnerMapClass(it,className)
+                retval += genInnerMapClass(settings,it,className)
             }else {
-                retval += genInnerClass(it, className)
+                retval += genInnerClass(settings,it, className)
             }
         }
         return retval
@@ -189,24 +230,31 @@ class ClassGenerator {
     /**
      * Method to generate a inner class file.
      */
-    static String genInnerClass(Descriptor innerClassDescriptor, String className){
+    static String genInnerClass(ProtocolSettings settings, Descriptor innerClassDescriptor, String className){
         String innerClassTemplate = getTemplate("InnerClass.java.template")
 
         String innerClassName = innerClassDescriptor.name
+        String fields = genFields(innerClassDescriptor, innerClassName)
         String messageType = getMessageType(innerClassDescriptor)
-        String xmlType = genXMLType(innerClassDescriptor,innerClassName,"    ")
+        String xmlType = genXMLType(innerClassDescriptor,className+innerClassName,"    ")
 
-        String innerEnums = genInnerEnums(innerClassDescriptor,className+"."+innerClassName)
-        String getterAndSetters = genGetterAndSetters(innerClassDescriptor, className+"."+innerClassName, "     ")
-        String populateRepeatableFields = genPopulateRepeatableFields(innerClassDescriptor, className+"."+innerClassName)
+        String innerEnums = genInnerEnums(settings,innerClassDescriptor,className+"."+innerClassName)
+        String getterAndSetters = genGetterAndSetters(settings,innerClassDescriptor, className+"."+innerClassName, "     ")
+        String innerClasses = genInnerClasses(settings, innerClassDescriptor, className)
+        innerClasses = innerClasses.replaceAll("\n","\n         ")
+        String populateRepeatableFields = genPopulateRepeatableFields(settings,innerClassDescriptor, className+"."+innerClassName)
 
         def engine = new SimpleTemplateEngine()
         String generatedInnerClass = engine.createTemplate(innerClassTemplate).make([className: className,
-                                                                           innerClassName: innerClassName,
-                                                                           messageType: messageType, innerEnums:innerEnums,
-                                                                           getterAndSetters: getterAndSetters,
-                                                                           xmlType: xmlType,
-                                                                           populateRepeatableFields: populateRepeatableFields]).toString()
+                                                                                     fields: fields,
+                                                                                     innerClassName: innerClassName,
+                                                                                     innerClasses: innerClasses,
+                                                                                     apiClassPath: settings.getAPIClassPath(),
+                                                                                     apiClassName: settings.getAPIClassName(),
+                                                                                     messageType: messageType, innerEnums:innerEnums,
+                                                                                     getterAndSetters: getterAndSetters,
+                                                                                     xmlType: xmlType,
+                                                                                     populateRepeatableFields: populateRepeatableFields]).toString()
 
         return generatedInnerClass
 
@@ -248,14 +296,14 @@ class ClassGenerator {
     /**
      * Method to generate code for map field type.
      */
-    static String genInnerMapClass(Descriptor innerClassDescriptor, String className){
+    static String genInnerMapClass(ProtocolSettings settings, Descriptor innerClassDescriptor, String className){
         String innerClassTemplate = getTemplate("InnerMapClass.java.template")
 
         String innerClassName = innerClassDescriptor.name
         String wrappingClassName = innerClassName.replaceAll("Entry", "Entries")
         String messageType = getMessageType(innerClassDescriptor)
-        String xmlType = genXMLType(innerClassDescriptor, innerClassName, "    ")
-        String entriesXmlType = genXMLType(innerClassDescriptor,wrappingClassName,"    ", ["entry"])
+        String xmlType = genXMLType(innerClassDescriptor, className+innerClassName, "    ")
+        String entriesXmlType = genXMLType(innerClassDescriptor,className+wrappingClassName,"    ", ["entry"])
         FieldDescriptor mappingFieldDesc = getMapFields(innerClassDescriptor.containingType).find{FieldDescriptor fd -> fd.messageType.fullName == innerClassDescriptor.fullName}
         ClassNameUtils.MappingType[] mappingFields = ClassNameUtils.getMappingTypes(mappingFieldDesc)
         String fieldKeyType = mappingFields[0].type
@@ -323,6 +371,10 @@ class ClassGenerator {
             return "StringListGetterAndSetterSection.java.template"
         }
 
+        if(ft.javaType == FieldDescriptor.JavaType.BYTE_STRING && ft.isRepeated()){
+            return "ByteStringListGetterAndSetterSection.java.template"
+        }
+
         if(ft.javaType == FieldDescriptor.JavaType.BYTE_STRING){
             return "ByteStringGetterAndSetterSection.java.template"
         }
@@ -330,7 +382,7 @@ class ClassGenerator {
         return "BasicGetterAndSetterSection.java.template"
     }
 
-    static genPopulateRepeatableFields(Descriptor classDescriptor, String className){
+    static genPopulateRepeatableFields(ProtocolSettings settings, Descriptor classDescriptor, String className){
         String retval = ""
 
         Collection fields = classDescriptor.fields.findAll{it.isRepeated()}
@@ -347,31 +399,41 @@ class ClassGenerator {
                     if (it.javaType == FieldDescriptor.JavaType.MESSAGE) {
                         repeatableFields += """
 
-        ((LightningApi.${className}.Builder) builder).clear${fieldJavaName}();
+        ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
         if(${fieldName} != null){
           for(${fieldJavaType} next : ${fieldName}){
-            ((LightningApi.${className}.Builder) builder).add${fieldJavaName}(next.getApiObject());
+            ((${settings.getAPIClassName()}.${className}.Builder) builder).add${fieldJavaName}(next.getApiObject());
           }
         }"""
                     } else {
-                        repeatableFields += """
+                        if (it.javaType == FieldDescriptor.JavaType.BYTE_STRING) {
+                            repeatableFields += """
 
-        ((LightningApi.${className}.Builder) builder).clear${fieldJavaName}();
+        ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
         if(${fieldName} != null){
-          for(${fieldJavaType} next : ${fieldName}){
-            ((LightningApi.${className}.Builder) builder).add${fieldJavaName}(next);
+          for(byte[] next : ${fieldName}){
+            ((${settings.getAPIClassName()}.${className}.Builder) builder).add${fieldJavaName}(ByteString.copyFrom(next));
           }
         }"""
-                    }
+                        } else {
+                            repeatableFields += """
 
+        ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
+        if(${fieldName} != null){
+          for(${fieldJavaType} next : ${fieldName}){
+            ((${settings.getAPIClassName()}.${className}.Builder) builder).add${fieldJavaName}(next);
+          }
+        }"""
+                        }
+                    }
                 } else {
 
                     repeatableFields += """
 
-        ((LightningApi.${className}.Builder) builder).clear${fieldJavaName}();
+        ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
         if(${fieldName}Entries != null){
           for(${fieldJavaType} entry : ${fieldName}Entries.getEntry()){
-            ((LightningApi.${className}.Builder) builder).put${fieldJavaName}(entry.getKey(),entry.getValue());
+            ((${settings.getAPIClassName()}.${className}.Builder) builder).put${fieldJavaName}(entry.getKey(),entry.getValue());
           }
         }"""
                 }

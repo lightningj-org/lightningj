@@ -11,14 +11,15 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.lightningj.lnd.wrapper;
+package ${wrapperBasePackageName};
 
 import io.grpc.ManagedChannel;
 import io.grpc.stub.StreamObserver;
 import io.netty.handler.ssl.SslContext;
-import org.lightningj.lnd.proto.*;
-import org.lightningj.lnd.wrapper.message.*;
-import org.lightningj.lnd.wrapper.message.NewAddressRequest.AddressType;
+import ${aPIPackage}.*;
+import ${wrapperBasePackageName}.message.*;
+import org.lightningj.lnd.wrapper.*;
+${specialAPIImports}
 
 import javax.net.ssl.SSLException;
 import java.io.File;
@@ -71,7 +72,7 @@ public class ${apiClassName} extends ${apiType}{
         super(channel);
     }
 
-    ${callMethods}
+${callMethods}
 
     protected ${grpcClass}.${stubClass} getStub(){
         if(stub == null){

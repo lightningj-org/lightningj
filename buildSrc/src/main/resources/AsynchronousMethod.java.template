@@ -1,7 +1,7 @@
     /**
      * Method to generate a ${methodName} request.
      *
-     * @see org.lightningj.lnd.proto.${grpcClass}.${stubClass}#${methodName}(LightningApi.${requestType}, ${observerTypeName})
+     * @see ${apiPackage}.${grpcClass}.${stubClass}#${methodName}(${apiClassName}.${requestType}, ${observerTypeName})
      * @throws StatusException if problems occurred in underlying GRPC call. Can be of one of three sub exceptions
      * <li>ClientSideException: if problems was found in the request data, such as invalid or unexpected data.
      * <li>ServerSideException: if server side problems was detected when processing the request.
@@ -17,7 +17,7 @@
     /**
      * Method to send a ${methodName} request.
      *
-     * @see org.lightningj.lnd.proto.${grpcClass}.${stubClass}#${methodName}(LightningApi.${requestType},${observerTypeName})
+     * @see ${apiPackage}.${grpcClass}.${stubClass}#${methodName}(${apiClassName}.${requestType},${observerTypeName})
      * @throws StatusException if problems occurred in underlying GRPC call. Can be of one of three sub exceptions
      * <li>ClientSideException: if problems was found in the request data, such as invalid or unexpected data.
      * <li>ServerSideException: if server side problems was detected when processing the request.
@@ -25,6 +25,6 @@
      * @throws ValidationException if validation problems found in request or response data.
      */
     public void ${methodName}(${requestType} request, ${responseObserverType} responseObserver) throws StatusException,ValidationException{
-         StreamObserverWrapper<LightningApi.${observerTypeParameterName}> observerWrapper = new StreamObserverWrapper<>(responseObserver, performValidation, "${observerTypeParameterName}");
-         getStub().${methodName}((LightningApi.${requestType}) processRequest(request), observerWrapper);
+         StreamObserverWrapper<${apiResponseClassName}.${observerTypeParameterName}> observerWrapper = new StreamObserverWrapper<>(responseObserver, performValidation, "${observerTypeParameterName}");
+         getStub().${methodName}((${apiClassName}.${requestType}) processRequest(request), observerWrapper);
     }

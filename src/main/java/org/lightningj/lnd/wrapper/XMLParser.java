@@ -20,6 +20,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.Source;
+import javax.xml.transform.SourceLocator;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.ByteArrayInputStream;
@@ -43,9 +46,9 @@ public abstract class XMLParser {
 
     /**
      *
-     * @return the resource location of the related schema.
+     * @return the resource locations of the related schemas.
      */
-    protected abstract String getSchemaLocation();
+    protected abstract String[] getSchemaLocations();
 
     /**
      *
@@ -72,7 +75,6 @@ public abstract class XMLParser {
         throw new JAXBException("Invalid XML message type, expected LND Message but got object of type: " + retval.getClass().getSimpleName());
     }
 
-    // TODO Schema location
 
     /**
      * Method to convert a Message into byte array.
@@ -115,25 +117,20 @@ public abstract class XMLParser {
      * @throws SAXException if loading of schema failed.
      */
     public Schema getSchema() throws SAXException {
-        URL xsdURL = getClass().getResource(getSchemaLocation());
+        String[] schemaLocations = getSchemaLocations();
+        Source[] sources = new Source[schemaLocations.length];
+        for(int i=0; i <schemaLocations.length; i++){
+            sources[i] = new StreamSource(getClass().getResourceAsStream(schemaLocations[i]));
+        }
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-        Schema schema = schemaFactory.newSchema(xsdURL);
+
+        Schema schema = schemaFactory.newSchema(sources);
 
         return schema;
     }
 
-    /**
-     * Help method to get related XSD schema as byte array.
-     * @return a byte array representation of schema (UTF-8)
-     * @throws IOException if problems occurred reading the schema.
-     */
-    public byte[] getSchemaData() throws IOException{
-        InputStream is = getClass().getResourceAsStream(getSchemaLocation());
-        byte[] data = new byte[is.available()];
-        is.read(data);
-        return data;
-    }
+
 
     /**
      * Help method maintaining the JAXB Context.
@@ -186,6 +183,5 @@ public abstract class XMLParser {
         }
         return retval;
     }
-
 
 }

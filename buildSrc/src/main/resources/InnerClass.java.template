@@ -4,19 +4,22 @@
     /**
      * Inner class ${innerClassName} for class ${className}.
      *
+     * Generated Automatically.
      *
      * @see org.lightningj.lnd.wrapper.Message
-     * @see org.lightningj.lnd.proto.LightningApi.${className}.${innerClassName}
-     * Generated Automatically.
+     * @see ${apiClassPath}.${className}.${innerClassName}
      */
 ${xmlType}
-    public static class ${innerClassName} extends ${messageType}<LightningApi.${className}.${innerClassName}> {
+    public static class ${innerClassName} extends ${messageType}<${apiClassName}.${className}.${innerClassName}> {
     ${innerEnums}
+
+    ${fields}
+
         /**
          * Empty Constructor
          */
         public ${innerClassName}(){
-            super(LightningApi.${className}.${innerClassName}.newBuilder());
+            super(${apiClassName}.${className}.${innerClassName}.newBuilder());
         }
 
         /**
@@ -24,24 +27,26 @@ ${xmlType}
          * @throws JsonException if problems was found with the supplied JSON data.
          */
         public ${innerClassName}(JsonReader jsonReader) throws JsonException{
-            super(jsonReader, LightningApi.${className}.${innerClassName}.newBuilder());
+            super(jsonReader, ${apiClassName}.${className}.${innerClassName}.newBuilder());
         }
 
         /**
          * Constructor using underlying Lightning API Object
          */
-         public ${innerClassName}(LightningApi.${className}.${innerClassName} apiObject){
+         public ${innerClassName}(${apiClassName}.${className}.${innerClassName} apiObject){
            super(apiObject.toBuilder());
          }
 
          /**
           * @return the underlying Lightning API Object Builder.
           */
-         LightningApi.${className}.${innerClassName}.Builder getBuilder(){
-           return (LightningApi.${className}.${innerClassName}.Builder) builder;
+         ${apiClassName}.${className}.${innerClassName}.Builder getBuilder(){
+           return (${apiClassName}.${className}.${innerClassName}.Builder) builder;
          }
 
          ${getterAndSetters}
+
+         ${innerClasses}
 
          ${populateRepeatableFields}
 

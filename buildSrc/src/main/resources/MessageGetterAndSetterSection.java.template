@@ -5,12 +5,12 @@
      */
     ${xmlElement}
     public ${fieldJavaType} get${fieldJavaName}() throws ClientSideException{
-        return (${fieldJavaType}) wrapperFactory.wrap(((LightningApi.${className}.Builder) builder).get${fieldJavaName}());
+        return (${fieldJavaType}) wrapperFactory.wrap(((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}());
     }
 
     /**
      * Setter for list of ${fieldJsonName}.
      */
     public void set${fieldJavaName}(${fieldJavaType} value) {
-        ((LightningApi.${className}.Builder) builder).set${fieldJavaName}(value.getApiObject());
+        ((${apiClassName}.${className}.Builder) builder).set${fieldJavaName}(value.getApiObject());
     }
