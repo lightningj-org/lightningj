@@ -38,6 +38,9 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.6.0-Beta-rc2 : Generated API for LND 0.6.0 Beta rc1 and added APIs for the new Autopilot, ChainNotifier
+                   Invoices, Router, Signer and WalletKit APIs. XML Schema was also split up to have one
+                   schema for each API.
 * 0.5.2-Beta     : Basically the same as 0.5.2-Beta-rc3, no changes to RPC
 * 0.5.2-Beta-rc3 : Generated API from LND 0.5.2 Beta  RC3 release. Also changed
                    default message max size limit in to 50 MB to reflect settings in LND.
@@ -60,7 +63,6 @@ LND.
 
 * LND: Keep rpc.proto specification updated with latest LND release.
 
-* Implement equivalent API for Lightning-c and or Eclair.
 
 == Using LightningJ Library
 
@@ -134,10 +136,11 @@ For more details about each call see link:http://api.lightning.community/[LND AP
 
 ==== Synchronous API
 
-The synchronous APIs are SynchronousLndAPI and SynchronousWalletUnlockerAPI that waits for
-response before continuing the thread.
+The synchronous APIs are API calls that waits for response before continuing the thread.
 
-Below is an example on how to use a Synchronous API.
+See section Available APIs for a list of available Asynchronous APIs.
+
+Below is an example on how to use a Synchronous API using the main LND API.
 
 [source,java]
 ----
@@ -199,9 +202,9 @@ The asynchronous is a non-blocking API that doesn't wait for a response but
 expects a StreamObserver implementation handling the response at a later time and
 is useful i GUI applications to give a more fluent experience.
 
-The variants of Asynchronous APIs are AsynchronousLndAPI and AsynchronousWalletUnlockerAPI.
+See section Available APIs for a list of available Asynchronous APIs.
 
-And example on how to use the Asynchronous API
+And example on how to use the main LDN Asynchronous API
 
 [source,java]
 ----
@@ -268,6 +271,64 @@ try {
 }
 ----
 
+==== Available APIs
+
+Starting from 0.6.0 there are several different APIs to the different services.
+
+.List of Available APIs
+|===
+| API Name  | Comment | Syncronious API Class | Asynchronous API Class | Since Version
+
+| Lightning API
+| Main API for LND
+| org.lightningj.lnd.wrapper.SynchronousLndAPI
+| org.lightningj.lnd.wrapper.AsynchronousLndAPI
+| 0.1-Beta
+
+| Wallet API
+| Unlocking of Wallet
+| org.lightningj.lnd.wrapper.SynchronousWalletUnlockerAPI
+| org.lightningj.lnd.wrapper.AsynchronousWalletUnlockerAPI
+| 0.1-Beta
+
+| Autopilot API
+| Contains methods for managing autopilot
+| org.lightningj.lnd.wrapper.autopilot.SynchronousAutopilotAPI
+| org.lightningj.lnd.wrapper.autopilot.AsynchronousAutopilotAPI
+| 0.6-Beta-rc1
+
+| ChainNotifier API
+| Contains methods for the chain notifier service.
+| org.lightningj.lnd.wrapper.chainnotifier.SynchronousChainNotifierAPI
+| org.lightningj.lnd.wrapper.chainnotifier.AsynchronousChainNotifierAPI
+| 0.6-Beta-rc1
+
+| Invoices API
+| Invoices is a service that can be used to create, accept, settle and cancel invoices
+| org.lightningj.lnd.wrapper.invoices.SynchronousInvoicesAPI
+| org.lightningj.lnd.wrapper.invoices.AsynchronousInvoicesAPI
+| 0.6-Beta-rc1
+
+| Router API
+| Contains methods for the router service.
+| org.lightningj.lnd.wrapper.router.SynchronousRouterAPI
+| org.lightningj.lnd.wrapper.router.AsynchronousRouterAPI
+| 0.6-Beta-rc1
+
+| Signer API
+| Contains methods for the signer service.
+| org.lightningj.lnd.wrapper.signer.SynchronousSignerAPI
+| org.lightningj.lnd.wrapper.signer.AsynchronousSignerAPI
+| 0.6-Beta-rc1
+
+| WalletKit API
+| Contains methods for the wallet kit service.
+| org.lightningj.lnd.wrapper.walletkit.SynchronousWalletKitAPI
+| org.lightningj.lnd.wrapper.walletkit.AsynchronousWalletKitAPI
+| 0.6-Beta-rc1
+
+|===
+
 === Json Conversion
 
 The libarary uses the JSR 374 javax.json api to generate and parse JSON.
@@ -316,7 +377,7 @@ For XML parsing and generation is JAXB used. And to convert between XML data
 and high level wrapper object is a XMLParser used.
 
 Use XMLParserFactory to retrieve a XMLParser for the used XML Schema version (currently only
-version "1.0" exist and should still not be considered final and could change.)
+version "1.0" exist and should still not be considered final and could change until LND releases a final release.)
 
 An example on XML conversion:
 [source,java]
@@ -350,11 +411,74 @@ while(result.hasNext()){
     System.out.println("XML Response data: " + new String(responseData,"UTF-8"));
     // To get XML pretty printed
     byte[] responseDataPrettyPrinted = xmlParser.marshall(next,true);
-    System.out.println("Pretty Printed XML Response data: Œ" + new String(responseDataPrettyPrinted,"UTF-8"));
+    System.out.println("Pretty Printed XML Response data: " + new String(responseDataPrettyPrinted,"UTF-8"));
 }
 ----
 
-The latest XSD schema can be found here link:lnd_v1.xsd[lnd_v1.xsd]
+In 0.6.0 was the schema updated and there exists several schemas for each separate service. See table
+below for link to each schema, namespace and default prefix.
+
+.List of Available APIs
+|===
+| Schema name  | Comment | Prefix | Namespace | Link | Since Version
+
+| Lightning API
+| Main API for LND
+| None
+| http://lightningj.org/xsd/lndjapi_1_0
+| link:lnd_v1.xsd[lnd_v1.xsd]
+| 0.1-Beta
+
+| Wallet API
+| Unlocking of Wallet
+| None
+| http://lightningj.org/xsd/lndjapi_1_0
+| link:lnd_v1.xsd[lnd_v1.xsd]
+| 0.1-Beta
+
+| Autopilot API
+| Contains methods for managing autopilot
+| autopilot:
+| http://lightningj.org/xsd/autopilot_1_0
+| link:autopilot_v1.xsd[autopilot_v1.xsd]
+| 0.6-Beta-rc1
+
+| ChainNotifier API
+| Contains methods for the chain notifier service.
+| chainnotifier:
+| http://lightningj.org/xsd/chainnotifier_1_0
+| link:chainnotifier_v1.xsd[chainnotifier_v1.xsd]
+| 0.6-Beta-rc1
+
+| Invoices API
+| Invoices is a service that can be used to create, accept, settle and cancel invoices
+| invoices:
+| http://lightningj.org/xsd/invoices_1_0
+| link:invoices_v1.xsd[invoices_v1.xsd]
+| 0.6-Beta-rc1
+
+| Router API
+| Contains methods for the router service.
+| router:
+| http://lightningj.org/xsd/router_1_0
+| link:router_v1.xsd[router_v1.xsd]
+| 0.6-Beta-rc1
+
+| Signer API
+| Contains methods for the signer service.
+| signer:
+| http://lightningj.org/xsd/signer_1_0
+| link:signer_v1.xsd[signer_v1.xsd]
+| 0.6-Beta-rc1
+
+| WalletKit API
+| Contains methods for the wallet kit service.
+| walletkit:
+| http://lightningj.org/xsd/walletkit_1_0
+| link:walletkit_v1.xsd[walletkit_v1.xsd]
+| 0.6-Beta-rc1
+
+|===
 
 === Validation
 
@@ -592,7 +716,7 @@ To fix this must the accepted file size be enhanced. This can be done by:
 
 * In idea.properties add:
 
-    idea.max.intellisense.filesize=3000
+    idea.max.intellisense.filesize=4000
 
 * Restart IntelliJ
 

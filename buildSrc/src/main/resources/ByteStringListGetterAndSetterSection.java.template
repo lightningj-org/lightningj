@@ -1,5 +1,5 @@
 
-    private List<${fieldJavaType}> ${fieldName} = null;
+    private List<byte[]> ${fieldName} = null;
 
     /**
      * Getter for a list of ${fieldJsonName}.
@@ -7,12 +7,13 @@
      */
     ${xmlElement}
     ${xmlElementWrapper}
-    public List<${fieldJavaType}> get${fieldJavaName}() throws ClientSideException{
+    public List<byte[]> get${fieldJavaName}() throws ClientSideException{
         if(${fieldName} == null){
           int size = ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}Count();
           ${fieldName} = new ArrayList<>(size);
           for(int i=0; i< size; i++){
-            ${fieldName}.add((${fieldJavaType}) ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}(i));
+            ByteString bs = (ByteString) ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}(i);
+            ${fieldName}.add(bs.toByteArray());
           }
         }
         return ${fieldName};
@@ -21,6 +22,6 @@
     /**
      * Setter for list of ${fieldJsonName}.
      */
-    public void set${fieldJavaName}(List<${fieldJavaType}> valueList) {
+    public void set${fieldJavaName}(List<byte[]> valueList) {
         ${fieldName} = valueList;
     }

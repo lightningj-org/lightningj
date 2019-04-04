@@ -15,7 +15,6 @@ import com.google.protobuf.Descriptors
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
-import java.lang.reflect.Method
 
 /**
  * Class for generating Wrapper classes for LND API.
@@ -24,47 +23,41 @@ import java.lang.reflect.Method
  */
 class WrapperClassGenerator extends DefaultTask{
 
-    String ligtningAPIClassPath = "org.lightningj.lnd.proto.LightningApi"
+    List protocols
 
-    String compileClasses = "build/classes/java/main"
-
-    String messageOutputDir = "build/generated/source/wrapper/main/java/org/lightningj/lnd/wrapper/message/"
-    String callerOutputDir = "build/generated/source/wrapper/main/java/org/lightningj/lnd/wrapper/"
-    String resourcesOutputDir = "build/resources/main/org/lightningj/lnd/wrapper/message/"
 
 
     @TaskAction
     def generate() {
 
-        Descriptors.FileDescriptor descriptor = getLightningAPIFileDescriptor()
+        ProtocolManager.init(protocols)
 
-        createOutputDir()
+        for(String protocol : protocols) {
+            ProtocolSettings protocolSettings = new ProtocolSettings(protocol: protocol)
 
-        descriptor.messageTypes.each {
-            ClassGenerator.genClass(it,messageOutputDir)
+            Descriptors.FileDescriptor descriptor = protocolSettings.getAPIFileDescriptor()
+
+            createOutputDir(protocolSettings)
+
+            descriptor.enumTypes.each {
+                ClassGenerator.genEnum(it, protocolSettings)
+            }
+            descriptor.messageTypes.each {
+                ClassGenerator.genClass(it, protocolSettings)
+            }
+
+            ClassGenerator.genJaxbIndex(descriptor, protocolSettings.resourcesOutputDir)
+
+            ClassGenerator.genPackageInfo(protocolSettings)
+
+            ApiGenerator.generateBlockingAPIs(protocolSettings, ProtocolManager.compileClasses, descriptor)
+
         }
 
-        ClassGenerator.genJaxbIndex(descriptor,resourcesOutputDir)
-
-        ClassGenerator.genPackageInfo(messageOutputDir)
-
-        ApiGenerator.generateBlockingAPIs(callerOutputDir,compileClasses,descriptor)
-
     }
 
-    private Descriptors.FileDescriptor getLightningAPIFileDescriptor(){
-        // Load LightningAPI Class
-        def ncl = new GroovyClassLoader()
-        ncl.addClasspath(compileClasses)
-        Class c = ncl.loadClass(ligtningAPIClassPath)
-
-        // Call getDescriptor
-        Method m = c.getMethod("getDescriptor")
-        return  m.invoke(null)
-    }
-
-    private File createOutputDir(){
-        File dir = new File(messageOutputDir)
+    private File createOutputDir(ProtocolSettings protocolSettings){
+        File dir = new File(protocolSettings.messageOutputDir)
         dir.mkdirs()
         return dir
     }
