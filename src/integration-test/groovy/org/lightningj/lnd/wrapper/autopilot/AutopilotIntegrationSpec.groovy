@@ -11,27 +11,32 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.lightningj.lnd.wrapper
+package org.lightningj.lnd.wrapper.autopilot
 
 import io.grpc.stub.StreamObserver
+import org.lightningj.lnd.wrapper.AsynchronousLndAPI
+import org.lightningj.lnd.wrapper.SynchronousLndAPI
+import org.lightningj.lnd.wrapper.autopilot.message.StatusRequest
+import org.lightningj.lnd.wrapper.autopilot.message.StatusResponse
 import org.lightningj.lnd.wrapper.message.AddInvoiceResponse
 import org.lightningj.lnd.wrapper.message.ChannelGraph
 import org.lightningj.lnd.wrapper.message.Invoice
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 
 /**
- * Integration tests running the APIs against a live test-net LND node.
+ * Integration tests running the autopilot APIs against a live test-net LND node.
  */
-class LNDIntegrationSpec extends Specification{
+class AutopilotIntegrationSpec extends Specification{
 
     @Shared String lndHost
     @Shared int lndPort
     @Shared File tlsCertPath
     @Shared File macaroonPath
 
-    SynchronousLndAPI synchronousLndAPI
-    AsynchronousLndAPI asynchronousLndAPI
+    SynchronousAutopilotAPI synchronousAPI
+    AsynchronousAutopilotAPI asynchronousAPI
 
     def setupSpec(){
         lndHost = System.getProperty("lightningj.integration.test.lnd.host")
@@ -41,50 +46,15 @@ class LNDIntegrationSpec extends Specification{
     }
 
     def setup(){
-        asynchronousLndAPI = new AsynchronousLndAPI(lndHost,lndPort,tlsCertPath, macaroonPath)
-        synchronousLndAPI = new SynchronousLndAPI(lndHost,lndPort,tlsCertPath, macaroonPath)
+        asynchronousAPI = new AsynchronousAutopilotAPI(lndHost,lndPort,tlsCertPath, macaroonPath)
+        synchronousAPI = new SynchronousAutopilotAPI(lndHost,lndPort,tlsCertPath, macaroonPath)
     }
 
-    def "Test to register an invoice synchronously and wait for it asynchronously"(){
-        setup:
-        Invoice recievedInvoice = null
-        asynchronousLndAPI.subscribeInvoices(null,null,new StreamObserver<Invoice>() {
-            @Override
-            void onNext(Invoice value) {
-                recievedInvoice = value
-            }
-
-            @Override
-            void onError(Throwable t) {
-                assert false
-            }
-
-            @Override
-            void onCompleted() {
-                 assert false
-            }
-        })
-        when:
-        Invoice invoice = new Invoice()
-        invoice.value = 10
-        invoice.memo = "Some description"
-        AddInvoiceResponse response = synchronousLndAPI.addInvoice(invoice)
-        then:
-        response.paymentRequest != null
-        when:
-        int times = 0
-        while(recievedInvoice == null && times++ < 20){
-            Thread.sleep(500)
-        }
-        then:
-        recievedInvoice.paymentRequest != null
+    //@Ignore // Wait until proper instructions on how to enable to API.
+    def "Test to verify autopilot api is available"(){
+        expect:
+        synchronousAPI.status() != null
     }
 
-    def "Verify describeGraph fetches the entire graph"(){
-        when:
-        ChannelGraph channelGraph = synchronousLndAPI.describeGraph(true)
-        then:
-        channelGraph != null
-    }
 
 }

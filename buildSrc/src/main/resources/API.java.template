@@ -72,7 +72,7 @@ public class ${apiClassName} extends ${apiType}{
         super(channel);
     }
 
-    ${callMethods}
+${callMethods}
 
     protected ${grpcClass}.${stubClass} getStub(){
         if(stub == null){
