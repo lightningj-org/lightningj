@@ -1547,10 +1547,7 @@
   </xs:complexType>
 
   <xs:complexType name="VerifyChanBackupResponseType">
-    <xs:sequence>
-      <xs:element name="singlesValid" type="xs:boolean"/>
-      <xs:element name="multiValid" type="xs:boolean"/>
-    </xs:sequence>
+    <xs:all/>
   </xs:complexType>
 
   <xs:simpleType name="addressType">
