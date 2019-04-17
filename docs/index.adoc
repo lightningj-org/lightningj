@@ -38,6 +38,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.6.0-Beta     : No changes to rc4, just changed version.
 * 0.6.0-Beta-rc4 : Generated API from LND 0.6.0 Beta RC4 release. No notable changes to 0.6.0-Beta-rc2.
 * 0.6.0-Beta-rc2 : Generated API for LND 0.6.0 Beta RC2 and added APIs for the new Autopilot, ChainNotifier
                    Invoices, Router, Signer and WalletKit APIs. XML Schema was also split up to have one
