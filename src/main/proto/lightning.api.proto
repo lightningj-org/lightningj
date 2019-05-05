@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND 0.6-beta-rc4 (b71bb94) tag : Downloaded 2019-04-12
+ * LND (b71bb94) tag : Downloaded 2019-04-12
  */
 syntax = "proto3";
 
