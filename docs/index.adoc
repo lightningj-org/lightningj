@@ -38,6 +38,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.6.1-Beta-1   : Bugfix release with updates of newer GRPC (1.21.0) (see issue #32).
 * 0.6.1-Beta     : Generated agains LND 0.6.1 API.
 * 0.6.1-Beta-rc1 : Generated agains LND 0.6.1-rc1, no major changes.
 * 0.6.0-Beta     : No changes to rc4, just changed version.
@@ -121,6 +122,9 @@ on top of the underlying GRPC message objects.
 
 In the source there is a directory src/examples/lnd that also contains tips and tricks
 on how to use the API.
+
+_Note:_ If using _sbt_ as build tool, there have been reported problem resolving the libraries
+_javax.json-api_ and _javax.json_. In that case they have to be added as dependencies to sbt manually.
 
 === Getting started with LND
 

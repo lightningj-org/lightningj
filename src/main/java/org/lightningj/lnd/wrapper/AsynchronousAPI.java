@@ -14,7 +14,7 @@
 package org.lightningj.lnd.wrapper;
 
 import io.grpc.ManagedChannel;
-import io.netty.handler.ssl.SslContext;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
 
 import javax.net.ssl.SSLException;
 import java.io.File;
