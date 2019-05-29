@@ -794,7 +794,7 @@ p.tableblock.header { color: #6d6e71; }
 <div class="sectionbody">
 <div class="paragraph">
 <p><em>Lightning APIs for Java</em>
-V 0.6.1-Beta, 2019-05-10</p>
+V 0.6.1-Beta-u1, 2019-05-29</p>
 </div>
 </div>
 </div>
@@ -843,6 +843,9 @@ to the license agreement can be found <a href="LICENSE.txt">here</a>.</p>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
+<li>
+<p>0.6.1-Beta-u1  : Bugfix release with updates of newer GRPC (1.21.0) (see issue #32).</p>
+</li>
 <li>
 <p>0.6.1-Beta     : Generated agains LND 0.6.1 API.</p>
 </li>
@@ -936,7 +939,7 @@ build it from source.</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">   &lt;dependency&gt;
       &lt;groupId&gt;org.lightningj&lt;/groupId&gt;
       &lt;artifactId&gt;lightningj&lt;/artifactId&gt;
-      &lt;version&gt;0.6.1-Beta&lt;/version&gt;
+      &lt;version&gt;0.6.1-Beta-u1&lt;/version&gt;
    &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -945,7 +948,7 @@ build it from source.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>    compile 'org.lightningj:lightningj:0.6.1-Beta'</pre>
+<pre>    compile 'org.lightningj:lightningj:0.6.1-Beta-u1'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -994,6 +997,10 @@ on top of the underlying GRPC message objects.</p>
 <div class="paragraph">
 <p>In the source there is a directory src/examples/lnd that also contains tips and tricks
 on how to use the API.</p>
+</div>
+<div class="paragraph">
+<p><em>Note:</em> If using <em>sbt</em> as build tool, there have been reported problem resolving the libraries
+<em>javax.json-api</em> and <em>javax.json</em>. In that case they have to be added as dependencies to sbt manually.</p>
 </div>
 <div class="sect2">
 <h3 id="_getting_started_with_lnd">Getting started with LND</h3>
@@ -1887,7 +1894,7 @@ signing.gnupg.keyName=&lt;your key id&gt;</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-05-10 09:48:05 CEST
+Last updated 2019-05-29 08:31:55 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
