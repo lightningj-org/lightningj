@@ -1,6 +1,6 @@
 group 'org.lightningj'
 
-version '0.6.1-Beta'
+version '0.6.1-Beta-u1'
 
 apply plugin: "groovy"
 apply plugin: 'com.google.protobuf'
@@ -48,9 +48,9 @@ dependencies {
     //gRPC
     compile group: 'com.google.api.grpc', name: 'googleapis-common-protos', version: '0.0.3'
     compile 'io.netty:netty-tcnative-boringssl-static:2.0.6.Final'
-    compile 'io.grpc:grpc-netty:1.7.0'
-    compile 'io.grpc:grpc-protobuf:1.7.0'
-    compile 'io.grpc:grpc-stub:1.7.0'
+    compile 'io.grpc:grpc-netty-shaded:1.21.0'
+    compile 'io.grpc:grpc-protobuf:1.21.0'
+    compile 'io.grpc:grpc-stub:1.21.0'
 
     // JSON-P
     compile 'javax.json:javax.json-api:1.0'
