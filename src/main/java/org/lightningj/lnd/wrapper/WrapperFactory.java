@@ -14,8 +14,11 @@
 package org.lightningj.lnd.wrapper;
 
 import com.google.protobuf.GeneratedMessageV3;
+import io.grpc.Status;
 
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Wrapper factory converting a GRPC Message into it's wrapper object.
@@ -24,7 +27,17 @@ import java.lang.reflect.Constructor;
  */
 public class WrapperFactory {
 
-    private static final String BASE_PACKAGE = "org.lightningj.lnd.wrapper.message.";
+    private static final Map<String,String> wrapperPackages = new HashMap<>();
+    static {
+        wrapperPackages.put("org.lightningj.lnd.proto.LightningApi$","org.lightningj.lnd.wrapper.message.");
+        wrapperPackages.put("org.lightningj.lnd.autopilot.proto.AutopilotOuterClass$","org.lightningj.lnd.wrapper.autopilot.message.");
+        wrapperPackages.put("org.lightningj.lnd.chainnotifier.proto.ChainNotifierOuterClass$","org.lightningj.lnd.wrapper.chainnotifier.message.");
+        wrapperPackages.put("org.lightningj.lnd.invoices.proto.InvoicesOuterClass$"," org.lightningj.lnd.wrapper.invoices.message.");
+        wrapperPackages.put("org.lightningj.lnd.router.proto.RouterOuterClass$","org.lightningj.lnd.wrapper.router.message.");
+        wrapperPackages.put("org.lightningj.lnd.signer.proto.SignerOuterClass$","org.lightningj.lnd.wrapper.signer.message.");
+        wrapperPackages.put("org.lightningj.lnd.walletkit.proto.WalletKitOuterClass$","org.lightningj.lnd.wrapper.walletkit.message.");
+    }
+
 
     private static final WrapperFactory instance = new WrapperFactory();
 
@@ -47,7 +60,18 @@ public class WrapperFactory {
     public Message wrap(GeneratedMessageV3 apiObject) throws ClientSideException{
         Class c;
         try {
-            c = WrapperFactory.class.getClassLoader().loadClass(BASE_PACKAGE + apiObject.getClass().getSimpleName());
+            String sourceName = apiObject.getClass().getName();
+            String className = null;
+            for(String sourcePackage : wrapperPackages.keySet())
+            if(sourceName.startsWith(sourcePackage)){
+                sourceName = sourceName.substring(sourcePackage.length());
+                String targetBasePackage = wrapperPackages.get(sourcePackage);
+                className = targetBasePackage + sourceName;
+            }
+            if(className == null){
+                throw new ClientSideException("Error looking up wrapper class, verify that wrapper class for API class: " + apiObject.getClass().getName() + " exists.", Status.INTERNAL);
+            }
+            c = WrapperFactory.class.getClassLoader().loadClass(className);
         }catch(Exception e){
             throw new ClientSideException("Error converting GRPC object " + apiObject.getClass().getSimpleName() + " to wrapped object, message: " + e.getMessage(),null,e);
         }
