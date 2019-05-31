@@ -38,6 +38,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.6.1-Beta-u2  : Bugfix of wrapping bug related to new grpc u1 (see issue #33).
 * 0.6.1-Beta-u1  : Bugfix release with updates of newer GRPC (1.21.0) (see issue #32).
 * 0.6.1-Beta     : Generated agains LND 0.6.1 API.
 * 0.6.1-Beta-rc1 : Generated agains LND 0.6.1-rc1, no major changes.
@@ -724,7 +725,7 @@ To fix this must the accepted file size be enhanced. This can be done by:
 
 * In idea.properties add:
 
-    idea.max.intellisense.filesize=4000
+    idea.max.intellisense.filesize=8000
 
 * Restart IntelliJ
 
