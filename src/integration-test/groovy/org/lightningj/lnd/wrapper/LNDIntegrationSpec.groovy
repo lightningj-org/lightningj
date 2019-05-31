@@ -15,8 +15,12 @@ package org.lightningj.lnd.wrapper
 
 import io.grpc.stub.StreamObserver
 import org.lightningj.lnd.wrapper.message.AddInvoiceResponse
+import org.lightningj.lnd.wrapper.message.Channel
 import org.lightningj.lnd.wrapper.message.ChannelGraph
 import org.lightningj.lnd.wrapper.message.Invoice
+import org.lightningj.lnd.wrapper.message.ListChannelsResponse
+import org.lightningj.lnd.wrapper.message.PendingChannelsResponse
+import spock.lang.IgnoreRest
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -85,6 +89,19 @@ class LNDIntegrationSpec extends Specification{
         ChannelGraph channelGraph = synchronousLndAPI.describeGraph(true)
         then:
         channelGraph != null
+    }
+
+
+    def "Verify listChannels fetches all channels"(){
+        when:
+        ListChannelsResponse channels = synchronousLndAPI.listChannels(false,false,false,false)
+
+        for(Channel o : channels.channels){
+            assert o != null
+        }
+        then:
+        channels != null
+
     }
 
 }

@@ -77,7 +77,6 @@ abstract public class SynchronousAPI extends API{
      */
     protected Message processResponse(Message responseMessage) throws ValidationException{
         log.fine("Received response message: " + responseMessage.toString());
-        // TODO add tracetimes
         validate(responseMessage);
         return responseMessage;
     }
@@ -94,7 +93,6 @@ abstract public class SynchronousAPI extends API{
         ArrayList<Message> retval = new ArrayList<>();
         while(responses.hasNext()){
             Message message = wrapperFactory.wrap((GeneratedMessageV3) responses.next());
-            // TODO fix better logging
             log.fine("Received response message: " + message.toString());
             validate(message);
             retval.add(message);

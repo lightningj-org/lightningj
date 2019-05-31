@@ -15,11 +15,11 @@ package lnd;
 
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
-import io.grpc.netty.GrpcSslContexts;
-import io.grpc.netty.NettyChannelBuilder;
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.SslProvider;
-import io.netty.handler.ssl.SslContext;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslProvider;
 import org.lightningj.lnd.proto.LightningApi;
 import org.lightningj.lnd.proto.LightningGrpc;
 
@@ -37,7 +37,7 @@ public class LowLevelAPIExample {
         File trustedServerCertificate = new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert");
         // Method to create SSL Context, trusting a specified LND node TLS certificate.
         // It is possible to customize the SSL setting by supplying a javax.net.ssl.SSLContext as well
-        SslContext sslContext = GrpcSslContexts.configure(SslContextBuilder.forClient(), SslProvider.OPENSSL)
+        SslContext sslContext = GrpcSslContexts.configure(SslContextBuilder.forClient().forClient(), SslProvider.OPENSSL)
                 .trustManager(trustedServerCertificate)
                 .build();
 

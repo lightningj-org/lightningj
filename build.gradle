@@ -1,6 +1,6 @@
 group 'org.lightningj'
 
-version '0.6.1-Beta-u1'
+version '0.6.1-Beta-u2'
 
 apply plugin: "groovy"
 apply plugin: 'com.google.protobuf'
@@ -100,6 +100,7 @@ compileJava {
    Generate High Level LDN API using custom WrapperClassGenerator in buildSrc
  */
 task generateWrappers(type: WrapperClassGenerator, dependsOn:compileJava){
+    // When adding new protocols, remember to also add in WrapperFactory.
     protocols = ["lnrpc","autopilot","chainnotifier","invoices","router","signer","walletkit"]
 }
 
