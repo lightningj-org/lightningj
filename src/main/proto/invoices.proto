@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (f450929) tag : Downloaded 2019-04-03
+ * LND (c9afa64) tag : Downloaded 2019-06-15
  */
 syntax = "proto3";
 
@@ -21,7 +21,7 @@ service Invoices {
     to notify the client of state transitions of the specified invoice.
     Initially the current invoice state is always sent out.
     */
-    rpc SubscribeSingleInvoice (lnrpc.PaymentHash) returns (stream lnrpc.Invoice);
+    rpc SubscribeSingleInvoice (SubscribeSingleInvoiceRequest) returns (stream lnrpc.Invoice);
 
     /**
     CancelInvoice cancels a currently open invoice. If the invoice is already
@@ -105,3 +105,10 @@ message SettleInvoiceMsg {
 }
 
 message SettleInvoiceResp {}
+
+message SubscribeSingleInvoiceRequest {
+    reserved 1;
+
+    /// Hash corresponding to the (hold) invoice to subscribe to.
+    bytes r_hash = 2 [json_name = "r_hash"];
+}
