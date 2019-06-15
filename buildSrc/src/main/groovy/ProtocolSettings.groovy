@@ -45,15 +45,20 @@ class ProtocolSettings extends BaseProtocolSettings{
             case "lnrpc":
                 return """import org.lightningj.lnd.wrapper.message.Invoice.InvoiceState;"""
             case "invoices":
-                return """import org.lightningj.lnd.wrapper.message.Invoice;
+                return """import org.lightningj.lnd.proto.LightningApi;
+import org.lightningj.lnd.wrapper.message.Invoice;
 import org.lightningj.lnd.wrapper.message.RouteHint;
 import org.lightningj.lnd.wrapper.message.PaymentHash;
 """
             case "walletkit":
-                return """import org.lightningj.lnd.wrapper.signer.message.TxOut;
+                return """import org.lightningj.lnd.wrapper.message.OutPoint;
+import org.lightningj.lnd.wrapper.signer.message.TxOut;
 import org.lightningj.lnd.wrapper.signer.message.KeyLocator;
 import org.lightningj.lnd.wrapper.signer.message.KeyDescriptor;
 import org.lightningj.lnd.signer.proto.SignerOuterClass;
+"""
+            case "router":
+                return """import org.lightningj.lnd.wrapper.message.Route;
 """
             default:
                 return ""
@@ -176,6 +181,11 @@ import org.lightningj.lnd.signer.proto.SignerOuterClass;
             case "walletkit":
                 if(methodName == "deriveKey" || methodName == "deriveNextKey"){
                     return "SignerOuterClass"
+                }
+                break;
+            case "invoices":
+                if(methodName == "subscribeSingleInvoice"){
+                    return "LightningApi"
                 }
         }
         return null

@@ -72,7 +72,7 @@ class ClassGenerator {
         String xmlType = "@XmlEnum()"
         List enumValueList = []
         enumDescriptor.values.each{ def value ->
-            enumValueList << "        ${value.name}(LightningApi.${enumName}.${value.name})"
+            enumValueList << "        ${value.name}(${settings.getAPIClassPath()}.${enumName}.${value.name})"
         }
         String enumValues = enumValueList.join(",\n") + ";"
 
