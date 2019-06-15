@@ -400,6 +400,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="rawTxHex" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -484,13 +485,6 @@
     <xs:sequence>
       <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="paymentHashString" type="xs:string" minOccurs="0"/>
-      <xs:element name="routes" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element ref="Route" minOccurs="0" maxOccurs="unbounded"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
       <xs:element name="route" type="RouteType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
@@ -810,6 +804,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="color" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1029,7 +1024,6 @@
     <xs:sequence>
       <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
       <xs:element name="amt" type="xs:long"/>
-      <xs:element name="numRoutes" type="xs:int"/>
       <xs:element name="finalCltvDelta" type="xs:int"/>
       <xs:element name="feeLimit" type="FeeLimitType" minOccurs="0"/>
       <xs:element name="ignored_nodes" minOccurs="0">
@@ -1080,6 +1074,13 @@
       <xs:element name="node" type="LightningNodeType" minOccurs="0"/>
       <xs:element name="numChannels" type="xs:int"/>
       <xs:element name="totalCapacity" type="xs:long"/>
+      <xs:element name="channels" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ChannelEdge" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -1106,17 +1107,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="RoutingPolicyType">
-    <xs:sequence>
-      <xs:element name="timeLockDelta" type="xs:int"/>
-      <xs:element name="minHtlc" type="xs:long"/>
-      <xs:element name="feeBaseMsat" type="xs:long"/>
-      <xs:element name="feeRateMilliMsat" type="xs:long"/>
-      <xs:element name="disabled" type="xs:boolean"/>
-      <xs:element name="maxHtlcMsat" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="ChannelEdgeType">
     <xs:sequence>
       <xs:element name="channelId" type="xs:long"/>
@@ -1127,6 +1117,17 @@
       <xs:element name="capacity" type="xs:long"/>
       <xs:element name="node1Policy" type="RoutingPolicyType" minOccurs="0"/>
       <xs:element name="node2Policy" type="RoutingPolicyType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RoutingPolicyType">
+    <xs:sequence>
+      <xs:element name="timeLockDelta" type="xs:int"/>
+      <xs:element name="minHtlc" type="xs:long"/>
+      <xs:element name="feeBaseMsat" type="xs:long"/>
+      <xs:element name="feeRateMilliMsat" type="xs:long"/>
+      <xs:element name="disabled" type="xs:boolean"/>
+      <xs:element name="maxHtlcMsat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1230,6 +1231,7 @@
       <xs:element name="identityKey" type="xs:string" minOccurs="0"/>
       <xs:element name="globalFeatures" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="alias" type="xs:string" minOccurs="0"/>
+      <xs:element name="color" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1368,11 +1370,15 @@
       <xs:element name="paymentPreimage" type="xs:string" minOccurs="0"/>
       <xs:element name="valueSat" type="xs:long"/>
       <xs:element name="valueMsat" type="xs:long"/>
+      <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
+      <xs:element name="status" type="paymentStatus" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ListPaymentsRequestType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="includeIncomplete" type="xs:boolean"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ListPaymentsResponseType">
@@ -1593,6 +1599,15 @@
       <xs:enumeration value="SETTLED"/>
       <xs:enumeration value="CANCELED"/>
       <xs:enumeration value="ACCEPTED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="paymentStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN"/>
+      <xs:enumeration value="IN_FLIGHT"/>
+      <xs:enumeration value="SUCCEEDED"/>
+      <xs:enumeration value="FAILED"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

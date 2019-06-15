@@ -3,15 +3,27 @@
 
   <xs:import namespace="http://lightningj.org/xsd/signer_1_0" schemaLocation="./signer_v1.xsd"/>
 
+  <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
+
   <xs:element name="AddrRequest" type="tns:AddrRequestType"/>
 
   <xs:element name="AddrResponse" type="tns:AddrResponseType"/>
+
+  <xs:element name="BumpFeeRequest" type="tns:BumpFeeRequestType"/>
+
+  <xs:element name="BumpFeeResponse" type="tns:BumpFeeResponseType"/>
 
   <xs:element name="EstimateFeeRequest" type="tns:EstimateFeeRequestType"/>
 
   <xs:element name="EstimateFeeResponse" type="tns:EstimateFeeResponseType"/>
 
   <xs:element name="KeyReq" type="tns:KeyReqType"/>
+
+  <xs:element name="PendingSweep" type="tns:PendingSweepType"/>
+
+  <xs:element name="PendingSweepsRequest" type="tns:PendingSweepsRequestType"/>
+
+  <xs:element name="PendingSweepsResponse" type="tns:PendingSweepsResponseType"/>
 
   <xs:element name="PublishResponse" type="tns:PublishResponseType"/>
 
@@ -80,5 +92,62 @@
       <xs:element name="satPerKw" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:complexType name="PendingSweepType">
+    <xs:sequence>
+      <xs:element name="outpoint" type="OutPointType" minOccurs="0"/>
+      <xs:element name="witnessType" type="tns:witnessType" minOccurs="0"/>
+      <xs:element name="amountSat" type="xs:int"/>
+      <xs:element name="satPerByte" type="xs:int"/>
+      <xs:element name="broadcastAttempts" type="xs:int"/>
+      <xs:element name="nextBroadcastHeight" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PendingSweepsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="PendingSweepsResponseType">
+    <xs:sequence>
+      <xs:element name="pending_sweeps" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:PendingSweep" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BumpFeeRequestType">
+    <xs:sequence>
+      <xs:element name="outpoint" type="OutPointType" minOccurs="0"/>
+      <xs:element name="targetConf" type="xs:int"/>
+      <xs:element name="satPerByte" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BumpFeeResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:simpleType name="witnessType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN_WITNESS"/>
+      <xs:enumeration value="COMMITMENT_TIME_LOCK"/>
+      <xs:enumeration value="COMMITMENT_NO_DELAY"/>
+      <xs:enumeration value="COMMITMENT_REVOKE"/>
+      <xs:enumeration value="HTLC_OFFERED_REVOKE"/>
+      <xs:enumeration value="HTLC_ACCEPTED_REVOKE"/>
+      <xs:enumeration value="HTLC_OFFERED_TIMEOUT_SECOND_LEVEL"/>
+      <xs:enumeration value="HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL"/>
+      <xs:enumeration value="HTLC_OFFERED_REMOTE_TIMEOUT"/>
+      <xs:enumeration value="HTLC_ACCEPTED_REMOTE_SUCCESS"/>
+      <xs:enumeration value="HTLC_SECOND_LEVEL_REVOKE"/>
+      <xs:enumeration value="WITNESS_KEY_HASH"/>
+      <xs:enumeration value="NESTED_WITNESS_KEY_HASH"/>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
 

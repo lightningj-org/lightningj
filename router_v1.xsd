@@ -1,29 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/router_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/router_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
-  <xs:element name="PaymentRequest" type="tns:PaymentRequestType"/>
+  <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
 
-  <xs:element name="PaymentResponse" type="tns:PaymentResponseType"/>
+  <xs:element name="ChannelHistory" type="tns:ChannelHistoryType"/>
+
+  <xs:element name="ChannelUpdate" type="tns:ChannelUpdateType"/>
+
+  <xs:element name="Failure" type="tns:FailureType"/>
+
+  <xs:element name="NodeHistory" type="tns:NodeHistoryType"/>
+
+  <xs:element name="PaymentStatus" type="tns:PaymentStatusType"/>
+
+  <xs:element name="QueryMissionControlRequest" type="tns:QueryMissionControlRequestType"/>
+
+  <xs:element name="QueryMissionControlResponse" type="tns:QueryMissionControlResponseType"/>
+
+  <xs:element name="ResetMissionControlRequest" type="tns:ResetMissionControlRequestType"/>
+
+  <xs:element name="ResetMissionControlResponse" type="tns:ResetMissionControlResponseType"/>
 
   <xs:element name="RouteFeeRequest" type="tns:RouteFeeRequestType"/>
 
   <xs:element name="RouteFeeResponse" type="tns:RouteFeeResponseType"/>
 
-  <xs:complexType name="PaymentRequestType">
+  <xs:element name="SendPaymentRequest" type="tns:SendPaymentRequestType"/>
+
+  <xs:element name="SendToRouteRequest" type="tns:SendToRouteRequestType"/>
+
+  <xs:element name="SendToRouteResponse" type="tns:SendToRouteResponseType"/>
+
+  <xs:element name="TrackPaymentRequest" type="tns:TrackPaymentRequestType"/>
+
+  <xs:complexType name="SendPaymentRequestType">
     <xs:sequence>
-      <xs:element name="payReq" type="xs:string" minOccurs="0"/>
-      <xs:element name="feeLimitSat" type="xs:long"/>
-      <xs:element name="cltvLimit" type="xs:int"/>
+      <xs:element name="dest" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="amt" type="xs:long"/>
+      <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="finalCltvDelta" type="xs:int"/>
+      <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
       <xs:element name="timeoutSeconds" type="xs:int"/>
-      <xs:element name="outgoingChannelId" type="xs:long"/>
+      <xs:element name="feeLimitSat" type="xs:long"/>
+      <xs:element name="outgoingChanId" type="xs:long"/>
+      <xs:element name="cltvLimit" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="PaymentResponseType">
+  <xs:complexType name="TrackPaymentRequestType">
     <xs:sequence>
-      <xs:element name="payHash" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="preImage" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="paymentErr" type="xs:string" minOccurs="0"/>
+      <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PaymentStatusType">
+    <xs:sequence>
+      <xs:element name="state" type="tns:paymentState" minOccurs="0"/>
+      <xs:element name="preimage" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="route" type="RouteType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -40,5 +74,132 @@
       <xs:element name="timeLockDelay" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:complexType name="SendToRouteRequestType">
+    <xs:sequence>
+      <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="route" type="RouteType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendToRouteResponseType">
+    <xs:sequence>
+      <xs:element name="preimage" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="failure" type="tns:FailureType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FailureType">
+    <xs:sequence>
+      <xs:element name="code" type="tns:failureCode" minOccurs="0"/>
+      <xs:element name="failureSourcePubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="channelUpdate" type="tns:ChannelUpdateType" minOccurs="0"/>
+      <xs:element name="htlcMsat" type="xs:long"/>
+      <xs:element name="onionSha256" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="cltvExpiry" type="xs:int"/>
+      <xs:element name="flags" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelUpdateType">
+    <xs:sequence>
+      <xs:element name="signature" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="chainHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="timestamp" type="xs:int"/>
+      <xs:element name="messageFlags" type="xs:int"/>
+      <xs:element name="channelFlags" type="xs:int"/>
+      <xs:element name="timeLockDelta" type="xs:int"/>
+      <xs:element name="htlcMinimumMsat" type="xs:long"/>
+      <xs:element name="baseFee" type="xs:int"/>
+      <xs:element name="feeRate" type="xs:int"/>
+      <xs:element name="htlcMaximumMsat" type="xs:long"/>
+      <xs:element name="extraOpaqueData" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ResetMissionControlRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ResetMissionControlResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="QueryMissionControlRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="QueryMissionControlResponseType">
+    <xs:sequence>
+      <xs:element name="nodes" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:NodeHistory" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeHistoryType">
+    <xs:sequence>
+      <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="lastFailTime" type="xs:long"/>
+      <xs:element name="otherChanSuccessProb" type="xs:float"/>
+      <xs:element name="channels" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:ChannelHistory" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelHistoryType">
+    <xs:sequence>
+      <xs:element name="channelId" type="xs:long"/>
+      <xs:element name="lastFailTime" type="xs:long"/>
+      <xs:element name="minPenalizeAmtSat" type="xs:long"/>
+      <xs:element name="successProb" type="xs:float"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="paymentState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="IN_FLIGHT"/>
+      <xs:enumeration value="SUCCEEDED"/>
+      <xs:enumeration value="FAILED_TIMEOUT"/>
+      <xs:enumeration value="FAILED_NO_ROUTE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="failureCode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RESERVED"/>
+      <xs:enumeration value="UNKNOWN_PAYMENT_HASH"/>
+      <xs:enumeration value="INCORRECT_PAYMENT_AMOUNT"/>
+      <xs:enumeration value="FINAL_INCORRECT_CLTV_EXPIRY"/>
+      <xs:enumeration value="FINAL_INCORRECT_HTLC_AMOUNT"/>
+      <xs:enumeration value="FINAL_EXPIRY_TOO_SOON"/>
+      <xs:enumeration value="INVALID_REALM"/>
+      <xs:enumeration value="EXPIRY_TOO_SOON"/>
+      <xs:enumeration value="INVALID_ONION_VERSION"/>
+      <xs:enumeration value="INVALID_ONION_HMAC"/>
+      <xs:enumeration value="INVALID_ONION_KEY"/>
+      <xs:enumeration value="AMOUNT_BELOW_MINIMUM"/>
+      <xs:enumeration value="FEE_INSUFFICIENT"/>
+      <xs:enumeration value="INCORRECT_CLTV_EXPIRY"/>
+      <xs:enumeration value="CHANNEL_DISABLED"/>
+      <xs:enumeration value="TEMPORARY_CHANNEL_FAILURE"/>
+      <xs:enumeration value="REQUIRED_NODE_FEATURE_MISSING"/>
+      <xs:enumeration value="REQUIRED_CHANNEL_FEATURE_MISSING"/>
+      <xs:enumeration value="UNKNOWN_NEXT_PEER"/>
+      <xs:enumeration value="TEMPORARY_NODE_FAILURE"/>
+      <xs:enumeration value="PERMANENT_NODE_FAILURE"/>
+      <xs:enumeration value="PERMANENT_CHANNEL_FAILURE"/>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
 

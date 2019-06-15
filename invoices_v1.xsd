@@ -15,6 +15,8 @@
 
   <xs:element name="SettleInvoiceResp" type="tns:SettleInvoiceRespType"/>
 
+  <xs:element name="SubscribeSingleInvoiceRequest" type="tns:SubscribeSingleInvoiceRequestType"/>
+
   <xs:complexType name="CancelInvoiceMsgType">
     <xs:sequence>
       <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
@@ -59,6 +61,12 @@
 
   <xs:complexType name="SettleInvoiceRespType">
     <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="SubscribeSingleInvoiceRequestType">
+    <xs:sequence>
+      <xs:element name="RHash" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 </xs:schema>
 
