@@ -38,10 +38,11 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.7.0-Beta-rc1 : Generated against LND 0.7.0-rc1 API.
 * 0.6.1-Beta-u2  : Bugfix of wrapping bug related to new grpc u1 (see issue #33).
 * 0.6.1-Beta-u1  : Bugfix release with updates of newer GRPC (1.21.0) (see issue #32).
-* 0.6.1-Beta     : Generated agains LND 0.6.1 API.
-* 0.6.1-Beta-rc1 : Generated agains LND 0.6.1-rc1, no major changes.
+* 0.6.1-Beta     : Generated against LND 0.6.1 API.
+* 0.6.1-Beta-rc1 : Generated against LND 0.6.1-rc1, no major changes.
 * 0.6.0-Beta     : No changes to rc4, just changed version.
 * 0.6.0-Beta-rc4 : Generated API from LND 0.6.0 Beta RC4 release. No notable changes to 0.6.0-Beta-rc2.
 * 0.6.0-Beta-rc2 : Generated API for LND 0.6.0 Beta RC2 and added APIs for the new Autopilot, ChainNotifier
