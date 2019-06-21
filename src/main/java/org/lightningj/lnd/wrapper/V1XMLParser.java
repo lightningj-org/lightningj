@@ -41,7 +41,8 @@ public class V1XMLParser extends XMLParser {
                 "/invoices_v1.xsd",
                 "/router_v1.xsd",
                 "/signer_v1.xsd",
-                "/walletkit_v1.xsd"
+                "/walletkit_v1.xsd",
+                "/watchtower_v1.xsd"
         };
     }
 
@@ -50,12 +51,13 @@ public class V1XMLParser extends XMLParser {
      */
     @Override
     protected String getJAXBClassPath() {
-        return "org.lightningj.lnd.wrapper.message:" +
+        return  "org.lightningj.lnd.wrapper.message:" +
                 "org.lightningj.lnd.wrapper.autopilot.message:"+
                 "org.lightningj.lnd.wrapper.chainnotifier.message:"+
                 "org.lightningj.lnd.wrapper.invoices.message:"+
                 "org.lightningj.lnd.wrapper.router.message:"+
                 "org.lightningj.lnd.wrapper.signer.message:"+
-                "org.lightningj.lnd.wrapper.walletkit.message";
+                "org.lightningj.lnd.wrapper.walletkit.message:" +
+                "org.lightningj.lnd.wrapper.watchtower.message";
     }
 }
