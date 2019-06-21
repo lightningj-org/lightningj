@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">16</div>
+<div class="counter">17</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">2.429s</div>
+<div class="counter">3.657s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,82 +79,87 @@
 </thead>
 <tr>
 <td class="success">Verify that getSchema() returns a Schema</td>
-<td>0.008s</td>
+<td>0.009s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that invalid XML throws JAXBException</td>
-<td>0.055s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">Verify that invalid mashalling data throws JAXBException</td>
 <td>0.463s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">Verify that invalid mashalling data throws JAXBException</td>
+<td>0.479s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">Verify that it is possible to marshall and unmarshall a chainnotifier message</td>
-<td>0.058s</td>
+<td>0.106s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that it is possible to marshall and unmarshall a router message</td>
-<td>0.059s</td>
+<td>0.082s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that it is possible to marshall and unmarshall a signer message</td>
-<td>0.100s</td>
+<td>0.125s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that it is possible to marshall and unmarshall a walletkit message</td>
-<td>0.098s</td>
+<td>0.111s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that it is possible to marshall and unmarshall a watchtower message</td>
+<td>0.091s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that it is possible to marshall and unmarshall an autoenroll message</td>
-<td>0.064s</td>
+<td>0.080s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that it is possible to marshall and unmarshall an invoices message</td>
-<td>0.064s</td>
+<td>0.106s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that marshall of enum is done correctly</td>
-<td>0.055s</td>
+<td>0.080s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that marshall returns a valid XML variant containing List</td>
-<td>1.074s</td>
+<td>1.163s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that marshall returns a valid XML variant containing Map</td>
-<td>0.064s</td>
+<td>0.067s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that schema is checked when unmarshalling</td>
-<td>0.062s</td>
+<td>0.436s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that unmarshall returns a valid Message Object for XML containing List</td>
-<td>0.089s</td>
+<td>0.113s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that unmarshall returns a valid Message Object for XML containing Map</td>
-<td>0.062s</td>
+<td>0.077s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify unmarshall returns a valid Message Object for XML containing enum</td>
-<td>0.054s</td>
+<td>0.069s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -163,7 +168,7 @@
 <h2>Standard output</h2>
 <span class="code">
 <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
-&lt;walletkit:SendOutputsRequest xmlns:chainnotifier=&quot;http://lightningj.org/xsd/chainnotifier_1_0&quot; xmlns:invoices=&quot;http://lightningj.org/xsd/invoices_1_0&quot; xmlns:autopilot=&quot;http://lightningj.org/xsd/autopilot_1_0&quot; xmlns:router=&quot;http://lightningj.org/xsd/router_1_0&quot; xmlns=&quot;http://lightningj.org/xsd/lndjapi_1_0&quot; xmlns:signer=&quot;http://lightningj.org/xsd/signer_1_0&quot; xmlns:walletkit=&quot;http://lightningj.org/xsd/walletkit_1_0&quot;&gt;
+&lt;walletkit:SendOutputsRequest xmlns:chainnotifier=&quot;http://lightningj.org/xsd/chainnotifier_1_0&quot; xmlns:invoices=&quot;http://lightningj.org/xsd/invoices_1_0&quot; xmlns:autopilot=&quot;http://lightningj.org/xsd/autopilot_1_0&quot; xmlns:router=&quot;http://lightningj.org/xsd/router_1_0&quot; xmlns:watchtower=&quot;http://lightningj.org/xsd/watchtower_1_0&quot; xmlns=&quot;http://lightningj.org/xsd/lndjapi_1_0&quot; xmlns:signer=&quot;http://lightningj.org/xsd/signer_1_0&quot; xmlns:walletkit=&quot;http://lightningj.org/xsd/walletkit_1_0&quot;&gt;
     &lt;walletkit:satPerKw&gt;10&lt;/walletkit:satPerKw&gt;
     &lt;walletkit:outputs&gt;
         &lt;walletkit:TxOut&gt;
@@ -177,6 +182,9 @@
     &lt;/walletkit:outputs&gt;
 &lt;/walletkit:SendOutputsRequest&gt;
 
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;watchtower:GetInfoRequest xmlns:chainnotifier=&quot;http://lightningj.org/xsd/chainnotifier_1_0&quot; xmlns:invoices=&quot;http://lightningj.org/xsd/invoices_1_0&quot; xmlns:autopilot=&quot;http://lightningj.org/xsd/autopilot_1_0&quot; xmlns:router=&quot;http://lightningj.org/xsd/router_1_0&quot; xmlns:watchtower=&quot;http://lightningj.org/xsd/watchtower_1_0&quot; xmlns=&quot;http://lightningj.org/xsd/lndjapi_1_0&quot; xmlns:signer=&quot;http://lightningj.org/xsd/signer_1_0&quot; xmlns:walletkit=&quot;http://lightningj.org/xsd/walletkit_1_0&quot;/&gt;
+
 </pre>
 </span>
 </div>
@@ -188,7 +196,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 4.5</a> at Jun 15, 2019 8:29:10 AM</p>
+<a href="http://www.gradle.org">Gradle 4.5</a> at Jun 21, 2019 11:29:13 PM</p>
 </div>
 </div>
 </body>

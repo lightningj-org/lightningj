@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/watchtower_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:element name="GetInfoRequest" type="tns:GetInfoRequestType"/>
+
+  <xs:element name="GetInfoResponse" type="tns:GetInfoResponseType"/>
+
+  <xs:complexType name="GetInfoRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="GetInfoResponseType">
+    <xs:sequence>
+      <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="listeners" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="listeners" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="uris" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="uris" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

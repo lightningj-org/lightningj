@@ -6,6 +6,7 @@ org.lightningj.lnd.router.proto
 org.lightningj.lnd.signer.proto
 org.lightningj.lnd.util
 org.lightningj.lnd.walletkit.proto
+org.lightningj.lnd.watchtower.proto
 org.lightningj.lnd.wrapper
 org.lightningj.lnd.wrapper.autopilot
 org.lightningj.lnd.wrapper.autopilot.message
@@ -20,4 +21,6 @@ org.lightningj.lnd.wrapper.signer
 org.lightningj.lnd.wrapper.signer.message
 org.lightningj.lnd.wrapper.walletkit
 org.lightningj.lnd.wrapper.walletkit.message
+org.lightningj.lnd.wrapper.watchtower
+org.lightningj.lnd.wrapper.watchtower.message
 org.lightningj.util
