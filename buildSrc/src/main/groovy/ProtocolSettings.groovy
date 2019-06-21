@@ -37,6 +37,8 @@ class ProtocolSettings extends BaseProtocolSettings{
                 return "org.lightningj.lnd.signer.proto.SignerOuterClass"
             case "walletkit":
                 return "org.lightningj.lnd.walletkit.proto.WalletKitOuterClass"
+            case "watchtower":
+                return "org.lightningj.lnd.watchtower.proto.WatchtowerOuterClass"
         }
     }
 
@@ -152,6 +154,17 @@ import org.lightningj.lnd.signer.proto.SignerOuterClass;
                                 baseFileName: 'WalletKitAPI.java'
                         )
                 ]
+            case "watchtower":
+                return [
+                        new ApiSettings(
+                                baseGrpcClassPath:'org.lightningj.lnd.watchtower.proto.WatchtowerGrpc$Watchtower',
+                                grpcClassName: 'WatchtowerGrpc',
+                                baseApiClassName: 'WatchtowerAPI',
+                                baseProtoClassPath: 'org.lightningj.lnd.watchtower.proto.WatchtowerOuterClass',
+                                baseStubClass: 'Watchtower',
+                                baseFileName: 'WatchtowerAPI.java'
+                        )
+                ]
             default:
                 return []
         }
@@ -199,7 +212,8 @@ import org.lightningj.lnd.signer.proto.SignerOuterClass;
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/invoices_1_0", prefix = "invoices"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/router_1_0", prefix = "router"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/signer_1_0", prefix = "signer"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletkit_1_0", prefix = "walletkit")
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletkit_1_0", prefix = "walletkit"),
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/watchtower_1_0", prefix = "watchtower")
 """
     }
 
