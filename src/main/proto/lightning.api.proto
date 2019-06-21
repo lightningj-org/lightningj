@@ -1,14 +1,13 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (d333b2d) tag : Downloaded 2019-06-15
+ * LND (7c4c64f) tag : Downloaded 2019-06-21
  */
 syntax = "proto3";
 
 import "google/api/annotations.proto";
 
 package lnrpc;
-
 
 option java_package = "org.lightningj.lnd.proto";
 option go_package = "github.com/lightningnetwork/lnd/lnrpc";
@@ -1733,6 +1732,9 @@ message Route {
 message NodeInfoRequest {
     /// The 33-byte hex-encoded compressed public of the target node
     string pub_key = 1;
+
+    /// If true, will include all known channels associated with the node.
+    bool include_channels = 2;
 }
 
 message NodeInfo {
