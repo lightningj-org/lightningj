@@ -33,13 +33,15 @@
                                         "/invoices_v1.xsd",
                                         "/router_v1.xsd",
                                         "/signer_v1.xsd",
-                                        "/walletkit_v1.xsd"] as String[]
+                                        "/walletkit_v1.xsd",
+                                        "/watchtower_v1.xsd"] as String[]
             p.getJAXBClassPath() == "org.lightningj.lnd.wrapper.message:" +
                     "org.lightningj.lnd.wrapper.autopilot.message:"+
                     "org.lightningj.lnd.wrapper.chainnotifier.message:"+
                     "org.lightningj.lnd.wrapper.invoices.message:"+
                     "org.lightningj.lnd.wrapper.router.message:"+
                     "org.lightningj.lnd.wrapper.signer.message:"+
-                    "org.lightningj.lnd.wrapper.walletkit.message"
+                    "org.lightningj.lnd.wrapper.walletkit.message:"+
+                    "org.lightningj.lnd.wrapper.watchtower.message"
         }
     }
