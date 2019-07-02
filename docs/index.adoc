@@ -38,6 +38,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.7.0-Beta     : Generated against LND 0.7.0 API, no major changes from rc2.
 * 0.7.0-Beta-rc2 : Generated against LND 0.7.0-rc2 API and added watchtower API.
 * 0.7.0-Beta-rc1 : Generated against LND 0.7.0-rc1 API.
 * 0.6.1-Beta-u2  : Bugfix of wrapping bug related to new grpc u1 (see issue #33).
