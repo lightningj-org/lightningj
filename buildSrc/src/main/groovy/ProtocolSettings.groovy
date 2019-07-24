@@ -61,6 +61,7 @@ import org.lightningj.lnd.signer.proto.SignerOuterClass;
 """
             case "router":
                 return """import org.lightningj.lnd.wrapper.message.Route;
+import org.lightningj.lnd.wrapper.message.RouteHint;
 """
             default:
                 return ""

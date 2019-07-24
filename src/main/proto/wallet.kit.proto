@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (a467506) tag : Downloaded 2019-06-15
+ * LND (f0cbe46) tag : Downloaded 2019-07-24
  */
 syntax = "proto3";
 
@@ -280,14 +280,14 @@ service WalletKit {
     rpc PendingSweeps(PendingSweepsRequest) returns (PendingSweepsResponse);
 
     /*
-    Bump the fee of an arbitrary input within a transaction. This RPC takes a
-    different approach than bitcoind's bumpfee command. lnd has a central
-    batching engine in which inputs with similar fee rates are batched together
-    to save on transaction fees. Due to this, we cannot rely on bumping the fee
-    on a specific transaction, since transactions can change at any point with
-    the addition of new inputs. The list of inputs that currently exist within
-    lnd's central batching engine can be retrieved through the PendingSweeps
-    RPC.
+    BumpFee bumps the fee of an arbitrary input within a transaction. This RPC
+    takes a different approach than bitcoind's bumpfee command. lnd has a
+    central batching engine in which inputs with similar fee rates are batched
+    together to save on transaction fees. Due to this, we cannot rely on
+    bumping the fee on a specific transaction, since transactions can change at
+    any point with the addition of new inputs. The list of inputs that
+    currently exist within lnd's central batching engine can be retrieved
+    through the PendingSweeps RPC.
 
     When bumping the fee of an input that currently exists within lnd's central
     batching engine, a higher fee transaction will be created that replaces the
