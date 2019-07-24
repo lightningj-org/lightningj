@@ -14,16 +14,12 @@
 package org.lightningj.lnd.wrapper.watchtower
 
 
-import org.lightningj.lnd.wrapper.autopilot.AsynchronousAutopilotAPI
-import org.lightningj.lnd.wrapper.autopilot.SynchronousAutopilotAPI
-import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 
 /**
  * Integration tests running the watchtower APIs against a live test-net LND node.
- */
-@Ignore // Calling watchtower api seems to crash LND.
+ */ 
 class WatchtowerIntegrationSpec extends Specification{
 
     @Shared String lndHost
