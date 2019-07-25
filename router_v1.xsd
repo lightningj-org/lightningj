@@ -44,6 +44,13 @@
       <xs:element name="feeLimitSat" type="xs:long"/>
       <xs:element name="outgoingChanId" type="xs:long"/>
       <xs:element name="cltvLimit" type="xs:int"/>
+      <xs:element name="route_hints" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="RouteHint" type="RouteHintType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -92,12 +99,12 @@
   <xs:complexType name="FailureType">
     <xs:sequence>
       <xs:element name="code" type="tns:failureCode" minOccurs="0"/>
-      <xs:element name="failureSourcePubkey" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="channelUpdate" type="tns:ChannelUpdateType" minOccurs="0"/>
       <xs:element name="htlcMsat" type="xs:long"/>
       <xs:element name="onionSha256" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="cltvExpiry" type="xs:int"/>
       <xs:element name="flags" type="xs:int"/>
+      <xs:element name="failureSourceIndex" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -172,6 +179,8 @@
       <xs:enumeration value="SUCCEEDED"/>
       <xs:enumeration value="FAILED_TIMEOUT"/>
       <xs:enumeration value="FAILED_NO_ROUTE"/>
+      <xs:enumeration value="FAILED_ERROR"/>
+      <xs:enumeration value="FAILED_INCORRECT_PAYMENT_DETAILS"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -199,6 +208,8 @@
       <xs:enumeration value="TEMPORARY_NODE_FAILURE"/>
       <xs:enumeration value="PERMANENT_NODE_FAILURE"/>
       <xs:enumeration value="PERMANENT_CHANNEL_FAILURE"/>
+      <xs:enumeration value="UNKNOWN_FAILURE"/>
+      <xs:enumeration value="UNREADABLE_FAILURE"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

@@ -680,6 +680,8 @@
       <xs:element name="private" type="xs:boolean"/>
       <xs:element name="initiator" type="xs:boolean"/>
       <xs:element name="chanStatusFlags" type="xs:string" minOccurs="0"/>
+      <xs:element name="localChanReserveSat" type="xs:long"/>
+      <xs:element name="remoteChanReserveSat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -948,6 +950,8 @@
       <xs:element name="capacity" type="xs:long"/>
       <xs:element name="localBalance" type="xs:long"/>
       <xs:element name="remoteBalance" type="xs:long"/>
+      <xs:element name="localChanReserveSat" type="xs:long"/>
+      <xs:element name="remoteChanReserveSat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1041,6 +1045,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="sourcePubKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="useMissionControl" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1129,6 +1134,7 @@
       <xs:element name="feeRateMilliMsat" type="xs:long"/>
       <xs:element name="disabled" type="xs:boolean"/>
       <xs:element name="maxHtlcMsat" type="xs:long"/>
+      <xs:element name="lastUpdate" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1179,6 +1185,7 @@
       <xs:element name="minChannelSize" type="xs:long"/>
       <xs:element name="maxChannelSize" type="xs:long"/>
       <xs:element name="medianChannelSizeSat" type="xs:long"/>
+      <xs:element name="numZombieChans" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1373,6 +1380,8 @@
       <xs:element name="valueMsat" type="xs:long"/>
       <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
       <xs:element name="status" type="paymentStatus" minOccurs="0"/>
+      <xs:element name="feeSat" type="xs:long"/>
+      <xs:element name="feeMsat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
