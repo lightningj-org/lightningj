@@ -15,6 +15,7 @@ import com.google.protobuf.Descriptors
 import com.google.protobuf.Descriptors.Descriptor
 import com.google.protobuf.Descriptors.FieldDescriptor
 import groovy.text.SimpleTemplateEngine
+import org.gradle.api.Project
 
 
 /**
@@ -31,6 +32,7 @@ class ClassGenerator {
      * Main method to generate a wrapped class for a given proto class descriptor.
      */
     static void genClass(Descriptor classDescriptor, ProtocolSettings settings){
+        Project project = settings.project
         String classTemplate = getTemplate("WrappedMessageClass.java.template")
 
         String className = classDescriptor.name
@@ -57,15 +59,14 @@ class ClassGenerator {
                 xmlType: xmlType,
                 populateRepeatableFields: populateRepeatableFields]).toString()
 
-        new File(settings.getMessageOutputDir() + className + ".java").write(generatedClass)
-
-
+        project.file(settings.getMessageOutputDir() + className + ".java").write(generatedClass)
     }
 
     /**
      * Main method to generate a wrapped enum for a given proto class descriptor.
      */
     static void genEnum(Descriptors.EnumDescriptor enumDescriptor, ProtocolSettings settings){
+        Project project = settings.project
         String enumTemplate = getTemplate("WrappedEnum.java.template")
 
         String enumName = ClassNameUtils.convertToJavaBean(enumDescriptor.name)
@@ -86,33 +87,33 @@ class ClassGenerator {
                 enumValues: enumValues,
                 xmlType: xmlType]).toString()
 
-        new File(settings.getMessageOutputDir() + enumName + ".java").write(generatedEnum)
-
-
+        project.file(settings.getMessageOutputDir() + enumName + ".java").write(generatedEnum)
     }
 
     /**
      * Method to generate the package-info.java file for JAXB context.
      */
     static void genPackageInfo(ProtocolSettings settings){
+        Project project = settings.project
         String template = getTemplate("package-info.java.template")
         def engine = new SimpleTemplateEngine()
         String generatedPackageInfo = engine.createTemplate(template).make([
                 wrapperBasePackageName: settings.wrapperBasePackageName,
                 externalNameSpaces: settings.getExternalNamespaces(),
                 namespace: settings.getXMLNameSpace()]).toString()
-        new File(settings.messageOutputDir + "package-info.java").write(generatedPackageInfo)
+        project.file(settings.messageOutputDir + "package-info.java").write(generatedPackageInfo)
     }
 
-    static void genJaxbIndex(Descriptors.FileDescriptor fileDescriptor, String resourcesOutputDir){
+    static void genJaxbIndex(ProtocolSettings settings, Descriptors.FileDescriptor fileDescriptor){
+        Project project = settings.project
         String content = ""
         fileDescriptor.messageTypes.each {
             content += it.name + "\n"
         }
         //new File(outputDir + "jaxb.index").write(content)
-        File classDir = new File(resourcesOutputDir)
+        File classDir = project.file(settings.resourcesOutputDir)
         classDir.mkdirs()
-        new File(resourcesOutputDir + "jaxb.index").write(content)
+        project.file(settings.resourcesOutputDir + "jaxb.index").write(content)
     }
 
     /**

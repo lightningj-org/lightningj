@@ -14,6 +14,7 @@ apply plugin: 'maven'
 description = "LightningJ - Lightning APIs for Java"
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     // Spock releases are available from Maven Central
@@ -30,41 +31,56 @@ buildscript {
         maven { url "https://dl.bintray.com/asciidoctor/maven/"}
     }
     dependencies {
-        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.1"
-        classpath "org.spockframework:spock-core:1.1-groovy-2.4"
+        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.10"
+
+        classpath "org.spockframework:spock-core:1.3-groovy-2.5"
 
         // optional dependencies for using Spock
         classpath "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
-        classpath "net.bytebuddy:byte-buddy:1.6.5"          // allows mocking of classes (in addition to interfaces)
+        classpath "net.bytebuddy:byte-buddy:1.9.7"          // allows mocking of classes (in addition to interfaces)
         classpath "org.objenesis:objenesis:2.5.1"    // allows mocking of classes without default constructor (together with CGLIB)
 
         // Documentation generation
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.7'
         classpath 'org.ajoberstar:gradle-git-publish:0.4.1'
+
+        // JAX-B dependencies for JDK 9+
+        classpath "javax.xml.bind:jaxb-api:2.2.11"
+        classpath "com.sun.xml.bind:jaxb-core:2.2.11"
+        classpath "com.sun.xml.bind:jaxb-impl:2.2.11"
+        classpath "javax.activation:activation:1.1.1"
     }
 }
 
 dependencies {
     //gRPC
-    compile group: 'com.google.api.grpc', name: 'googleapis-common-protos', version: '0.0.3'
+    compile 'com.google.api.grpc:googleapis-common-protos:0.0.3'
     compile 'io.netty:netty-tcnative-boringssl-static:2.0.6.Final'
-    compile 'io.grpc:grpc-netty-shaded:1.21.0'
-    compile 'io.grpc:grpc-protobuf:1.21.0'
-    compile 'io.grpc:grpc-stub:1.21.0'
+    compile 'io.grpc:grpc-netty-shaded:1.23.0'
+    compile 'io.grpc:grpc-protobuf:1.23.0'
+    compile 'io.grpc:grpc-stub:1.23.0'
 
     // JSON-P
     compile 'javax.json:javax.json-api:1.0'
     compile 'org.glassfish:javax.json:1.1.2'
 
+    // JAX-B dependencies for JDK 9+
+    compile "javax.xml.bind:jaxb-api:2.2.11"
+    compile "com.sun.xml.bind:jaxb-core:2.2.11"
+    compile "com.sun.xml.bind:jaxb-impl:2.2.11"
+    compile "javax.activation:activation:1.1.1"
+
+    compile("javax.annotation:javax.annotation-api:1.3.2")
+
     // JMacaroon
    // compile 'com.github.nitram509:jmacaroons:0.3.1'
 
     // mandatory dependencies for using Spock
-    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
+    testCompile "org.spockframework:spock-core:1.3-groovy-2.5"
 
     // optional dependencies for using Spock
     testCompile "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
-    testRuntime "net.bytebuddy:byte-buddy:1.6.5"          // allows mocking of classes (in addition to interfaces)
+    testRuntime "net.bytebuddy:byte-buddy:1.9.7"          // allows mocking of classes (in addition to interfaces)
     testRuntime "org.objenesis:objenesis:2.5.1"    // allows mocking of classes without default constructor (together with CGLIB)
 
 }
@@ -74,11 +90,11 @@ dependencies {
  */
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.4.0"
+        artifact = "com.google.protobuf:protoc:3.7.1"
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.7.0'
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.23.0'
         }
     }
     generateProtoTasks {
