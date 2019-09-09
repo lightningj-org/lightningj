@@ -47,7 +47,7 @@ class XSDGenerator extends DefaultTask{
             ByteArraySchemaOutputResolver sor = new ByteArraySchemaOutputResolver(protocolSettings.getXMLNameSpace())
             jaxbContext.generateSchema(sor)
 
-            new File(generatedResourcesDir+ "/" + protocolSettings.getXSDName()).write(new String(sor.bytes,"UTF-8"))
+            project.file(generatedResourcesDir+ "/" + protocolSettings.getXSDName()).write(new String(sor.bytes,"UTF-8"))
         }
     }
 
@@ -55,15 +55,20 @@ class XSDGenerator extends DefaultTask{
         List classPaths = classpath.split(":")
         def ncl = new GroovyClassLoader(this.class.classLoader)
         classPaths.each {
-            ncl.addClasspath(it)
+            ncl.addClasspath(findProjectClassPath(it))
         }
-        ncl.addClasspath(compileClasses)
-        ncl.addClasspath(generatedResourcesDir)
-        URL f = ncl.getResource(protocolSettings.getJAXBIndexResouceLocation())
+        ncl.addClasspath(findProjectClassPath(compileClasses))
+        ncl.addClasspath(findProjectClassPath(generatedResourcesDir))
+        URL f = ncl.getResource(findProjectClassPath(protocolSettings.getJAXBIndexResouceLocation()))
         Class c = ncl.loadClass("javax.xml.bind.JAXBContext")
 
         Method m = c.getMethod("newInstance",String.class,ClassLoader.class)
         return  m.invoke(null,protocolSettings.getJaxbSrcDirectory(),ncl)
+    }
+
+    String findProjectClassPath(String classpath){
+        File f = project.file(classpath)
+        return f.absolutePath
     }
 
 
