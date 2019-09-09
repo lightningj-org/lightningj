@@ -54,7 +54,7 @@ class ApiGenerator {
                                     String grpcClasspath, String apiClassName, String grpcClass, String stubClass,
                                     String fileName, String type){
 
-        Class aPIClass = getClassInstance(grpcClasspath,compileClasses)
+        Class aPIClass = getClassInstance(settings,grpcClasspath,compileClasses)
 
         String newStubMethodName = type == TYPE_SYNCHRONOUS ? "newBlockingStub" : "newStub"
 
@@ -92,16 +92,17 @@ class ApiGenerator {
         ]).toString()
 
 
-        new File(settings.getCallerOutputDir() + "/" + fileName).write(classDeclaration)
+        settings.project.file(settings.getCallerOutputDir() + "/" + fileName).write(classDeclaration)
 
 
     }
 
 
-    static Class getClassInstance(String className,String compileClasses){
+    static Class getClassInstance(ProtocolSettings settings,String className,String compileClasses){
         // Load LightningAPI Class
         def ncl = new GroovyClassLoader()
-        ncl.addClasspath(compileClasses)
+        File f = settings.project.file(compileClasses)
+        ncl.addClasspath(f.absolutePath)
         Class c = ncl.loadClass(className)
         return c
     }

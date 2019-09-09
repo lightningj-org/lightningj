@@ -1,4 +1,5 @@
 import com.google.protobuf.Descriptors
+import org.gradle.api.Project
 
 import java.lang.reflect.Method
 
@@ -25,6 +26,7 @@ import java.lang.reflect.Method
  */
 abstract class BaseProtocolSettings {
 
+    Project project
     String protocol
 
     abstract String getAPIClassPath()

@@ -12,6 +12,7 @@
  *                                                                       *
  *************************************************************************/
 import com.google.protobuf.Descriptors
+import org.gradle.api.Project
 
 import java.lang.reflect.Method
 
@@ -40,16 +41,20 @@ class ProtocolManager {
     static Map<String,Descriptors.FileDescriptor> fileDescriptorMap
     static Map<String,ProtocolSettings> protocolMap
 
+    static Project project
+
     /**
      * Initializes the ProtocolManager, should be called before
      * any methods is called.
+     * @param project, reference to callin project.
      * @param protocols a list of enabled protocols
      */
-    static void init(List<String> protocols){
+    static void init(Project project, List<String> protocols){
+        this.project = project
         fileDescriptorMap = [:]
         protocolMap = [:]
         for(String protocol : protocols){
-            ProtocolSettings settings = new ProtocolSettings(protocol: protocol)
+            ProtocolSettings settings = new ProtocolSettings(project: project, protocol: protocol)
             fileDescriptorMap[protocol] = genAPIFileDescriptor(settings)
             protocolMap[protocol] = settings
         }
@@ -98,11 +103,14 @@ class ProtocolManager {
     private static Descriptors.FileDescriptor genAPIFileDescriptor(ProtocolSettings settings){
         // Load  Class
         def ncl = new GroovyClassLoader()
-        ncl.addClasspath(compileClasses)
+        File file = project.file(compileClasses)
+        def path = file.absolutePath
+        ncl.addClasspath(path)
         Class c = ncl.loadClass(settings.getAPIClassPath())
 
         // Call getDescriptor
         Method m = c.getMethod("getDescriptor")
         return  m.invoke(null)
     }
+
 }
