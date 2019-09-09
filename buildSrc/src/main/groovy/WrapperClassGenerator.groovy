@@ -30,10 +30,10 @@ class WrapperClassGenerator extends DefaultTask{
     @TaskAction
     def generate() {
 
-        ProtocolManager.init(protocols)
+        ProtocolManager.init(project, protocols)
 
         for(String protocol : protocols) {
-            ProtocolSettings protocolSettings = new ProtocolSettings(protocol: protocol)
+            ProtocolSettings protocolSettings = new ProtocolSettings(project: project, protocol: protocol)
 
             Descriptors.FileDescriptor descriptor = protocolSettings.getAPIFileDescriptor()
 
@@ -46,7 +46,7 @@ class WrapperClassGenerator extends DefaultTask{
                 ClassGenerator.genClass(it, protocolSettings)
             }
 
-            ClassGenerator.genJaxbIndex(descriptor, protocolSettings.resourcesOutputDir)
+            ClassGenerator.genJaxbIndex(protocolSettings, descriptor)
 
             ClassGenerator.genPackageInfo(protocolSettings)
 
@@ -57,7 +57,7 @@ class WrapperClassGenerator extends DefaultTask{
     }
 
     private File createOutputDir(ProtocolSettings protocolSettings){
-        File dir = new File(protocolSettings.messageOutputDir)
+        File dir = project.file(protocolSettings.messageOutputDir)
         dir.mkdirs()
         return dir
     }
