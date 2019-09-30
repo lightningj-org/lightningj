@@ -6,11 +6,11 @@
     @XmlTransient
     public Map<${fieldKeyType},${fieldValueType}> get${fieldJavaName}AsDetachedMap() {
         Map<${fieldKeyType},${fieldValueType}> retval = new HashMap<>();
-        if(${fieldName}Entries != null){
-            for(${fieldJavaName}Entry entry : ${fieldName}Entries.getEntry()){
-                retval.put(entry.key,entry.value);
-            }
+
+        for(${fieldJavaName}Entry entry : get${fieldJavaName}Entries().getEntry()){
+          retval.put(entry.key,entry.value);
         }
+
         return retval;
     }
 
@@ -24,7 +24,7 @@
          }else{
            ${fieldName}Entries.getEntry().clear();
          }
-         for(String key : valueMap.keySet()){
+         for(${fieldKeyType} key : valueMap.keySet()){
            ${fieldName}Entries.getEntry().add(new ${fieldJavaName}Entry(key, valueMap.get(key)));
          }
     }
@@ -36,6 +36,13 @@
      */
     ${xmlElement}
     public ${className}.${fieldJavaName}Entries get${fieldJavaName}Entries() {
+        if(${fieldName}Entries == null){
+           ${fieldName}Entries = new ${className}.${fieldJavaName}Entries();
+           Map<${fieldKeyType == "byte[]" ? "ByteString" : fieldKeyType}, ${fieldValueType == "byte[]" ? "ByteString": fieldValueType}> builderMap = ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}Map();
+           for(Map.Entry<${fieldKeyType == "byte[]" ? "ByteString" : fieldKeyType}, ${fieldValueType == "byte[]" ? "ByteString": fieldValueType}> entry : builderMap.entrySet()){
+              ${fieldName}Entries.getEntry().add(new ${fieldJavaName}Entry(${fieldKeyType == "byte[]" ? "entry.getKey().toByteArray()": "entry.getKey()"},${fieldValueType == "byte[]" ? "entry.getValue().toByteArray()": "entry.getValue()"}));
+           }
+        }
         return ${fieldName}Entries;
     }
 
