@@ -23,4 +23,7 @@ org.lightningj.lnd.wrapper.walletkit
 org.lightningj.lnd.wrapper.walletkit.message
 org.lightningj.lnd.wrapper.watchtower
 org.lightningj.lnd.wrapper.watchtower.message
+org.lightningj.lnd.wrapper.wtclient
+org.lightningj.lnd.wrapper.wtclient.message
+org.lightningj.lnd.wtclient.proto
 org.lightningj.util

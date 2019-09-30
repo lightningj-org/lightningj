@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:element name="AbandonChannelRequest" type="AbandonChannelRequestType"/>
 
@@ -20,6 +20,10 @@
   <xs:element name="ChangePasswordResponse" type="ChangePasswordResponseType"/>
 
   <xs:element name="Channel" type="ChannelType"/>
+
+  <xs:element name="ChannelAcceptRequest" type="ChannelAcceptRequestType"/>
+
+  <xs:element name="ChannelAcceptResponse" type="ChannelAcceptResponseType"/>
 
   <xs:element name="ChannelBackup" type="ChannelBackupType"/>
 
@@ -127,6 +131,8 @@
 
   <xs:element name="Invoice" type="InvoiceType"/>
 
+  <xs:element name="InvoiceHTLC" type="InvoiceHTLCType"/>
+
   <xs:element name="InvoiceSubscription" type="InvoiceSubscriptionType"/>
 
   <xs:element name="LightningAddress" type="LightningAddressType"/>
@@ -168,6 +174,8 @@
   <xs:element name="NodeInfo" type="NodeInfoType"/>
 
   <xs:element name="NodeInfoRequest" type="NodeInfoRequestType"/>
+
+  <xs:element name="NodePair" type="NodePairType"/>
 
   <xs:element name="NodeUpdate" type="NodeUpdateType"/>
 
@@ -439,6 +447,20 @@
       <xs:element name="feeLimit" type="FeeLimitType" minOccurs="0"/>
       <xs:element name="outgoingChanId" type="xs:long"/>
       <xs:element name="cltvLimit" type="xs:int"/>
+      <xs:element name="destTlvEntries" type="SendRequestDestTlvEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendRequestDestTlvEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="SendRequestDestTlvEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendRequestDestTlvEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:long"/>
+      <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -478,6 +500,21 @@
       <xs:element name="amtToForwardMsat" type="xs:long"/>
       <xs:element name="feeMsat" type="xs:long"/>
       <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="tlvPayload" type="xs:boolean"/>
+      <xs:element name="tlvRecordsEntries" type="HopTlvRecordsEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HopTlvRecordsEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="HopTlvRecordsEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HopTlvRecordsEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:long"/>
+      <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -486,6 +523,31 @@
       <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="paymentHashString" type="xs:string" minOccurs="0"/>
       <xs:element name="route" type="RouteType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelAcceptRequestType">
+    <xs:sequence>
+      <xs:element name="nodePubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="chainHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="fundingAmt" type="xs:long"/>
+      <xs:element name="pushAmt" type="xs:long"/>
+      <xs:element name="dustLimit" type="xs:long"/>
+      <xs:element name="maxValueInFlight" type="xs:long"/>
+      <xs:element name="channelReserve" type="xs:long"/>
+      <xs:element name="minHtlc" type="xs:long"/>
+      <xs:element name="feePerKw" type="xs:long"/>
+      <xs:element name="csvDelay" type="xs:int"/>
+      <xs:element name="maxAcceptedHtlcs" type="xs:int"/>
+      <xs:element name="channelFlags" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelAcceptResponseType">
+    <xs:sequence>
+      <xs:element name="accept" type="xs:boolean"/>
+      <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -682,6 +744,7 @@
       <xs:element name="chanStatusFlags" type="xs:string" minOccurs="0"/>
       <xs:element name="localChanReserveSat" type="xs:long"/>
       <xs:element name="remoteChanReserveSat" type="xs:long"/>
+      <xs:element name="staticRemoteKey" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -807,6 +870,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="color" type="xs:string" minOccurs="0"/>
+      <xs:element name="syncedToGraph" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1046,6 +1110,14 @@
       </xs:element>
       <xs:element name="sourcePubKey" type="xs:string" minOccurs="0"/>
       <xs:element name="useMissionControl" type="xs:boolean"/>
+      <xs:element name="ignored_pairs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="NodePair" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="destTlvEntries" type="QueryRoutesRequestDestTlvEntriesType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1053,6 +1125,26 @@
     <xs:sequence>
       <xs:element name="channelId" type="xs:long"/>
       <xs:element name="directionReverse" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodePairType">
+    <xs:sequence>
+      <xs:element name="from" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="to" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryRoutesRequestDestTlvEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="QueryRoutesRequestDestTlvEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryRoutesRequestDestTlvEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:long"/>
+      <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1065,6 +1157,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="successProb" type="xs:double"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1314,6 +1407,26 @@
       <xs:element name="amtPaidSat" type="xs:long"/>
       <xs:element name="amtPaidMsat" type="xs:long"/>
       <xs:element name="state" type="invoiceState" minOccurs="0"/>
+      <xs:element name="htlcs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="InvoiceHTLC" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InvoiceHTLCType">
+    <xs:sequence>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="htlcIndex" type="xs:long"/>
+      <xs:element name="amtMsat" type="xs:long"/>
+      <xs:element name="acceptHeight" type="xs:int"/>
+      <xs:element name="acceptTime" type="xs:long"/>
+      <xs:element name="resolveTime" type="xs:long"/>
+      <xs:element name="expiryHeight" type="xs:int"/>
+      <xs:element name="state" type="invoiceHTLCState" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1496,6 +1609,7 @@
       <xs:element name="baseFeeMsat" type="xs:long"/>
       <xs:element name="feeRate" type="xs:double"/>
       <xs:element name="timeLockDelta" type="xs:int"/>
+      <xs:element name="maxHtlcMsat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1609,6 +1723,14 @@
       <xs:enumeration value="SETTLED"/>
       <xs:enumeration value="CANCELED"/>
       <xs:enumeration value="ACCEPTED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="invoiceHTLCState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ACCEPTED"/>
+      <xs:enumeration value="SETTLED"/>
+      <xs:enumeration value="CANCELLED"/>
     </xs:restriction>
   </xs:simpleType>
 

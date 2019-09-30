@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/wtclient_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/wtclient_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:element name="AddTowerRequest" type="tns:AddTowerRequestType"/>
+
+  <xs:element name="AddTowerResponse" type="tns:AddTowerResponseType"/>
+
+  <xs:element name="GetTowerInfoRequest" type="tns:GetTowerInfoRequestType"/>
+
+  <xs:element name="ListTowersRequest" type="tns:ListTowersRequestType"/>
+
+  <xs:element name="ListTowersResponse" type="tns:ListTowersResponseType"/>
+
+  <xs:element name="PolicyRequest" type="tns:PolicyRequestType"/>
+
+  <xs:element name="PolicyResponse" type="tns:PolicyResponseType"/>
+
+  <xs:element name="RemoveTowerRequest" type="tns:RemoveTowerRequestType"/>
+
+  <xs:element name="RemoveTowerResponse" type="tns:RemoveTowerResponseType"/>
+
+  <xs:element name="StatsRequest" type="tns:StatsRequestType"/>
+
+  <xs:element name="StatsResponse" type="tns:StatsResponseType"/>
+
+  <xs:element name="Tower" type="tns:TowerType"/>
+
+  <xs:element name="TowerSession" type="tns:TowerSessionType"/>
+
+  <xs:complexType name="AddTowerRequestType">
+    <xs:sequence>
+      <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="address" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AddTowerResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="RemoveTowerRequestType">
+    <xs:sequence>
+      <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="address" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RemoveTowerResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="GetTowerInfoRequestType">
+    <xs:sequence>
+      <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="includeSessions" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TowerSessionType">
+    <xs:sequence>
+      <xs:element name="numBackups" type="xs:int"/>
+      <xs:element name="numPendingBackups" type="xs:int"/>
+      <xs:element name="maxBackups" type="xs:int"/>
+      <xs:element name="sweepSatPerByte" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TowerType">
+    <xs:sequence>
+      <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="addresses" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="addresses" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="activeSessionCandidate" type="xs:boolean"/>
+      <xs:element name="numSessions" type="xs:int"/>
+      <xs:element name="sessions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:TowerSession" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListTowersRequestType">
+    <xs:sequence>
+      <xs:element name="includeSessions" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListTowersResponseType">
+    <xs:sequence>
+      <xs:element name="towers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:Tower" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="StatsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="StatsResponseType">
+    <xs:sequence>
+      <xs:element name="numBackups" type="xs:int"/>
+      <xs:element name="numPendingBackups" type="xs:int"/>
+      <xs:element name="numFailedBackups" type="xs:int"/>
+      <xs:element name="numSessionsAcquired" type="xs:int"/>
+      <xs:element name="numSessionsExhausted" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PolicyRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="PolicyResponseType">
+    <xs:sequence>
+      <xs:element name="maxUpdates" type="xs:int"/>
+      <xs:element name="sweepSatPerByte" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

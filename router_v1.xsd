@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/router_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/router_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/router_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
 
-  <xs:element name="ChannelHistory" type="tns:ChannelHistoryType"/>
+  <xs:element name="BuildRouteRequest" type="tns:BuildRouteRequestType"/>
+
+  <xs:element name="BuildRouteResponse" type="tns:BuildRouteResponseType"/>
 
   <xs:element name="ChannelUpdate" type="tns:ChannelUpdateType"/>
 
   <xs:element name="Failure" type="tns:FailureType"/>
 
   <xs:element name="NodeHistory" type="tns:NodeHistoryType"/>
+
+  <xs:element name="PairHistory" type="tns:PairHistoryType"/>
 
   <xs:element name="PaymentStatus" type="tns:PaymentStatusType"/>
 
@@ -51,6 +55,20 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="destTlvEntries" type="tns:SendPaymentRequestDestTlvEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendPaymentRequestDestTlvEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="tns:SendPaymentRequestDestTlvEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendPaymentRequestDestTlvEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:long"/>
+      <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -105,6 +123,7 @@
       <xs:element name="cltvExpiry" type="xs:int"/>
       <xs:element name="flags" type="xs:int"/>
       <xs:element name="failureSourceIndex" type="xs:int"/>
+      <xs:element name="height" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -146,6 +165,13 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="pairs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:PairHistory" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -153,23 +179,39 @@
     <xs:sequence>
       <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="lastFailTime" type="xs:long"/>
-      <xs:element name="otherChanSuccessProb" type="xs:float"/>
-      <xs:element name="channels" minOccurs="0">
+      <xs:element name="otherSuccessProb" type="xs:float"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PairHistoryType">
+    <xs:sequence>
+      <xs:element name="nodeFrom" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="nodeTo" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="timestamp" type="xs:long"/>
+      <xs:element name="minPenalizeAmtSat" type="xs:long"/>
+      <xs:element name="successProb" type="xs:float"/>
+      <xs:element name="lastAttemptSuccessful" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BuildRouteRequestType">
+    <xs:sequence>
+      <xs:element name="amtMsat" type="xs:long"/>
+      <xs:element name="finalCltvDelta" type="xs:int"/>
+      <xs:element name="outgoingChanId" type="xs:long"/>
+      <xs:element name="hop_pubkeys" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
-            <xs:element ref="tns:ChannelHistory" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="hopPubkeys" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="ChannelHistoryType">
+  <xs:complexType name="BuildRouteResponseType">
     <xs:sequence>
-      <xs:element name="channelId" type="xs:long"/>
-      <xs:element name="lastFailTime" type="xs:long"/>
-      <xs:element name="minPenalizeAmtSat" type="xs:long"/>
-      <xs:element name="successProb" type="xs:float"/>
+      <xs:element name="route" type="RouteType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -187,7 +229,7 @@
   <xs:simpleType name="failureCode">
     <xs:restriction base="xs:string">
       <xs:enumeration value="RESERVED"/>
-      <xs:enumeration value="UNKNOWN_PAYMENT_HASH"/>
+      <xs:enumeration value="INCORRECT_OR_UNKNOWN_PAYMENT_DETAILS"/>
       <xs:enumeration value="INCORRECT_PAYMENT_AMOUNT"/>
       <xs:enumeration value="FINAL_INCORRECT_CLTV_EXPIRY"/>
       <xs:enumeration value="FINAL_INCORRECT_HTLC_AMOUNT"/>
