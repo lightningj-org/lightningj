@@ -4,7 +4,7 @@
      *
      * Generated Automatically.
      *
-     * @see org.lightningj.lnd.proto.${apiClassName}.${className}.${enumName}
+     * @see ${apiClassPath}.${className}.${enumName}
      */
     ${xmlType}
     public enum ${enumName} {

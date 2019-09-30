@@ -18,6 +18,7 @@ import com.google.protobuf.Descriptors
 import org.lightningj.lnd.proto.LightningApi
 import org.lightningj.lnd.proto.LightningApi.Invoice
 import org.lightningj.lnd.proto.LightningApi.Route
+import org.lightningj.lnd.wrapper.message.InvoiceHTLC
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -54,7 +55,7 @@ class JsonGenUtilsSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder1 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         JsonObjectBuilder jsonObjectBuilder2 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         expect:
-        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0,"state":"OPEN"}'
+        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0,"state":"OPEN","htlcs":[]}'
         JsonGenUtils.jsonToString(jsonObjectBuilder2,true) == """
 {
     "memo": "SomeMemo",
@@ -78,7 +79,9 @@ class JsonGenUtilsSpec extends Specification {
     "amt_paid": 0,
     "amt_paid_sat": 0,
     "amt_paid_msat": 0,
-    "state": "OPEN"
+    "state": "OPEN",
+    "htlcs": [
+    ]
 }"""
     }
 
@@ -221,7 +224,7 @@ class JsonGenUtilsSpec extends Specification {
         when:
         JsonObjectBuilder result = JsonGenUtils.messageToJson(createInvoice(),LightningApi.Invoice.descriptor)
         then:
-        result.build().toString() == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0,"state":"OPEN"}'
+        result.build().toString() == '{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0,"state":"OPEN","htlcs":[]}'
     }
 
     def "Verify that jsonToMessage converts json to a message fields that contain single values"(){

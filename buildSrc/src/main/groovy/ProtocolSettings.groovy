@@ -39,6 +39,8 @@ class ProtocolSettings extends BaseProtocolSettings{
                 return "org.lightningj.lnd.walletkit.proto.WalletKitOuterClass"
             case "watchtower":
                 return "org.lightningj.lnd.watchtower.proto.WatchtowerOuterClass"
+            case "wtclient":
+                return "org.lightningj.lnd.wtclient.proto.Wtclient"
         }
     }
 
@@ -166,6 +168,17 @@ import org.lightningj.lnd.wrapper.message.RouteHint;
                                 baseFileName: 'WatchtowerAPI.java'
                         )
                 ]
+            case "wtclient":
+                return [
+                        new ApiSettings(
+                                baseGrpcClassPath:'org.lightningj.lnd.wtclient.proto.WatchtowerClientGrpc$WatchtowerClient',
+                                grpcClassName: 'WatchtowerClientGrpc',
+                                baseApiClassName: 'WatchtowerClientAPI',
+                                baseProtoClassPath: 'org.lightningj.lnd.wtclient.proto.Wtclient',
+                                baseStubClass: 'WatchtowerClient',
+                                baseFileName: 'WatchtowerClientAPI.java'
+                        )
+                ]
             default:
                 return []
         }
@@ -214,7 +227,8 @@ import org.lightningj.lnd.wrapper.message.RouteHint;
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/router_1_0", prefix = "router"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/signer_1_0", prefix = "signer"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletkit_1_0", prefix = "walletkit"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/watchtower_1_0", prefix = "watchtower")
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/watchtower_1_0", prefix = "watchtower"),
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/wtclient_1_0", prefix = "wtclient")
 """
     }
 

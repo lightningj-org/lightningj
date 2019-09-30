@@ -16,6 +16,7 @@ package org.lightningj.lnd.wrapper
 import org.lightningj.lnd.proto.LightningApi
 import org.lightningj.lnd.wrapper.message.OpenChannelRequest
 import org.lightningj.lnd.wrapper.message.OpenStatusUpdate
+import org.lightningj.lnd.wrapper.message.SendRequest
 import org.lightningj.lnd.wrapper.message.WalletBalanceRequest
 import spock.lang.Specification
 
@@ -122,6 +123,50 @@ class MessageSpec extends Specification {
         o1.hashCode() == o2.hashCode()
         o1.hashCode() != o3.hashCode()
         o1.hashCode() != o4.hashCode()
+    }
+
+    def "Verify that field of type of Map with ByteString is converted to byte[] correctly."(){
+        setup:
+        SendRequest sendRequest = new SendRequest()
+        when:
+        sendRequest.setDestTlv([2L: "abc".bytes, 123L: "def".bytes])
+        String jsonData = sendRequest.toJsonAsString(true)
+        then:
+        jsonData == """
+{
+    "dest": "",
+    "destString": "",
+    "amt": 0,
+    "paymentHash": "",
+    "paymentHashString": "",
+    "paymentRequest": "",
+    "finalCltvDelta": 0,
+    "feeLimit": {
+        "fixed": 0,
+        "percent": 0
+    },
+    "outgoingChanId": 0,
+    "cltvLimit": 0,
+    "destTlv": [
+        {
+            "key": 2,
+            "value": "YWJj"
+        },
+        {
+            "key": 123,
+            "value": "ZGVm"
+        }
+    ]
+}"""
+        when:
+        JsonReader jsonReader = Json.createReader(new StringReader(jsonData))
+        SendRequest sr2 = new SendRequest(jsonReader)
+
+        then:
+        sr2.getDestTlvAsDetachedMap()[2L] == "abc".bytes
+        sr2.getDestTlvAsDetachedMap()[123L] == "def".bytes
+        sr2.getDestTlvEntries().getEntry().size() == 2
+
     }
 
     def "Verify that validate generates a validation report"(){

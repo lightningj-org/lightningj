@@ -155,6 +155,7 @@ class ClassGenerator {
             retval += engine.createTemplate(innerEnumTemplate).make([enumName: enumName,
                                                                      enumValues: enumValues,
                                                                      className: className,
+                                                                     apiClassPath: settings.getAPIClassPath(),
                                                                      apiClassName: settings.getAPIClassName(),
                                                                      xmlType: xmlType]).toString()
 
@@ -428,13 +429,16 @@ class ClassGenerator {
                         }
                     }
                 } else {
+                    ClassNameUtils.MappingType[] mappingFields = ClassNameUtils.getMappingTypes(it)
+                    String fieldKeyType = mappingFields[0].type
+                    String fieldValueType = mappingFields[1].type
 
                     repeatableFields += """
 
-        ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
         if(${fieldName}Entries != null){
+          ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
           for(${fieldJavaType} entry : ${fieldName}Entries.getEntry()){
-            ((${settings.getAPIClassName()}.${className}.Builder) builder).put${fieldJavaName}(entry.getKey(),entry.getValue());
+            ((${settings.getAPIClassName()}.${className}.Builder) builder).put${fieldJavaName}(${(fieldKeyType == "byte[]"? "ByteString.copyFrom((byte[]) entry.getKey())" : "entry.getKey()")},${(fieldValueType == "byte[]"? "ByteString.copyFrom((byte[]) entry.getValue())" : "entry.getValue()")});
           }
         }"""
                 }
