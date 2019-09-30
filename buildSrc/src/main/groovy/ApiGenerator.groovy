@@ -209,9 +209,6 @@ class ApiGenerator {
 
     private static String getJavaType(Descriptors.FieldDescriptor fieldDescriptor){
         String retval = ClassNameUtils.getType(fieldDescriptor)
-        if(retval == "ByteString"){
-            return "byte[]"
-        }
         if(fieldDescriptor.optional){
             switch(fieldDescriptor.javaType){
                 case Descriptors.FieldDescriptor.JavaType.BOOLEAN:

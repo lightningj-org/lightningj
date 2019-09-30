@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (2726f50) tag : Downloaded 2019-07-24
+ * LND (2998211) tag : Downloaded 2019-09-27
  */
 syntax = "proto3";
 
@@ -69,6 +69,13 @@ message SendPaymentRequest {
     Optional route hints to reach the destination through private channels.
     */
     repeated lnrpc.RouteHint route_hints = 10 [json_name = "route_hints"];
+
+    /**
+    An optional field that can be used to pass an arbitrary set of TLV records
+    to a peer which understands the new records. This can be used to pass
+    application specific data during the payment attempt.
+    */
+    map<uint64, bytes> dest_tlv = 11;
 }
 
 message TrackPaymentRequest {
@@ -179,7 +186,7 @@ message Failure {
         */
         RESERVED = 0;
 
-        UNKNOWN_PAYMENT_HASH = 1;
+        INCORRECT_OR_UNKNOWN_PAYMENT_DETAILS = 1;
         INCORRECT_PAYMENT_AMOUNT = 2;
         FINAL_INCORRECT_CLTV_EXPIRY = 3;
         FINAL_INCORRECT_HTLC_AMOUNT = 4;
@@ -238,6 +245,9 @@ message Failure {
     the failure message. Position zero is the sender node.
     **/
     uint32 failure_source_index = 8;
+
+    /// A failure type-dependent block height.
+    uint32 height = 9;
 }
 
 
@@ -329,9 +339,13 @@ message ResetMissionControlResponse{}
 
 message QueryMissionControlRequest {}
 
-/// QueryMissionControlResponse contains mission control state per node.
+/// QueryMissionControlResponse contains mission control state.
 message QueryMissionControlResponse {
-    repeated NodeHistory nodes = 1;
+    /// Node-level mission control state.
+    repeated NodeHistory nodes = 1 [json_name = "nodes"];
+
+    /// Node pair-level mission control state.
+    repeated PairHistory pairs = 2 [json_name = "pairs"];
 }
 
 /// NodeHistory contains the mission control state for a particular node.
@@ -342,26 +356,67 @@ message NodeHistory {
     /// Time stamp of last failure. Set to zero if no failure happened yet.
     int64 last_fail_time = 2 [json_name = "last_fail_time"];
 
-    /// Estimation of success probability for channels not in the channel array.
-    float other_chan_success_prob = 3 [json_name = "other_chan_success_prob"];
+    /**
+    Estimation of success probability of forwarding towards peers of this node
+    for which no specific history is available.
+    **/
+    float other_success_prob = 3 [json_name = "other_success_prob"];
 
-    /// Historical information of particular channels.
-    repeated ChannelHistory channels = 4 [json_name = "channels"];
+    reserved 4;
 }
 
-/// NodeHistory contains the mission control state for a particular channel.
-message ChannelHistory {
-    /// Short channel id
-    uint64 channel_id = 1 [json_name = "channel_id"];
+/// PairHistory contains the mission control state for a particular node pair.
+message PairHistory {
+    /// The source node pubkey of the pair.
+    bytes node_from = 1 [json_name ="node_from"];
 
-    /// Time stamp of last failure.
-    int64 last_fail_time = 2 [json_name = "last_fail_time"];
+    /// The destination node pubkey of the pair.
+    bytes node_to = 2 [json_name="node_to"];
 
-    /// Minimum penalization amount.
-    int64 min_penalize_amt_sat = 3 [json_name = "min_penalize_amt_sat"];
+    /// Time stamp of last result.
+    int64 timestamp = 3 [json_name = "timestamp"];
 
-    /// Estimation of success probability for this channel.
-    float success_prob = 4 [json_name = "success_prob"];
+    /// Minimum penalization amount (only applies to failed attempts).
+    int64 min_penalize_amt_sat = 4 [json_name = "min_penalize_amt_sat"];
+
+    /// Estimation of success probability for this pair.
+    float success_prob = 5 [json_name = "success_prob"];
+
+    /// Whether the last payment attempt through this pair was successful.
+    bool last_attempt_successful = 6 [json_name = "last_attempt_successful"];
+}
+
+message BuildRouteRequest {
+    /**
+    The amount to send expressed in msat. If set to zero, the minimum routable
+    amount is used.
+    */
+    int64 amt_msat = 1;
+
+    /**
+    CLTV delta from the current height that should be used for the timelock
+    of the final hop
+    */
+    int32 final_cltv_delta = 2;
+
+    /**
+    The channel id of the channel that must be taken to the first hop. If zero,
+    any channel may be used.
+    */
+    uint64 outgoing_chan_id = 3;
+
+    /**
+    A list of hops that defines the route. This does not include the source hop
+    pubkey.
+    */
+    repeated bytes hop_pubkeys = 4;
+}
+
+message BuildRouteResponse {
+    /**
+    Fully specified route that can be used to execute the payment.
+    */
+    lnrpc.Route route = 1;
 }
 
 service Router {
@@ -403,4 +458,11 @@ service Router {
     It is a development feature.
     */
     rpc QueryMissionControl(QueryMissionControlRequest) returns (QueryMissionControlResponse);
+
+    /**
+    BuildRoute builds a fully specified route based on a list of hop public
+    keys. It retrieves the relevant channel policies from the graph in order to
+    calculate the correct fees and time locks.
+    */
+    rpc BuildRoute(BuildRouteRequest) returns (BuildRouteResponse);
 }

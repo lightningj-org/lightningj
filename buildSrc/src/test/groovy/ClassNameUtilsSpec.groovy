@@ -90,7 +90,7 @@ class ClassNameUtilsSpec extends Specification {
         INT                      | "int"               | getLightningClass("Hop").fields.find {it.name == "expiry"}
         DOUBLE                   | "double"            | getLightningClass("NetworkInfo").fields.find {it.name == "avg_out_degree"}
         LONG                     | "long"              | getLightningClass("Payment").fields.find {it.name == "fee"}
-        BYTE_STRING              | "ByteString"        | getLightningClass("Invoice").fields.find {it.name == "receipt"}
+        BYTE_STRING              | "byte[]"            | getLightningClass("Invoice").fields.find {it.name == "receipt"}
         BOOLEAN                  | "boolean"           | getLightningClass("Invoice").fields.find {it.name == "settled"}
     }
 
@@ -127,7 +127,7 @@ class ClassNameUtilsSpec extends Specification {
         "double"            | "Double"
         "int"               | "Integer"
         "long"              | "Long"
-        "ByteString"        | "ByteString"
+        "byte[]"            | "byte[]"
         "SomeMessage"       | "SomeMessage"
     }
 

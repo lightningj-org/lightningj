@@ -20,6 +20,9 @@ There it is possible to report issues and contribute code.
 If you are developing using the grails framework there is also a Grails 3.3+ plugin at
 link:https://grails.lightningj.org[]
 
+If you are developing Paywall functionality using Java, check out LightningJ Paywall at:
+link:https://paywall.lightningj.org[]
+
 If you want updates on this project, follow https://twitter.com/LightningJ_org on twitter.
 
 _Important_: This API is still in beta and API methods might change before real production release. +
@@ -38,8 +41,10 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
-* TODO           : Added build support for JDK 11 and upgraded gradlew to 5.6 and GRPC to 1.23.0
-* 0.7.1-Beta-rc1 : Generated against LND 0.7.1 API, basically the same as 0.7.1-rc1.
+* 0.8.0-Beta-rc1 : Added build support for JDK 11 and upgraded gradlew to 5.6 and GRPC to 1.23.0.
+                   Generated API against LND 0.8.0-rc1 and fixed issue #43 of Map fields not serialized
+                   to JSON Correctly.
+* 0.7.1-Beta     : Generated against LND 0.7.1 API, basically the same as 0.7.1-rc1.
 * 0.7.1-Beta-rc1 : Generated against LND 0.7.1-rc1 API.
 * 0.7.0-Beta     : Generated against LND 0.7.0 API, no major changes from rc2.
 * 0.7.0-Beta-rc2 : Generated against LND 0.7.0-rc2 API and added watchtower API.

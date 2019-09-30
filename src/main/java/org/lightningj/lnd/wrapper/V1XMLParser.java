@@ -42,7 +42,8 @@ public class V1XMLParser extends XMLParser {
                 "/router_v1.xsd",
                 "/signer_v1.xsd",
                 "/walletkit_v1.xsd",
-                "/watchtower_v1.xsd"
+                "/watchtower_v1.xsd",
+                "/wtclient_v1.xsd"
         };
     }
 
@@ -58,6 +59,7 @@ public class V1XMLParser extends XMLParser {
                 "org.lightningj.lnd.wrapper.router.message:"+
                 "org.lightningj.lnd.wrapper.signer.message:"+
                 "org.lightningj.lnd.wrapper.walletkit.message:" +
-                "org.lightningj.lnd.wrapper.watchtower.message";
+                "org.lightningj.lnd.wrapper.watchtower.message:" +
+                "org.lightningj.lnd.wrapper.wtclient.message";
     }
 }
