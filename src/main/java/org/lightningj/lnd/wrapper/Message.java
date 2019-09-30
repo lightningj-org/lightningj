@@ -73,6 +73,7 @@ public abstract class Message<T> {
      */
     public JsonObjectBuilder toJson() throws JsonException{
         try {
+            populateRepeatedFields();
             return JsonGenUtils.messageToJson(builder, builder.getDescriptorForType());
         }catch(Exception e){
             throw new JsonException("Error converting Message to JSON" + (e.getMessage() != null ? ": " + e.getMessage() : ""),e);

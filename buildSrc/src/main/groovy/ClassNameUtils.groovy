@@ -90,7 +90,7 @@ class ClassNameUtils {
                 type= fieldDescriptor.enumType.name
                 break
             case JavaType.BYTE_STRING:
-                type= "ByteString"
+                type= "byte[]"
                 break
             case JavaType.STRING:
                 type= "String"
