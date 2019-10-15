@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (8ce76ff) tag : Downloaded 2019-09-27
+ * LND (cbf7e48) tag : Downloaded 2019-10-15
  */
 syntax = "proto3";
 
@@ -894,8 +894,9 @@ message SendRequest {
     uint64 outgoing_chan_id = 9;
 
     /**
-    An optional maximum total time lock for the route. If zero, there is no
-    maximum enforced.
+    An optional maximum total time lock for the route. This should not exceed
+    lnd's `--max-cltv-expiry` setting. If zero, then the value of
+    `--max-cltv-expiry` is enforced.
     */
     uint32 cltv_limit = 10;
 
@@ -1086,10 +1087,10 @@ message ListUnspentResponse {
 - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
 */
 enum AddressType {
-        WITNESS_PUBKEY_HASH = 0;
-        NESTED_PUBKEY_HASH = 1;
-        UNUSED_WITNESS_PUBKEY_HASH = 2;
-        UNUSED_NESTED_PUBKEY_HASH = 3;
+    WITNESS_PUBKEY_HASH = 0;
+    NESTED_PUBKEY_HASH = 1;
+    UNUSED_WITNESS_PUBKEY_HASH = 2;
+    UNUSED_NESTED_PUBKEY_HASH = 3;
 }
 
 message NewAddressRequest {
@@ -1669,10 +1670,10 @@ message ChannelEventUpdate {
     }
 
     enum UpdateType {
-         OPEN_CHANNEL = 0;
-         CLOSED_CHANNEL = 1;
-         ACTIVE_CHANNEL = 2;
-         INACTIVE_CHANNEL = 3;
+        OPEN_CHANNEL = 0;
+        CLOSED_CHANNEL = 1;
+        ACTIVE_CHANNEL = 2;
+        INACTIVE_CHANNEL = 3;
     }
 
     UpdateType type = 5 [ json_name = "type" ];
@@ -1749,12 +1750,11 @@ message QueryRoutesRequest {
     repeated NodePair ignored_pairs = 10;
 
     /**
-    An optional field that can be used to pass an arbitrary set of TLV records
-    to a peer which understands the new records. This can be used to pass
-    application specific data during the payment attempt. If the destination
-    does not support the specified recrods, and error will be returned.
+    An optional maximum total time lock for the route. If the source is empty or
+    ourselves, this should not exceed lnd's `--max-cltv-expiry` setting. If
+    zero, then the value of `--max-cltv-expiry` is used as the limit.
     */
-    map<uint64, bytes> dest_tlv = 11;
+    uint32 cltv_limit = 11;
 }
 
 message NodePair {
@@ -1814,17 +1814,9 @@ message Hop {
 
     /**
     If set to true, then this hop will be encoded using the new variable length
-    TLV format. Note that if any custom tlv_records below are specified, then
-    this field MUST be set to true for them to be encoded properly.
+    TLV format.
     */
     bool tlv_payload = 9 [json_name = "tlv_payload"];
-
-    /**
-    An optional set of key-value TLV records. This is useful within the context
-    of the SendToRoute call as it allows callers to specify arbitrary K-V pairs
-    to drop off at each hop within the onion.
-    */
-    map<uint64, bytes> tlv_records = 10 [json_name = "tlv_records"];
 }
 
 /**
@@ -1962,12 +1954,12 @@ message ChannelEdge {
 }
 
 message ChannelGraphRequest {
-     /**
-     Whether unannounced channels are included in the response or not. If set,
-     unannounced channels are included. Unannounced channels are both private
-     channels, and public channels that are not yet announced to the network.
-     */
-     bool include_unannounced = 1 [json_name = "include_unannounced"];
+    /**
+    Whether unannounced channels are included in the response or not. If set,
+    unannounced channels are included. Unannounced channels are both private
+    channels, and public channels that are not yet announced to the network.
+    */
+    bool include_unannounced = 1 [json_name = "include_unannounced"];
 }
 
 /// Returns a new instance of the directed channel graph.
@@ -2210,7 +2202,7 @@ message Invoice {
 enum InvoiceHTLCState {
     ACCEPTED = 0;
     SETTLED = 1;
-    CANCELLED = 2;
+    CANCELED = 2;
 }
 
 /// Details of an HTLC that paid to an invoice
@@ -2230,7 +2222,7 @@ message InvoiceHTLC {
     /// Time at which this htlc was accepted.
     int64 accept_time = 5 [json_name = "accept_time"];
 
-    /// Time at which this htlc was settled or cancelled.
+    /// Time at which this htlc was settled or canceled.
     int64 resolve_time = 6 [json_name = "resolve_time"];
 
     /// Block height at which this htlc expires.
@@ -2517,11 +2509,11 @@ message ForwardingEvent {
     //  * also list failures?
 }
 message ForwardingHistoryResponse {
-   /// A list of forwarding events from the time slice of the time series specified in the request.
-   repeated ForwardingEvent forwarding_events = 1 [json_name = "forwarding_events"];
+    /// A list of forwarding events from the time slice of the time series specified in the request.
+    repeated ForwardingEvent forwarding_events = 1 [json_name = "forwarding_events"];
 
-   /// The index of the last time in the set of returned forwarding events. Can be used to seek further, pagination style.
-   uint32 last_offset_index = 2 [json_name = "last_offset_index"];
+    /// The index of the last time in the set of returned forwarding events. Can be used to seek further, pagination style.
+    uint32 last_offset_index = 2 [json_name = "last_offset_index"];
 }
 
 message ExportChannelBackupRequest {
