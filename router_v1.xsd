@@ -250,6 +250,7 @@
       <xs:enumeration value="TEMPORARY_NODE_FAILURE"/>
       <xs:enumeration value="PERMANENT_NODE_FAILURE"/>
       <xs:enumeration value="PERMANENT_CHANNEL_FAILURE"/>
+      <xs:enumeration value="EXPIRY_TOO_FAR"/>
       <xs:enumeration value="UNKNOWN_FAILURE"/>
       <xs:enumeration value="UNREADABLE_FAILURE"/>
     </xs:restriction>

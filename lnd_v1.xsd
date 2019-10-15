@@ -501,20 +501,6 @@
       <xs:element name="feeMsat" type="xs:long"/>
       <xs:element name="pubKey" type="xs:string" minOccurs="0"/>
       <xs:element name="tlvPayload" type="xs:boolean"/>
-      <xs:element name="tlvRecordsEntries" type="HopTlvRecordsEntriesType" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="HopTlvRecordsEntriesType">
-    <xs:sequence>
-      <xs:element name="entry" type="HopTlvRecordsEntryType" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="HopTlvRecordsEntryType">
-    <xs:sequence>
-      <xs:element name="key" type="xs:long"/>
-      <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1117,7 +1103,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="destTlvEntries" type="QueryRoutesRequestDestTlvEntriesType" minOccurs="0"/>
+      <xs:element name="cltvLimit" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1132,19 +1118,6 @@
     <xs:sequence>
       <xs:element name="from" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="to" type="xs:base64Binary" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="QueryRoutesRequestDestTlvEntriesType">
-    <xs:sequence>
-      <xs:element name="entry" type="QueryRoutesRequestDestTlvEntryType" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="QueryRoutesRequestDestTlvEntryType">
-    <xs:sequence>
-      <xs:element name="key" type="xs:long"/>
-      <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1730,7 +1703,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="ACCEPTED"/>
       <xs:enumeration value="SETTLED"/>
-      <xs:enumeration value="CANCELLED"/>
+      <xs:enumeration value="CANCELED"/>
     </xs:restriction>
   </xs:simpleType>
 
