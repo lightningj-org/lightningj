@@ -20,6 +20,8 @@ import org.lightningj.lnd.wrapper.message.ChannelGraph
 import org.lightningj.lnd.wrapper.message.Invoice
 import org.lightningj.lnd.wrapper.message.ListChannelsResponse
 import org.lightningj.lnd.wrapper.message.PendingChannelsResponse
+import org.lightningj.lnd.wrapper.message.QueryRoutesRequest
+import org.lightningj.lnd.wrapper.message.QueryRoutesResponse
 import spock.lang.IgnoreRest
 import spock.lang.Shared
 import spock.lang.Specification
@@ -89,6 +91,19 @@ class LNDIntegrationSpec extends Specification{
         ChannelGraph channelGraph = synchronousLndAPI.describeGraph(true)
         then:
         channelGraph != null
+    }
+
+    def "Verify that QueryRoute fetches an non-empyt list"(){
+        when:
+        QueryRoutesRequest queryRoutesRequest = new QueryRoutesRequest();
+        //queryRoutesRequest.setSourcePubKey("03977f437e05f64b36fa973b415049e6c36c0163b0af097bab2eb3642501055efa")
+        queryRoutesRequest.setPubKey("02212d3ec887188b284dbb7b2e6eb40629a6e14fb049673f22d2a0aa05f902090e")
+        queryRoutesRequest.setAmt(1)
+
+        QueryRoutesResponse resp = synchronousLndAPI.queryRoutes(queryRoutesRequest)
+        then:
+        println resp.getRoutes().size()
+        resp.getRoutes().size() != null
     }
 
 

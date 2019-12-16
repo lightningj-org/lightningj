@@ -401,8 +401,9 @@ class ClassGenerator {
                     if (it.javaType == FieldDescriptor.JavaType.MESSAGE) {
                         repeatableFields += """
 
-        ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
+        
         if(${fieldName} != null){
+          ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
           for(${fieldJavaType} next : ${fieldName}){
             ((${settings.getAPIClassName()}.${className}.Builder) builder).add${fieldJavaName}(next.getApiObject());
           }
@@ -411,17 +412,16 @@ class ClassGenerator {
                         if (it.javaType == FieldDescriptor.JavaType.BYTE_STRING) {
                             repeatableFields += """
 
-        ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
         if(${fieldName} != null){
+          ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
           for(byte[] next : ${fieldName}){
             ((${settings.getAPIClassName()}.${className}.Builder) builder).add${fieldJavaName}(ByteString.copyFrom(next));
           }
         }"""
                         } else {
                             repeatableFields += """
-
-        ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
         if(${fieldName} != null){
+          ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
           for(${fieldJavaType} next : ${fieldName}){
             ((${settings.getAPIClassName()}.${className}.Builder) builder).add${fieldJavaName}(next);
           }
