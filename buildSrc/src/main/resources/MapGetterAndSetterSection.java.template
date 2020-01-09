@@ -38,9 +38,9 @@
     public ${className}.${fieldJavaName}Entries get${fieldJavaName}Entries() {
         if(${fieldName}Entries == null){
            ${fieldName}Entries = new ${className}.${fieldJavaName}Entries();
-           Map<${fieldKeyType == "byte[]" ? "ByteString" : fieldKeyType}, ${fieldValueType == "byte[]" ? "ByteString": fieldValueType}> builderMap = ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}Map();
-           for(Map.Entry<${fieldKeyType == "byte[]" ? "ByteString" : fieldKeyType}, ${fieldValueType == "byte[]" ? "ByteString": fieldValueType}> entry : builderMap.entrySet()){
-              ${fieldName}Entries.getEntry().add(new ${fieldJavaName}Entry(${fieldKeyType == "byte[]" ? "entry.getKey().toByteArray()": "entry.getKey()"},${fieldValueType == "byte[]" ? "entry.getValue().toByteArray()": "entry.getValue()"}));
+           Map<${fieldKeyApiType}, ${fieldValueApiType}> builderMap = ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}Map();
+           for(Map.Entry<${fieldKeyApiType}, ${fieldValueApiType}> entry : builderMap.entrySet()){
+              ${fieldName}Entries.getEntry().add(new ${fieldJavaName}Entry(${fieldKeyGetEntry},${fieldValueGetEntry}));
            }
         }
         return ${fieldName}Entries;
