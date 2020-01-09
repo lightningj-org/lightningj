@@ -11,7 +11,7 @@
 
   <xs:element name="Failure" type="tns:FailureType"/>
 
-  <xs:element name="NodeHistory" type="tns:NodeHistoryType"/>
+  <xs:element name="PairData" type="tns:PairDataType"/>
 
   <xs:element name="PairHistory" type="tns:PairHistoryType"/>
 
@@ -20,6 +20,10 @@
   <xs:element name="QueryMissionControlRequest" type="tns:QueryMissionControlRequestType"/>
 
   <xs:element name="QueryMissionControlResponse" type="tns:QueryMissionControlResponseType"/>
+
+  <xs:element name="QueryProbabilityRequest" type="tns:QueryProbabilityRequestType"/>
+
+  <xs:element name="QueryProbabilityResponse" type="tns:QueryProbabilityResponseType"/>
 
   <xs:element name="ResetMissionControlRequest" type="tns:ResetMissionControlRequestType"/>
 
@@ -41,12 +45,15 @@
     <xs:sequence>
       <xs:element name="dest" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="amt" type="xs:long"/>
+      <xs:element name="amtMsat" type="xs:long"/>
       <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="finalCltvDelta" type="xs:int"/>
       <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
       <xs:element name="timeoutSeconds" type="xs:int"/>
       <xs:element name="feeLimitSat" type="xs:long"/>
+      <xs:element name="feeLimitMsat" type="xs:long"/>
       <xs:element name="outgoingChanId" type="xs:long"/>
+      <xs:element name="lastHopPubkey" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="cltvLimit" type="xs:int"/>
       <xs:element name="route_hints" minOccurs="0">
         <xs:complexType>
@@ -55,17 +62,19 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="destTlvEntries" type="tns:SendPaymentRequestDestTlvEntriesType" minOccurs="0"/>
+      <xs:element name="destCustomRecordsEntries" type="tns:SendPaymentRequestDestCustomRecordsEntriesType" minOccurs="0"/>
+      <xs:element name="allowSelfPayment" type="xs:boolean"/>
+      <xs:element name="destFeatures" type="featureBit" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="SendPaymentRequestDestTlvEntriesType">
+  <xs:complexType name="SendPaymentRequestDestCustomRecordsEntriesType">
     <xs:sequence>
-      <xs:element name="entry" type="tns:SendPaymentRequestDestTlvEntryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="entry" type="tns:SendPaymentRequestDestCustomRecordsEntryType" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="SendPaymentRequestDestTlvEntryType">
+  <xs:complexType name="SendPaymentRequestDestCustomRecordsEntryType">
     <xs:sequence>
       <xs:element name="key" type="xs:long"/>
       <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
@@ -83,6 +92,13 @@
       <xs:element name="state" type="tns:paymentState" minOccurs="0"/>
       <xs:element name="preimage" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="route" type="RouteType" minOccurs="0"/>
+      <xs:element name="htlcs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="HTLCAttempt" type="HTLCAttemptType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -158,13 +174,6 @@
 
   <xs:complexType name="QueryMissionControlResponseType">
     <xs:sequence>
-      <xs:element name="nodes" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element ref="tns:NodeHistory" minOccurs="0" maxOccurs="unbounded"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
       <xs:element name="pairs" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
@@ -175,22 +184,37 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="NodeHistoryType">
-    <xs:sequence>
-      <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="lastFailTime" type="xs:long"/>
-      <xs:element name="otherSuccessProb" type="xs:float"/>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="PairHistoryType">
     <xs:sequence>
       <xs:element name="nodeFrom" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="nodeTo" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="timestamp" type="xs:long"/>
-      <xs:element name="minPenalizeAmtSat" type="xs:long"/>
-      <xs:element name="successProb" type="xs:float"/>
-      <xs:element name="lastAttemptSuccessful" type="xs:boolean"/>
+      <xs:element name="history" type="tns:PairDataType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PairDataType">
+    <xs:sequence>
+      <xs:element name="failTime" type="xs:long"/>
+      <xs:element name="failAmtSat" type="xs:long"/>
+      <xs:element name="failAmtMsat" type="xs:long"/>
+      <xs:element name="successTime" type="xs:long"/>
+      <xs:element name="successAmtSat" type="xs:long"/>
+      <xs:element name="successAmtMsat" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryProbabilityRequestType">
+    <xs:sequence>
+      <xs:element name="fromNode" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="toNode" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="amtMsat" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryProbabilityResponseType">
+    <xs:sequence>
+      <xs:element name="probability" type="xs:double"/>
+      <xs:element name="history" type="tns:PairDataType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -223,6 +247,7 @@
       <xs:enumeration value="FAILED_NO_ROUTE"/>
       <xs:enumeration value="FAILED_ERROR"/>
       <xs:enumeration value="FAILED_INCORRECT_PAYMENT_DETAILS"/>
+      <xs:enumeration value="FAILED_INSUFFICIENT_BALANCE"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -251,6 +276,7 @@
       <xs:enumeration value="PERMANENT_NODE_FAILURE"/>
       <xs:enumeration value="PERMANENT_CHANNEL_FAILURE"/>
       <xs:enumeration value="EXPIRY_TOO_FAR"/>
+      <xs:enumeration value="MPP_TIMEOUT"/>
       <xs:enumeration value="UNKNOWN_FAILURE"/>
       <xs:enumeration value="UNREADABLE_FAILURE"/>
     </xs:restriction>

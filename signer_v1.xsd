@@ -9,13 +9,25 @@
 
   <xs:element name="KeyLocator" type="tns:KeyLocatorType"/>
 
+  <xs:element name="SharedKeyRequest" type="tns:SharedKeyRequestType"/>
+
+  <xs:element name="SharedKeyResponse" type="tns:SharedKeyResponseType"/>
+
   <xs:element name="SignDescriptor" type="tns:SignDescriptorType"/>
+
+  <xs:element name="SignMessageReq" type="tns:SignMessageReqType"/>
+
+  <xs:element name="SignMessageResp" type="tns:SignMessageRespType"/>
 
   <xs:element name="SignReq" type="tns:SignReqType"/>
 
   <xs:element name="SignResp" type="tns:SignRespType"/>
 
   <xs:element name="TxOut" type="tns:TxOutType"/>
+
+  <xs:element name="VerifyMessageReq" type="tns:VerifyMessageReqType"/>
+
+  <xs:element name="VerifyMessageResp" type="tns:VerifyMessageRespType"/>
 
   <xs:complexType name="KeyLocatorType">
     <xs:sequence>
@@ -97,6 +109,46 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignMessageReqType">
+    <xs:sequence>
+      <xs:element name="msg" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="keyLoc" type="tns:KeyLocatorType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignMessageRespType">
+    <xs:sequence>
+      <xs:element name="signature" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VerifyMessageReqType">
+    <xs:sequence>
+      <xs:element name="msg" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="signature" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VerifyMessageRespType">
+    <xs:sequence>
+      <xs:element name="valid" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SharedKeyRequestType">
+    <xs:sequence>
+      <xs:element name="ephemeralPubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="keyLoc" type="tns:KeyLocatorType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SharedKeyResponseType">
+    <xs:sequence>
+      <xs:element name="sharedKey" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
