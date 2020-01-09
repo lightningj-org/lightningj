@@ -1,0 +1,22 @@
+
+    /**
+     * Getter for ${fieldJsonName}.
+     */
+    ${xmlElement}
+    public List<${fieldJavaType}> get${fieldJavaName}() {
+        List<${fieldJavaType}> retval = new ArrayList<>();
+        for(${fieldApiJavaType} apifeatureBit : ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}List()){
+          retval.add(${fieldJavaType}.wrap(apifeatureBit));
+        }
+        return retval;
+    }
+
+    /**
+     * Setter for ${fieldJsonName}.
+     */
+    public void set${fieldJavaName}(List<${fieldJavaType}> values) {
+      ((${apiClassName}.${className}.Builder) builder).clear${fieldJavaName}();
+      for(${fieldJavaType} value : values){
+        ((${apiClassName}.${className}.Builder) builder).add${fieldJavaName}(value.getApiObject());
+      }
+    }

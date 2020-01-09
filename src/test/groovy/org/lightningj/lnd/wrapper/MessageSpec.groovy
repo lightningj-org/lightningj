@@ -60,7 +60,7 @@ class MessageSpec extends Specification {
 
     def "Verify that toJsonAsString returns json in string format"(){
         expect:
-        genOpenChannelRequest().toJsonAsString(false) == '{"node_pubkey":"","node_pubkey_string":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","local_funding_amount":40000,"push_sat":25000,"targetConf":0,"satPerByte":0,"private":false,"min_htlc_msat":0,"remote_csv_delay":0,"min_confs":0,"spend_unconfirmed":false}'
+        genOpenChannelRequest().toJsonAsString(false) == '{"node_pubkey":"","node_pubkey_string":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","local_funding_amount":40000,"push_sat":25000,"targetConf":0,"satPerByte":0,"private":false,"min_htlc_msat":0,"remote_csv_delay":0,"min_confs":0,"spend_unconfirmed":false,"close_address":"","funding_shim":{"chanPointShim":{"amt":0,"chanPoint":{"funding_txid_bytes":"","funding_txid_str":"","output_index":0},"localKey":{"rawKeyBytes":"","keyLoc":{"keyFamily":0,"keyIndex":0}},"remoteKey":"","pendingChanId":""}}}'
         genOpenChannelRequest().toJsonAsString(true) == """
 {
     "node_pubkey": "",
@@ -73,7 +73,27 @@ class MessageSpec extends Specification {
     "min_htlc_msat": 0,
     "remote_csv_delay": 0,
     "min_confs": 0,
-    "spend_unconfirmed": false
+    "spend_unconfirmed": false,
+    "close_address": "",
+    "funding_shim": {
+        "chanPointShim": {
+            "amt": 0,
+            "chanPoint": {
+                "funding_txid_bytes": "",
+                "funding_txid_str": "",
+                "output_index": 0
+            },
+            "localKey": {
+                "rawKeyBytes": "",
+                "keyLoc": {
+                    "keyFamily": 0,
+                    "keyIndex": 0
+                }
+            },
+            "remoteKey": "",
+            "pendingChanId": ""
+        }
+    }
 }"""
     }
 
@@ -105,7 +125,27 @@ class MessageSpec extends Specification {
     "min_htlc_msat": 0,
     "remote_csv_delay": 0,
     "min_confs": 0,
-    "spend_unconfirmed": false
+    "spend_unconfirmed": false,
+    "close_address": "",
+    "funding_shim": {
+        "chanPointShim": {
+            "amt": 0,
+            "chanPoint": {
+                "funding_txid_bytes": "",
+                "funding_txid_str": "",
+                "output_index": 0
+            },
+            "localKey": {
+                "rawKeyBytes": "",
+                "keyLoc": {
+                    "keyFamily": 0,
+                    "keyIndex": 0
+                }
+            },
+            "remoteKey": "",
+            "pendingChanId": ""
+        }
+    }
 }"""
     }
 
@@ -129,7 +169,7 @@ class MessageSpec extends Specification {
         setup:
         SendRequest sendRequest = new SendRequest()
         when:
-        sendRequest.setDestTlv([2L: "abc".bytes, 123L: "def".bytes])
+        sendRequest.setDestCustomRecords([2L: "abc".bytes, 123L: "def".bytes])
         String jsonData = sendRequest.toJsonAsString(true)
         then:
         jsonData == """
@@ -137,17 +177,20 @@ class MessageSpec extends Specification {
     "dest": "",
     "destString": "",
     "amt": 0,
+    "amtMsat": 0,
     "paymentHash": "",
     "paymentHashString": "",
     "paymentRequest": "",
     "finalCltvDelta": 0,
     "feeLimit": {
         "fixed": 0,
+        "fixedMsat": 0,
         "percent": 0
     },
     "outgoingChanId": 0,
+    "lastHopPubkey": "",
     "cltvLimit": 0,
-    "destTlv": [
+    "destCustomRecords": [
         {
             "key": 2,
             "value": "YWJj"
@@ -156,6 +199,9 @@ class MessageSpec extends Specification {
             "key": 123,
             "value": "ZGVm"
         }
+    ],
+    "allowSelfPayment": false,
+    "destFeatures": [
     ]
 }"""
         when:
@@ -163,9 +209,9 @@ class MessageSpec extends Specification {
         SendRequest sr2 = new SendRequest(jsonReader)
 
         then:
-        sr2.getDestTlvAsDetachedMap()[2L] == "abc".bytes
-        sr2.getDestTlvAsDetachedMap()[123L] == "def".bytes
-        sr2.getDestTlvEntries().getEntry().size() == 2
+        sr2.getDestCustomRecordsAsDetachedMap()[2L] == "abc".bytes
+        sr2.getDestCustomRecordsAsDetachedMap()[123L] == "def".bytes
+        sr2.getDestCustomRecordsEntries().getEntry().size() == 2
 
     }
 

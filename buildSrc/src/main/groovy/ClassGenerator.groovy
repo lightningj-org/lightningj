@@ -175,32 +175,67 @@ class ClassGenerator {
             String getterAndSetterTemplate = getTemplate(getTemplateName(it))
 
             String fieldKeyType = ""
+            String fieldKeyApiType = ""
+            String fieldKeyGetEntry = ""
             String fieldValueType = ""
+            String fieldValueApiType = ""
+            String fieldValueGetEntry = ""
             String xmlKeyElement = ""
             String xmlValueElement = ""
             String xmlElement = ClassNameUtils.genXMLElement(it)
             String xmlElementWrapper = ClassNameUtils.genXMLElementWrapper(it)
             if(it.isMapField()){
-                def mapTypes = ClassNameUtils.getMappingTypes(it)
+                def mapTypes = ClassNameUtils.getMappingTypes(it, settings)
                 fieldKeyType = ClassNameUtils.toObject(mapTypes[0].type)
+                fieldKeyApiType = fieldKeyType
+                fieldKeyGetEntry = "entry.getKey()"
+                if(mapTypes[0].descriptor.javaType == FieldDescriptor.JavaType.MESSAGE){
+                    fieldKeyApiType = settings.getApiTypeName(fieldKeyType)
+                    fieldKeyGetEntry = "new ${fieldKeyType}(entry.getKey())"
+                }
+                if(mapTypes[0].descriptor.javaType == FieldDescriptor.JavaType.BYTE_STRING){
+                    fieldKeyApiType = "ByteString"
+                    fieldKeyGetEntry = "entry.getKey().toByteArray()"
+                }
                 xmlKeyElement = ClassNameUtils.genXMLElement(mapTypes[0].descriptor)
                 fieldValueType = ClassNameUtils.toObject(mapTypes[1].type)
+                fieldValueApiType = fieldValueType
+                fieldValueGetEntry = "entry.getValue()"
+                if(mapTypes[1].descriptor.javaType == FieldDescriptor.JavaType.MESSAGE){
+                    fieldValueApiType = settings.getApiTypeName(fieldValueType)
+                    fieldValueGetEntry = "new ${fieldValueType}(entry.getValue())"
+                }
+                if(mapTypes[1].descriptor.javaType == FieldDescriptor.JavaType.BYTE_STRING){
+                    fieldValueApiType = "ByteString"
+                    fieldValueGetEntry = "entry.getValue().toByteArray()"
+                }
+
                 xmlValueElement= ClassNameUtils.genXMLElement(mapTypes[1].descriptor)
             }
 
             String fieldJsonName = it.jsonName
             String fieldJavaName = ClassNameUtils.convertToJavaBean(it.name)
             String fieldJavaType = ClassNameUtils.getType(it)
+            String fieldApiJavaType = fieldJavaType
+            if(it.javaType == FieldDescriptor.JavaType.MESSAGE || it.javaType == FieldDescriptor.JavaType.ENUM){
+                fieldApiJavaType = settings.getApiTypeName(fieldJavaType)
+            }
             String fieldName = ClassNameUtils.lowerCaseFirst(fieldJavaName)
+
 
             def engine = new SimpleTemplateEngine()
             retval +=  engine.createTemplate(getterAndSetterTemplate).make([fieldJsonName: fieldJsonName,
                                                                  fieldJavaName: fieldJavaName,
                                                                  fieldJavaType: fieldJavaType,
+                                                                 fieldApiJavaType: fieldApiJavaType,
                                                                  className: className,
                                                                  apiClassName: settings.getAPIClassName(),
                                                                  fieldKeyType: fieldKeyType,
+                                                                 fieldKeyApiType: fieldKeyApiType,
+                                                                 fieldKeyGetEntry: fieldKeyGetEntry,
                                                                  fieldValueType: fieldValueType,
+                                                                 fieldValueApiType: fieldValueApiType,
+                                                                 fieldValueGetEntry: fieldValueGetEntry,
                                                                  fieldName: fieldName,
                                                                  xmlKeyElement: xmlKeyElement,
                                                                  xmlValueElement: xmlValueElement,
@@ -307,7 +342,7 @@ class ClassGenerator {
         String xmlType = genXMLType(innerClassDescriptor, className+innerClassName, "    ")
         String entriesXmlType = genXMLType(innerClassDescriptor,className+wrappingClassName,"    ", ["entry"])
         FieldDescriptor mappingFieldDesc = getMapFields(innerClassDescriptor.containingType).find{FieldDescriptor fd -> fd.messageType.fullName == innerClassDescriptor.fullName}
-        ClassNameUtils.MappingType[] mappingFields = ClassNameUtils.getMappingTypes(mappingFieldDesc)
+        ClassNameUtils.MappingType[] mappingFields = ClassNameUtils.getMappingTypes(mappingFieldDesc, settings)
         String fieldKeyType = mappingFields[0].type
         String xmlKeyElement = ClassNameUtils.genXMLElement(mappingFields[0].descriptor)
         String fieldValueType = mappingFields[1].type
@@ -365,6 +400,10 @@ class ClassGenerator {
             return "MessageGetterAndSetterSection.java.template"
         }
 
+        if(ft.javaType == FieldDescriptor.JavaType.ENUM && ft.isRepeated()){
+            return "RepeatableEnumGetterAndSetterSection.java.template"
+        }
+
         if(ft.javaType == FieldDescriptor.JavaType.ENUM){
             return "EnumGetterAndSetterSection.java.template"
         }
@@ -419,26 +458,26 @@ class ClassGenerator {
           }
         }"""
                         } else {
-                            repeatableFields += """
+                            if (it.javaType != FieldDescriptor.JavaType.ENUM) {
+                                repeatableFields += """
         if(${fieldName} != null){
           ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
           for(${fieldJavaType} next : ${fieldName}){
             ((${settings.getAPIClassName()}.${className}.Builder) builder).add${fieldJavaName}(next);
           }
         }"""
+                            }
                         }
                     }
                 } else {
-                    ClassNameUtils.MappingType[] mappingFields = ClassNameUtils.getMappingTypes(it)
-                    String fieldKeyType = mappingFields[0].type
-                    String fieldValueType = mappingFields[1].type
+                    ClassNameUtils.MappingType[] mappingFields = ClassNameUtils.getMappingTypes(it, settings)
 
                     repeatableFields += """
 
         if(${fieldName}Entries != null){
           ((${settings.getAPIClassName()}.${className}.Builder) builder).clear${fieldJavaName}();
           for(${fieldJavaType} entry : ${fieldName}Entries.getEntry()){
-            ((${settings.getAPIClassName()}.${className}.Builder) builder).put${fieldJavaName}(${(fieldKeyType == "byte[]"? "ByteString.copyFrom((byte[]) entry.getKey())" : "entry.getKey()")},${(fieldValueType == "byte[]"? "ByteString.copyFrom((byte[]) entry.getValue())" : "entry.getValue()")});
+            ((${settings.getAPIClassName()}.${className}.Builder) builder).put${fieldJavaName}(${getPopulateMapField(mappingFields[0], "Key")},${getPopulateMapField(mappingFields[1], "Value")});
           }
         }"""
                 }
@@ -466,6 +505,17 @@ class ClassGenerator {
         return classDescriptor.fields.findAll{ it.isMapField()}
     }
 
+    static String getPopulateMapField(ClassNameUtils.MappingType mappingType, String retrieverType){
+        if(mappingType.type == "byte[]"){
+            return "ByteString.copyFrom((byte[]) entry.get${retrieverType}())"
+        }
+        if(mappingType.descriptor.javaType == FieldDescriptor.JavaType.MESSAGE){
+            return "entry.get${retrieverType}().getApiObject()"
+        }
+
+
+        return "entry.get${retrieverType}()"
+    }
 
 
 }

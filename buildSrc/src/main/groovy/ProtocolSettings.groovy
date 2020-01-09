@@ -62,8 +62,11 @@ import org.lightningj.lnd.wrapper.signer.message.KeyDescriptor;
 import org.lightningj.lnd.signer.proto.SignerOuterClass;
 """
             case "router":
-                return """import org.lightningj.lnd.wrapper.message.Route;
+                return """import org.lightningj.lnd.proto.LightningApi;
+import org.lightningj.lnd.wrapper.message.Route;
 import org.lightningj.lnd.wrapper.message.RouteHint;
+import org.lightningj.lnd.wrapper.message.HTLCAttempt;
+import org.lightningj.lnd.wrapper.message.FeatureBit;
 """
             default:
                 return ""
@@ -216,6 +219,10 @@ import org.lightningj.lnd.wrapper.message.RouteHint;
                 }
         }
         return null
+    }
+
+    String getApiTypeName(String type){
+        return "LightningApi." + type
     }
 
     String getExternalNamespaces(){
