@@ -109,19 +109,35 @@ class ClassNameUtils {
 
     /**
      * Returns mapping types for a given mapped field descriptor
+     *
+     * @param fieldDescriptor the map field to fetch types for.
+     * @param protocolSettings the related protocol settings
+     * @param appendTypePrefix if a prefix such as "LightningAPI." should be inserted before the Type
      * <p>
      * The returned matrix have following content:
      * <li>0 : Key Type
      * <li>1 : Value Type
+     * </p>
      * @return an array of size 2.
      */
-    static MappingType[] getMappingTypes(Descriptors.FieldDescriptor fieldDescriptor){
+    static MappingType[] getMappingTypes(Descriptors.FieldDescriptor fieldDescriptor, ProtocolSettings protocolSettings, boolean appendTypePrefix=false){
         assert fieldDescriptor.isMapField()
         assert fieldDescriptor.messageType.fields.size() == 2
         Descriptors.FieldDescriptor keyType = fieldDescriptor.messageType.fields.find { it.name == "key"}
         Descriptors.FieldDescriptor valueType = fieldDescriptor.messageType.fields.find { it.name == "value"}
 
-        return [ new MappingType(type: getType(keyType), descriptor: keyType), new MappingType(type: getType(valueType), descriptor: valueType)] as MappingType[]
+        String keyTypeName = getType(keyType)
+        if(keyType.getJavaType() == JavaType.MESSAGE && appendTypePrefix) {
+            keyTypeName = protocolSettings.getApiTypeName(keyTypeName)
+        }
+
+
+        String valueTypeName = getType(valueType)
+        if(valueType.getJavaType() == JavaType.MESSAGE && appendTypePrefix) {
+            valueTypeName = protocolSettings.getApiTypeName(valueTypeName)
+        }
+
+        return [ new MappingType(type: keyTypeName, descriptor: keyType), new MappingType(type: valueTypeName, descriptor: valueType)] as MappingType[]
     }
 
     /**
