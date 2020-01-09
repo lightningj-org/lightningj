@@ -157,7 +157,7 @@ class ApiGenerator {
 
             if(it.isMapField()){
                 fieldName += "s"
-                def mapTypes = ClassNameUtils.getMappingTypes(it)
+                def mapTypes = ClassNameUtils.getMappingTypes(it, settings)
                 String fieldKeyType = ClassNameUtils.toObject(mapTypes[0].type)
                 String fieldValueType = ClassNameUtils.toObject(mapTypes[1].type)
 
