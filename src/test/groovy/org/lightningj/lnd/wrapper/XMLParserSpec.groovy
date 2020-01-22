@@ -343,7 +343,7 @@ class XMLParserSpec extends Specification {
         return retval
     }
 
-    def invoiceXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ListInvoiceResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"><invoices><Invoice><memo>memo1</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeySend>false</isKeySend></Invoice><Invoice><memo>memo2</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeySend>false</isKeySend></Invoice><Invoice><memo>memo3</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeySend>false</isKeySend></Invoice></invoices><lastIndexOffset>0</lastIndexOffset><firstIndexOffset>0</firstIndexOffset></ListInvoiceResponse>"""
+    def invoiceXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ListInvoiceResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"><invoices><Invoice><memo>memo1</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeysend>false</isKeysend></Invoice><Invoice><memo>memo2</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeysend>false</isKeysend></Invoice><Invoice><memo>memo3</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeysend>false</isKeysend></Invoice></invoices><lastIndexOffset>0</lastIndexOffset><firstIndexOffset>0</firstIndexOffset></ListInvoiceResponse>"""
 
     def prettyPrintedInvoiceXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ListInvoiceResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
@@ -372,7 +372,7 @@ class XMLParserSpec extends Specification {
             <state>OPEN</state>
             <htlcs/>
             <featuresEntries/>
-            <isKeySend>false</isKeySend>
+            <isKeysend>false</isKeysend>
         </Invoice>
         <Invoice>
             <memo>memo2</memo>
@@ -398,7 +398,7 @@ class XMLParserSpec extends Specification {
             <state>OPEN</state>
             <htlcs/>
             <featuresEntries/>
-            <isKeySend>false</isKeySend>
+            <isKeysend>false</isKeysend>
         </Invoice>
         <Invoice>
             <memo>memo3</memo>
@@ -424,7 +424,7 @@ class XMLParserSpec extends Specification {
             <state>OPEN</state>
             <htlcs/>
             <featuresEntries/>
-            <isKeySend>false</isKeySend>
+            <isKeysend>false</isKeysend>
         </Invoice>
     </invoices>
     <lastIndexOffset>0</lastIndexOffset>
