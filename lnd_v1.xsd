@@ -1264,6 +1264,16 @@
       </xs:element>
       <xs:element name="cltvLimit" type="xs:int"/>
       <xs:element name="destCustomRecordsEntries" type="QueryRoutesRequestDestCustomRecordsEntriesType" minOccurs="0"/>
+      <xs:element name="outgoingChanId" type="xs:long"/>
+      <xs:element name="lastHopPubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="route_hints" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="RouteHint" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="destFeatures" type="featureBit" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1291,6 +1301,28 @@
     <xs:sequence>
       <xs:element name="key" type="xs:long"/>
       <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RouteHintType">
+    <xs:sequence>
+      <xs:element name="hop_hints" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="HopHint" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HopHintType">
+    <xs:sequence>
+      <xs:element name="nodeId" type="xs:string" minOccurs="0"/>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="feeBaseMsat" type="xs:int"/>
+      <xs:element name="feeProportionalMillionths" type="xs:int"/>
+      <xs:element name="cltvExpiryDelta" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1516,28 +1548,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="HopHintType">
-    <xs:sequence>
-      <xs:element name="nodeId" type="xs:string" minOccurs="0"/>
-      <xs:element name="chanId" type="xs:long"/>
-      <xs:element name="feeBaseMsat" type="xs:int"/>
-      <xs:element name="feeProportionalMillionths" type="xs:int"/>
-      <xs:element name="cltvExpiryDelta" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="RouteHintType">
-    <xs:sequence>
-      <xs:element name="hop_hints" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element ref="HopHint" minOccurs="0" maxOccurs="unbounded"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="InvoiceType">
     <xs:sequence>
       <xs:element name="memo" type="xs:string" minOccurs="0"/>
@@ -1575,7 +1585,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="featuresEntries" type="InvoiceFeaturesEntriesType" minOccurs="0"/>
-      <xs:element name="isKeySend" type="xs:boolean"/>
+      <xs:element name="isKeysend" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
