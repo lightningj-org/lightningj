@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (d06f6c1) tag : Downloaded 2019-04-03
+ * LND (fdcb30e) tag : Downloaded 2020-04-12
  */
 syntax = "proto3";
 
@@ -46,7 +46,8 @@ message ConfDetails {
     // The hash of the block in which the confirmed transaction was included in.
     bytes block_hash = 2;
 
-    // The height of the block in which the confirmed transaction was included in.
+    // The height of the block in which the confirmed transaction was included
+    // in.
     uint32 block_height = 3;
 
     // The index of the confirmed transaction within the transaction.
@@ -157,7 +158,7 @@ service ChainNotifier {
     particular transaction by its hash or for an output script by specifying a
     zero hash.
     */
-    rpc RegisterConfirmationsNtfn(ConfRequest) returns (stream ConfEvent);
+    rpc RegisterConfirmationsNtfn (ConfRequest) returns (stream ConfEvent);
 
     /*
     RegisterSpendNtfn is a synchronous response-streaming RPC that registers an
@@ -167,7 +168,7 @@ service ChainNotifier {
     A client can specify whether the spend request should be for a particular
     outpoint  or for an output script by specifying a zero outpoint.
     */
-    rpc RegisterSpendNtfn(SpendRequest) returns (stream SpendEvent);
+    rpc RegisterSpendNtfn (SpendRequest) returns (stream SpendEvent);
 
     /*
     RegisterBlockEpochNtfn is a synchronous response-streaming RPC that
@@ -180,5 +181,5 @@ service ChainNotifier {
     point. This allows clients to be idempotent by ensuring that they do not
     missing processing a single block within the chain.
     */
-    rpc RegisterBlockEpochNtfn(BlockEpoch) returns (stream BlockEpoch);
+    rpc RegisterBlockEpochNtfn (BlockEpoch) returns (stream BlockEpoch);
 }

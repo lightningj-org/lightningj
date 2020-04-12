@@ -67,6 +67,9 @@ import org.lightningj.lnd.wrapper.message.Route;
 import org.lightningj.lnd.wrapper.message.RouteHint;
 import org.lightningj.lnd.wrapper.message.HTLCAttempt;
 import org.lightningj.lnd.wrapper.message.FeatureBit;
+import org.lightningj.lnd.wrapper.message.Failure;
+import org.lightningj.lnd.wrapper.message.Failure.FailureCode;
+import org.lightningj.lnd.wrapper.message.Payment;
 """
             default:
                 return ""
@@ -212,9 +215,14 @@ import org.lightningj.lnd.wrapper.message.FeatureBit;
                 if(methodName == "deriveKey" || methodName == "deriveNextKey"){
                     return "SignerOuterClass"
                 }
-                break;
+                break
             case "invoices":
                 if(methodName == "subscribeSingleInvoice"){
+                    return "LightningApi"
+                }
+                break
+            case "router":
+                if(methodName == "sendPayment" || methodName == "trackPayment"){
                     return "LightningApi"
                 }
         }
