@@ -49,7 +49,7 @@ public class SynchronousLndAPIExample {
 
         // Calls returns a wrapped response or Iterator of wrapped responses.
         // Example to get a response:
-        ListPeersResponse listPeersResponse = synchronousLndAPI.listPeers();
+        ListPeersResponse listPeersResponse = synchronousLndAPI.listPeers(false);
         // The response can be converted to XML or JSON or just parsed.
 
 
