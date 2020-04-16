@@ -102,8 +102,8 @@ class LNDIntegrationSpec extends Specification{
 
         QueryRoutesResponse resp = synchronousLndAPI.queryRoutes(queryRoutesRequest)
         then:
-        println resp.getRoutes().size()
-        resp.getRoutes().size() != null
+        //println resp.getRoutes().size()
+        resp.getRoutes().size() > 0
     }
 
 

@@ -41,6 +41,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.10.0-Beta-rc2: Generated against LND 0.10.0 API. Added Versioner GRPC API.
 * 0.9.2-Beta     : Generated against LND 0.9.2 API.
 * 0.9.1-Beta     : Generated against LND 0.9.1 API.
 * 0.9.0-Beta     : Generated against LND 0.9.0 API.
@@ -192,7 +193,7 @@ System.out.println(synchronousLndAPI.channelBalance().toJsonAsString(true));
 
 // Calls returns a wrapped response or Iterator of wrapped responses.
 // Example to get a response:
-ListPeersResponse listPeersResponse = synchronousLndAPI.listPeers();
+ListPeersResponse listPeersResponse = synchronousLndAPI.listPeers(false);
 // The response can be converted to XML or JSON or just parsed.
 
 
@@ -355,6 +356,25 @@ Starting from 0.6.0 there are several different APIs to the different services.
 | org.lightningj.lnd.wrapper.walletkit.SynchronousWalletKitAPI
 | org.lightningj.lnd.wrapper.walletkit.AsynchronousWalletKitAPI
 | 0.6-Beta-rc1
+
+| WalletKit API
+| Contains methods for the wallet kit service.
+| org.lightningj.lnd.wrapper.watchtower.SynchronousWatchtowerAPI
+| org.lightningj.lnd.wrapper.watchtower.AsynchronousWatchtowerAPI
+| 0.7.0-rc2
+
+| Watchtower Client API
+| Contains methods for the wallet kit service.
+| org.lightningj.lnd.wrapper.wtclient.SynchronousWatchtowerClientAPI
+| org.lightningj.lnd.wrapper.wtclient.AsynchronousWatchtowerClientAPI
+| 0.7.0-rc2
+
+| Versioning API
+| Contains methods for the versioning (verrpc) service.
+| org.lightningj.lnd.wrapper.verrpc.SynchronousVersionerAPI
+| org.lightningj.lnd.wrapper.verrpc.AsynchronousVersionerAPI
+| 0.10-Beta-rc2
+
 
 |===
 

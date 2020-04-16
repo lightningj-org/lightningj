@@ -55,36 +55,36 @@ class JsonGenUtilsSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder1 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         JsonObjectBuilder jsonObjectBuilder2 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         expect:
-        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","r_preimage":"","r_hash":"","value":0,"value_msat":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0,"state":"OPEN","htlcs":[],"features":[],"is_keysend":false}'
+        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","rPreimage":"","rHash":"","value":0,"valueMsat":0,"settled":false,"creationDate":5432123,"settleDate":0,"paymentRequest":"","descriptionHash":"VGVzdA==","expiry":5432343,"fallbackAddr":"","cltvExpiry":12345,"routeHints":[],"private":false,"addIndex":0,"settleIndex":0,"amtPaid":0,"amtPaidSat":0,"amtPaidMsat":0,"state":"OPEN","htlcs":[],"features":[],"isKeysend":false}'
         JsonGenUtils.jsonToString(jsonObjectBuilder2,true) == """
 {
     "memo": "SomeMemo",
-    "r_preimage": "",
-    "r_hash": "",
+    "rPreimage": "",
+    "rHash": "",
     "value": 0,
-    "value_msat": 0,
+    "valueMsat": 0,
     "settled": false,
-    "creation_date": 5432123,
-    "settle_date": 0,
-    "payment_request": "",
-    "description_hash": "VGVzdA==",
+    "creationDate": 5432123,
+    "settleDate": 0,
+    "paymentRequest": "",
+    "descriptionHash": "VGVzdA==",
     "expiry": 5432343,
-    "fallback_addr": "",
-    "cltv_expiry": 12345,
-    "route_hints": [
+    "fallbackAddr": "",
+    "cltvExpiry": 12345,
+    "routeHints": [
     ],
     "private": false,
-    "add_index": 0,
-    "settle_index": 0,
-    "amt_paid": 0,
-    "amt_paid_sat": 0,
-    "amt_paid_msat": 0,
+    "addIndex": 0,
+    "settleIndex": 0,
+    "amtPaid": 0,
+    "amtPaidSat": 0,
+    "amtPaidMsat": 0,
     "state": "OPEN",
     "htlcs": [
     ],
     "features": [
     ],
-    "is_keysend": false
+    "isKeysend": false
 }"""
     }
 
@@ -112,12 +112,12 @@ class JsonGenUtilsSpec extends Specification {
         javaType          | instance                                     | field                | value                       | expected
         STRING            | LightningApi.Invoice.newInstance()           | "memo"               | "SomeString"                | '{"memo":"SomeString"}'
         INT               | LightningApi.Hop.newInstance()               | "expiry"             | 123                         | '{"expiry":123}'
-        DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | (double) 1928127.00001      | '{"avg_out_degree":1928127.00001}'
+        DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | (double) 1928127.00001      | '{"avgOutDegree":1928127.00001}'
         LONG              | LightningApi.Payment.newInstance()           | "fee"                | 1292817282L                 | '{"fee":1292817282}'
         BOOLEAN           | LightningApi.Invoice.newInstance()           | "settled"            | true                        | '{"settled":true}'
-        BYTE_STRING       | LightningApi.Invoice.newInstance()           | "r_preimage"         | byteString                  | '{"r_preimage":"' + base64EncodedByteString + '"}'
+        BYTE_STRING       | LightningApi.Invoice.newInstance()           | "r_preimage"         | byteString                  | '{"rPreimage":"' + base64EncodedByteString + '"}'
         ENUM              | LightningApi.NewAddressRequest.newInstance() | "type"               | WITNESS_PUBKEY_HASH                 | '{"type":"WITNESS_PUBKEY_HASH"}'
-        MESSAGE           | LightningApi.SendResponse.newInstance()      | "payment_route"      | createRoute().build()       | '{"payment_route":{"total_time_lock":0,"total_fees":543234,"total_amt":123,"hops":[],"total_fees_msat":0,"total_amt_msat":0}}'
+        MESSAGE           | LightningApi.SendResponse.newInstance()      | "payment_route"      | createRoute().build()       | '{"paymentRoute":{"totalTimeLock":0,"totalFees":543234,"totalAmt":123,"hops":[],"totalFeesMsat":0,"totalAmtMsat":0}}'
     }
 
     @Unroll
@@ -142,12 +142,12 @@ class JsonGenUtilsSpec extends Specification {
         javaType          | instance                                     | field                | expected                    | jsonData
         STRING            | LightningApi.Invoice.newInstance()           | "memo"               | "SomeString"                | '{"memo":"SomeString"}'
         INT               | LightningApi.Hop.newInstance()               | "expiry"             | 123                         | '{"expiry":123}'
-        DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | (double) 1928127.00001      | '{"avg_out_degree":1928127.00001}'
+        DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | (double) 1928127.00001      | '{"avgOutDegree":1928127.00001}'
         LONG              | LightningApi.Payment.newInstance()           | "fee"                | 1292817282L                 | '{"fee":1292817282}'
         BOOLEAN           | LightningApi.Invoice.newInstance()           | "settled"            | true                        | '{"settled":true}'
-        BYTE_STRING       | LightningApi.Invoice.newInstance()           | "r_preimage"         | byteString                  | '{"r_preimage":"' + base64EncodedByteString + '"}'
+        BYTE_STRING       | LightningApi.Invoice.newInstance()           | "r_preimage"         | byteString                  | '{"rPreimage":"' + base64EncodedByteString + '"}'
         ENUM              | LightningApi.NewAddressRequest.newInstance() | "type"               | WITNESS_PUBKEY_HASH                 | '{"type":"WITNESS_PUBKEY_HASH"}'
-        MESSAGE           | LightningApi.SendResponse.newInstance()      | "payment_route"      | createRoute().build()       | '{"payment_route":{"total_time_lock":0,"total_fees":543234,"total_amt":123}}'
+        MESSAGE           | LightningApi.SendResponse.newInstance()      | "payment_route"      | createRoute().build()       | '{"paymentRoute":{"totalTimeLock":0,"totalFees":543234,"totalAmt":123,"hops":[],"totalFeesMsat":0,"totalAmtMsat":0}}'
 
     }
 
@@ -167,7 +167,7 @@ class JsonGenUtilsSpec extends Specification {
         where:
         javaType          | instance                                       | field                | values                                                     | jsonData
         STRING            | LightningApi.GetInfoResponse.newInstance()     | "uris"             | ["SomeString1","SomeString2"]                              | '{"uris":["SomeString1","SomeString2"]}'
-        MESSAGE           | LightningApi.QueryRoutesResponse.newInstance() | "routes"             | [createRoute().build(),createRoute(321L).build()] | '{"routes":[{"total_time_lock":0,"total_fees":543234,"total_amt":123,"hops":[],"total_fees_msat":0,"total_amt_msat":0},{"total_time_lock":0,"total_fees":543234,"total_amt":321,"hops":[],"total_fees_msat":0,"total_amt_msat":0}]}'
+        MESSAGE           | LightningApi.QueryRoutesResponse.newInstance() | "routes"             | [createRoute().build(),createRoute(321L).build()] | '{"routes":[{"totalTimeLock":0,"totalFees":543234,"totalAmt":123,"hops":[],"totalFeesMsat":0,"totalAmtMsat":0},{"totalTimeLock":0,"totalFees":543234,"totalAmt":321,"hops":[],"totalFeesMsat":0,"totalAmtMsat":0}]}'
     }
 
     @Unroll
@@ -227,25 +227,25 @@ class JsonGenUtilsSpec extends Specification {
         when:
         JsonObjectBuilder result = JsonGenUtils.messageToJson(createInvoice(),LightningApi.Invoice.descriptor)
         then:
-        result.build().toString() == '{"memo":"SomeMemo","r_preimage":"","r_hash":"","value":0,"value_msat":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345,"route_hints":[],"private":false,"add_index":0,"settle_index":0,"amt_paid":0,"amt_paid_sat":0,"amt_paid_msat":0,"state":"OPEN","htlcs":[],"features":[],"is_keysend":false}'
+        result.build().toString() == '{"memo":"SomeMemo","rPreimage":"","rHash":"","value":0,"valueMsat":0,"settled":false,"creationDate":5432123,"settleDate":0,"paymentRequest":"","descriptionHash":"VGVzdA==","expiry":5432343,"fallbackAddr":"","cltvExpiry":12345,"routeHints":[],"private":false,"addIndex":0,"settleIndex":0,"amtPaid":0,"amtPaidSat":0,"amtPaidMsat":0,"state":"OPEN","htlcs":[],"features":[],"isKeysend":false}'
     }
 
     def "Verify that jsonToMessage converts json to a message fields that contain single values"(){
         setup:
-        JsonObject jsonObject = Json.createReader(new StringReader('{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":false,"creation_date":5432123,"settle_date":0,"payment_request":"","description_hash":"VGVzdA==","expiry":5432343,"fallback_addr":"","cltv_expiry":12345}')).readObject()
+        JsonObject jsonObject = Json.createReader(new StringReader('{"memo":"SomeMemo","rPreimage":"","rHash":"","value":0,"valueMsat":0,"settled":false,"creationDate":5432123,"settleDate":0,"paymentRequest":"","descriptionHash":"VGVzdA==","expiry":5432343,"fallbackAddr":"","cltvExpiry":12345,"routeHints":[],"private":false,"addIndex":0,"settleIndex":0,"amtPaid":0,"amtPaidSat":0,"amtPaidMsat":0,"state":"OPEN","htlcs":[],"features":[],"isKeysend":false}')).readObject()
         when:
         Invoice result = JsonGenUtils.jsonToMessage(jsonObject,LightningApi.Invoice.descriptor).build()
         then:
         result.getMemo() == "SomeMemo"
-        !result.getSettled()
+        result.getState() == Invoice.InvoiceState.OPEN
         result.getCreationDate() == 5432123L
 
         when: // Verify that json data with not all fields set doesn't throw exception
-        jsonObject = Json.createReader(new StringReader('{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0,"settled":true}')).readObject()
+        jsonObject = Json.createReader(new StringReader('{"memo":"SomeMemo","receipt":"","r_preimage":"","r_hash":"","value":0}')).readObject()
         result = JsonGenUtils.jsonToMessage(jsonObject,LightningApi.Invoice.descriptor).build()
         then:
         result.getMemo() == "SomeMemo"
-        result.getSettled()
+        result.getState() == Invoice.InvoiceState.OPEN
         result.getCreationDate() == 0L
 
     }
