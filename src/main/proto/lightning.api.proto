@@ -1,9 +1,8 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (06f73c0) tag : Downloaded 2020-04-12
+ * LND (91cd7e6) tag : Downloaded 2020-04-15
  */
-
 syntax = "proto3";
 
 import "google/api/annotations.proto";
@@ -1666,6 +1665,9 @@ message GetInfoRequest {
 message GetInfoResponse {
     /// The version of the LND software that the node is running.
     string version = 14;
+
+    /// The SHA1 commit hash that the daemon is compiled with.
+    string commit_hash = 20;
 
     /// The identity pubkey of the current node.
     string identity_pubkey = 1;
@@ -3689,4 +3691,3 @@ message ChannelUpdate {
     */
     bytes extra_opaque_data = 12;
 }
- 

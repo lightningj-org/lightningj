@@ -41,6 +41,8 @@ class ProtocolSettings extends BaseProtocolSettings{
                 return "org.lightningj.lnd.watchtower.proto.WatchtowerOuterClass"
             case "wtclient":
                 return "org.lightningj.lnd.wtclient.proto.Wtclient"
+            case "verrpc":
+                return "org.lightningj.lnd.verrpc.proto.Verrpc"
         }
     }
 
@@ -185,6 +187,17 @@ import org.lightningj.lnd.wrapper.message.Payment;
                                 baseFileName: 'WatchtowerClientAPI.java'
                         )
                 ]
+            case "verrpc":
+                return [
+                        new ApiSettings(
+                                baseGrpcClassPath:'org.lightningj.lnd.verrpc.proto.VersionerGrpc$Versioner',
+                                grpcClassName: 'VersionerGrpc',
+                                baseApiClassName: 'VersionerAPI',
+                                baseProtoClassPath: 'org.lightningj.lnd.verrpc.proto.Verrpc',
+                                baseStubClass: 'Versioner',
+                                baseFileName: 'VersionerAPI.java'
+                        )
+                ]
             default:
                 return []
         }
@@ -243,7 +256,8 @@ import org.lightningj.lnd.wrapper.message.Payment;
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/signer_1_0", prefix = "signer"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletkit_1_0", prefix = "walletkit"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/watchtower_1_0", prefix = "watchtower"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/wtclient_1_0", prefix = "wtclient")
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/wtclient_1_0", prefix = "wtclient"),
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/verrpc_1_0", prefix = "verrpc")
 """
     }
 
