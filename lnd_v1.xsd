@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:element name="AbandonChannelRequest" type="AbandonChannelRequestType"/>
 
@@ -63,6 +63,8 @@
 
   <xs:element name="ChannelPoint" type="ChannelPointType"/>
 
+  <xs:element name="ChannelUpdate" type="ChannelUpdateType"/>
+
   <xs:element name="CloseChannelRequest" type="CloseChannelRequestType"/>
 
   <xs:element name="CloseStatusUpdate" type="CloseStatusUpdateType"/>
@@ -99,6 +101,8 @@
 
   <xs:element name="ExportChannelBackupRequest" type="ExportChannelBackupRequestType"/>
 
+  <xs:element name="Failure" type="FailureType"/>
+
   <xs:element name="Feature" type="FeatureType"/>
 
   <xs:element name="FeeLimit" type="FeeLimitType"/>
@@ -107,11 +111,17 @@
 
   <xs:element name="FeeReportResponse" type="FeeReportResponseType"/>
 
+  <xs:element name="FloatMetric" type="FloatMetricType"/>
+
   <xs:element name="ForwardingEvent" type="ForwardingEventType"/>
 
   <xs:element name="ForwardingHistoryRequest" type="ForwardingHistoryRequestType"/>
 
   <xs:element name="ForwardingHistoryResponse" type="ForwardingHistoryResponseType"/>
+
+  <xs:element name="FundingPsbtFinalize" type="FundingPsbtFinalizeType"/>
+
+  <xs:element name="FundingPsbtVerify" type="FundingPsbtVerifyType"/>
 
   <xs:element name="FundingShim" type="FundingShimType"/>
 
@@ -201,6 +211,10 @@
 
   <xs:element name="NodeInfoRequest" type="NodeInfoRequestType"/>
 
+  <xs:element name="NodeMetricsRequest" type="NodeMetricsRequestType"/>
+
+  <xs:element name="NodeMetricsResponse" type="NodeMetricsResponseType"/>
+
   <xs:element name="NodePair" type="NodePairType"/>
 
   <xs:element name="NodeUpdate" type="NodeUpdateType"/>
@@ -237,9 +251,13 @@
 
   <xs:element name="PolicyUpdateResponse" type="PolicyUpdateResponseType"/>
 
+  <xs:element name="PsbtShim" type="PsbtShimType"/>
+
   <xs:element name="QueryRoutesRequest" type="QueryRoutesRequestType"/>
 
   <xs:element name="QueryRoutesResponse" type="QueryRoutesResponseType"/>
+
+  <xs:element name="ReadyForPsbtFunding" type="ReadyForPsbtFundingType"/>
 
   <xs:element name="RestoreBackupResponse" type="RestoreBackupResponseType"/>
 
@@ -272,6 +290,8 @@
   <xs:element name="StopRequest" type="StopRequestType"/>
 
   <xs:element name="StopResponse" type="StopResponseType"/>
+
+  <xs:element name="TimestampedError" type="TimestampedErrorType"/>
 
   <xs:element name="Transaction" type="TransactionType"/>
 
@@ -405,7 +425,7 @@
 
   <xs:complexType name="UtxoType">
     <xs:sequence>
-      <xs:element name="type" type="addressType" minOccurs="0"/>
+      <xs:element name="addressType" type="addressType" minOccurs="0"/>
       <xs:element name="address" type="xs:string" minOccurs="0"/>
       <xs:element name="amountSat" type="xs:long"/>
       <xs:element name="pkScript" type="xs:string" minOccurs="0"/>
@@ -788,9 +808,12 @@
       <xs:element name="localChanReserveSat" type="xs:long"/>
       <xs:element name="remoteChanReserveSat" type="xs:long"/>
       <xs:element name="staticRemoteKey" type="xs:boolean"/>
+      <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
       <xs:element name="lifetime" type="xs:long"/>
       <xs:element name="uptime" type="xs:long"/>
       <xs:element name="closeAddress" type="xs:string" minOccurs="0"/>
+      <xs:element name="pushAmountSat" type="xs:long"/>
+      <xs:element name="thawHeight" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -800,6 +823,7 @@
       <xs:element name="inactiveOnly" type="xs:boolean"/>
       <xs:element name="publicOnly" type="xs:boolean"/>
       <xs:element name="privateOnly" type="xs:boolean"/>
+      <xs:element name="peer" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -827,6 +851,8 @@
       <xs:element name="settledBalance" type="xs:long"/>
       <xs:element name="timeLockedBalance" type="xs:long"/>
       <xs:element name="closeType" type="closureType" minOccurs="0"/>
+      <xs:element name="openInitiator" type="initiator" minOccurs="0"/>
+      <xs:element name="closeInitiator" type="initiator" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -865,6 +891,13 @@
       <xs:element name="pingTime" type="xs:long"/>
       <xs:element name="syncType" type="syncType" minOccurs="0"/>
       <xs:element name="featuresEntries" type="PeerFeaturesEntriesType" minOccurs="0"/>
+      <xs:element name="errors" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="TimestampedError" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -889,8 +922,17 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="TimestampedErrorType">
+    <xs:sequence>
+      <xs:element name="timestamp" type="xs:long"/>
+      <xs:element name="error" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ListPeersRequestType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="latestError" type="xs:boolean"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ListPeersResponseType">
@@ -923,6 +965,7 @@
   <xs:complexType name="GetInfoResponseType">
     <xs:sequence>
       <xs:element name="version" type="xs:string" minOccurs="0"/>
+      <xs:element name="commitHash" type="xs:string" minOccurs="0"/>
       <xs:element name="identityPubkey" type="xs:string" minOccurs="0"/>
       <xs:element name="alias" type="xs:string" minOccurs="0"/>
       <xs:element name="color" type="xs:string" minOccurs="0"/>
@@ -1019,6 +1062,14 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ReadyForPsbtFundingType">
+    <xs:sequence>
+      <xs:element name="fundingAddress" type="xs:string" minOccurs="0"/>
+      <xs:element name="fundingAmount" type="xs:long"/>
+      <xs:element name="psbt" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="OpenChannelRequestType">
     <xs:sequence>
       <xs:element name="nodePubkey" type="xs:base64Binary" minOccurs="0"/>
@@ -1040,6 +1091,7 @@
   <xs:complexType name="FundingShimType">
     <xs:sequence>
       <xs:element name="chanPointShim" type="ChanPointShimType" minOccurs="0"/>
+      <xs:element name="psbtShim" type="PsbtShimType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1050,6 +1102,7 @@
       <xs:element name="localKey" type="KeyDescriptorType" minOccurs="0"/>
       <xs:element name="remoteKey" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="thawHeight" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1067,10 +1120,18 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="PsbtShimType">
+    <xs:sequence>
+      <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="basePsbt" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="OpenStatusUpdateType">
     <xs:sequence>
       <xs:element name="chanPending" type="PendingUpdateType" minOccurs="0"/>
       <xs:element name="chanOpen" type="ChannelOpenUpdateType" minOccurs="0"/>
+      <xs:element name="psbtFund" type="ReadyForPsbtFundingType" minOccurs="0"/>
       <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
@@ -1081,10 +1142,26 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="FundingPsbtVerifyType">
+    <xs:sequence>
+      <xs:element name="fundedPsbt" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FundingPsbtFinalizeType">
+    <xs:sequence>
+      <xs:element name="signedPsbt" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="FundingTransitionMsgType">
     <xs:sequence>
       <xs:element name="shimRegister" type="FundingShimType" minOccurs="0"/>
       <xs:element name="shimCancel" type="FundingShimCancelType" minOccurs="0"/>
+      <xs:element name="psbtVerify" type="FundingPsbtVerifyType" minOccurs="0"/>
+      <xs:element name="psbtFinalize" type="FundingPsbtFinalizeType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1160,6 +1237,8 @@
       <xs:element name="remoteBalance" type="xs:long"/>
       <xs:element name="localChanReserveSat" type="xs:long"/>
       <xs:element name="remoteChanReserveSat" type="xs:long"/>
+      <xs:element name="initiator" type="initiator" minOccurs="0"/>
+      <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1185,6 +1264,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="anchor" type="anchorState" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1192,6 +1272,18 @@
     <xs:sequence>
       <xs:element name="channel" type="PendingChannelsResponsePendingChannelType" minOccurs="0"/>
       <xs:element name="limboBalance" type="xs:long"/>
+      <xs:element name="commitments" type="PendingChannelsResponseCommitmentsType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PendingChannelsResponseCommitmentsType">
+    <xs:sequence>
+      <xs:element name="localTxid" type="xs:string" minOccurs="0"/>
+      <xs:element name="remoteTxid" type="xs:string" minOccurs="0"/>
+      <xs:element name="remotePendingTxid" type="xs:string" minOccurs="0"/>
+      <xs:element name="localCommitFeeSat" type="xs:long"/>
+      <xs:element name="remoteCommitFeeSat" type="xs:long"/>
+      <xs:element name="remotePendingCommitFeeSat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1205,6 +1297,7 @@
       <xs:element name="closedChannel" type="ChannelCloseSummaryType" minOccurs="0"/>
       <xs:element name="activeChannel" type="ChannelPointType" minOccurs="0"/>
       <xs:element name="inactiveChannel" type="ChannelPointType" minOccurs="0"/>
+      <xs:element name="pendingOpenChannel" type="PendingUpdateType" minOccurs="0"/>
       <xs:element name="type" type="updateType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
@@ -1448,6 +1541,38 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="NodeMetricsRequestType">
+    <xs:sequence>
+      <xs:element name="types" type="nodeMetricType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeMetricsResponseType">
+    <xs:sequence>
+      <xs:element name="betweennessCentralityEntries" type="NodeMetricsResponseBetweennessCentralityEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeMetricsResponseBetweennessCentralityEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="NodeMetricsResponseBetweennessCentralityEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeMetricsResponseBetweennessCentralityEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="FloatMetricType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FloatMetricType">
+    <xs:sequence>
+      <xs:element name="value" type="xs:double"/>
+      <xs:element name="normalizedValue" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ChanInfoRequestType">
     <xs:sequence>
       <xs:element name="chanId" type="xs:long"/>
@@ -1680,13 +1805,6 @@
       <xs:element name="paymentHash" type="xs:string" minOccurs="0"/>
       <xs:element name="value" type="xs:long"/>
       <xs:element name="creationDate" type="xs:long"/>
-      <xs:element name="path" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="path" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
       <xs:element name="fee" type="xs:long"/>
       <xs:element name="paymentPreimage" type="xs:string" minOccurs="0"/>
       <xs:element name="valueSat" type="xs:long"/>
@@ -1703,6 +1821,8 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="paymentIndex" type="xs:long"/>
+      <xs:element name="failureReason" type="paymentFailureReason" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1712,12 +1832,46 @@
       <xs:element name="route" type="RouteType" minOccurs="0"/>
       <xs:element name="attemptTimeNs" type="xs:long"/>
       <xs:element name="resolveTimeNs" type="xs:long"/>
+      <xs:element name="failure" type="FailureType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FailureType">
+    <xs:sequence>
+      <xs:element name="code" type="failureCode" minOccurs="0"/>
+      <xs:element name="channelUpdate" type="ChannelUpdateType" minOccurs="0"/>
+      <xs:element name="htlcMsat" type="xs:long"/>
+      <xs:element name="onionSha256" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="cltvExpiry" type="xs:int"/>
+      <xs:element name="flags" type="xs:int"/>
+      <xs:element name="failureSourceIndex" type="xs:int"/>
+      <xs:element name="height" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelUpdateType">
+    <xs:sequence>
+      <xs:element name="signature" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="chainHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="timestamp" type="xs:int"/>
+      <xs:element name="messageFlags" type="xs:int"/>
+      <xs:element name="channelFlags" type="xs:int"/>
+      <xs:element name="timeLockDelta" type="xs:int"/>
+      <xs:element name="htlcMinimumMsat" type="xs:long"/>
+      <xs:element name="baseFee" type="xs:int"/>
+      <xs:element name="feeRate" type="xs:int"/>
+      <xs:element name="htlcMaximumMsat" type="xs:long"/>
+      <xs:element name="extraOpaqueData" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ListPaymentsRequestType">
     <xs:sequence>
       <xs:element name="includeIncomplete" type="xs:boolean"/>
+      <xs:element name="indexOffset" type="xs:long"/>
+      <xs:element name="maxPayments" type="xs:long"/>
+      <xs:element name="reversed" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1730,6 +1884,8 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="firstIndexOffset" type="xs:long"/>
+      <xs:element name="lastIndexOffset" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1813,7 +1969,8 @@
 
   <xs:complexType name="ChannelFeeReportType">
     <xs:sequence>
-      <xs:element name="chanPoint" type="xs:string" minOccurs="0"/>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="channelPoint" type="xs:string" minOccurs="0"/>
       <xs:element name="baseFeeMsat" type="xs:long"/>
       <xs:element name="feePerMil" type="xs:long"/>
       <xs:element name="feeRate" type="xs:double"/>
@@ -1973,6 +2130,15 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="commitmentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LEGACY"/>
+      <xs:enumeration value="STATIC_REMOTE_KEY"/>
+      <xs:enumeration value="ANCHORS"/>
+      <xs:enumeration value="UNKNOWN_COMMITMENT_TYPE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="closureType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="COOPERATIVE_CLOSE"/>
@@ -1981,6 +2147,15 @@
       <xs:enumeration value="BREACH_CLOSE"/>
       <xs:enumeration value="FUNDING_CANCELED"/>
       <xs:enumeration value="ABANDONED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="initiator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INITIATOR_UNKNOWN"/>
+      <xs:enumeration value="INITIATOR_LOCAL"/>
+      <xs:enumeration value="INITIATOR_REMOTE"/>
+      <xs:enumeration value="INITIATOR_BOTH"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -1999,12 +2174,28 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="anchorState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LIMBO"/>
+      <xs:enumeration value="RECOVERED"/>
+      <xs:enumeration value="LOST"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="updateType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="OPEN_CHANNEL"/>
       <xs:enumeration value="CLOSED_CHANNEL"/>
       <xs:enumeration value="ACTIVE_CHANNEL"/>
       <xs:enumeration value="INACTIVE_CHANNEL"/>
+      <xs:enumeration value="PENDING_OPEN_CHANNEL"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="nodeMetricType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN"/>
+      <xs:enumeration value="BETWEENNESS_CENTRALITY"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -2039,6 +2230,49 @@
       <xs:enumeration value="IN_FLIGHT"/>
       <xs:enumeration value="SUCCEEDED"/>
       <xs:enumeration value="FAILED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="failureCode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RESERVED"/>
+      <xs:enumeration value="INCORRECT_OR_UNKNOWN_PAYMENT_DETAILS"/>
+      <xs:enumeration value="INCORRECT_PAYMENT_AMOUNT"/>
+      <xs:enumeration value="FINAL_INCORRECT_CLTV_EXPIRY"/>
+      <xs:enumeration value="FINAL_INCORRECT_HTLC_AMOUNT"/>
+      <xs:enumeration value="FINAL_EXPIRY_TOO_SOON"/>
+      <xs:enumeration value="INVALID_REALM"/>
+      <xs:enumeration value="EXPIRY_TOO_SOON"/>
+      <xs:enumeration value="INVALID_ONION_VERSION"/>
+      <xs:enumeration value="INVALID_ONION_HMAC"/>
+      <xs:enumeration value="INVALID_ONION_KEY"/>
+      <xs:enumeration value="AMOUNT_BELOW_MINIMUM"/>
+      <xs:enumeration value="FEE_INSUFFICIENT"/>
+      <xs:enumeration value="INCORRECT_CLTV_EXPIRY"/>
+      <xs:enumeration value="CHANNEL_DISABLED"/>
+      <xs:enumeration value="TEMPORARY_CHANNEL_FAILURE"/>
+      <xs:enumeration value="REQUIRED_NODE_FEATURE_MISSING"/>
+      <xs:enumeration value="REQUIRED_CHANNEL_FEATURE_MISSING"/>
+      <xs:enumeration value="UNKNOWN_NEXT_PEER"/>
+      <xs:enumeration value="TEMPORARY_NODE_FAILURE"/>
+      <xs:enumeration value="PERMANENT_NODE_FAILURE"/>
+      <xs:enumeration value="PERMANENT_CHANNEL_FAILURE"/>
+      <xs:enumeration value="EXPIRY_TOO_FAR"/>
+      <xs:enumeration value="MPP_TIMEOUT"/>
+      <xs:enumeration value="INTERNAL_FAILURE"/>
+      <xs:enumeration value="UNKNOWN_FAILURE"/>
+      <xs:enumeration value="UNREADABLE_FAILURE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="paymentFailureReason">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FAILURE_REASON_NONE"/>
+      <xs:enumeration value="FAILURE_REASON_TIMEOUT"/>
+      <xs:enumeration value="FAILURE_REASON_NO_ROUTE"/>
+      <xs:enumeration value="FAILURE_REASON_ERROR"/>
+      <xs:enumeration value="FAILURE_REASON_INCORRECT_PAYMENT_DETAILS"/>
+      <xs:enumeration value="FAILURE_REASON_INSUFFICIENT_BALANCE"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

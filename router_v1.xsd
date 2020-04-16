@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/router_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/router_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/router_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/router_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
 
@@ -7,15 +7,19 @@
 
   <xs:element name="BuildRouteResponse" type="tns:BuildRouteResponseType"/>
 
-  <xs:element name="ChannelUpdate" type="tns:ChannelUpdateType"/>
+  <xs:element name="ForwardEvent" type="tns:ForwardEventType"/>
 
-  <xs:element name="Failure" type="tns:FailureType"/>
+  <xs:element name="ForwardFailEvent" type="tns:ForwardFailEventType"/>
+
+  <xs:element name="HtlcEvent" type="tns:HtlcEventType"/>
+
+  <xs:element name="HtlcInfo" type="tns:HtlcInfoType"/>
+
+  <xs:element name="LinkFailEvent" type="tns:LinkFailEventType"/>
 
   <xs:element name="PairData" type="tns:PairDataType"/>
 
   <xs:element name="PairHistory" type="tns:PairHistoryType"/>
-
-  <xs:element name="PaymentStatus" type="tns:PaymentStatusType"/>
 
   <xs:element name="QueryMissionControlRequest" type="tns:QueryMissionControlRequestType"/>
 
@@ -38,6 +42,10 @@
   <xs:element name="SendToRouteRequest" type="tns:SendToRouteRequestType"/>
 
   <xs:element name="SendToRouteResponse" type="tns:SendToRouteResponseType"/>
+
+  <xs:element name="SettleEvent" type="tns:SettleEventType"/>
+
+  <xs:element name="SubscribeHtlcEventsRequest" type="tns:SubscribeHtlcEventsRequestType"/>
 
   <xs:element name="TrackPaymentRequest" type="tns:TrackPaymentRequestType"/>
 
@@ -65,6 +73,7 @@
       <xs:element name="destCustomRecordsEntries" type="tns:SendPaymentRequestDestCustomRecordsEntriesType" minOccurs="0"/>
       <xs:element name="allowSelfPayment" type="xs:boolean"/>
       <xs:element name="destFeatures" type="featureBit" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="maxShards" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -84,21 +93,6 @@
   <xs:complexType name="TrackPaymentRequestType">
     <xs:sequence>
       <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="PaymentStatusType">
-    <xs:sequence>
-      <xs:element name="state" type="tns:paymentState" minOccurs="0"/>
-      <xs:element name="preimage" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="route" type="RouteType" minOccurs="0"/>
-      <xs:element name="htlcs" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="HTLCAttempt" type="HTLCAttemptType" minOccurs="0" maxOccurs="unbounded"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -126,37 +120,7 @@
   <xs:complexType name="SendToRouteResponseType">
     <xs:sequence>
       <xs:element name="preimage" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="failure" type="tns:FailureType" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="FailureType">
-    <xs:sequence>
-      <xs:element name="code" type="tns:failureCode" minOccurs="0"/>
-      <xs:element name="channelUpdate" type="tns:ChannelUpdateType" minOccurs="0"/>
-      <xs:element name="htlcMsat" type="xs:long"/>
-      <xs:element name="onionSha256" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="cltvExpiry" type="xs:int"/>
-      <xs:element name="flags" type="xs:int"/>
-      <xs:element name="failureSourceIndex" type="xs:int"/>
-      <xs:element name="height" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="ChannelUpdateType">
-    <xs:sequence>
-      <xs:element name="signature" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="chainHash" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="chanId" type="xs:long"/>
-      <xs:element name="timestamp" type="xs:int"/>
-      <xs:element name="messageFlags" type="xs:int"/>
-      <xs:element name="channelFlags" type="xs:int"/>
-      <xs:element name="timeLockDelta" type="xs:int"/>
-      <xs:element name="htlcMinimumMsat" type="xs:long"/>
-      <xs:element name="baseFee" type="xs:int"/>
-      <xs:element name="feeRate" type="xs:int"/>
-      <xs:element name="htlcMaximumMsat" type="xs:long"/>
-      <xs:element name="extraOpaqueData" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="failure" type="FailureType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -239,46 +203,91 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:simpleType name="paymentState">
+  <xs:complexType name="SubscribeHtlcEventsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="HtlcEventType">
+    <xs:sequence>
+      <xs:element name="incomingChannelId" type="xs:long"/>
+      <xs:element name="outgoingChannelId" type="xs:long"/>
+      <xs:element name="incomingHtlcId" type="xs:long"/>
+      <xs:element name="outgoingHtlcId" type="xs:long"/>
+      <xs:element name="timestampNs" type="xs:long"/>
+      <xs:element name="eventType" type="tns:eventType" minOccurs="0"/>
+      <xs:element name="forwardEvent" type="tns:ForwardEventType" minOccurs="0"/>
+      <xs:element name="forwardFailEvent" type="tns:ForwardFailEventType" minOccurs="0"/>
+      <xs:element name="settleEvent" type="tns:SettleEventType" minOccurs="0"/>
+      <xs:element name="linkFailEvent" type="tns:LinkFailEventType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ForwardEventType">
+    <xs:sequence>
+      <xs:element name="info" type="tns:HtlcInfoType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HtlcInfoType">
+    <xs:sequence>
+      <xs:element name="incomingTimelock" type="xs:int"/>
+      <xs:element name="outgoingTimelock" type="xs:int"/>
+      <xs:element name="incomingAmtMsat" type="xs:long"/>
+      <xs:element name="outgoingAmtMsat" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ForwardFailEventType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="SettleEventType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="LinkFailEventType">
+    <xs:sequence>
+      <xs:element name="info" type="tns:HtlcInfoType" minOccurs="0"/>
+      <xs:element name="wireFailure" type="failureCode" minOccurs="0"/>
+      <xs:element name="failureDetail" type="tns:failureDetail" minOccurs="0"/>
+      <xs:element name="failureString" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="eventType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="IN_FLIGHT"/>
-      <xs:enumeration value="SUCCEEDED"/>
-      <xs:enumeration value="FAILED_TIMEOUT"/>
-      <xs:enumeration value="FAILED_NO_ROUTE"/>
-      <xs:enumeration value="FAILED_ERROR"/>
-      <xs:enumeration value="FAILED_INCORRECT_PAYMENT_DETAILS"/>
-      <xs:enumeration value="FAILED_INSUFFICIENT_BALANCE"/>
+      <xs:enumeration value="UNKNOWN"/>
+      <xs:enumeration value="SEND"/>
+      <xs:enumeration value="RECEIVE"/>
+      <xs:enumeration value="FORWARD"/>
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="failureCode">
+  <xs:simpleType name="failureDetail">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="RESERVED"/>
-      <xs:enumeration value="INCORRECT_OR_UNKNOWN_PAYMENT_DETAILS"/>
-      <xs:enumeration value="INCORRECT_PAYMENT_AMOUNT"/>
-      <xs:enumeration value="FINAL_INCORRECT_CLTV_EXPIRY"/>
-      <xs:enumeration value="FINAL_INCORRECT_HTLC_AMOUNT"/>
-      <xs:enumeration value="FINAL_EXPIRY_TOO_SOON"/>
-      <xs:enumeration value="INVALID_REALM"/>
-      <xs:enumeration value="EXPIRY_TOO_SOON"/>
-      <xs:enumeration value="INVALID_ONION_VERSION"/>
-      <xs:enumeration value="INVALID_ONION_HMAC"/>
-      <xs:enumeration value="INVALID_ONION_KEY"/>
-      <xs:enumeration value="AMOUNT_BELOW_MINIMUM"/>
-      <xs:enumeration value="FEE_INSUFFICIENT"/>
-      <xs:enumeration value="INCORRECT_CLTV_EXPIRY"/>
-      <xs:enumeration value="CHANNEL_DISABLED"/>
-      <xs:enumeration value="TEMPORARY_CHANNEL_FAILURE"/>
-      <xs:enumeration value="REQUIRED_NODE_FEATURE_MISSING"/>
-      <xs:enumeration value="REQUIRED_CHANNEL_FEATURE_MISSING"/>
-      <xs:enumeration value="UNKNOWN_NEXT_PEER"/>
-      <xs:enumeration value="TEMPORARY_NODE_FAILURE"/>
-      <xs:enumeration value="PERMANENT_NODE_FAILURE"/>
-      <xs:enumeration value="PERMANENT_CHANNEL_FAILURE"/>
-      <xs:enumeration value="EXPIRY_TOO_FAR"/>
-      <xs:enumeration value="MPP_TIMEOUT"/>
-      <xs:enumeration value="UNKNOWN_FAILURE"/>
-      <xs:enumeration value="UNREADABLE_FAILURE"/>
+      <xs:enumeration value="UNKNOWN"/>
+      <xs:enumeration value="NO_DETAIL"/>
+      <xs:enumeration value="ONION_DECODE"/>
+      <xs:enumeration value="LINK_NOT_ELIGIBLE"/>
+      <xs:enumeration value="ON_CHAIN_TIMEOUT"/>
+      <xs:enumeration value="HTLC_EXCEEDS_MAX"/>
+      <xs:enumeration value="INSUFFICIENT_BALANCE"/>
+      <xs:enumeration value="INCOMPLETE_FORWARD"/>
+      <xs:enumeration value="HTLC_ADD_FAILED"/>
+      <xs:enumeration value="FORWARDS_DISABLED"/>
+      <xs:enumeration value="INVOICE_CANCELED"/>
+      <xs:enumeration value="INVOICE_UNDERPAID"/>
+      <xs:enumeration value="INVOICE_EXPIRY_TOO_SOON"/>
+      <xs:enumeration value="INVOICE_NOT_OPEN"/>
+      <xs:enumeration value="MPP_INVOICE_TIMEOUT"/>
+      <xs:enumeration value="ADDRESS_MISMATCH"/>
+      <xs:enumeration value="SET_TOTAL_MISMATCH"/>
+      <xs:enumeration value="SET_TOTAL_TOO_LOW"/>
+      <xs:enumeration value="SET_OVERPAID"/>
+      <xs:enumeration value="UNKNOWN_INVOICE"/>
+      <xs:enumeration value="INVALID_KEYSEND"/>
+      <xs:enumeration value="MPP_IN_PROGRESS"/>
+      <xs:enumeration value="CIRCULAR_ROUTE"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

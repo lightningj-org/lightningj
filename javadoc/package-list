@@ -5,6 +5,7 @@ org.lightningj.lnd.proto
 org.lightningj.lnd.router.proto
 org.lightningj.lnd.signer.proto
 org.lightningj.lnd.util
+org.lightningj.lnd.verrpc.proto
 org.lightningj.lnd.walletkit.proto
 org.lightningj.lnd.watchtower.proto
 org.lightningj.lnd.wrapper
@@ -19,6 +20,8 @@ org.lightningj.lnd.wrapper.router
 org.lightningj.lnd.wrapper.router.message
 org.lightningj.lnd.wrapper.signer
 org.lightningj.lnd.wrapper.signer.message
+org.lightningj.lnd.wrapper.verrpc
+org.lightningj.lnd.wrapper.verrpc.message
 org.lightningj.lnd.wrapper.walletkit
 org.lightningj.lnd.wrapper.walletkit.message
 org.lightningj.lnd.wrapper.watchtower
