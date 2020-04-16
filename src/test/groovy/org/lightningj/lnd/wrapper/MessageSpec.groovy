@@ -34,7 +34,7 @@ class MessageSpec extends Specification {
 
     def "Verify that JSON Parsing constructor populates fields properly"(){
         setup:
-        String jsonData = "{\"node_pubkey\":\"\",\"node_pubkey_string\":\"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02\",\"local_funding_amount\":40000,\"push_sat\":25000,\"targetConf\":0,\"satPerByte\":0,\"private\":false,\"min_htlc_msat\":0}"
+        String jsonData = "{\"nodePubkey\":\"\",\"nodePubkeyString\":\"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02\",\"localFundingAmount\":40000,\"pushSat\":25000,\"targetConf\":0,\"satPerByte\":0,\"private\":false,\"minHtlcMsat\":0}"
         JsonReader jsonReader = Json.createReader(new StringReader(jsonData))
         when:
         OpenChannelRequest openChannelRequest = new OpenChannelRequest(jsonReader)
@@ -55,33 +55,33 @@ class MessageSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder = genOpenChannelRequest().toJson()
         JsonObject jsonObject = jsonObjectBuilder.build()
         then:
-        jsonObject.getString("node_pubkey_string") == "02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02"
+        jsonObject.getString("nodePubkeyString") == "02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02"
     }
 
     def "Verify that toJsonAsString returns json in string format"(){
         expect:
-        genOpenChannelRequest().toJsonAsString(false) == '{"node_pubkey":"","node_pubkey_string":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","local_funding_amount":40000,"push_sat":25000,"targetConf":0,"satPerByte":0,"private":false,"min_htlc_msat":0,"remote_csv_delay":0,"min_confs":0,"spend_unconfirmed":false,"close_address":"","funding_shim":{"chanPointShim":{"amt":0,"chanPoint":{"funding_txid_bytes":"","funding_txid_str":"","output_index":0},"localKey":{"rawKeyBytes":"","keyLoc":{"keyFamily":0,"keyIndex":0}},"remoteKey":"","pendingChanId":""}}}'
+        genOpenChannelRequest().toJsonAsString(false) == '{"nodePubkey":"","nodePubkeyString":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","localFundingAmount":40000,"pushSat":25000,"targetConf":0,"satPerByte":0,"private":false,"minHtlcMsat":0,"remoteCsvDelay":0,"minConfs":0,"spendUnconfirmed":false,"closeAddress":"","fundingShim":{"chanPointShim":{"amt":0,"chanPoint":{"fundingTxidBytes":"","fundingTxidStr":"","outputIndex":0},"localKey":{"rawKeyBytes":"","keyLoc":{"keyFamily":0,"keyIndex":0}},"remoteKey":"","pendingChanId":"","thawHeight":0},"psbtShim":{"pendingChanId":"","basePsbt":""}}}'
         genOpenChannelRequest().toJsonAsString(true) == """
 {
-    "node_pubkey": "",
-    "node_pubkey_string": "02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02",
-    "local_funding_amount": 40000,
-    "push_sat": 25000,
+    "nodePubkey": "",
+    "nodePubkeyString": "02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02",
+    "localFundingAmount": 40000,
+    "pushSat": 25000,
     "targetConf": 0,
     "satPerByte": 0,
     "private": false,
-    "min_htlc_msat": 0,
-    "remote_csv_delay": 0,
-    "min_confs": 0,
-    "spend_unconfirmed": false,
-    "close_address": "",
-    "funding_shim": {
+    "minHtlcMsat": 0,
+    "remoteCsvDelay": 0,
+    "minConfs": 0,
+    "spendUnconfirmed": false,
+    "closeAddress": "",
+    "fundingShim": {
         "chanPointShim": {
             "amt": 0,
             "chanPoint": {
-                "funding_txid_bytes": "",
-                "funding_txid_str": "",
-                "output_index": 0
+                "fundingTxidBytes": "",
+                "fundingTxidStr": "",
+                "outputIndex": 0
             },
             "localKey": {
                 "rawKeyBytes": "",
@@ -91,7 +91,12 @@ class MessageSpec extends Specification {
                 }
             },
             "remoteKey": "",
-            "pendingChanId": ""
+            "pendingChanId": "",
+            "thawHeight": 0
+        },
+        "psbtShim": {
+            "pendingChanId": "",
+            "basePsbt": ""
         }
     }
 }"""
@@ -115,25 +120,25 @@ class MessageSpec extends Specification {
         expect:
         genOpenChannelRequest().toString() == """OpenChannelRequest: 
 {
-    "node_pubkey": "",
-    "node_pubkey_string": "02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02",
-    "local_funding_amount": 40000,
-    "push_sat": 25000,
+    "nodePubkey": "",
+    "nodePubkeyString": "02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02",
+    "localFundingAmount": 40000,
+    "pushSat": 25000,
     "targetConf": 0,
     "satPerByte": 0,
     "private": false,
-    "min_htlc_msat": 0,
-    "remote_csv_delay": 0,
-    "min_confs": 0,
-    "spend_unconfirmed": false,
-    "close_address": "",
-    "funding_shim": {
+    "minHtlcMsat": 0,
+    "remoteCsvDelay": 0,
+    "minConfs": 0,
+    "spendUnconfirmed": false,
+    "closeAddress": "",
+    "fundingShim": {
         "chanPointShim": {
             "amt": 0,
             "chanPoint": {
-                "funding_txid_bytes": "",
-                "funding_txid_str": "",
-                "output_index": 0
+                "fundingTxidBytes": "",
+                "fundingTxidStr": "",
+                "outputIndex": 0
             },
             "localKey": {
                 "rawKeyBytes": "",
@@ -143,7 +148,12 @@ class MessageSpec extends Specification {
                 }
             },
             "remoteKey": "",
-            "pendingChanId": ""
+            "pendingChanId": "",
+            "thawHeight": 0
+        },
+        "psbtShim": {
+            "pendingChanId": "",
+            "basePsbt": ""
         }
     }
 }"""
