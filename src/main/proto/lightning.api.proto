@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (91cd7e6) tag : Downloaded 2020-04-15
+ * LND (ad5f140) tag : Downloaded 2020-04-30
  */
 syntax = "proto3";
 
@@ -2464,7 +2464,7 @@ message Hop {
     bool tlv_payload = 9;
 
     /**
-    An optional TLV record tha singals the use of an MPP payment. If present,
+    An optional TLV record that signals the use of an MPP payment. If present,
     the receiver will enforce that that the same mpp_record is included in the
     final hop payload of all non-zero payments in the HTLC set. If empty, a
     regular single-shot payment is or was attempted.
@@ -3142,7 +3142,7 @@ message Payment {
     /// The time in UNIX nanoseconds at which the payment was created.
     int64 creation_time_ns = 13;
 
-    /// The HTLCs made in attempt to settle the payment [EXPERIMENTAL].
+    /// The HTLCs made in attempt to settle the payment.
     repeated HTLCAttempt htlcs = 14;
 
     /**
