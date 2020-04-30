@@ -235,7 +235,7 @@ import org.lightningj.lnd.wrapper.message.Payment;
                 }
                 break
             case "router":
-                if(methodName == "sendPayment" || methodName == "trackPayment"){
+                if(methodName == "sendPaymentV2" || methodName == "trackPaymentV2"){
                     return "LightningApi"
                 }
         }
