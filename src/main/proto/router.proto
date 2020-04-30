@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (969eecc) tag : Downloaded 2020-04-15
+ * LND (f6b2410) tag : Downloaded 2020-04-30
  */
 syntax = "proto3";
 
@@ -18,12 +18,14 @@ message SendPaymentRequest {
 
     /**
     Number of satoshis to send.
+
     The fields amt and amt_msat are mutually exclusive.
     */
     int64 amt = 2;
 
     /**
     Number of millisatoshis to send.
+
     The fields amt and amt_msat are mutually exclusive.
     */
     int64 amt_msat = 12;
@@ -59,6 +61,7 @@ message SendPaymentRequest {
     If this field is left to the default value of 0, only zero-fee routes will
     be considered. This usually means single hop routes connecting directly to
     the destination. To send the payment without a fee limit, use max int here.
+
     The fields fee_limit_sat and fee_limit_msat are mutually exclusive.
     */
     int64 fee_limit_sat = 7;
@@ -69,6 +72,7 @@ message SendPaymentRequest {
     routes will be considered. This usually means single hop routes connecting
     directly to the destination. To send the payment without a fee limit, use
     max int here.
+
     The fields fee_limit_sat and fee_limit_msat are mutually exclusive.
     */
     int64 fee_limit_msat = 13;
@@ -121,12 +125,24 @@ message SendPaymentRequest {
     The maximum number of partial payments that may be use to complete the full
     amount.
     */
-    uint32 max_shards = 17;
+    uint32 max_parts = 17;
+
+    /**
+    If set, only the final payment update is streamed back. Intermediate updates
+    that show which htlcs are still in flight are suppressed.
+    */
+    bool no_inflight_updates = 18;
 }
 
 message TrackPaymentRequest {
     /// The hash of the payment to look up.
     bytes payment_hash = 1;
+
+    /**
+    If set, only the final payment update is streamed back. Intermediate updates
+    that show which htlcs are still in flight are suppressed.
+    */
+    bool no_inflight_updates = 2;
 }
 
 message RouteFeeRequest {
@@ -413,19 +429,75 @@ enum FailureDetail {
     CIRCULAR_ROUTE = 22;
 }
 
+enum PaymentState {
+    /**
+    Payment is still in flight.
+    */
+    IN_FLIGHT = 0;
+
+    /**
+    Payment completed successfully.
+    */
+    SUCCEEDED = 1;
+
+    /**
+    There are more routes to try, but the payment timeout was exceeded.
+    */
+    FAILED_TIMEOUT = 2;
+
+    /**
+    All possible routes were tried and failed permanently. Or were no
+    routes to the destination at all.
+    */
+    FAILED_NO_ROUTE = 3;
+
+    /**
+    A non-recoverable error has occured.
+    */
+    FAILED_ERROR = 4;
+
+    /**
+    Payment details incorrect (unknown hash, invalid amt or
+    invalid final cltv delta)
+    */
+    FAILED_INCORRECT_PAYMENT_DETAILS = 5;
+
+    /**
+    Insufficient local balance.
+    */
+    FAILED_INSUFFICIENT_BALANCE = 6;
+}
+
+message PaymentStatus {
+    /// Current state the payment is in.
+    PaymentState state = 1;
+
+    /**
+    The pre-image of the payment when state is SUCCEEDED.
+    */
+    bytes preimage = 2;
+
+    reserved 3;
+
+    /**
+    The HTLCs made in attempt to settle the payment [EXPERIMENTAL].
+    */
+    repeated lnrpc.HTLCAttempt htlcs = 4;
+}
+
 service Router {
     /**
-    SendPayment attempts to route a payment described by the passed
+    SendPaymentV2 attempts to route a payment described by the passed
     PaymentRequest to the final destination. The call returns a stream of
     payment updates.
     */
-    rpc SendPayment (SendPaymentRequest) returns (stream lnrpc.Payment);
+    rpc SendPaymentV2 (SendPaymentRequest) returns (stream lnrpc.Payment);
 
     /**
-    TrackPayment returns an update stream for the payment identified by the
+    TrackPaymentV2 returns an update stream for the payment identified by the
     payment hash.
     */
-    rpc TrackPayment (TrackPaymentRequest) returns (stream lnrpc.Payment);
+    rpc TrackPaymentV2 (TrackPaymentRequest) returns (stream lnrpc.Payment);
 
     /**
     EstimateRouteFee allows callers to obtain a lower bound w.r.t how much it
@@ -474,4 +546,21 @@ service Router {
     */
     rpc SubscribeHtlcEvents (SubscribeHtlcEventsRequest)
     returns (stream HtlcEvent);
+
+    /**
+    Deprecated, use SendPaymentV2. SendPayment attempts to route a payment
+    described by the passed PaymentRequest to the final destination. The call
+    returns a stream of payment status updates.
+    */
+    rpc SendPayment(SendPaymentRequest) returns (stream PaymentStatus) {
+        option deprecated = true;
+    }
+
+    /**
+    Deprecated, use TrackPaymentV2. TrackPayment returns an update stream for
+    the payment identified by the payment hash.
+    */
+    rpc TrackPayment(TrackPaymentRequest) returns (stream PaymentStatus) {
+        option deprecated = true;
+    }
 }
