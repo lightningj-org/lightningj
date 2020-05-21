@@ -396,6 +396,12 @@ class ClassGenerator {
         if(ft.javaType == FieldDescriptor.JavaType.MESSAGE && ft.isRepeated()){
             return "MessageListGetterAndSetterSection.java.template"
         }
+        if(ft.javaType == FieldDescriptor.JavaType.INT && ft.isRepeated()){
+            return "IntegerListGetterAndSetterSection.java.template"
+        }
+        if(ft.javaType == FieldDescriptor.JavaType.LONG && ft.isRepeated()){
+            return "LongListGetterAndSetterSection.java.template"
+        }
         if(ft.javaType == FieldDescriptor.JavaType.MESSAGE){
             return "MessageGetterAndSetterSection.java.template"
         }
