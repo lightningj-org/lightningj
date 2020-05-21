@@ -165,7 +165,7 @@ class ApiGenerator {
             }else {
                 // if not map but repeated it is probably a list.
                 if (it.isRepeated()) {
-                    fieldJavaType = "List<${fieldJavaType}>"
+                    fieldJavaType = "List<${convertFromPrimitiveToObject(it.javaType, fieldJavaType)}>"
                 }
             }
             parameters << "${fieldJavaType} ${fieldName}"
@@ -242,6 +242,26 @@ class ApiGenerator {
             retval += ","
         }
         return retval
+    }
+
+    /**
+     * Help method that converts a primitive type to Object variant.
+     */
+    private static String convertFromPrimitiveToObject(Descriptors.FieldDescriptor.JavaType javaType, String fieldJavaType){
+        switch (javaType){
+            case Descriptors.FieldDescriptor.JavaType.INT:
+                return "Integer"
+            case Descriptors.FieldDescriptor.JavaType.LONG:
+                return "Long"
+            case Descriptors.FieldDescriptor.JavaType.BOOLEAN:
+                return "Boolean"
+            case Descriptors.FieldDescriptor.JavaType.FLOAT:
+                return "Float"
+            case Descriptors.FieldDescriptor.JavaType.DOUBLE:
+                return "Double"
+            default:
+                return fieldJavaType
+        }
     }
 
 }
