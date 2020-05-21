@@ -1,0 +1,26 @@
+
+
+    private List<Long> ${fieldName} = null;
+    /**
+     * Getter for a list of ${fieldJsonName}.
+     * @throws ClientSideException if problems occurred constructing the wrapped object.
+     */
+    ${xmlElement}
+    ${xmlElementWrapper}
+    public List<Long> get${fieldJavaName}() throws ClientSideException{
+        if(${fieldName} == null){
+          int size = ((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}Count();
+          ${fieldName} = new ArrayList<>(size);
+          for(int i=0; i< size; i++){
+            ${fieldName}.add(((${apiClassName}.${className}.Builder) builder).get${fieldJavaName}(i));
+          }
+        }
+        return ${fieldName};
+    }
+
+    /**
+     * Setter for list of ${fieldJsonName}.
+     */
+    public void set${fieldJavaName}(List<Long> valueList) {
+       ${fieldName} = valueList;
+    }
