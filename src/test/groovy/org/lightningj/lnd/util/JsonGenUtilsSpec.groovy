@@ -205,7 +205,7 @@ class JsonGenUtilsSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder = JsonGenUtils.messageToJson(builder,instance.descriptor)
 
         then:
-        jsonObjectBuilder.build().toString() == '{"AddrToAmount":[{"key":"SomeKey1","value":1234},{"key":"SomeKey2","value":2345}],"targetConf":0,"satPerByte":0}'
+        jsonObjectBuilder.build().toString() == '{"AddrToAmount":[{"key":"SomeKey1","value":1234},{"key":"SomeKey2","value":2345}],"targetConf":0,"satPerByte":0,"label":""}'
     }
 
     def "Verify that json containing mapped fields are converted properly from json"(){

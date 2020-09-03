@@ -41,7 +41,9 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
-* 0.10.1-Beta    : Generated against LND 0.10.1 API. With updated Router GRPC API.
+* 0.11.0-Beta    : Generated against LND 0.11.0, WalletUnlocker API moved to package org.lightningj.lnd.wrapper.walletunlocker
+and also separate XSD in order to match APIs
+* 0.10.1-Beta    : Generated against LND 0.10.1, 0.10.2, 0.10.3 API. With updated Router GRPC API.
 * 0.10.1-Beta-rc1: Generated against LND 0.10.1-rc1 API. With updated Router GRPC API.
 * 0.10.0-Beta    : Generated against LND 0.10.0 API
 * 0.10.0-Beta-rc2: Generated against LND 0.10.0 API-rc2. Added Versioner GRPC API.
@@ -320,9 +322,9 @@ Starting from 0.6.0 there are several different APIs to the different services.
 
 | Wallet API
 | Unlocking of Wallet
-| org.lightningj.lnd.wrapper.SynchronousWalletUnlockerAPI
-| org.lightningj.lnd.wrapper.AsynchronousWalletUnlockerAPI
-| 0.1-Beta
+| org.lightningj.lnd.wrapper.walletunlocker.SynchronousWalletUnlockerAPI
+| org.lightningj.lnd.wrapper.walletunlocker.AsynchronousWalletUnlockerAPI
+| 0.11-Beta
 
 | Autopilot API
 | Contains methods for managing autopilot
@@ -468,7 +470,8 @@ while(result.hasNext()){
 ----
 
 In 0.6.0 was the schema updated and there exists several schemas for each separate service. See table
-below for link to each schema, namespace and default prefix.
+below for link to each schema, namespace and default prefix. in 0.11 is the walletunlocker API moved to its own
+XSD.
 
 .List of Available APIs
 |===
@@ -484,8 +487,8 @@ below for link to each schema, namespace and default prefix.
 | Wallet API
 | Unlocking of Wallet
 | None
-| http://lightningj.org/xsd/lndjapi_1_0
-| link:lnd_v1.xsd[lnd_v1.xsd]
+| http://lightningj.org/xsd/http://lightningj.org/xsd/walletunlocker_1_0
+| link:walletunlocker_v1.xsd[lnd_v1.xsd]
 | 0.1-Beta
 
 | Autopilot API
