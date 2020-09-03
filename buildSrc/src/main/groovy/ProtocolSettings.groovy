@@ -43,6 +43,8 @@ class ProtocolSettings extends BaseProtocolSettings{
                 return "org.lightningj.lnd.wtclient.proto.Wtclient"
             case "verrpc":
                 return "org.lightningj.lnd.verrpc.proto.Verrpc"
+            case "walletunlocker":
+                return "org.lightningj.lnd.walletunlocker.proto.Walletunlocker"
         }
     }
 
@@ -62,6 +64,8 @@ import org.lightningj.lnd.wrapper.signer.message.TxOut;
 import org.lightningj.lnd.wrapper.signer.message.KeyLocator;
 import org.lightningj.lnd.wrapper.signer.message.KeyDescriptor;
 import org.lightningj.lnd.signer.proto.SignerOuterClass;
+import org.lightningj.lnd.wrapper.message.Utxo;
+import org.lightningj.lnd.wrapper.message.TransactionDetails;
 """
             case "router":
                 return """import org.lightningj.lnd.proto.LightningApi;
@@ -72,6 +76,10 @@ import org.lightningj.lnd.wrapper.message.FeatureBit;
 import org.lightningj.lnd.wrapper.message.Failure;
 import org.lightningj.lnd.wrapper.message.Failure.FailureCode;
 import org.lightningj.lnd.wrapper.message.Payment;
+"""
+            case "walletunlocker":
+                return """
+import org.lightningj.lnd.wrapper.message.ChanBackupSnapshot;
 """
             default:
                 return ""
@@ -89,14 +97,6 @@ import org.lightningj.lnd.wrapper.message.Payment;
                                 baseProtoClassPath: 'org.lightningj.lnd.proto.LightningApi',
                                 baseStubClass: 'Lightning',
                                 baseFileName: 'LndAPI.java'
-                        ),
-                        new ApiSettings(
-                                baseGrpcClassPath:'org.lightningj.lnd.proto.WalletUnlockerGrpc$WalletUnlocker',
-                                grpcClassName: 'WalletUnlockerGrpc',
-                                baseApiClassName: 'WalletUnlockerAPI',
-                                baseProtoClassPath: 'org.lightningj.lnd.proto.LightningApi',
-                                baseStubClass: 'WalletUnlocker',
-                                baseFileName: 'WalletUnlockerAPI.java'
                         )
                 ]
             case "autopilot":
@@ -198,6 +198,17 @@ import org.lightningj.lnd.wrapper.message.Payment;
                                 baseFileName: 'VersionerAPI.java'
                         )
                 ]
+            case "walletunlocker":
+                return [
+                        new ApiSettings(
+                                baseGrpcClassPath:'org.lightningj.lnd.walletunlocker.proto.WalletUnlockerGrpc$WalletUnlocker',
+                                grpcClassName: 'WalletUnlockerGrpc',
+                                baseApiClassName: 'WalletUnlockerAPI',
+                                baseProtoClassPath: 'org.lightningj.lnd.walletunlocker.proto.Walletunlocker',
+                                baseStubClass: 'WalletUnlocker',
+                                baseFileName: 'WalletUnlockerAPI.java'
+                        )
+                ]
             default:
                 return []
         }
@@ -235,7 +246,7 @@ import org.lightningj.lnd.wrapper.message.Payment;
                 }
                 break
             case "router":
-                if(methodName == "sendPaymentV2" || methodName == "trackPaymentV2"){
+                if(methodName == "sendPaymentV2" || methodName == "trackPaymentV2" || methodName == "sendToRouteV2"){
                     return "LightningApi"
                 }
         }
@@ -257,7 +268,8 @@ import org.lightningj.lnd.wrapper.message.Payment;
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletkit_1_0", prefix = "walletkit"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/watchtower_1_0", prefix = "watchtower"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/wtclient_1_0", prefix = "wtclient"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/verrpc_1_0", prefix = "verrpc")
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/verrpc_1_0", prefix = "verrpc"),
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletunlocker_1_0", prefix = "walletunlocker")
 """
     }
 
