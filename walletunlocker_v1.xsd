@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/walletunlocker_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
+
+  <xs:element name="ChangePasswordRequest" type="tns:ChangePasswordRequestType"/>
+
+  <xs:element name="ChangePasswordResponse" type="tns:ChangePasswordResponseType"/>
+
+  <xs:element name="GenSeedRequest" type="tns:GenSeedRequestType"/>
+
+  <xs:element name="GenSeedResponse" type="tns:GenSeedResponseType"/>
+
+  <xs:element name="InitWalletRequest" type="tns:InitWalletRequestType"/>
+
+  <xs:element name="InitWalletResponse" type="tns:InitWalletResponseType"/>
+
+  <xs:element name="UnlockWalletRequest" type="tns:UnlockWalletRequestType"/>
+
+  <xs:element name="UnlockWalletResponse" type="tns:UnlockWalletResponseType"/>
+
+  <xs:complexType name="GenSeedRequestType">
+    <xs:sequence>
+      <xs:element name="aezeedPassphrase" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="seedEntropy" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GenSeedResponseType">
+    <xs:sequence>
+      <xs:element name="cipher_seed_mnemonic" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="cipherSeedMnemonic" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="encipheredSeed" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InitWalletRequestType">
+    <xs:sequence>
+      <xs:element name="walletPassword" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="cipher_seed_mnemonic" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="cipherSeedMnemonic" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="aezeedPassphrase" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="recoveryWindow" type="xs:int"/>
+      <xs:element name="channelBackups" type="ChanBackupSnapshotType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InitWalletResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="UnlockWalletRequestType">
+    <xs:sequence>
+      <xs:element name="walletPassword" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="recoveryWindow" type="xs:int"/>
+      <xs:element name="channelBackups" type="ChanBackupSnapshotType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UnlockWalletResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ChangePasswordRequestType">
+    <xs:sequence>
+      <xs:element name="currentPassword" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="newPassword" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChangePasswordResponseType">
+    <xs:all/>
+  </xs:complexType>
+</xs:schema>
+

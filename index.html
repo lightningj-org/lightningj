@@ -794,7 +794,7 @@ p.tableblock.header { color: #6d6e71; }
 <div class="sectionbody">
 <div class="paragraph">
 <p><em>Lightning APIs for Java</em>
-V 0.10.1-Beta, 2020-07-14</p>
+V 0.11.0-Beta, 2020-09-04</p>
 </div>
 </div>
 </div>
@@ -847,6 +847,10 @@ to the license agreement can be found <a href="LICENSE.txt">here</a>.</p>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
+<li>
+<p>0.11.0-Beta    : Generated against LND 0.11.0, WalletUnlocker API moved to package org.lightningj.lnd.wrapper.walletunlocker
+and also separate XSD in order to match APIs</p>
+</li>
 <li>
 <p>0.10.1-Beta    : Generated against LND 0.10.1, 0.10.2, 0.10.3 API. With updated Router GRPC API.</p>
 </li>
@@ -1001,7 +1005,7 @@ build it from source.</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">   &lt;dependency&gt;
       &lt;groupId&gt;org.lightningj&lt;/groupId&gt;
       &lt;artifactId&gt;lightningj&lt;/artifactId&gt;
-      &lt;version&gt;0.10.1-Beta&lt;/version&gt;
+      &lt;version&gt;0.11.0-Beta&lt;/version&gt;
    &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -1010,7 +1014,7 @@ build it from source.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>    compile 'org.lightningj:lightningj:0.10.1-Beta'</pre>
+<pre>    compile 'org.lightningj:lightningj:0.11.0-Beta'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1263,9 +1267,9 @@ try {
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Wallet API</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unlocking of Wallet</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.SynchronousWalletUnlockerAPI</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.AsynchronousWalletUnlockerAPI</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0.1-Beta</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.walletunlocker.SynchronousWalletUnlockerAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.lightningj.lnd.wrapper.walletunlocker.AsynchronousWalletUnlockerAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.11-Beta</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Autopilot API</p></td>
@@ -1429,7 +1433,8 @@ while(result.hasNext()){
 </div>
 <div class="paragraph">
 <p>In 0.6.0 was the schema updated and there exists several schemas for each separate service. See table
-below for link to each schema, namespace and default prefix.</p>
+below for link to each schema, namespace and default prefix. in 0.11 is the walletunlocker API moved to its own
+XSD.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Table 2. List of Available APIs</caption>
@@ -1464,8 +1469,8 @@ below for link to each schema, namespace and default prefix.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Wallet API</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unlocking of Wallet</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/lndjapi_1_0" class="bare">http://lightningj.org/xsd/lndjapi_1_0</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="lnd_v1.xsd">lnd_v1.xsd</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://lightningj.org/xsd/http://lightningj.org/xsd/walletunlocker_1_0" class="bare">http://lightningj.org/xsd/http://lightningj.org/xsd/walletunlocker_1_0</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="walletunlocker_v1.xsd">walletunlocker_v1.xsd</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0.1-Beta</p></td>
 </tr>
 <tr>
@@ -1977,7 +1982,7 @@ signing.gnupg.keyName=&lt;your key id&gt;</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-07-14 09:57:32 CEST
+Last updated 2020-09-04 08:16:30 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/walletkit_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/walletkit_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
-
-  <xs:import namespace="http://lightningj.org/xsd/signer_1_0" schemaLocation="./signer_v1.xsd"/>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/walletkit_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/walletkit_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
+
+  <xs:import namespace="http://lightningj.org/xsd/signer_1_0" schemaLocation="./signer_v1.xsd"/>
 
   <xs:element name="AddrRequest" type="tns:AddrRequestType"/>
 
@@ -19,6 +19,22 @@
 
   <xs:element name="KeyReq" type="tns:KeyReqType"/>
 
+  <xs:element name="LabelTransactionRequest" type="tns:LabelTransactionRequestType"/>
+
+  <xs:element name="LabelTransactionResponse" type="tns:LabelTransactionResponseType"/>
+
+  <xs:element name="LeaseOutputRequest" type="tns:LeaseOutputRequestType"/>
+
+  <xs:element name="LeaseOutputResponse" type="tns:LeaseOutputResponseType"/>
+
+  <xs:element name="ListSweepsRequest" type="tns:ListSweepsRequestType"/>
+
+  <xs:element name="ListSweepsResponse" type="tns:ListSweepsResponseType"/>
+
+  <xs:element name="ListUnspentRequest" type="tns:ListUnspentRequestType"/>
+
+  <xs:element name="ListUnspentResponse" type="tns:ListUnspentResponseType"/>
+
   <xs:element name="PendingSweep" type="tns:PendingSweepType"/>
 
   <xs:element name="PendingSweepsRequest" type="tns:PendingSweepsRequestType"/>
@@ -27,11 +43,58 @@
 
   <xs:element name="PublishResponse" type="tns:PublishResponseType"/>
 
+  <xs:element name="ReleaseOutputRequest" type="tns:ReleaseOutputRequestType"/>
+
+  <xs:element name="ReleaseOutputResponse" type="tns:ReleaseOutputResponseType"/>
+
   <xs:element name="SendOutputsRequest" type="tns:SendOutputsRequestType"/>
 
   <xs:element name="SendOutputsResponse" type="tns:SendOutputsResponseType"/>
 
   <xs:element name="Transaction" type="tns:TransactionType"/>
+
+  <xs:complexType name="ListUnspentRequestType">
+    <xs:sequence>
+      <xs:element name="minConfs" type="xs:int"/>
+      <xs:element name="maxConfs" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListUnspentResponseType">
+    <xs:sequence>
+      <xs:element name="utxos" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Utxo" type="UtxoType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LeaseOutputRequestType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="outpoint" type="OutPointType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LeaseOutputResponseType">
+    <xs:sequence>
+      <xs:element name="expiration" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReleaseOutputRequestType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="outpoint" type="OutPointType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReleaseOutputResponseType">
+    <xs:all/>
+  </xs:complexType>
 
   <xs:complexType name="KeyReqType">
     <xs:sequence>
@@ -53,6 +116,7 @@
   <xs:complexType name="TransactionType">
     <xs:sequence>
       <xs:element name="txHex" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -72,6 +136,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -133,6 +198,43 @@
   </xs:complexType>
 
   <xs:complexType name="BumpFeeResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ListSweepsRequestType">
+    <xs:sequence>
+      <xs:element name="verbose" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListSweepsResponseType">
+    <xs:sequence>
+      <xs:element name="transactionDetails" type="TransactionDetailsType" minOccurs="0"/>
+      <xs:element name="transactionIds" type="tns:ListSweepsResponseTransactionIDsType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListSweepsResponseTransactionIDsType">
+    <xs:sequence>
+      <xs:element name="transaction_ids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="transactionIds" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LabelTransactionRequestType">
+    <xs:sequence>
+      <xs:element name="txid" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
+      <xs:element name="overwrite" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LabelTransactionResponseType">
     <xs:all/>
   </xs:complexType>
 

@@ -7,6 +7,7 @@ org.lightningj.lnd.signer.proto
 org.lightningj.lnd.util
 org.lightningj.lnd.verrpc.proto
 org.lightningj.lnd.walletkit.proto
+org.lightningj.lnd.walletunlocker.proto
 org.lightningj.lnd.watchtower.proto
 org.lightningj.lnd.wrapper
 org.lightningj.lnd.wrapper.autopilot
@@ -24,6 +25,8 @@ org.lightningj.lnd.wrapper.verrpc
 org.lightningj.lnd.wrapper.verrpc.message
 org.lightningj.lnd.wrapper.walletkit
 org.lightningj.lnd.wrapper.walletkit.message
+org.lightningj.lnd.wrapper.walletunlocker
+org.lightningj.lnd.wrapper.walletunlocker.message
 org.lightningj.lnd.wrapper.watchtower
 org.lightningj.lnd.wrapper.watchtower.message
 org.lightningj.lnd.wrapper.wtclient

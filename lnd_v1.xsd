@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:element name="AbandonChannelRequest" type="AbandonChannelRequestType"/>
 
@@ -21,10 +21,6 @@
 
   <xs:element name="ChanPointShim" type="ChanPointShimType"/>
 
-  <xs:element name="ChangePasswordRequest" type="ChangePasswordRequestType"/>
-
-  <xs:element name="ChangePasswordResponse" type="ChangePasswordResponseType"/>
-
   <xs:element name="Channel" type="ChannelType"/>
 
   <xs:element name="ChannelAcceptRequest" type="ChannelAcceptRequestType"/>
@@ -44,6 +40,8 @@
   <xs:element name="ChannelCloseSummary" type="ChannelCloseSummaryType"/>
 
   <xs:element name="ChannelCloseUpdate" type="ChannelCloseUpdateType"/>
+
+  <xs:element name="ChannelConstraints" type="ChannelConstraintsType"/>
 
   <xs:element name="ChannelEdge" type="ChannelEdgeType"/>
 
@@ -131,13 +129,13 @@
 
   <xs:element name="FundingTransitionMsg" type="FundingTransitionMsgType"/>
 
-  <xs:element name="GenSeedRequest" type="GenSeedRequestType"/>
-
-  <xs:element name="GenSeedResponse" type="GenSeedResponseType"/>
-
   <xs:element name="GetInfoRequest" type="GetInfoRequestType"/>
 
   <xs:element name="GetInfoResponse" type="GetInfoResponseType"/>
+
+  <xs:element name="GetRecoveryInfoRequest" type="GetRecoveryInfoRequestType"/>
+
+  <xs:element name="GetRecoveryInfoResponse" type="GetRecoveryInfoResponseType"/>
 
   <xs:element name="GetTransactionsRequest" type="GetTransactionsRequestType"/>
 
@@ -152,10 +150,6 @@
   <xs:element name="Hop" type="HopType"/>
 
   <xs:element name="HopHint" type="HopHintType"/>
-
-  <xs:element name="InitWalletRequest" type="InitWalletRequestType"/>
-
-  <xs:element name="InitWalletResponse" type="InitWalletResponseType"/>
 
   <xs:element name="Invoice" type="InvoiceType"/>
 
@@ -259,6 +253,8 @@
 
   <xs:element name="ReadyForPsbtFunding" type="ReadyForPsbtFundingType"/>
 
+  <xs:element name="Resolution" type="ResolutionType"/>
+
   <xs:element name="RestoreBackupResponse" type="RestoreBackupResponseType"/>
 
   <xs:element name="RestoreChanBackupRequest" type="RestoreChanBackupRequestType"/>
@@ -297,10 +293,6 @@
 
   <xs:element name="TransactionDetails" type="TransactionDetailsType"/>
 
-  <xs:element name="UnlockWalletRequest" type="UnlockWalletRequestType"/>
-
-  <xs:element name="UnlockWalletResponse" type="UnlockWalletResponseType"/>
-
   <xs:element name="Utxo" type="UtxoType"/>
 
   <xs:element name="VerifyChanBackupResponse" type="VerifyChanBackupResponseType"/>
@@ -312,116 +304,6 @@
   <xs:element name="WalletBalanceRequest" type="WalletBalanceRequestType"/>
 
   <xs:element name="WalletBalanceResponse" type="WalletBalanceResponseType"/>
-
-  <xs:complexType name="GenSeedRequestType">
-    <xs:sequence>
-      <xs:element name="aezeedPassphrase" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="seedEntropy" type="xs:base64Binary" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="GenSeedResponseType">
-    <xs:sequence>
-      <xs:element name="cipher_seed_mnemonic" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="cipherSeedMnemonic" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="encipheredSeed" type="xs:base64Binary" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="InitWalletRequestType">
-    <xs:sequence>
-      <xs:element name="walletPassword" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="cipher_seed_mnemonic" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="cipherSeedMnemonic" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="aezeedPassphrase" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="recoveryWindow" type="xs:int"/>
-      <xs:element name="channelBackups" type="ChanBackupSnapshotType" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="ChanBackupSnapshotType">
-    <xs:sequence>
-      <xs:element name="singleChanBackups" type="ChannelBackupsType" minOccurs="0"/>
-      <xs:element name="multiChanBackup" type="MultiChanBackupType" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="ChannelBackupsType">
-    <xs:sequence>
-      <xs:element name="chan_backups" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element ref="ChannelBackup" minOccurs="0" maxOccurs="unbounded"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="ChannelBackupType">
-    <xs:sequence>
-      <xs:element name="chanPoint" type="ChannelPointType" minOccurs="0"/>
-      <xs:element name="chanBackup" type="xs:base64Binary" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="ChannelPointType">
-    <xs:sequence>
-      <xs:element name="fundingTxidBytes" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="fundingTxidStr" type="xs:string" minOccurs="0"/>
-      <xs:element name="outputIndex" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="MultiChanBackupType">
-    <xs:sequence>
-      <xs:element name="chan_points" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element ref="ChannelPoint" minOccurs="0" maxOccurs="unbounded"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="multiChanBackup" type="xs:base64Binary" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="InitWalletResponseType">
-    <xs:all/>
-  </xs:complexType>
-
-  <xs:complexType name="UnlockWalletRequestType">
-    <xs:sequence>
-      <xs:element name="walletPassword" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="recoveryWindow" type="xs:int"/>
-      <xs:element name="channelBackups" type="ChanBackupSnapshotType" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="UnlockWalletResponseType">
-    <xs:all/>
-  </xs:complexType>
-
-  <xs:complexType name="ChangePasswordRequestType">
-    <xs:sequence>
-      <xs:element name="currentPassword" type="xs:base64Binary" minOccurs="0"/>
-      <xs:element name="newPassword" type="xs:base64Binary" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="ChangePasswordResponseType">
-    <xs:all/>
-  </xs:complexType>
 
   <xs:complexType name="UtxoType">
     <xs:sequence>
@@ -459,11 +341,15 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="rawTxHex" type="xs:string" minOccurs="0"/>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="GetTransactionsRequestType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="startHeight" type="xs:int"/>
+      <xs:element name="endHeight" type="xs:int"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="TransactionDetailsType">
@@ -614,6 +500,14 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ChannelPointType">
+    <xs:sequence>
+      <xs:element name="fundingTxidBytes" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="fundingTxidStr" type="xs:string" minOccurs="0"/>
+      <xs:element name="outputIndex" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="LightningAddressType">
     <xs:sequence>
       <xs:element name="pubkey" type="xs:string" minOccurs="0"/>
@@ -653,6 +547,7 @@
       <xs:element name="addrToAmountEntries" type="SendManyRequestAddrToAmountEntriesType" minOccurs="0"/>
       <xs:element name="targetConf" type="xs:int"/>
       <xs:element name="satPerByte" type="xs:long"/>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -682,6 +577,7 @@
       <xs:element name="targetConf" type="xs:int"/>
       <xs:element name="satPerByte" type="xs:long"/>
       <xs:element name="sendAll" type="xs:boolean"/>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -778,6 +674,17 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ChannelConstraintsType">
+    <xs:sequence>
+      <xs:element name="csvDelay" type="xs:int"/>
+      <xs:element name="chanReserveSat" type="xs:long"/>
+      <xs:element name="dustLimitSat" type="xs:long"/>
+      <xs:element name="maxPendingAmtMsat" type="xs:long"/>
+      <xs:element name="minHtlcMsat" type="xs:long"/>
+      <xs:element name="maxAcceptedHtlcs" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ChannelType">
     <xs:sequence>
       <xs:element name="active" type="xs:boolean"/>
@@ -814,6 +721,8 @@
       <xs:element name="closeAddress" type="xs:string" minOccurs="0"/>
       <xs:element name="pushAmountSat" type="xs:long"/>
       <xs:element name="thawHeight" type="xs:int"/>
+      <xs:element name="localConstraints" type="ChannelConstraintsType" minOccurs="0"/>
+      <xs:element name="remoteConstraints" type="ChannelConstraintsType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -853,6 +762,23 @@
       <xs:element name="closeType" type="closureType" minOccurs="0"/>
       <xs:element name="openInitiator" type="initiator" minOccurs="0"/>
       <xs:element name="closeInitiator" type="initiator" minOccurs="0"/>
+      <xs:element name="resolutions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Resolution" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ResolutionType">
+    <xs:sequence>
+      <xs:element name="resolutionType" type="resolutionType" minOccurs="0"/>
+      <xs:element name="outcome" type="resolutionOutcome" minOccurs="0"/>
+      <xs:element name="outpoint" type="OutPointType" minOccurs="0"/>
+      <xs:element name="amountSat" type="xs:long"/>
+      <xs:element name="sweepTxid" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1017,6 +943,18 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="GetRecoveryInfoRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="GetRecoveryInfoResponseType">
+    <xs:sequence>
+      <xs:element name="recoveryMode" type="xs:boolean"/>
+      <xs:element name="recoveryFinished" type="xs:boolean"/>
+      <xs:element name="progress" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ConfirmationUpdateType">
     <xs:sequence>
       <xs:element name="blockSha" type="xs:base64Binary" minOccurs="0"/>
@@ -1085,6 +1023,7 @@
       <xs:element name="spendUnconfirmed" type="xs:boolean"/>
       <xs:element name="closeAddress" type="xs:string" minOccurs="0"/>
       <xs:element name="fundingShim" type="FundingShimType" minOccurs="0"/>
+      <xs:element name="remoteMaxValueInFlightMsat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1124,6 +1063,7 @@
     <xs:sequence>
       <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="basePsbt" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="noPublish" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1833,6 +1773,7 @@
       <xs:element name="attemptTimeNs" type="xs:long"/>
       <xs:element name="resolveTimeNs" type="xs:long"/>
       <xs:element name="failure" type="FailureType" minOccurs="0"/>
+      <xs:element name="preimage" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2051,8 +1992,47 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ChannelBackupType">
+    <xs:sequence>
+      <xs:element name="chanPoint" type="ChannelPointType" minOccurs="0"/>
+      <xs:element name="chanBackup" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MultiChanBackupType">
+    <xs:sequence>
+      <xs:element name="chan_points" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ChannelPoint" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="multiChanBackup" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ChanBackupExportRequestType">
     <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ChanBackupSnapshotType">
+    <xs:sequence>
+      <xs:element name="singleChanBackups" type="ChannelBackupsType" minOccurs="0"/>
+      <xs:element name="multiChanBackup" type="MultiChanBackupType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelBackupsType">
+    <xs:sequence>
+      <xs:element name="chan_backups" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ChannelBackup" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="RestoreChanBackupRequestType">
@@ -2156,6 +2136,27 @@
       <xs:enumeration value="INITIATOR_LOCAL"/>
       <xs:enumeration value="INITIATOR_REMOTE"/>
       <xs:enumeration value="INITIATOR_BOTH"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="resolutionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TYPE_UNKNOWN"/>
+      <xs:enumeration value="ANCHOR"/>
+      <xs:enumeration value="INCOMING_HTLC"/>
+      <xs:enumeration value="OUTGOING_HTLC"/>
+      <xs:enumeration value="COMMIT"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="resolutionOutcome">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OUTCOME_UNKNOWN"/>
+      <xs:enumeration value="CLAIMED"/>
+      <xs:enumeration value="UNCLAIMED"/>
+      <xs:enumeration value="ABANDONED"/>
+      <xs:enumeration value="FIRST_STAGE"/>
+      <xs:enumeration value="TIMEOUT"/>
     </xs:restriction>
   </xs:simpleType>
 
