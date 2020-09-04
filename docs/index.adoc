@@ -488,7 +488,7 @@ XSD.
 | Unlocking of Wallet
 | None
 | http://lightningj.org/xsd/http://lightningj.org/xsd/walletunlocker_1_0
-| link:walletunlocker_v1.xsd[lnd_v1.xsd]
+| link:walletunlocker_v1.xsd[walletunlocker_v1.xsd]
 | 0.1-Beta
 
 | Autopilot API
