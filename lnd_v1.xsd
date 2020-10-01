@@ -181,13 +181,21 @@
 
   <xs:element name="ListPeersResponse" type="ListPeersResponseType"/>
 
+  <xs:element name="ListPermissionsRequest" type="ListPermissionsRequestType"/>
+
+  <xs:element name="ListPermissionsResponse" type="ListPermissionsResponseType"/>
+
   <xs:element name="ListUnspentRequest" type="ListUnspentRequestType"/>
 
   <xs:element name="ListUnspentResponse" type="ListUnspentResponseType"/>
 
   <xs:element name="MPPRecord" type="MPPRecordType"/>
 
+  <xs:element name="MacaroonId" type="MacaroonIdType"/>
+
   <xs:element name="MacaroonPermission" type="MacaroonPermissionType"/>
+
+  <xs:element name="MacaroonPermissionList" type="MacaroonPermissionListType"/>
 
   <xs:element name="MultiChanBackup" type="MultiChanBackupType"/>
 
@@ -212,6 +220,8 @@
   <xs:element name="NodePair" type="NodePairType"/>
 
   <xs:element name="NodeUpdate" type="NodeUpdateType"/>
+
+  <xs:element name="Op" type="OpType"/>
 
   <xs:element name="OpenChannelRequest" type="OpenChannelRequestType"/>
 
@@ -1024,6 +1034,7 @@
       <xs:element name="closeAddress" type="xs:string" minOccurs="0"/>
       <xs:element name="fundingShim" type="FundingShimType" minOccurs="0"/>
       <xs:element name="remoteMaxValueInFlightMsat" type="xs:long"/>
+      <xs:element name="remoteMaxHtlcs" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1093,6 +1104,7 @@
     <xs:sequence>
       <xs:element name="signedPsbt" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="finalRawTx" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1841,6 +1853,7 @@
   <xs:complexType name="AbandonChannelRequestType">
     <xs:sequence>
       <xs:element name="channelPoint" type="ChannelPointType" minOccurs="0"/>
+      <xs:element name="pendingFundingShimOnly" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2076,6 +2089,68 @@
   <xs:complexType name="BakeMacaroonResponseType">
     <xs:sequence>
       <xs:element name="macaroon" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MacaroonPermissionListType">
+    <xs:sequence>
+      <xs:element name="permissions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="MacaroonPermission" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListPermissionsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ListPermissionsResponseType">
+    <xs:sequence>
+      <xs:element name="methodPermissionsEntries" type="ListPermissionsResponseMethodPermissionsEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListPermissionsResponseMethodPermissionsEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="ListPermissionsResponseMethodPermissionsEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListPermissionsResponseMethodPermissionsEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="MacaroonPermissionListType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MacaroonIdType">
+    <xs:sequence>
+      <xs:element name="nonce" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="storageId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="ops" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Op" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OpType">
+    <xs:sequence>
+      <xs:element name="entity" type="xs:string" minOccurs="0"/>
+      <xs:element name="actions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="actions" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
