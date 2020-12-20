@@ -97,7 +97,7 @@ class LNDIntegrationSpec extends Specification{
         when:
         QueryRoutesRequest queryRoutesRequest = new QueryRoutesRequest();
         //queryRoutesRequest.setSourcePubKey("03977f437e05f64b36fa973b415049e6c36c0163b0af097bab2eb3642501055efa")
-        queryRoutesRequest.setPubKey("02212d3ec887188b284dbb7b2e6eb40629a6e14fb049673f22d2a0aa05f902090e")
+        queryRoutesRequest.setPubKey("023a8dfe081c6bbd0504e599f33d39d17687de63023a8b20afcb59147d9d77c19d")
         queryRoutesRequest.setAmt(1)
 
         QueryRoutesResponse resp = synchronousLndAPI.queryRoutes(queryRoutesRequest)
