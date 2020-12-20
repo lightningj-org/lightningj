@@ -52,11 +52,14 @@
       <xs:element name="aezeedPassphrase" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="recoveryWindow" type="xs:int"/>
       <xs:element name="channelBackups" type="ChanBackupSnapshotType" minOccurs="0"/>
+      <xs:element name="statelessInit" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="InitWalletResponseType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="adminMacaroon" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="UnlockWalletRequestType">
@@ -64,6 +67,7 @@
       <xs:element name="walletPassword" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="recoveryWindow" type="xs:int"/>
       <xs:element name="channelBackups" type="ChanBackupSnapshotType" minOccurs="0"/>
+      <xs:element name="statelessInit" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -75,11 +79,15 @@
     <xs:sequence>
       <xs:element name="currentPassword" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="newPassword" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="statelessInit" type="xs:boolean"/>
+      <xs:element name="newMacaroonRootKey" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ChangePasswordResponseType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="adminMacaroon" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 </xs:schema>
 

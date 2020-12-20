@@ -7,6 +7,8 @@
 
   <xs:element name="AddInvoiceResponse" type="AddInvoiceResponseType"/>
 
+  <xs:element name="Amount" type="AmountType"/>
+
   <xs:element name="BakeMacaroonRequest" type="BakeMacaroonRequestType"/>
 
   <xs:element name="BakeMacaroonResponse" type="BakeMacaroonResponseType"/>
@@ -86,6 +88,10 @@
   <xs:element name="DeleteAllPaymentsRequest" type="DeleteAllPaymentsRequestType"/>
 
   <xs:element name="DeleteAllPaymentsResponse" type="DeleteAllPaymentsResponseType"/>
+
+  <xs:element name="DeleteMacaroonIDRequest" type="DeleteMacaroonIDRequestType"/>
+
+  <xs:element name="DeleteMacaroonIDResponse" type="DeleteMacaroonIDResponseType"/>
 
   <xs:element name="DisconnectPeerRequest" type="DisconnectPeerRequestType"/>
 
@@ -172,6 +178,10 @@
   <xs:element name="ListInvoiceRequest" type="ListInvoiceRequestType"/>
 
   <xs:element name="ListInvoiceResponse" type="ListInvoiceResponseType"/>
+
+  <xs:element name="ListMacaroonIDsRequest" type="ListMacaroonIDsRequestType"/>
+
+  <xs:element name="ListMacaroonIDsResponse" type="ListMacaroonIDsResponseType"/>
 
   <xs:element name="ListPaymentsRequest" type="ListPaymentsRequestType"/>
 
@@ -507,6 +517,14 @@
     <xs:sequence>
       <xs:element name="accept" type="xs:boolean"/>
       <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="error" type="xs:string" minOccurs="0"/>
+      <xs:element name="upfrontShutdown" type="xs:string" minOccurs="0"/>
+      <xs:element name="csvDelay" type="xs:int"/>
+      <xs:element name="reserveSat" type="xs:long"/>
+      <xs:element name="inFlightMaxMsat" type="xs:long"/>
+      <xs:element name="maxHtlcCount" type="xs:int"/>
+      <xs:element name="minHtlcIn" type="xs:long"/>
+      <xs:element name="minAcceptDepth" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -558,6 +576,8 @@
       <xs:element name="targetConf" type="xs:int"/>
       <xs:element name="satPerByte" type="xs:long"/>
       <xs:element name="label" type="xs:string" minOccurs="0"/>
+      <xs:element name="minConfs" type="xs:int"/>
+      <xs:element name="spendUnconfirmed" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -588,6 +608,8 @@
       <xs:element name="satPerByte" type="xs:long"/>
       <xs:element name="sendAll" type="xs:boolean"/>
       <xs:element name="label" type="xs:string" minOccurs="0"/>
+      <xs:element name="minConfs" type="xs:int"/>
+      <xs:element name="spendUnconfirmed" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -658,6 +680,7 @@
     <xs:sequence>
       <xs:element name="addr" type="LightningAddressType" minOccurs="0"/>
       <xs:element name="perm" type="xs:boolean"/>
+      <xs:element name="timeout" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -681,6 +704,9 @@
       <xs:element name="amount" type="xs:long"/>
       <xs:element name="hashLock" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="expirationHeight" type="xs:int"/>
+      <xs:element name="htlcIndex" type="xs:long"/>
+      <xs:element name="forwardingChannel" type="xs:long"/>
+      <xs:element name="forwardingHtlcIndex" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -834,6 +860,8 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="flapCount" type="xs:int"/>
+      <xs:element name="lastFlapNs" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1035,6 +1063,7 @@
       <xs:element name="fundingShim" type="FundingShimType" minOccurs="0"/>
       <xs:element name="remoteMaxValueInFlightMsat" type="xs:long"/>
       <xs:element name="remoteMaxHtlcs" type="xs:int"/>
+      <xs:element name="maxLocalCsv" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1266,6 +1295,13 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="AmountType">
+    <xs:sequence>
+      <xs:element name="sat" type="xs:long"/>
+      <xs:element name="msat" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ChannelBalanceRequestType">
     <xs:all/>
   </xs:complexType>
@@ -1274,6 +1310,12 @@
     <xs:sequence>
       <xs:element name="balance" type="xs:long"/>
       <xs:element name="pendingOpenBalance" type="xs:long"/>
+      <xs:element name="localBalance" type="AmountType" minOccurs="0"/>
+      <xs:element name="remoteBalance" type="AmountType" minOccurs="0"/>
+      <xs:element name="unsettledLocalBalance" type="AmountType" minOccurs="0"/>
+      <xs:element name="unsettledRemoteBalance" type="AmountType" minOccurs="0"/>
+      <xs:element name="pendingOpenLocalBalance" type="AmountType" minOccurs="0"/>
+      <xs:element name="pendingOpenRemoteBalance" type="AmountType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1602,6 +1644,20 @@
       <xs:element name="globalFeatures" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="alias" type="xs:string" minOccurs="0"/>
       <xs:element name="color" type="xs:string" minOccurs="0"/>
+      <xs:element name="featuresEntries" type="NodeUpdateFeaturesEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeUpdateFeaturesEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="NodeUpdateFeaturesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NodeUpdateFeaturesEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:int"/>
+      <xs:element name="value" type="FeatureType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1663,6 +1719,7 @@
       </xs:element>
       <xs:element name="featuresEntries" type="InvoiceFeaturesEntriesType" minOccurs="0"/>
       <xs:element name="isKeysend" type="xs:boolean"/>
+      <xs:element name="paymentAddr" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1712,6 +1769,7 @@
       <xs:element name="RHash" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
       <xs:element name="addIndex" type="xs:long"/>
+      <xs:element name="paymentAddr" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2083,12 +2141,41 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="rootKeyId" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="BakeMacaroonResponseType">
     <xs:sequence>
       <xs:element name="macaroon" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListMacaroonIDsRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ListMacaroonIDsResponseType">
+    <xs:sequence>
+      <xs:element name="root_key_ids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="rootKeyIds" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DeleteMacaroonIDRequestType">
+    <xs:sequence>
+      <xs:element name="rootKeyId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DeleteMacaroonIDResponseType">
+    <xs:sequence>
+      <xs:element name="deleted" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 

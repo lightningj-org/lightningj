@@ -211,6 +211,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="paymentAddr" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -302,6 +303,7 @@
       <xs:element name="outgoingAmountMsat" type="xs:long"/>
       <xs:element name="outgoingExpiry" type="xs:int"/>
       <xs:element name="customRecordsEntries" type="tns:ForwardHtlcInterceptRequestCustomRecordsEntriesType" minOccurs="0"/>
+      <xs:element name="onionBlob" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 

@@ -17,6 +17,14 @@
 
   <xs:element name="EstimateFeeResponse" type="tns:EstimateFeeResponseType"/>
 
+  <xs:element name="FinalizePsbtRequest" type="tns:FinalizePsbtRequestType"/>
+
+  <xs:element name="FinalizePsbtResponse" type="tns:FinalizePsbtResponseType"/>
+
+  <xs:element name="FundPsbtRequest" type="tns:FundPsbtRequestType"/>
+
+  <xs:element name="FundPsbtResponse" type="tns:FundPsbtResponseType"/>
+
   <xs:element name="KeyReq" type="tns:KeyReqType"/>
 
   <xs:element name="LabelTransactionRequest" type="tns:LabelTransactionRequestType"/>
@@ -52,6 +60,10 @@
   <xs:element name="SendOutputsResponse" type="tns:SendOutputsResponseType"/>
 
   <xs:element name="Transaction" type="tns:TransactionType"/>
+
+  <xs:element name="TxTemplate" type="tns:TxTemplateType"/>
+
+  <xs:element name="UtxoLease" type="tns:UtxoLeaseType"/>
 
   <xs:complexType name="ListUnspentRequestType">
     <xs:sequence>
@@ -137,6 +149,8 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="label" type="xs:string" minOccurs="0"/>
+      <xs:element name="minConfs" type="xs:int"/>
+      <xs:element name="spendUnconfirmed" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -236,6 +250,76 @@
 
   <xs:complexType name="LabelTransactionResponseType">
     <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="FundPsbtRequestType">
+    <xs:sequence>
+      <xs:element name="psbt" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="raw" type="tns:TxTemplateType" minOccurs="0"/>
+      <xs:element name="targetConf" type="xs:int"/>
+      <xs:element name="satPerVbyte" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TxTemplateType">
+    <xs:sequence>
+      <xs:element name="inputs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="OutPoint" type="OutPointType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="outputsEntries" type="tns:TxTemplateOutputsEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TxTemplateOutputsEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="tns:TxTemplateOutputsEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TxTemplateOutputsEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FundPsbtResponseType">
+    <xs:sequence>
+      <xs:element name="fundedPsbt" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="changeOutputIndex" type="xs:int"/>
+      <xs:element name="locked_utxos" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:UtxoLease" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UtxoLeaseType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="outpoint" type="OutPointType" minOccurs="0"/>
+      <xs:element name="expiration" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FinalizePsbtRequestType">
+    <xs:sequence>
+      <xs:element name="fundedPsbt" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FinalizePsbtResponseType">
+    <xs:sequence>
+      <xs:element name="signedPsbt" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="rawFinalTx" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:simpleType name="witnessType">

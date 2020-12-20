@@ -120,7 +120,9 @@
   </xs:complexType>
 
   <xs:complexType name="PolicyRequestType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="policyType" type="tns:policyType" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="PolicyResponseType">
@@ -129,5 +131,12 @@
       <xs:element name="sweepSatPerByte" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:simpleType name="policyType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LEGACY"/>
+      <xs:enumeration value="ANCHOR"/>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
 
