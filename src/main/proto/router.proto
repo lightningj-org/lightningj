@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (2903505) tag : Downloaded 2020-08-12
+ * LND (d996607) tag : Downloaded 2020-12-19
  */
 syntax = "proto3";
 
@@ -400,6 +400,9 @@ message BuildRouteRequest {
     pubkey.
     */
     repeated bytes hop_pubkeys = 4;
+
+    // An optional payment addr to be included within the last hop of the route.
+    bytes payment_addr = 5;
 }
 
 message BuildRouteResponse {
@@ -637,6 +640,9 @@ message ForwardHtlcInterceptRequest {
 
     // Any custom records that were present in the payload.
     map<uint64, bytes> custom_records = 8;
+
+    // The onion blob for the next hop
+    bytes onion_blob = 9;
 }
 
 /**

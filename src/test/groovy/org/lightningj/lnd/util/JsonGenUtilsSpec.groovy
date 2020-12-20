@@ -55,7 +55,7 @@ class JsonGenUtilsSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder1 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         JsonObjectBuilder jsonObjectBuilder2 = JsonGenUtils.messageToJson(createInvoice(),Invoice.descriptor)
         expect:
-        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","rPreimage":"","rHash":"","value":0,"valueMsat":0,"settled":false,"creationDate":5432123,"settleDate":0,"paymentRequest":"","descriptionHash":"VGVzdA==","expiry":5432343,"fallbackAddr":"","cltvExpiry":12345,"routeHints":[],"private":false,"addIndex":0,"settleIndex":0,"amtPaid":0,"amtPaidSat":0,"amtPaidMsat":0,"state":"OPEN","htlcs":[],"features":[],"isKeysend":false}'
+        JsonGenUtils.jsonToString(jsonObjectBuilder1,false) == '{"memo":"SomeMemo","rPreimage":"","rHash":"","value":0,"valueMsat":0,"settled":false,"creationDate":5432123,"settleDate":0,"paymentRequest":"","descriptionHash":"VGVzdA==","expiry":5432343,"fallbackAddr":"","cltvExpiry":12345,"routeHints":[],"private":false,"addIndex":0,"settleIndex":0,"amtPaid":0,"amtPaidSat":0,"amtPaidMsat":0,"state":"OPEN","htlcs":[],"features":[],"isKeysend":false,"paymentAddr":""}'
         JsonGenUtils.jsonToString(jsonObjectBuilder2,true) == """
 {
     "memo": "SomeMemo",
@@ -84,7 +84,8 @@ class JsonGenUtilsSpec extends Specification {
     ],
     "features": [
     ],
-    "isKeysend": false
+    "isKeysend": false,
+    "paymentAddr": ""
 }"""
     }
 
@@ -205,7 +206,7 @@ class JsonGenUtilsSpec extends Specification {
         JsonObjectBuilder jsonObjectBuilder = JsonGenUtils.messageToJson(builder,instance.descriptor)
 
         then:
-        jsonObjectBuilder.build().toString() == '{"AddrToAmount":[{"key":"SomeKey1","value":1234},{"key":"SomeKey2","value":2345}],"targetConf":0,"satPerByte":0,"label":""}'
+        jsonObjectBuilder.build().toString() == '{"AddrToAmount":[{"key":"SomeKey1","value":1234},{"key":"SomeKey2","value":2345}],"targetConf":0,"satPerByte":0,"label":"","minConfs":0,"spendUnconfirmed":false}'
     }
 
     def "Verify that json containing mapped fields are converted properly from json"(){
@@ -227,7 +228,7 @@ class JsonGenUtilsSpec extends Specification {
         when:
         JsonObjectBuilder result = JsonGenUtils.messageToJson(createInvoice(),LightningApi.Invoice.descriptor)
         then:
-        result.build().toString() == '{"memo":"SomeMemo","rPreimage":"","rHash":"","value":0,"valueMsat":0,"settled":false,"creationDate":5432123,"settleDate":0,"paymentRequest":"","descriptionHash":"VGVzdA==","expiry":5432343,"fallbackAddr":"","cltvExpiry":12345,"routeHints":[],"private":false,"addIndex":0,"settleIndex":0,"amtPaid":0,"amtPaidSat":0,"amtPaidMsat":0,"state":"OPEN","htlcs":[],"features":[],"isKeysend":false}'
+        result.build().toString() == '{"memo":"SomeMemo","rPreimage":"","rHash":"","value":0,"valueMsat":0,"settled":false,"creationDate":5432123,"settleDate":0,"paymentRequest":"","descriptionHash":"VGVzdA==","expiry":5432343,"fallbackAddr":"","cltvExpiry":12345,"routeHints":[],"private":false,"addIndex":0,"settleIndex":0,"amtPaid":0,"amtPaidSat":0,"amtPaidMsat":0,"state":"OPEN","htlcs":[],"features":[],"isKeysend":false,"paymentAddr":""}'
     }
 
     def "Verify that jsonToMessage converts json to a message fields that contain single values"(){
