@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (0800386) tag : Downloaded 2020-08-12
+ * LND (a5c4085) tag : Downloaded 2020-12-19
  */
 syntax = "proto3";
 
@@ -155,7 +155,19 @@ message StatsResponse {
     uint32 num_sessions_exhausted = 5;
 }
 
+enum PolicyType {
+    // Selects the policy from the legacy tower client.
+    LEGACY = 0;
+
+    // Selects the policy from the anchor tower client.
+    ANCHOR = 1;
+}
+
 message PolicyRequest {
+    /*
+    The client type from which to retrieve the active offering policy.
+    */
+    PolicyType policy_type = 1;
 }
 
 message PolicyResponse {

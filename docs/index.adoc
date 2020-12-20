@@ -41,6 +41,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.12.0-Beta-rc2: Generated against LND 0.12.0-rc1 API
 * 0.11.1-Beta    : Generated against LND 0.11.1 API
 * 0.11.0-Beta    : Generated against LND 0.11.0, WalletUnlocker API moved to package org.lightningj.lnd.wrapper.walletunlocker
 and also separate XSD in order to match APIs
