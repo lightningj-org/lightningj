@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (d996607) tag : Downloaded 2020-12-19
+ * LND (b85c92d) tag : Downloaded 2021-01-28
  */
 syntax = "proto3";
 
@@ -58,21 +58,21 @@ service Router {
     slate.
     */
     rpc ResetMissionControl (ResetMissionControlRequest)
-    returns (ResetMissionControlResponse);
+        returns (ResetMissionControlResponse);
 
     /*
     QueryMissionControl exposes the internal mission control state to callers.
     It is a development feature.
     */
     rpc QueryMissionControl (QueryMissionControlRequest)
-    returns (QueryMissionControlResponse);
+        returns (QueryMissionControlResponse);
 
     /*
     QueryProbability returns the current success probability estimate for a
     given node pair and amount.
     */
     rpc QueryProbability (QueryProbabilityRequest)
-    returns (QueryProbabilityResponse);
+        returns (QueryProbabilityResponse);
 
     /*
     BuildRoute builds a fully specified route based on a list of hop public
@@ -86,7 +86,7 @@ service Router {
     the client which delivers a stream of htlc events.
     */
     rpc SubscribeHtlcEvents (SubscribeHtlcEventsRequest)
-    returns (stream HtlcEvent);
+        returns (stream HtlcEvent);
 
     /*
     Deprecated, use SendPaymentV2. SendPayment attempts to route a payment
@@ -113,7 +113,7 @@ service Router {
     resumed later by using the ResolveHoldForward endpoint.
     */
     rpc HtlcInterceptor (stream ForwardHtlcInterceptResponse)
-    returns (stream ForwardHtlcInterceptRequest);
+        returns (stream ForwardHtlcInterceptRequest);
 }
 
 message SendPaymentRequest {
@@ -142,6 +142,9 @@ message SendPaymentRequest {
     timelock for the final hop.
     */
     int32 final_cltv_delta = 4;
+
+    // An optional payment addr to be included within the last hop of the route.
+    bytes payment_addr = 20;
 
     /*
     A bare-bones invoice for a payment within the Lightning Network.  With the
