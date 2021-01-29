@@ -64,6 +64,7 @@
       <xs:element name="amtMsat" type="xs:long"/>
       <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="finalCltvDelta" type="xs:int"/>
+      <xs:element name="paymentAddr" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
       <xs:element name="timeoutSeconds" type="xs:int"/>
       <xs:element name="feeLimitSat" type="xs:long"/>

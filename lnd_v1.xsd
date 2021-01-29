@@ -2269,6 +2269,12 @@
       <xs:enumeration value="PAYMENT_ADDR_OPT"/>
       <xs:enumeration value="MPP_REQ"/>
       <xs:enumeration value="MPP_OPT"/>
+      <xs:enumeration value="WUMBO_CHANNELS_REQ"/>
+      <xs:enumeration value="WUMBO_CHANNELS_OPT"/>
+      <xs:enumeration value="ANCHORS_REQ"/>
+      <xs:enumeration value="ANCHORS_OPT"/>
+      <xs:enumeration value="ANCHORS_ZERO_FEE_HTLC_REQ"/>
+      <xs:enumeration value="ANCHORS_ZERO_FEE_HTLC_OPT"/>
     </xs:restriction>
   </xs:simpleType>
 
