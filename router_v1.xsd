@@ -91,6 +91,7 @@
       <xs:element name="destFeatures" type="featureBit" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="maxParts" type="xs:int"/>
       <xs:element name="noInflightUpdates" type="xs:boolean"/>
+      <xs:element name="maxShardSizeMsat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 

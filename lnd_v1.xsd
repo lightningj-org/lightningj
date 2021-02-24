@@ -1838,6 +1838,7 @@
 
   <xs:complexType name="HTLCAttemptType">
     <xs:sequence>
+      <xs:element name="attemptId" type="xs:long"/>
       <xs:element name="status" type="htlcStatus" minOccurs="0"/>
       <xs:element name="route" type="RouteType" minOccurs="0"/>
       <xs:element name="attemptTimeNs" type="xs:long"/>
@@ -2333,6 +2334,7 @@
       <xs:enumeration value="UNKNOWN_SYNC"/>
       <xs:enumeration value="ACTIVE_SYNC"/>
       <xs:enumeration value="PASSIVE_SYNC"/>
+      <xs:enumeration value="PINNED_SYNC"/>
     </xs:restriction>
   </xs:simpleType>
 
