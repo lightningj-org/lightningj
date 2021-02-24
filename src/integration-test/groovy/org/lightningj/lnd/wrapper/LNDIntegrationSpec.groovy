@@ -22,6 +22,7 @@ import org.lightningj.lnd.wrapper.message.ListChannelsResponse
 import org.lightningj.lnd.wrapper.message.PendingChannelsResponse
 import org.lightningj.lnd.wrapper.message.QueryRoutesRequest
 import org.lightningj.lnd.wrapper.message.QueryRoutesResponse
+import spock.lang.Ignore
 import spock.lang.IgnoreRest
 import spock.lang.Shared
 import spock.lang.Specification
@@ -93,11 +94,12 @@ class LNDIntegrationSpec extends Specification{
         channelGraph != null
     }
 
-    def "Verify that QueryRoute fetches an non-empyt list"(){
+    @Ignore
+    def "Verify that QueryRoute fetches an non-empty list"(){
         when:
         QueryRoutesRequest queryRoutesRequest = new QueryRoutesRequest();
         //queryRoutesRequest.setSourcePubKey("03977f437e05f64b36fa973b415049e6c36c0163b0af097bab2eb3642501055efa")
-        queryRoutesRequest.setPubKey("023a8dfe081c6bbd0504e599f33d39d17687de63023a8b20afcb59147d9d77c19d")
+        queryRoutesRequest.setPubKey("030f0bf260acdbd3edcad84d7588ec7c5df4711e87e6a23016f989b8d3a4147230")
         queryRoutesRequest.setAmt(1)
 
         QueryRoutesResponse resp = synchronousLndAPI.queryRoutes(queryRoutesRequest)
