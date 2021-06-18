@@ -45,7 +45,8 @@ public class V1XMLParser extends XMLParser {
                 "/watchtower_v1.xsd",
                 "/wtclient_v1.xsd",
                 "/verrpc_v1.xsd",
-                "/walletunlocker_v1.xsd"
+                "/walletunlocker_v1.xsd",
+                "/stateservice_v1.xsd"
         };
     }
 
@@ -64,6 +65,7 @@ public class V1XMLParser extends XMLParser {
                 "org.lightningj.lnd.wrapper.watchtower.message:" +
                 "org.lightningj.lnd.wrapper.wtclient.message:" +
                 "org.lightningj.lnd.wrapper.verrpc.message:" +
-                "org.lightningj.lnd.wrapper.walletunlocker.message";
+                "org.lightningj.lnd.wrapper.walletunlocker.message:" +
+                "org.lightningj.lnd.wrapper.stateservice.message";
     }
 }

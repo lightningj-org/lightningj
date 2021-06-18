@@ -1,6 +1,6 @@
 group 'org.lightningj'
 
-version '0.12.1-Beta'
+version '0.13.0-Beta'
 
 apply plugin: "groovy"
 apply plugin: 'com.google.protobuf'
@@ -117,7 +117,7 @@ compileJava {
  */
 task generateWrappers(type: WrapperClassGenerator, dependsOn:compileJava){
     // When adding new protocols, remember to also add in WrapperFactory.
-    protocols = ["lnrpc","autopilot","chainnotifier","invoices","router","signer","walletkit","watchtower","wtclient","verrpc", "walletunlocker"]
+    protocols = ["lnrpc","autopilot","chainnotifier","invoices","router","signer","walletkit","watchtower","wtclient","verrpc", "walletunlocker","stateservice"]
 }
 
 /*
@@ -144,7 +144,7 @@ dependencies {
 
 task generateXSD(type: XSDGenerator, dependsOn: compileWrapperMessages){
     classpath=compileJava.classpath.asPath
-    protocols = ["lnrpc","autopilot","chainnotifier","invoices","router","signer","walletkit","watchtower","wtclient","verrpc","walletunlocker"]
+    protocols = ["lnrpc","autopilot","chainnotifier","invoices","router","signer","walletkit","watchtower","wtclient","verrpc","walletunlocker","stateservice"]
 }
 
 /*
