@@ -45,6 +45,8 @@ class ProtocolSettings extends BaseProtocolSettings{
                 return "org.lightningj.lnd.verrpc.proto.Verrpc"
             case "walletunlocker":
                 return "org.lightningj.lnd.walletunlocker.proto.Walletunlocker"
+            case "stateservice":
+                return "org.lightningj.lnd.stateservice.proto.Stateservice"
         }
     }
 
@@ -76,6 +78,7 @@ import org.lightningj.lnd.wrapper.message.FeatureBit;
 import org.lightningj.lnd.wrapper.message.Failure;
 import org.lightningj.lnd.wrapper.message.Failure.FailureCode;
 import org.lightningj.lnd.wrapper.message.Payment;
+import org.lightningj.lnd.wrapper.message.ChannelPoint;
 """
             case "walletunlocker":
                 return """
@@ -209,6 +212,17 @@ import org.lightningj.lnd.wrapper.message.ChanBackupSnapshot;
                                 baseFileName: 'WalletUnlockerAPI.java'
                         )
                 ]
+            case "stateservice":
+                return [
+                        new ApiSettings(
+                                baseGrpcClassPath:'org.lightningj.lnd.stateservice.proto.StateGrpc$State',
+                                grpcClassName: 'StateGrpc',
+                                baseApiClassName: 'StateServiceAPI',
+                                baseProtoClassPath: 'org.lightningj.lnd.stateservice.proto.Stateservice',
+                                baseStubClass: 'State',
+                                baseFileName: 'StateServiceAPI.java'
+                        )
+                ]
             default:
                 return []
         }
@@ -269,7 +283,8 @@ import org.lightningj.lnd.wrapper.message.ChanBackupSnapshot;
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/watchtower_1_0", prefix = "watchtower"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/wtclient_1_0", prefix = "wtclient"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/verrpc_1_0", prefix = "verrpc"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletunlocker_1_0", prefix = "walletunlocker")
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletunlocker_1_0", prefix = "walletunlocker"),
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/stateservice_1_0", prefix = "stateservice")
 """
     }
 
