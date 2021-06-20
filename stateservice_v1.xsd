@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/stateservice_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/stateservice_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:element name="GetStateRequest" type="tns:GetStateRequestType"/>
+
+  <xs:element name="GetStateResponse" type="tns:GetStateResponseType"/>
+
+  <xs:element name="SubscribeStateRequest" type="tns:SubscribeStateRequestType"/>
+
+  <xs:element name="SubscribeStateResponse" type="tns:SubscribeStateResponseType"/>
+
+  <xs:complexType name="SubscribeStateRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="SubscribeStateResponseType">
+    <xs:sequence>
+      <xs:element name="state" type="tns:walletState" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetStateRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="GetStateResponseType">
+    <xs:sequence>
+      <xs:element name="state" type="tns:walletState" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="walletState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NON_EXISTING"/>
+      <xs:enumeration value="LOCKED"/>
+      <xs:enumeration value="UNLOCKED"/>
+      <xs:enumeration value="RPC_ACTIVE"/>
+      <xs:enumeration value="WAITING_TO_START"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+

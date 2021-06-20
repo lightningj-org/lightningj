@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/walletkit_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/walletkit_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/walletkit_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/walletkit_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
 
   <xs:import namespace="http://lightningj.org/xsd/signer_1_0" schemaLocation="./signer_v1.xsd"/>
+
+  <xs:element name="Account" type="tns:AccountType"/>
 
   <xs:element name="AddrRequest" type="tns:AddrRequestType"/>
 
@@ -25,6 +27,14 @@
 
   <xs:element name="FundPsbtResponse" type="tns:FundPsbtResponseType"/>
 
+  <xs:element name="ImportAccountRequest" type="tns:ImportAccountRequestType"/>
+
+  <xs:element name="ImportAccountResponse" type="tns:ImportAccountResponseType"/>
+
+  <xs:element name="ImportPublicKeyRequest" type="tns:ImportPublicKeyRequestType"/>
+
+  <xs:element name="ImportPublicKeyResponse" type="tns:ImportPublicKeyResponseType"/>
+
   <xs:element name="KeyReq" type="tns:KeyReqType"/>
 
   <xs:element name="LabelTransactionRequest" type="tns:LabelTransactionRequestType"/>
@@ -34,6 +44,14 @@
   <xs:element name="LeaseOutputRequest" type="tns:LeaseOutputRequestType"/>
 
   <xs:element name="LeaseOutputResponse" type="tns:LeaseOutputResponseType"/>
+
+  <xs:element name="ListAccountsRequest" type="tns:ListAccountsRequestType"/>
+
+  <xs:element name="ListAccountsResponse" type="tns:ListAccountsResponseType"/>
+
+  <xs:element name="ListLeasesRequest" type="tns:ListLeasesRequestType"/>
+
+  <xs:element name="ListLeasesResponse" type="tns:ListLeasesResponseType"/>
 
   <xs:element name="ListSweepsRequest" type="tns:ListSweepsRequestType"/>
 
@@ -69,6 +87,7 @@
     <xs:sequence>
       <xs:element name="minConfs" type="xs:int"/>
       <xs:element name="maxConfs" type="xs:int"/>
+      <xs:element name="account" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -88,6 +107,7 @@
     <xs:sequence>
       <xs:element name="id" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="outpoint" type="OutPointType" minOccurs="0"/>
+      <xs:element name="expirationSeconds" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -116,13 +136,88 @@
   </xs:complexType>
 
   <xs:complexType name="AddrRequestType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="account" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="AddrResponseType">
     <xs:sequence>
       <xs:element name="addr" type="xs:string" minOccurs="0"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AccountType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="addressType" type="tns:addressType" minOccurs="0"/>
+      <xs:element name="extendedPublicKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="masterKeyFingerprint" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="derivationPath" type="xs:string" minOccurs="0"/>
+      <xs:element name="externalKeyCount" type="xs:int"/>
+      <xs:element name="internalKeyCount" type="xs:int"/>
+      <xs:element name="watchOnly" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListAccountsRequestType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="addressType" type="tns:addressType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListAccountsResponseType">
+    <xs:sequence>
+      <xs:element name="accounts" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:Account" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ImportAccountRequestType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="extendedPublicKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="masterKeyFingerprint" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="addressType" type="tns:addressType" minOccurs="0"/>
+      <xs:element name="dryRun" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ImportAccountResponseType">
+    <xs:sequence>
+      <xs:element name="account" type="tns:AccountType" minOccurs="0"/>
+      <xs:element name="dry_run_external_addrs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="dryRunExternalAddrs" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="dry_run_internal_addrs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="dryRunInternalAddrs" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ImportPublicKeyRequestType">
+    <xs:sequence>
+      <xs:element name="publicKey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="addressType" type="tns:addressType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ImportPublicKeyResponseType">
+    <xs:all/>
   </xs:complexType>
 
   <xs:complexType name="TransactionType">
@@ -182,6 +277,8 @@
       <xs:element name="nextBroadcastHeight" type="xs:int"/>
       <xs:element name="requestedConfTarget" type="xs:int"/>
       <xs:element name="requestedSatPerByte" type="xs:int"/>
+      <xs:element name="satPerVbyte" type="xs:long"/>
+      <xs:element name="requestedSatPerVbyte" type="xs:long"/>
       <xs:element name="force" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
@@ -208,6 +305,7 @@
       <xs:element name="targetConf" type="xs:int"/>
       <xs:element name="satPerByte" type="xs:int"/>
       <xs:element name="force" type="xs:boolean"/>
+      <xs:element name="satPerVbyte" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -257,7 +355,10 @@
       <xs:element name="psbt" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="raw" type="tns:TxTemplateType" minOccurs="0"/>
       <xs:element name="targetConf" type="xs:int"/>
-      <xs:element name="satPerVbyte" type="xs:int"/>
+      <xs:element name="satPerVbyte" type="xs:long"/>
+      <xs:element name="account" type="xs:string" minOccurs="0"/>
+      <xs:element name="minConfs" type="xs:int"/>
+      <xs:element name="spendUnconfirmed" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -312,6 +413,7 @@
   <xs:complexType name="FinalizePsbtRequestType">
     <xs:sequence>
       <xs:element name="fundedPsbt" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="account" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -321,6 +423,31 @@
       <xs:element name="rawFinalTx" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:complexType name="ListLeasesRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ListLeasesResponseType">
+    <xs:sequence>
+      <xs:element name="locked_utxos" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:UtxoLease" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="addressType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN"/>
+      <xs:enumeration value="WITNESS_PUBKEY_HASH"/>
+      <xs:enumeration value="NESTED_WITNESS_PUBKEY_HASH"/>
+      <xs:enumeration value="HYBRID_NESTED_WITNESS_PUBKEY_HASH"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:simpleType name="witnessType">
     <xs:restriction base="xs:string">

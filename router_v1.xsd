@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/router_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/router_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/router_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/router_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
 
@@ -17,11 +17,17 @@
 
   <xs:element name="ForwardHtlcInterceptResponse" type="tns:ForwardHtlcInterceptResponseType"/>
 
+  <xs:element name="GetMissionControlConfigRequest" type="tns:GetMissionControlConfigRequestType"/>
+
+  <xs:element name="GetMissionControlConfigResponse" type="tns:GetMissionControlConfigResponseType"/>
+
   <xs:element name="HtlcEvent" type="tns:HtlcEventType"/>
 
   <xs:element name="HtlcInfo" type="tns:HtlcInfoType"/>
 
   <xs:element name="LinkFailEvent" type="tns:LinkFailEventType"/>
+
+  <xs:element name="MissionControlConfig" type="tns:MissionControlConfigType"/>
 
   <xs:element name="PairData" type="tns:PairDataType"/>
 
@@ -51,11 +57,23 @@
 
   <xs:element name="SendToRouteResponse" type="tns:SendToRouteResponseType"/>
 
+  <xs:element name="SetMissionControlConfigRequest" type="tns:SetMissionControlConfigRequestType"/>
+
+  <xs:element name="SetMissionControlConfigResponse" type="tns:SetMissionControlConfigResponseType"/>
+
   <xs:element name="SettleEvent" type="tns:SettleEventType"/>
 
   <xs:element name="SubscribeHtlcEventsRequest" type="tns:SubscribeHtlcEventsRequestType"/>
 
   <xs:element name="TrackPaymentRequest" type="tns:TrackPaymentRequestType"/>
+
+  <xs:element name="UpdateChanStatusRequest" type="tns:UpdateChanStatusRequestType"/>
+
+  <xs:element name="UpdateChanStatusResponse" type="tns:UpdateChanStatusResponseType"/>
+
+  <xs:element name="XImportMissionControlRequest" type="tns:XImportMissionControlRequestType"/>
+
+  <xs:element name="XImportMissionControlResponse" type="tns:XImportMissionControlResponseType"/>
 
   <xs:complexType name="SendPaymentRequestType">
     <xs:sequence>
@@ -92,6 +110,7 @@
       <xs:element name="maxParts" type="xs:int"/>
       <xs:element name="noInflightUpdates" type="xs:boolean"/>
       <xs:element name="maxShardSizeMsat" type="xs:long"/>
+      <xs:element name="amp" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -184,6 +203,52 @@
       <xs:element name="successAmtSat" type="xs:long"/>
       <xs:element name="successAmtMsat" type="xs:long"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="XImportMissionControlRequestType">
+    <xs:sequence>
+      <xs:element name="pairs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:PairHistory" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="XImportMissionControlResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="GetMissionControlConfigRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="GetMissionControlConfigResponseType">
+    <xs:sequence>
+      <xs:element name="config" type="tns:MissionControlConfigType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MissionControlConfigType">
+    <xs:sequence>
+      <xs:element name="halfLifeSeconds" type="xs:long"/>
+      <xs:element name="hopProbability" type="xs:float"/>
+      <xs:element name="weight" type="xs:float"/>
+      <xs:element name="maximumPaymentResults" type="xs:int"/>
+      <xs:element name="minimumFailureRelaxInterval" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetMissionControlConfigRequestType">
+    <xs:sequence>
+      <xs:element name="config" type="tns:MissionControlConfigType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetMissionControlConfigResponseType">
+    <xs:all/>
   </xs:complexType>
 
   <xs:complexType name="QueryProbabilityRequestType">
@@ -330,6 +395,17 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="UpdateChanStatusRequestType">
+    <xs:sequence>
+      <xs:element name="chanPoint" type="ChannelPointType" minOccurs="0"/>
+      <xs:element name="action" type="tns:chanStatusAction" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UpdateChanStatusResponseType">
+    <xs:all/>
+  </xs:complexType>
+
   <xs:simpleType name="eventType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="UNKNOWN"/>
@@ -384,6 +460,14 @@
       <xs:enumeration value="SETTLE"/>
       <xs:enumeration value="FAIL"/>
       <xs:enumeration value="RESUME"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="chanStatusAction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ENABLE"/>
+      <xs:enumeration value="DISABLE"/>
+      <xs:enumeration value="AUTO"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>
