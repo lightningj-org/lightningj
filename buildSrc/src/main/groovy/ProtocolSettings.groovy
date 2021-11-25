@@ -255,7 +255,7 @@ import org.lightningj.lnd.wrapper.message.ChanBackupSnapshot;
                 }
                 break
             case "invoices":
-                if(methodName == "subscribeSingleInvoice"){
+                if(methodName == "subscribeSingleInvoice" || methodName == "lookupInvoiceV2"){
                     return "LightningApi"
                 }
                 break

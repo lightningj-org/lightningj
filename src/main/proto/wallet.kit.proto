@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (e079a95) tag : Downloaded 2021-05-22
+ * LND (19db382) tag : Downloaded 2021-11-24
  */
 syntax = "proto3";
 
@@ -292,6 +292,16 @@ message AddrRequest {
     default wallet account is used.
     */
     string account = 1;
+
+    /*
+    The type of address to derive.
+    */
+    AddressType type = 2;
+
+    /*
+    Whether a change address should be derived.
+    */
+    bool change = 3;
 }
 message AddrResponse {
     /*
