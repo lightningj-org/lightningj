@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (6104d12) tag : Downloaded 2021-05-22
+ * LND (235efc0) tag : Downloaded 2021-11-24
  */
 syntax = "proto3";
 
@@ -154,14 +154,12 @@ message SendPaymentRequest {
 
     /*
     Number of satoshis to send.
-
     The fields amt and amt_msat are mutually exclusive.
     */
     int64 amt = 2;
 
     /*
     Number of millisatoshis to send.
-
     The fields amt and amt_msat are mutually exclusive.
     */
     int64 amt_msat = 12;
@@ -200,7 +198,6 @@ message SendPaymentRequest {
     If this field is left to the default value of 0, only zero-fee routes will
     be considered. This usually means single hop routes connecting directly to
     the destination. To send the payment without a fee limit, use max int here.
-
     The fields fee_limit_sat and fee_limit_msat are mutually exclusive.
     */
     int64 fee_limit_sat = 7;
@@ -211,7 +208,6 @@ message SendPaymentRequest {
     routes will be considered. This usually means single hop routes connecting
     directly to the destination. To send the payment without a fee limit, use
     max int here.
-
     The fields fee_limit_sat and fee_limit_msat are mutually exclusive.
     */
     int64 fee_limit_msat = 13;
@@ -614,6 +610,8 @@ message ForwardFailEvent {
 }
 
 message SettleEvent {
+    // The revealed preimage.
+    bytes preimage = 1;
 }
 
 message LinkFailEvent {
