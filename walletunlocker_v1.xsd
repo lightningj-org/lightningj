@@ -19,6 +19,10 @@
 
   <xs:element name="UnlockWalletResponse" type="tns:UnlockWalletResponseType"/>
 
+  <xs:element name="WatchOnly" type="tns:WatchOnlyType"/>
+
+  <xs:element name="WatchOnlyAccount" type="tns:WatchOnlyAccountType"/>
+
   <xs:complexType name="GenSeedRequestType">
     <xs:sequence>
       <xs:element name="aezeedPassphrase" type="xs:base64Binary" minOccurs="0"/>
@@ -53,6 +57,32 @@
       <xs:element name="recoveryWindow" type="xs:int"/>
       <xs:element name="channelBackups" type="ChanBackupSnapshotType" minOccurs="0"/>
       <xs:element name="statelessInit" type="xs:boolean"/>
+      <xs:element name="extendedMasterKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="extendedMasterKeyBirthdayTimestamp" type="xs:long"/>
+      <xs:element name="watchOnly" type="tns:WatchOnlyType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="WatchOnlyType">
+    <xs:sequence>
+      <xs:element name="masterKeyBirthdayTimestamp" type="xs:long"/>
+      <xs:element name="masterKeyFingerprint" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="accounts" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:WatchOnlyAccount" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="WatchOnlyAccountType">
+    <xs:sequence>
+      <xs:element name="purpose" type="xs:int"/>
+      <xs:element name="coinType" type="xs:int"/>
+      <xs:element name="account" type="xs:int"/>
+      <xs:element name="xpub" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 

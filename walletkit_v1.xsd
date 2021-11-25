@@ -138,6 +138,8 @@
   <xs:complexType name="AddrRequestType">
     <xs:sequence>
       <xs:element name="account" type="xs:string" minOccurs="0"/>
+      <xs:element name="type" type="tns:addressType" minOccurs="0"/>
+      <xs:element name="change" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 

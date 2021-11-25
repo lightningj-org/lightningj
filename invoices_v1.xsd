@@ -11,6 +11,8 @@
 
   <xs:element name="CancelInvoiceResp" type="tns:CancelInvoiceRespType"/>
 
+  <xs:element name="LookupInvoiceMsg" type="tns:LookupInvoiceMsgType"/>
+
   <xs:element name="SettleInvoiceMsg" type="tns:SettleInvoiceMsgType"/>
 
   <xs:element name="SettleInvoiceResp" type="tns:SettleInvoiceRespType"/>
@@ -51,6 +53,8 @@
   <xs:complexType name="AddHoldInvoiceRespType">
     <xs:sequence>
       <xs:element name="paymentRequest" type="xs:string" minOccurs="0"/>
+      <xs:element name="addIndex" type="xs:long"/>
+      <xs:element name="paymentAddr" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -69,5 +73,22 @@
       <xs:element name="RHash" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:complexType name="LookupInvoiceMsgType">
+    <xs:sequence>
+      <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="paymentAddr" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="setId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="lookupModifier" type="tns:lookupModifier" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="lookupModifier">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DEFAULT"/>
+      <xs:enumeration value="HTLC_SET_ONLY"/>
+      <xs:enumeration value="HTLC_SET_BLANK"/>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
 

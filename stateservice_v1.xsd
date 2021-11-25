@@ -35,6 +35,7 @@
       <xs:enumeration value="LOCKED"/>
       <xs:enumeration value="UNLOCKED"/>
       <xs:enumeration value="RPC_ACTIVE"/>
+      <xs:enumeration value="SERVER_ACTIVE"/>
       <xs:enumeration value="WAITING_TO_START"/>
     </xs:restriction>
   </xs:simpleType>

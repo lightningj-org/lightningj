@@ -116,6 +116,8 @@
     <xs:sequence>
       <xs:element name="msg" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="keyLoc" type="tns:KeyLocatorType" minOccurs="0"/>
+      <xs:element name="doubleHash" type="xs:boolean"/>
+      <xs:element name="compactSig" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 

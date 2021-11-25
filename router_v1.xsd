@@ -327,7 +327,9 @@
   </xs:complexType>
 
   <xs:complexType name="SettleEventType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="preimage" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="LinkFailEventType">

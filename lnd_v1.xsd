@@ -3,6 +3,8 @@
 
   <xs:element name="AMP" type="AMPType"/>
 
+  <xs:element name="AMPInvoiceState" type="AMPInvoiceStateType"/>
+
   <xs:element name="AMPRecord" type="AMPRecordType"/>
 
   <xs:element name="AbandonChannelRequest" type="AbandonChannelRequestType"/>
@@ -16,6 +18,12 @@
   <xs:element name="BakeMacaroonRequest" type="BakeMacaroonRequestType"/>
 
   <xs:element name="BakeMacaroonResponse" type="BakeMacaroonResponseType"/>
+
+  <xs:element name="BatchOpenChannel" type="BatchOpenChannelType"/>
+
+  <xs:element name="BatchOpenChannelRequest" type="BatchOpenChannelRequestType"/>
+
+  <xs:element name="BatchOpenChannelResponse" type="BatchOpenChannelResponseType"/>
 
   <xs:element name="Chain" type="ChainType"/>
 
@@ -69,6 +77,10 @@
 
   <xs:element name="ChannelUpdate" type="ChannelUpdateType"/>
 
+  <xs:element name="CheckMacPermRequest" type="CheckMacPermRequestType"/>
+
+  <xs:element name="CheckMacPermResponse" type="CheckMacPermResponseType"/>
+
   <xs:element name="CloseChannelRequest" type="CloseChannelRequestType"/>
 
   <xs:element name="CloseStatusUpdate" type="CloseStatusUpdateType"/>
@@ -85,6 +97,8 @@
 
   <xs:element name="ConnectPeerResponse" type="ConnectPeerResponseType"/>
 
+  <xs:element name="CustomMessage" type="CustomMessageType"/>
+
   <xs:element name="DebugLevelRequest" type="DebugLevelRequestType"/>
 
   <xs:element name="DebugLevelResponse" type="DebugLevelResponseType"/>
@@ -97,6 +111,10 @@
 
   <xs:element name="DeleteMacaroonIDResponse" type="DeleteMacaroonIDResponseType"/>
 
+  <xs:element name="DeletePaymentRequest" type="DeletePaymentRequestType"/>
+
+  <xs:element name="DeletePaymentResponse" type="DeletePaymentResponseType"/>
+
   <xs:element name="DisconnectPeerRequest" type="DisconnectPeerRequestType"/>
 
   <xs:element name="DisconnectPeerResponse" type="DisconnectPeerResponseType"/>
@@ -108,6 +126,8 @@
   <xs:element name="EstimateFeeResponse" type="EstimateFeeResponseType"/>
 
   <xs:element name="ExportChannelBackupRequest" type="ExportChannelBackupRequestType"/>
+
+  <xs:element name="FailedUpdate" type="FailedUpdateType"/>
 
   <xs:element name="Failure" type="FailureType"/>
 
@@ -161,6 +181,8 @@
 
   <xs:element name="HopHint" type="HopHintType"/>
 
+  <xs:element name="InterceptFeedback" type="InterceptFeedbackType"/>
+
   <xs:element name="Invoice" type="InvoiceType"/>
 
   <xs:element name="InvoiceHTLC" type="InvoiceHTLCType"/>
@@ -210,6 +232,8 @@
   <xs:element name="MacaroonPermission" type="MacaroonPermissionType"/>
 
   <xs:element name="MacaroonPermissionList" type="MacaroonPermissionListType"/>
+
+  <xs:element name="MiddlewareRegistration" type="MiddlewareRegistrationType"/>
 
   <xs:element name="MultiChanBackup" type="MultiChanBackupType"/>
 
@@ -275,6 +299,12 @@
 
   <xs:element name="QueryRoutesResponse" type="QueryRoutesResponseType"/>
 
+  <xs:element name="RPCMessage" type="RPCMessageType"/>
+
+  <xs:element name="RPCMiddlewareRequest" type="RPCMiddlewareRequestType"/>
+
+  <xs:element name="RPCMiddlewareResponse" type="RPCMiddlewareResponseType"/>
+
   <xs:element name="ReadyForPsbtFunding" type="ReadyForPsbtFundingType"/>
 
   <xs:element name="Resolution" type="ResolutionType"/>
@@ -293,6 +323,10 @@
 
   <xs:element name="SendCoinsResponse" type="SendCoinsResponseType"/>
 
+  <xs:element name="SendCustomMessageRequest" type="SendCustomMessageRequestType"/>
+
+  <xs:element name="SendCustomMessageResponse" type="SendCustomMessageResponseType"/>
+
   <xs:element name="SendManyRequest" type="SendManyRequestType"/>
 
   <xs:element name="SendManyResponse" type="SendManyResponseType"/>
@@ -303,6 +337,8 @@
 
   <xs:element name="SendToRouteRequest" type="SendToRouteRequestType"/>
 
+  <xs:element name="SetID" type="SetIDType"/>
+
   <xs:element name="SignMessageRequest" type="SignMessageRequestType"/>
 
   <xs:element name="SignMessageResponse" type="SignMessageResponseType"/>
@@ -310,6 +346,10 @@
   <xs:element name="StopRequest" type="StopRequestType"/>
 
   <xs:element name="StopResponse" type="StopResponseType"/>
+
+  <xs:element name="StreamAuth" type="StreamAuthType"/>
+
+  <xs:element name="SubscribeCustomMessagesRequest" type="SubscribeCustomMessagesRequestType"/>
 
   <xs:element name="TimestampedError" type="TimestampedErrorType"/>
 
@@ -330,6 +370,30 @@
   <xs:element name="WalletBalanceRequest" type="WalletBalanceRequestType"/>
 
   <xs:element name="WalletBalanceResponse" type="WalletBalanceResponseType"/>
+
+  <xs:complexType name="SubscribeCustomMessagesRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="CustomMessageType">
+    <xs:sequence>
+      <xs:element name="peer" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="type" type="xs:int"/>
+      <xs:element name="data" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendCustomMessageRequestType">
+    <xs:sequence>
+      <xs:element name="peer" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="type" type="xs:int"/>
+      <xs:element name="data" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SendCustomMessageResponseType">
+    <xs:all/>
+  </xs:complexType>
 
   <xs:complexType name="UtxoType">
     <xs:sequence>
@@ -527,6 +591,7 @@
       <xs:element name="csvDelay" type="xs:int"/>
       <xs:element name="maxAcceptedHtlcs" type="xs:int"/>
       <xs:element name="channelFlags" type="xs:int"/>
+      <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -677,6 +742,7 @@
   <xs:complexType name="SignMessageRequestType">
     <xs:sequence>
       <xs:element name="msg" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="singleHash" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -886,6 +952,7 @@
       </xs:element>
       <xs:element name="flapCount" type="xs:int"/>
       <xs:element name="lastFlapNs" type="xs:long"/>
+      <xs:element name="lastPingPayload" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1071,6 +1138,49 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="BatchOpenChannelRequestType">
+    <xs:sequence>
+      <xs:element name="channels" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="BatchOpenChannel" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="targetConf" type="xs:int"/>
+      <xs:element name="satPerVbyte" type="xs:long"/>
+      <xs:element name="minConfs" type="xs:int"/>
+      <xs:element name="spendUnconfirmed" type="xs:boolean"/>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BatchOpenChannelType">
+    <xs:sequence>
+      <xs:element name="nodePubkey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="localFundingAmount" type="xs:long"/>
+      <xs:element name="pushSat" type="xs:long"/>
+      <xs:element name="private" type="xs:boolean"/>
+      <xs:element name="minHtlcMsat" type="xs:long"/>
+      <xs:element name="remoteCsvDelay" type="xs:int"/>
+      <xs:element name="closeAddress" type="xs:string" minOccurs="0"/>
+      <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BatchOpenChannelResponseType">
+    <xs:sequence>
+      <xs:element name="pending_channels" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PendingUpdate" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="OpenChannelRequestType">
     <xs:sequence>
       <xs:element name="satPerVbyte" type="xs:long"/>
@@ -1090,6 +1200,7 @@
       <xs:element name="remoteMaxValueInFlightMsat" type="xs:long"/>
       <xs:element name="remoteMaxHtlcs" type="xs:int"/>
       <xs:element name="maxLocalCsv" type="xs:int"/>
+      <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1152,6 +1263,7 @@
     <xs:sequence>
       <xs:element name="fundedPsbt" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="skipFinalize" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1246,6 +1358,7 @@
       <xs:element name="remoteChanReserveSat" type="xs:long"/>
       <xs:element name="initiator" type="initiator" minOccurs="0"/>
       <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
+      <xs:element name="numForwardingPackages" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1305,6 +1418,7 @@
       <xs:element name="activeChannel" type="ChannelPointType" minOccurs="0"/>
       <xs:element name="inactiveChannel" type="ChannelPointType" minOccurs="0"/>
       <xs:element name="pendingOpenChannel" type="PendingUpdateType" minOccurs="0"/>
+      <xs:element name="fullyResolvedChannel" type="ChannelPointType" minOccurs="0"/>
       <xs:element name="type" type="updateType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
@@ -1735,6 +1849,21 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="SetIDType">
+    <xs:sequence>
+      <xs:element name="setId" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AMPInvoiceStateType">
+    <xs:sequence>
+      <xs:element name="state" type="invoiceHTLCState" minOccurs="0"/>
+      <xs:element name="settleIndex" type="xs:long"/>
+      <xs:element name="settleTime" type="xs:long"/>
+      <xs:element name="amtPaidMsat" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="InvoiceType">
     <xs:sequence>
       <xs:element name="memo" type="xs:string" minOccurs="0"/>
@@ -1775,6 +1904,7 @@
       <xs:element name="isKeysend" type="xs:boolean"/>
       <xs:element name="paymentAddr" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="isAmp" type="xs:boolean"/>
+      <xs:element name="ampInvoiceStateEntries" type="InvoiceAmpInvoiceStateEntriesType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1827,6 +1957,19 @@
     <xs:sequence>
       <xs:element name="key" type="xs:int"/>
       <xs:element name="value" type="FeatureType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InvoiceAmpInvoiceStateEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="InvoiceAmpInvoiceStateEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InvoiceAmpInvoiceStateEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="AMPInvoiceStateType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1967,11 +2110,22 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="DeletePaymentRequestType">
+    <xs:sequence>
+      <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="failedHtlcsOnly" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="DeleteAllPaymentsRequestType">
     <xs:sequence>
       <xs:element name="failedPaymentsOnly" type="xs:boolean"/>
       <xs:element name="failedHtlcsOnly" type="xs:boolean"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DeletePaymentResponseType">
+    <xs:all/>
   </xs:complexType>
 
   <xs:complexType name="DeleteAllPaymentsResponseType">
@@ -2088,8 +2242,24 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="FailedUpdateType">
+    <xs:sequence>
+      <xs:element name="outpoint" type="OutPointType" minOccurs="0"/>
+      <xs:element name="reason" type="updateFailure" minOccurs="0"/>
+      <xs:element name="updateError" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="PolicyUpdateResponseType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="failed_updates" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="FailedUpdate" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ForwardingHistoryRequestType">
@@ -2214,6 +2384,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="rootKeyId" type="xs:long"/>
+      <xs:element name="allowExternalPermissions" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2313,6 +2484,77 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="CheckMacPermRequestType">
+    <xs:sequence>
+      <xs:element name="macaroon" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="permissions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="MacaroonPermission" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="fullMethod" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CheckMacPermResponseType">
+    <xs:sequence>
+      <xs:element name="valid" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RPCMiddlewareRequestType">
+    <xs:sequence>
+      <xs:element name="requestId" type="xs:long"/>
+      <xs:element name="rawMacaroon" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="customCaveatCondition" type="xs:string" minOccurs="0"/>
+      <xs:element name="streamAuth" type="StreamAuthType" minOccurs="0"/>
+      <xs:element name="request" type="RPCMessageType" minOccurs="0"/>
+      <xs:element name="response" type="RPCMessageType" minOccurs="0"/>
+      <xs:element name="msgId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="StreamAuthType">
+    <xs:sequence>
+      <xs:element name="methodFullUri" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RPCMessageType">
+    <xs:sequence>
+      <xs:element name="methodFullUri" type="xs:string" minOccurs="0"/>
+      <xs:element name="streamRpc" type="xs:boolean"/>
+      <xs:element name="typeName" type="xs:string" minOccurs="0"/>
+      <xs:element name="serialized" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RPCMiddlewareResponseType">
+    <xs:sequence>
+      <xs:element name="refMsgId" type="xs:long"/>
+      <xs:element name="register" type="MiddlewareRegistrationType" minOccurs="0"/>
+      <xs:element name="feedback" type="InterceptFeedbackType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MiddlewareRegistrationType">
+    <xs:sequence>
+      <xs:element name="middlewareName" type="xs:string" minOccurs="0"/>
+      <xs:element name="customMacaroonCaveatName" type="xs:string" minOccurs="0"/>
+      <xs:element name="readOnlyMode" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InterceptFeedbackType">
+    <xs:sequence>
+      <xs:element name="error" type="xs:string" minOccurs="0"/>
+      <xs:element name="replaceResponse" type="xs:boolean"/>
+      <xs:element name="replacementSerialized" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:simpleType name="addressType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="WITNESS_PUBKEY_HASH"/>
@@ -2354,10 +2596,11 @@
 
   <xs:simpleType name="commitmentType">
     <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN_COMMITMENT_TYPE"/>
       <xs:enumeration value="LEGACY"/>
       <xs:enumeration value="STATIC_REMOTE_KEY"/>
       <xs:enumeration value="ANCHORS"/>
-      <xs:enumeration value="UNKNOWN_COMMITMENT_TYPE"/>
+      <xs:enumeration value="SCRIPT_ENFORCED_LEASE"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -2433,6 +2676,7 @@
       <xs:enumeration value="ACTIVE_CHANNEL"/>
       <xs:enumeration value="INACTIVE_CHANNEL"/>
       <xs:enumeration value="PENDING_OPEN_CHANNEL"/>
+      <xs:enumeration value="FULLY_RESOLVED_CHANNEL"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -2443,20 +2687,20 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="invoiceHTLCState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ACCEPTED"/>
+      <xs:enumeration value="SETTLED"/>
+      <xs:enumeration value="CANCELED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="invoiceState">
     <xs:restriction base="xs:string">
       <xs:enumeration value="OPEN"/>
       <xs:enumeration value="SETTLED"/>
       <xs:enumeration value="CANCELED"/>
       <xs:enumeration value="ACCEPTED"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:simpleType name="invoiceHTLCState">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="ACCEPTED"/>
-      <xs:enumeration value="SETTLED"/>
-      <xs:enumeration value="CANCELED"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -2518,6 +2762,16 @@
       <xs:enumeration value="FAILURE_REASON_ERROR"/>
       <xs:enumeration value="FAILURE_REASON_INCORRECT_PAYMENT_DETAILS"/>
       <xs:enumeration value="FAILURE_REASON_INSUFFICIENT_BALANCE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="updateFailure">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UPDATE_FAILURE_UNKNOWN"/>
+      <xs:enumeration value="UPDATE_FAILURE_PENDING"/>
+      <xs:enumeration value="UPDATE_FAILURE_NOT_FOUND"/>
+      <xs:enumeration value="UPDATE_FAILURE_INTERNAL_ERR"/>
+      <xs:enumeration value="UPDATE_FAILURE_INVALID_PARAMETER"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>
