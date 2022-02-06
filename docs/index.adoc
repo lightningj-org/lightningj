@@ -41,6 +41,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.14.2-Beta    : Generated against LND 0.14.2 API
 * 0.14.1-Beta    : Generated against LND 0.14.0 and 0.14.1 API
 * 0.13.1-Beta    : Generated against LND 0.13.1, 0.13.2, 0.13.3 API, Updated GRPC dependencies to latest versions. Tested that
                    it works with LND 0.13.3.
