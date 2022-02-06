@@ -77,6 +77,10 @@
 
   <xs:element name="SendOutputsResponse" type="tns:SendOutputsResponseType"/>
 
+  <xs:element name="SignPsbtRequest" type="tns:SignPsbtRequestType"/>
+
+  <xs:element name="SignPsbtResponse" type="tns:SignPsbtResponseType"/>
+
   <xs:element name="Transaction" type="tns:TransactionType"/>
 
   <xs:element name="TxTemplate" type="tns:TxTemplateType"/>
@@ -409,6 +413,18 @@
       <xs:element name="id" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="outpoint" type="OutPointType" minOccurs="0"/>
       <xs:element name="expiration" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignPsbtRequestType">
+    <xs:sequence>
+      <xs:element name="fundedPsbt" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignPsbtResponseType">
+    <xs:sequence>
+      <xs:element name="signedPsbt" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 

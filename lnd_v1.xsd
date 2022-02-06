@@ -1359,6 +1359,7 @@
       <xs:element name="initiator" type="initiator" minOccurs="0"/>
       <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
       <xs:element name="numForwardingPackages" type="xs:long"/>
+      <xs:element name="chanStatusFlags" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1393,6 +1394,7 @@
       <xs:element name="channel" type="PendingChannelsResponsePendingChannelType" minOccurs="0"/>
       <xs:element name="limboBalance" type="xs:long"/>
       <xs:element name="commitments" type="PendingChannelsResponseCommitmentsType" minOccurs="0"/>
+      <xs:element name="closingTxid" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2235,6 +2237,7 @@
       <xs:element name="chanPoint" type="ChannelPointType" minOccurs="0"/>
       <xs:element name="baseFeeMsat" type="xs:long"/>
       <xs:element name="feeRate" type="xs:double"/>
+      <xs:element name="feeRatePpm" type="xs:int"/>
       <xs:element name="timeLockDelta" type="xs:int"/>
       <xs:element name="maxHtlcMsat" type="xs:long"/>
       <xs:element name="minHtlcMsat" type="xs:long"/>

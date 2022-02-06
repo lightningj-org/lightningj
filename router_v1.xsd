@@ -214,6 +214,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="force" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
