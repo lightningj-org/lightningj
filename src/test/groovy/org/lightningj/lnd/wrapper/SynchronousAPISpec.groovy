@@ -68,8 +68,8 @@ class SynchronousAPISpec extends Specification {
         !result.hasNext()
         r1.totalBalance == 3213L
         r2.totalBalance == 4213L
-        1 * api.log.fine('Received response message: WalletBalanceResponse: \n{\n    "totalBalance": 3213,\n    "confirmedBalance": 0,\n    "unconfirmedBalance": 0,\n    "accountBalance": [\n    ]\n}')
-        1 * api.log.fine('Received response message: WalletBalanceResponse: \n{\n    "totalBalance": 4213,\n    "confirmedBalance": 0,\n    "unconfirmedBalance": 0,\n    "accountBalance": [\n    ]\n}')
+        1 * api.log.fine( {it =~'Received response message: WalletBalanceResponse: '})
+        1 * api.log.fine( { it =~ 'Received response message: WalletBalanceResponse: '})
     }
 
     private LightningApi.WalletBalanceResponse genWalletBalanceResponseApi(long totalValue){
