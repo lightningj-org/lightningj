@@ -58,7 +58,7 @@ class StreamObserverWrapperSpec extends Specification {
        then:
        1 * streamObserverMock.onNext(_ as WalletBalanceResponse) >> {WalletBalanceResponse w ->
            assert w.getConfirmedBalance() ==  123L}
-       1 * sow.log.fine('Received streamed message: WalletBalanceResponse: \n{\n    "totalBalance": 0,\n    "confirmedBalance": 123,\n    "unconfirmedBalance": 0,\n    "accountBalance": [\n    ]\n}')
+       1 * sow.log.fine({ it =~'Received streamed message: WalletBalanceResponse: ' })
    }
 
    def "Verify that if performValidation is false is not validate() called on converted message"(){
