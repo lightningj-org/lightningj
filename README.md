@@ -8,4 +8,6 @@ For documentation see docs/index.adoc or the project web-site at
 http://www.lightningj.org
 
 
-Build status Master branch: [![Build Status](https://travis-ci.org/lightningj-org/lightningj.svg?branch=master)](https://travis-ci.org/lightningj-org/lightningj)
+Build status Master JDK 8: ![JDK 8 Build Status](https://github.com/lightningj-org/lightningj/actions/workflows/test_jdk8.yml/badge.svg?branch=master)
+
+Build status Master JDK 11: ![JDK 11 Build Status](https://github.com/lightningj-org/lightningj/actions/workflows/test_jdk11.yml/badge.svg?branch=master)
