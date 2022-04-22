@@ -1441,6 +1441,7 @@
       <xs:element name="totalBalance" type="xs:long"/>
       <xs:element name="confirmedBalance" type="xs:long"/>
       <xs:element name="unconfirmedBalance" type="xs:long"/>
+      <xs:element name="lockedBalance" type="xs:long"/>
       <xs:element name="accountBalanceEntries" type="WalletBalanceResponseAccountBalanceEntriesType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
