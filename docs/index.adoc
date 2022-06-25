@@ -41,6 +41,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.15.0-Beta    : Generated against LND 0.15.0 API, Added Dev, Peers and Neutrino RPC APIs.
 * 0.14.3-Beta    : Generated against LND 0.14.3 API
 * 0.14.2-Beta    : Generated against LND 0.14.2 API
 * 0.14.1-Beta    : Generated against LND 0.14.0 and 0.14.1 API
@@ -390,12 +391,29 @@ Starting from 0.6.0 there are several different APIs to the different services.
 | org.lightningj.lnd.wrapper.verrpc.AsynchronousVersionerAPI
 | 0.10-Beta-rc2
 
+| Peers API
+| Contains methods for the peers (peerrpc) service.
+| org.lightningj.lnd.wrapper.peers.SynchronousPeersAPI
+| org.lightningj.lnd.wrapper.peers.AsynchronousPeersAPI
+| 0.15.0-Beta
+
+| Neutrino API
+| Contains methods for the neutrino (neutrinrpc) service.
+| org.lightningj.lnd.wrapper.neutrino.SynchronousNeutrinoAPI
+| org.lightningj.lnd.wrapper.neutrino.AsynchronousNeutrinoAPI
+| 0.15.0-Beta
+
+| Dev API
+| Contains methods for the dev (devrpc) service.
+| org.lightningj.lnd.wrapper.dev.SynchronousDevAPI
+| org.lightningj.lnd.wrapper.dev.AsynchronousDevAPI
+| 0.15.0-Beta
 
 |===
 
 === Json Conversion
 
-The libarary uses the JSR 374 javax.json api to generate and parse JSON.
+The library uses the JSR 374 javax.json api to generate and parse JSON.
 
 To convert between JSON and High Level API object is pretty straight forward as shown
 in following example:
@@ -542,6 +560,28 @@ XSD.
 | http://lightningj.org/xsd/walletkit_1_0
 | link:walletkit_v1.xsd[walletkit_v1.xsd]
 | 0.6-Beta-rc1
+
+| Peers API
+| Contains methods for the peers service.
+| peers:
+| http://lightningj.org/xsd/peers_1_0
+| link:peers_v1.xsd[peers_v1.xsd]
+| 0.15.0-Beta
+
+| Neutrino API
+| Contains methods for the neutrino service.
+| peers:
+| http://lightningj.org/xsd/neutrino_1_0
+| link:neutrino_v1.xsd[neutrino_v1.xsd]
+| 0.15.0-Beta
+
+| Dev API
+| Contains methods for the dev service.
+| peers:
+| http://lightningj.org/xsd/dev_1_0
+| link:dev_v1.xsd[dev_v1.xsd]
+| 0.15.0-Beta
+
 
 |===
 

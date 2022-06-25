@@ -14,8 +14,6 @@
 package org.lightningj.lnd.wrapper.invoices
 
 import io.grpc.ManagedChannel
-import org.lightningj.lnd.wrapper.chainnotifier.AsynchronousChainNotifierAPI
-import org.lightningj.lnd.wrapper.chainnotifier.SynchronousChainNotifierAPI
 import spock.lang.Specification
 
 /**

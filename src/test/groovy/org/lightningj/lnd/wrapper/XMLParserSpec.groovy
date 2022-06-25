@@ -23,6 +23,9 @@ import org.lightningj.lnd.wrapper.message.ListInvoiceResponse
 import org.lightningj.lnd.wrapper.message.NewAddressRequest
 import org.lightningj.lnd.wrapper.message.RouteHint
 import org.lightningj.lnd.wrapper.message.SendManyRequest
+import org.lightningj.lnd.wrapper.neutrino.message.AddPeerRequest
+import org.lightningj.lnd.wrapper.peers.message.UpdateAction
+import org.lightningj.lnd.wrapper.peers.message.UpdateAddressAction
 import org.lightningj.lnd.wrapper.router.message.RouteFeeRequest
 import org.lightningj.lnd.wrapper.signer.message.SignReq
 import org.lightningj.lnd.wrapper.signer.message.TxOut
@@ -32,6 +35,7 @@ import org.lightningj.lnd.wrapper.walletunlocker.message.GenSeedRequest
 import org.lightningj.lnd.wrapper.watchtower.message.GetInfoRequest
 import org.lightningj.lnd.wrapper.wtclient.message.ListTowersRequest
 import org.lightningj.lnd.wrapper.stateservice.message.GetStateRequest
+import org.lightningj.lnd.wrapper.dev.message.ImportGraphResponse
 import spock.lang.Specification
 
 import javax.xml.bind.UnmarshalException
@@ -223,7 +227,7 @@ class XMLParserSpec extends Specification {
 
     }
 
-    def "Verify that it possibel to marshall and unmarshall a stateservice message"(){
+    def "Verify that it possible to marshall and unmarshall a stateservice message"(){
         when:
         byte[] result = parser.marshall(new GetStateRequest(),true)
         String xmlData = new String(result,"UTF-8")
@@ -235,6 +239,53 @@ class XMLParserSpec extends Specification {
         GetStateRequest request = parser.unmarshall(result)
         then:
         request != null
+    }
+
+    def "Verify that it possible to marshall and unmarshall a dev message"(){
+        when:
+        byte[] result = parser.marshall(new ImportGraphResponse(),true)
+        String xmlData = new String(result,"UTF-8")
+        println xmlData
+        then:
+        xmlData == importGraphResponse
+
+        when:
+        ImportGraphResponse request = parser.unmarshall(result)
+        then:
+        request != null
+    }
+
+    def "Verify that it possible to marshall and unmarshall a peers message"(){
+        when:
+        def uaa = new UpdateAddressAction()
+        uaa.setAction(UpdateAction.ADD)
+        uaa.setAddress("someAddress")
+        byte[] result = parser.marshall(uaa,true)
+        String xmlData = new String(result,"UTF-8")
+        println xmlData
+        then:
+        xmlData == updateAddressAction
+
+        when:
+        UpdateAddressAction request = parser.unmarshall(result)
+        then:
+        request.getAction() == UpdateAction.ADD
+    }
+
+    def "Verify that it possible to marshall and unmarshall a neutrino message"(){
+        when:
+        def apr = new AddPeerRequest()
+        apr.setPeerAddrs("someAddress")
+        byte[] result = parser.marshall(apr,true)
+        String xmlData = new String(result,"UTF-8")
+        println xmlData
+        then:
+        xmlData == addPeerRequest
+
+        when:
+        AddPeerRequest request = parser.unmarshall(result)
+        then:
+        request.getPeerAddrs() == "someAddress"
     }
 
     def "Verify that unmarshall returns a valid Message Object for XML containing Map"(){
@@ -251,7 +302,6 @@ class XMLParserSpec extends Specification {
         String xmlData = new String(result,"UTF-8")
         then:
         xmlData == newAddressRequestXML
-
     }
 
     def "Verify unmarshall returns a valid Message Object for XML containing enum"(){
@@ -403,10 +453,10 @@ class XMLParserSpec extends Specification {
         return retval
     }
 
-    def invoiceXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ListInvoiceResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"><invoices><Invoice><memo>memo1</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeysend>false</isKeysend><paymentAddr></paymentAddr><isAmp>false</isAmp><ampInvoiceStateEntries/></Invoice><Invoice><memo>memo2</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeysend>false</isKeysend><paymentAddr></paymentAddr><isAmp>false</isAmp><ampInvoiceStateEntries/></Invoice><Invoice><memo>memo3</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeysend>false</isKeysend><paymentAddr></paymentAddr><isAmp>false</isAmp><ampInvoiceStateEntries/></Invoice></invoices><lastIndexOffset>0</lastIndexOffset><firstIndexOffset>0</firstIndexOffset></ListInvoiceResponse>"""
+    def invoiceXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ListInvoiceResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"><invoices><Invoice><memo>memo1</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeysend>false</isKeysend><paymentAddr></paymentAddr><isAmp>false</isAmp><ampInvoiceStateEntries/></Invoice><Invoice><memo>memo2</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeysend>false</isKeysend><paymentAddr></paymentAddr><isAmp>false</isAmp><ampInvoiceStateEntries/></Invoice><Invoice><memo>memo3</memo><RPreimage>U29tZVJQcmVpbWFnZQ==</RPreimage><RHash>U29tZVJIYXNo</RHash><value>12345</value><valueMsat>0</valueMsat><settled>false</settled><creationDate>87637234234</creationDate><settleDate>0</settleDate><paymentRequest></paymentRequest><descriptionHash></descriptionHash><expiry>0</expiry><fallbackAddr></fallbackAddr><cltvExpiry>0</cltvExpiry><route_hints/><private>false</private><addIndex>0</addIndex><settleIndex>0</settleIndex><amtPaid>0</amtPaid><amtPaidSat>0</amtPaidSat><amtPaidMsat>0</amtPaidMsat><state>OPEN</state><htlcs/><featuresEntries/><isKeysend>false</isKeysend><paymentAddr></paymentAddr><isAmp>false</isAmp><ampInvoiceStateEntries/></Invoice></invoices><lastIndexOffset>0</lastIndexOffset><firstIndexOffset>0</firstIndexOffset></ListInvoiceResponse>"""
 
     def prettyPrintedInvoiceXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ListInvoiceResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<ListInvoiceResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <invoices>
         <Invoice>
             <memo>memo1</memo>
@@ -502,7 +552,7 @@ class XMLParserSpec extends Specification {
 """
 
     def sendManyRequestXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<SendManyRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<SendManyRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <addrToAmountEntries>
         <entry>
             <key>SomeKey</key>
@@ -522,7 +572,7 @@ class XMLParserSpec extends Specification {
 </SendManyRequest>
 """
     def newAddressRequestXML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<NewAddressRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<NewAddressRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <type>NESTED_PUBKEY_HASH</type>
     <account></account>
 </NewAddressRequest>
@@ -537,20 +587,20 @@ class XMLParserSpec extends Specification {
     def badxml = "<sd>"
 
     def autoEnrollStatusResponse = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<autopilot:StatusResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<autopilot:StatusResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <autopilot:active>true</autopilot:active>
 </autopilot:StatusResponse>
 """
 
     def chainNotifierBlockEpoch = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<chainnotifier:BlockEpoch xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<chainnotifier:BlockEpoch xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <chainnotifier:hash>YWJj</chainnotifier:hash>
     <chainnotifier:height>123</chainnotifier:height>
 </chainnotifier:BlockEpoch>
 """
 
     def invoicesAddHoldInvoiceRequest = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<invoices:AddHoldInvoiceRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<invoices:AddHoldInvoiceRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <invoices:memo></invoices:memo>
     <invoices:hash></invoices:hash>
     <invoices:value>123</invoices:value>
@@ -584,21 +634,22 @@ class XMLParserSpec extends Specification {
 """
 
     def routerRouteFeeRequest = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<router:RouteFeeRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<router:RouteFeeRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <router:dest>YWJj</router:dest>
     <router:amtSat>1000</router:amtSat>
 </router:RouteFeeRequest>
 """
 
     def signerSignReq = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<signer:SignReq xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<signer:SignReq xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <signer:rawTxBytes>YWJj</signer:rawTxBytes>
     <signer:sign_descs/>
+    <signer:prev_outputs/>
 </signer:SignReq>
 """
 
     def walletkitSendOutputsRequest = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<walletkit:SendOutputsRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<walletkit:SendOutputsRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <walletkit:satPerKw>10</walletkit:satPerKw>
     <walletkit:outputs>
         <walletkit:TxOut>
@@ -617,27 +668,44 @@ class XMLParserSpec extends Specification {
 """
 
     def watchtowerRequest = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<watchtower:GetInfoRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"/>
+<watchtower:GetInfoRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"/>
 """
 
     def wtClientRequest = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<wtclient:ListTowersRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<wtclient:ListTowersRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <wtclient:includeSessions>true</wtclient:includeSessions>
 </wtclient:ListTowersRequest>
 """
 
     def verRpcRequest = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<verrpc:VersionRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"/>
+<verrpc:VersionRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"/>
 """
 
     def genSeedRequest = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<walletunlocker:GenSeedRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+<walletunlocker:GenSeedRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
     <walletunlocker:aezeedPassphrase>Zm9vMTIz</walletunlocker:aezeedPassphrase>
     <walletunlocker:seedEntropy>YWJj</walletunlocker:seedEntropy>
 </walletunlocker:GenSeedRequest>
 """
 
     def getStateRequest = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stateservice:GetStateRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"/>
+<stateservice:GetStateRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"/>
+"""
+
+    def importGraphResponse = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dev:ImportGraphResponse xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0"/>
+"""
+
+    def updateAddressAction = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<peers:UpdateAddressAction xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+    <peers:action>ADD</peers:action>
+    <peers:address>someAddress</peers:address>
+</peers:UpdateAddressAction>
+"""
+
+    def addPeerRequest = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<neutrino:AddPeerRequest xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0">
+    <neutrino:peerAddrs>someAddress</neutrino:peerAddrs>
+</neutrino:AddPeerRequest>
 """
 }
