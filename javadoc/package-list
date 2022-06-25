@@ -1,6 +1,9 @@
 org.lightningj.lnd.autopilot.proto
 org.lightningj.lnd.chainnotifier.proto
+org.lightningj.lnd.dev.proto
 org.lightningj.lnd.invoices.proto
+org.lightningj.lnd.neutrino.proto
+org.lightningj.lnd.peers.proto
 org.lightningj.lnd.proto
 org.lightningj.lnd.router.proto
 org.lightningj.lnd.signer.proto
@@ -15,9 +18,15 @@ org.lightningj.lnd.wrapper.autopilot
 org.lightningj.lnd.wrapper.autopilot.message
 org.lightningj.lnd.wrapper.chainnotifier
 org.lightningj.lnd.wrapper.chainnotifier.message
+org.lightningj.lnd.wrapper.dev
+org.lightningj.lnd.wrapper.dev.message
 org.lightningj.lnd.wrapper.invoices
 org.lightningj.lnd.wrapper.invoices.message
 org.lightningj.lnd.wrapper.message
+org.lightningj.lnd.wrapper.neutrino
+org.lightningj.lnd.wrapper.neutrino.message
+org.lightningj.lnd.wrapper.peers
+org.lightningj.lnd.wrapper.peers.message
 org.lightningj.lnd.wrapper.router
 org.lightningj.lnd.wrapper.router.message
 org.lightningj.lnd.wrapper.signer

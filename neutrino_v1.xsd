@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/neutrino_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/neutrino_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+
+  <xs:element name="AddPeerRequest" type="tns:AddPeerRequestType"/>
+
+  <xs:element name="AddPeerResponse" type="tns:AddPeerResponseType"/>
+
+  <xs:element name="DisconnectPeerRequest" type="tns:DisconnectPeerRequestType"/>
+
+  <xs:element name="DisconnectPeerResponse" type="tns:DisconnectPeerResponseType"/>
+
+  <xs:element name="GetBlockHeaderRequest" type="tns:GetBlockHeaderRequestType"/>
+
+  <xs:element name="GetBlockHeaderResponse" type="tns:GetBlockHeaderResponseType"/>
+
+  <xs:element name="GetBlockRequest" type="tns:GetBlockRequestType"/>
+
+  <xs:element name="GetBlockResponse" type="tns:GetBlockResponseType"/>
+
+  <xs:element name="GetCFilterRequest" type="tns:GetCFilterRequestType"/>
+
+  <xs:element name="GetCFilterResponse" type="tns:GetCFilterResponseType"/>
+
+  <xs:element name="IsBannedRequest" type="tns:IsBannedRequestType"/>
+
+  <xs:element name="IsBannedResponse" type="tns:IsBannedResponseType"/>
+
+  <xs:element name="StatusRequest" type="tns:StatusRequestType"/>
+
+  <xs:element name="StatusResponse" type="tns:StatusResponseType"/>
+
+  <xs:complexType name="StatusRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="StatusResponseType">
+    <xs:sequence>
+      <xs:element name="active" type="xs:boolean"/>
+      <xs:element name="synced" type="xs:boolean"/>
+      <xs:element name="blockHeight" type="xs:int"/>
+      <xs:element name="blockHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="peers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="peers" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AddPeerRequestType">
+    <xs:sequence>
+      <xs:element name="peerAddrs" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AddPeerResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="DisconnectPeerRequestType">
+    <xs:sequence>
+      <xs:element name="peerAddrs" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DisconnectPeerResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="IsBannedRequestType">
+    <xs:sequence>
+      <xs:element name="peerAddrs" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="IsBannedResponseType">
+    <xs:sequence>
+      <xs:element name="banned" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetBlockHeaderRequestType">
+    <xs:sequence>
+      <xs:element name="hash" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetBlockHeaderResponseType">
+    <xs:sequence>
+      <xs:element name="hash" type="xs:string" minOccurs="0"/>
+      <xs:element name="confirmations" type="xs:long"/>
+      <xs:element name="strippedSize" type="xs:long"/>
+      <xs:element name="size" type="xs:long"/>
+      <xs:element name="weight" type="xs:long"/>
+      <xs:element name="height" type="xs:int"/>
+      <xs:element name="version" type="xs:int"/>
+      <xs:element name="versionHex" type="xs:string" minOccurs="0"/>
+      <xs:element name="merkleroot" type="xs:string" minOccurs="0"/>
+      <xs:element name="time" type="xs:long"/>
+      <xs:element name="nonce" type="xs:int"/>
+      <xs:element name="bits" type="xs:string" minOccurs="0"/>
+      <xs:element name="ntx" type="xs:int"/>
+      <xs:element name="previousBlockHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="rawHex" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetBlockRequestType">
+    <xs:sequence>
+      <xs:element name="hash" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetBlockResponseType">
+    <xs:sequence>
+      <xs:element name="hash" type="xs:string" minOccurs="0"/>
+      <xs:element name="confirmations" type="xs:long"/>
+      <xs:element name="strippedSize" type="xs:long"/>
+      <xs:element name="size" type="xs:long"/>
+      <xs:element name="weight" type="xs:long"/>
+      <xs:element name="height" type="xs:int"/>
+      <xs:element name="version" type="xs:int"/>
+      <xs:element name="versionHex" type="xs:string" minOccurs="0"/>
+      <xs:element name="merkleroot" type="xs:string" minOccurs="0"/>
+      <xs:element name="tx" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="tx" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="time" type="xs:long"/>
+      <xs:element name="nonce" type="xs:int"/>
+      <xs:element name="bits" type="xs:string" minOccurs="0"/>
+      <xs:element name="ntx" type="xs:int"/>
+      <xs:element name="previousBlockHash" type="xs:string" minOccurs="0"/>
+      <xs:element name="rawHex" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetCFilterRequestType">
+    <xs:sequence>
+      <xs:element name="hash" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetCFilterResponseType">
+    <xs:sequence>
+      <xs:element name="filter" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

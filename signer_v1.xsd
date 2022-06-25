@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/signer_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/signer_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/signer_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/signer_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:element name="InputScript" type="tns:InputScriptType"/>
 
@@ -8,6 +8,30 @@
   <xs:element name="KeyDescriptor" type="tns:KeyDescriptorType"/>
 
   <xs:element name="KeyLocator" type="tns:KeyLocatorType"/>
+
+  <xs:element name="MuSig2CleanupRequest" type="tns:MuSig2CleanupRequestType"/>
+
+  <xs:element name="MuSig2CleanupResponse" type="tns:MuSig2CleanupResponseType"/>
+
+  <xs:element name="MuSig2CombineKeysRequest" type="tns:MuSig2CombineKeysRequestType"/>
+
+  <xs:element name="MuSig2CombineKeysResponse" type="tns:MuSig2CombineKeysResponseType"/>
+
+  <xs:element name="MuSig2CombineSigRequest" type="tns:MuSig2CombineSigRequestType"/>
+
+  <xs:element name="MuSig2CombineSigResponse" type="tns:MuSig2CombineSigResponseType"/>
+
+  <xs:element name="MuSig2RegisterNoncesRequest" type="tns:MuSig2RegisterNoncesRequestType"/>
+
+  <xs:element name="MuSig2RegisterNoncesResponse" type="tns:MuSig2RegisterNoncesResponseType"/>
+
+  <xs:element name="MuSig2SessionRequest" type="tns:MuSig2SessionRequestType"/>
+
+  <xs:element name="MuSig2SessionResponse" type="tns:MuSig2SessionResponseType"/>
+
+  <xs:element name="MuSig2SignRequest" type="tns:MuSig2SignRequestType"/>
+
+  <xs:element name="MuSig2SignResponse" type="tns:MuSig2SignResponseType"/>
 
   <xs:element name="SharedKeyRequest" type="tns:SharedKeyRequestType"/>
 
@@ -22,6 +46,10 @@
   <xs:element name="SignReq" type="tns:SignReqType"/>
 
   <xs:element name="SignResp" type="tns:SignRespType"/>
+
+  <xs:element name="TaprootTweakDesc" type="tns:TaprootTweakDescType"/>
+
+  <xs:element name="TweakDesc" type="tns:TweakDescType"/>
 
   <xs:element name="TxOut" type="tns:TxOutType"/>
 
@@ -55,10 +83,12 @@
       <xs:element name="keyDesc" type="tns:KeyDescriptorType" minOccurs="0"/>
       <xs:element name="singleTweak" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="doubleTweak" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="tapTweak" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="witnessScript" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="output" type="tns:TxOutType" minOccurs="0"/>
       <xs:element name="sighash" type="xs:int"/>
       <xs:element name="inputIndex" type="xs:int"/>
+      <xs:element name="signMethod" type="tns:signMethod" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -69,6 +99,13 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element ref="tns:SignDescriptor" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="prev_outputs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:TxOut" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -154,5 +191,156 @@
       <xs:element name="sharedKey" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:complexType name="TweakDescType">
+    <xs:sequence>
+      <xs:element name="tweak" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="isXOnly" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TaprootTweakDescType">
+    <xs:sequence>
+      <xs:element name="scriptRoot" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="keySpendOnly" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2CombineKeysRequestType">
+    <xs:sequence>
+      <xs:element name="all_signer_pubkeys" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="allSignerPubkeys" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="tweaks" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:TweakDesc" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="taprootTweak" type="tns:TaprootTweakDescType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2CombineKeysResponseType">
+    <xs:sequence>
+      <xs:element name="combinedKey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="taprootInternalKey" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2SessionRequestType">
+    <xs:sequence>
+      <xs:element name="keyLoc" type="tns:KeyLocatorType" minOccurs="0"/>
+      <xs:element name="all_signer_pubkeys" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="allSignerPubkeys" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="other_signer_public_nonces" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="otherSignerPublicNonces" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="tweaks" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:TweakDesc" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="taprootTweak" type="tns:TaprootTweakDescType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2SessionResponseType">
+    <xs:sequence>
+      <xs:element name="sessionId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="combinedKey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="taprootInternalKey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="localPublicNonces" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="haveAllNonces" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2RegisterNoncesRequestType">
+    <xs:sequence>
+      <xs:element name="sessionId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="other_signer_public_nonces" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="otherSignerPublicNonces" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2RegisterNoncesResponseType">
+    <xs:sequence>
+      <xs:element name="haveAllNonces" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2SignRequestType">
+    <xs:sequence>
+      <xs:element name="sessionId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="messageDigest" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="cleanup" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2SignResponseType">
+    <xs:sequence>
+      <xs:element name="localPartialSignature" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2CombineSigRequestType">
+    <xs:sequence>
+      <xs:element name="sessionId" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="other_partial_signatures" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="otherPartialSignatures" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2CombineSigResponseType">
+    <xs:sequence>
+      <xs:element name="haveAllSignatures" type="xs:boolean"/>
+      <xs:element name="finalSignature" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2CleanupRequestType">
+    <xs:sequence>
+      <xs:element name="sessionId" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MuSig2CleanupResponseType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:simpleType name="signMethod">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SIGN_METHOD_WITNESS_V0"/>
+      <xs:enumeration value="SIGN_METHOD_TAPROOT_KEY_SPEND_BIP0086"/>
+      <xs:enumeration value="SIGN_METHOD_TAPROOT_KEY_SPEND"/>
+      <xs:enumeration value="SIGN_METHOD_TAPROOT_SCRIPT_SPEND"/>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
 

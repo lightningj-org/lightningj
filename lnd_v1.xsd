@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://lightningj.org/xsd/lndjapi_1_0" xmlns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:verrpc="http://lightningj.org/xsd/verrpc_1_0" xmlns:chainnotifier="http://lightningj.org/xsd/chainnotifier_1_0" xmlns:autopilot="http://lightningj.org/xsd/autopilot_1_0" xmlns:peers="http://lightningj.org/xsd/peers_1_0" xmlns:watchtower="http://lightningj.org/xsd/watchtower_1_0" xmlns:walletkit="http://lightningj.org/xsd/walletkit_1_0" xmlns:router="http://lightningj.org/xsd/router_1_0" xmlns:dev="http://lightningj.org/xsd/dev_1_0" xmlns:invoices="http://lightningj.org/xsd/invoices_1_0" xmlns:tns="http://lightningj.org/xsd/lndjapi_1_0" xmlns:wtclient="http://lightningj.org/xsd/wtclient_1_0" xmlns:stateservice="http://lightningj.org/xsd/stateservice_1_0" xmlns:neutrino="http://lightningj.org/xsd/neutrino_1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:walletunlocker="http://lightningj.org/xsd/walletunlocker_1_0" xmlns:signer="http://lightningj.org/xsd/signer_1_0">
 
   <xs:element name="AMP" type="AMPType"/>
 
@@ -267,6 +267,8 @@
 
   <xs:element name="OutPoint" type="OutPointType"/>
 
+  <xs:element name="OutputDetail" type="OutputDetailType"/>
+
   <xs:element name="PayReq" type="PayReqType"/>
 
   <xs:element name="PayReqString" type="PayReqStringType"/>
@@ -414,6 +416,17 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="OutputDetailType">
+    <xs:sequence>
+      <xs:element name="outputType" type="outputScriptType" minOccurs="0"/>
+      <xs:element name="address" type="xs:string" minOccurs="0"/>
+      <xs:element name="pkScript" type="xs:string" minOccurs="0"/>
+      <xs:element name="outputIndex" type="xs:long"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="isOurAddress" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="TransactionType">
     <xs:sequence>
       <xs:element name="txHash" type="xs:string" minOccurs="0"/>
@@ -427,6 +440,13 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element name="destAddresses" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="output_details" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="OutputDetail" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -537,6 +557,7 @@
       <xs:element name="mppRecord" type="MPPRecordType" minOccurs="0"/>
       <xs:element name="ampRecord" type="AMPRecordType" minOccurs="0"/>
       <xs:element name="customRecordsEntries" type="HopCustomRecordsEntriesType" minOccurs="0"/>
+      <xs:element name="metadata" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1049,6 +1070,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="featuresEntries" type="GetInfoResponseFeaturesEntriesType" minOccurs="0"/>
+      <xs:element name="requireHtlcInterceptor" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1340,7 +1362,6 @@
   <xs:complexType name="PendingChannelsResponsePendingOpenChannelType">
     <xs:sequence>
       <xs:element name="channel" type="PendingChannelsResponsePendingChannelType" minOccurs="0"/>
-      <xs:element name="confirmationHeight" type="xs:int"/>
       <xs:element name="commitFee" type="xs:long"/>
       <xs:element name="commitWeight" type="xs:long"/>
       <xs:element name="feePerKw" type="xs:long"/>
@@ -1360,6 +1381,7 @@
       <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
       <xs:element name="numForwardingPackages" type="xs:long"/>
       <xs:element name="chanStatusFlags" type="xs:string" minOccurs="0"/>
+      <xs:element name="private" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1525,6 +1547,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="destFeatures" type="featureBit" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="timePref" type="xs:double"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2096,6 +2119,7 @@
       <xs:element name="indexOffset" type="xs:long"/>
       <xs:element name="maxPayments" type="xs:long"/>
       <xs:element name="reversed" type="xs:boolean"/>
+      <xs:element name="countTotalPayments" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2110,6 +2134,7 @@
       </xs:element>
       <xs:element name="firstIndexOffset" type="xs:long"/>
       <xs:element name="lastIndexOffset" type="xs:long"/>
+      <xs:element name="totalNumPayments" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2565,6 +2590,22 @@
       <xs:enumeration value="NESTED_PUBKEY_HASH"/>
       <xs:enumeration value="UNUSED_WITNESS_PUBKEY_HASH"/>
       <xs:enumeration value="UNUSED_NESTED_PUBKEY_HASH"/>
+      <xs:enumeration value="TAPROOT_PUBKEY"/>
+      <xs:enumeration value="UNUSED_TAPROOT_PUBKEY"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="outputScriptType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SCRIPT_TYPE_PUBKEY_HASH"/>
+      <xs:enumeration value="SCRIPT_TYPE_SCRIPT_HASH"/>
+      <xs:enumeration value="SCRIPT_TYPE_WITNESS_V0_PUBKEY_HASH"/>
+      <xs:enumeration value="SCRIPT_TYPE_WITNESS_V0_SCRIPT_HASH"/>
+      <xs:enumeration value="SCRIPT_TYPE_PUBKEY"/>
+      <xs:enumeration value="SCRIPT_TYPE_MULTISIG"/>
+      <xs:enumeration value="SCRIPT_TYPE_NULLDATA"/>
+      <xs:enumeration value="SCRIPT_TYPE_NON_STANDARD"/>
+      <xs:enumeration value="SCRIPT_TYPE_WITNESS_UNKNOWN"/>
     </xs:restriction>
   </xs:simpleType>
 
