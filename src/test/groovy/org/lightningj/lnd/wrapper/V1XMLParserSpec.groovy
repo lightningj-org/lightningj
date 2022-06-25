@@ -38,7 +38,10 @@
                                         "/wtclient_v1.xsd",
                                         "/verrpc_v1.xsd",
                                         "/walletunlocker_v1.xsd",
-                                        "/stateservice_v1.xsd"] as String[]
+                                        "/stateservice_v1.xsd",
+                                        "/dev_v1.xsd",
+                                        "/neutrino_v1.xsd",
+                                        "/peers_v1.xsd"] as String[]
             p.getJAXBClassPath() == "org.lightningj.lnd.wrapper.message:" +
                     "org.lightningj.lnd.wrapper.autopilot.message:"+
                     "org.lightningj.lnd.wrapper.chainnotifier.message:"+
@@ -50,6 +53,9 @@
                     "org.lightningj.lnd.wrapper.wtclient.message:" +
                     "org.lightningj.lnd.wrapper.verrpc.message:" +
                     "org.lightningj.lnd.wrapper.walletunlocker.message:" +
-                    "org.lightningj.lnd.wrapper.stateservice.message"
+                    "org.lightningj.lnd.wrapper.stateservice.message:" +
+                    "org.lightningj.lnd.wrapper.dev.message:" +
+                    "org.lightningj.lnd.wrapper.neutrino.message:" +
+                    "org.lightningj.lnd.wrapper.peers.message"
         }
     }

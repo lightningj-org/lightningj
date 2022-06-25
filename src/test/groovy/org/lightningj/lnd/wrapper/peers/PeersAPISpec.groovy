@@ -11,13 +11,13 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.lightningj.lnd.wrapper.autopilot
+package org.lightningj.lnd.wrapper.peers
 
 import io.grpc.ManagedChannel
 import spock.lang.Specification
 
 /**
- * Unit tests for Autopilot API classes.
+ * Unit tests for Invoices API classes.
  * <p>
  * This class just verifies that the API classes have been generated.
  * Functional tests is in the integration tests.
@@ -25,12 +25,12 @@ import spock.lang.Specification
  *
  * Created by Philip Vendil.
  */
-class AutopilotAPISpec extends Specification {
+class PeersAPISpec extends Specification {
 
     // Initialization is tested in SynchronousAPISpec
 
-    def asyncApi = new AsynchronousAutopilotAPI(Mock(ManagedChannel))
-    def syncApi = new SynchronousAutopilotAPI(Mock(ManagedChannel))
+    def asyncApi = new AsynchronousPeersAPI(Mock(ManagedChannel))
+    def syncApi = new SynchronousPeersAPI(Mock(ManagedChannel))
 
     def "Verify that apis have been created."(){
         expect:

@@ -47,6 +47,12 @@ class ProtocolSettings extends BaseProtocolSettings{
                 return "org.lightningj.lnd.walletunlocker.proto.Walletunlocker"
             case "stateservice":
                 return "org.lightningj.lnd.stateservice.proto.Stateservice"
+            case "dev":
+                return "org.lightningj.lnd.dev.proto.DevOuterClass"
+            case "peers":
+                return "org.lightningj.lnd.peers.proto.PeersOuterClass"
+            case "neutrino":
+                return "org.lightningj.lnd.neutrino.proto.Neutrino"
         }
     }
 
@@ -83,6 +89,17 @@ import org.lightningj.lnd.wrapper.message.ChannelPoint;
             case "walletunlocker":
                 return """
 import org.lightningj.lnd.wrapper.message.ChanBackupSnapshot;
+"""
+            case "dev":
+                return """
+import org.lightningj.lnd.wrapper.message.LightningNode;
+import org.lightningj.lnd.wrapper.message.ChannelEdge;
+import org.lightningj.lnd.wrapper.message.ChannelGraph;
+"""
+            case "peers":
+                return """
+import org.lightningj.lnd.wrapper.message.Op;
+import org.lightningj.lnd.wrapper.message.FeatureBit;
 """
             default:
                 return ""
@@ -223,6 +240,39 @@ import org.lightningj.lnd.wrapper.message.ChanBackupSnapshot;
                                 baseFileName: 'StateServiceAPI.java'
                         )
                 ]
+            case "dev":
+                return [
+                        new ApiSettings(
+                                baseGrpcClassPath:'org.lightningj.lnd.dev.proto.DevGrpc$Dev',
+                                grpcClassName: 'DevGrpc',
+                                baseApiClassName: 'DevAPI',
+                                baseProtoClassPath: 'org.lightningj.lnd.dev.proto.DevOuterClass',
+                                baseStubClass: 'Dev',
+                                baseFileName: 'DevAPI.java'
+                        )
+                ]
+            case "peers":
+                return [
+                        new ApiSettings(
+                                baseGrpcClassPath:'org.lightningj.lnd.peers.proto.PeersGrpc$Peers',
+                                grpcClassName: 'PeersGrpc',
+                                baseApiClassName: 'PeersAPI',
+                                baseProtoClassPath: 'org.lightningj.lnd.peers.proto.PeersOuterClass',
+                                baseStubClass: 'Peers',
+                                baseFileName: 'PeersAPI.java'
+                        )
+                ]
+            case "neutrino":
+                return [
+                        new ApiSettings(
+                                baseGrpcClassPath:'org.lightningj.lnd.neutrino.proto.NeutrinoKitGrpc$NeutrinoKit',
+                                grpcClassName: 'NeutrinoKitGrpc',
+                                baseApiClassName: 'NeutrinoAPI',
+                                baseProtoClassPath: 'org.lightningj.lnd.neutrino.proto.Neutrino',
+                                baseStubClass: 'NeutrinoKit',
+                                baseFileName: 'NeutrinoAPI.java'
+                        )
+                ]
             default:
                 return []
         }
@@ -241,6 +291,10 @@ import org.lightningj.lnd.wrapper.message.ChanBackupSnapshot;
                         "KeyDescriptor" : "org.lightningj.lnd.signer.proto.SignerOuterClass",
                         "KeyLocator" : "org.lightningj.lnd.signer.proto.SignerOuterClass",
                         "TxOut" : "org.lightningj.lnd.signer.proto.SignerOuterClass"
+                ]
+            case "dev":
+                return [
+                        "ChannelGraph" : "org.lightningj.lnd.proto.LightningApi"
                 ]
             default:
                 return [:]
@@ -263,6 +317,10 @@ import org.lightningj.lnd.wrapper.message.ChanBackupSnapshot;
                 if(methodName == "sendPaymentV2" || methodName == "trackPaymentV2" || methodName == "sendToRouteV2"){
                     return "LightningApi"
                 }
+            case "dev":
+                if(methodName == "importGraph"){
+                    return "DevOuterClass"
+                }
         }
         return null
     }
@@ -284,7 +342,10 @@ import org.lightningj.lnd.wrapper.message.ChanBackupSnapshot;
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/wtclient_1_0", prefix = "wtclient"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/verrpc_1_0", prefix = "verrpc"),
           @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletunlocker_1_0", prefix = "walletunlocker"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/stateservice_1_0", prefix = "stateservice")
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/stateservice_1_0", prefix = "stateservice"),
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/dev_1_0", prefix = "dev"),
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/neutrino_1_0", prefix = "neutrino"),
+          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/peers_1_0", prefix = "peers")
 """
     }
 

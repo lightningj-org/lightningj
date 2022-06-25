@@ -1,0 +1,24 @@
+/**
+ * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
+ * And is distributed under LNDs MIT License.
+ * LND (a5849bb) tag : Downloaded 2022-05-29
+ */
+syntax = "proto3";
+
+import "lightning.api.proto";
+
+package devrpc;
+
+option java_package = "org.lightningj.lnd.dev.proto";
+option go_package = "github.com/lightningnetwork/lnd/lnrpc/devrpc";
+
+service Dev {
+  /*
+  ImportGraph imports a ChannelGraph into the graph database. Should only be
+  used for development.
+  */
+  rpc ImportGraph (lnrpc.ChannelGraph) returns (ImportGraphResponse);
+}
+
+message ImportGraphResponse {
+}
