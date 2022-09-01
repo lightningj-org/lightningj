@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (a25d525) tag : Downloaded 2022-05-29
+ * LND (de09d56) tag : Downloaded 2022-08-20
  */
 syntax = "proto3";
 
@@ -71,26 +71,30 @@ service WalletKit {
     rpc ListAccounts (ListAccountsRequest) returns (ListAccountsResponse);
 
     /*
+    RequiredReserve returns the minimum amount of satoshis that should be kept
+    in the wallet in order to fee bump anchor channels if necessary. The value
+    scales with the number of public anchor channels but is capped at a maximum.
+    */
+    rpc RequiredReserve (RequiredReserveRequest)
+        returns (RequiredReserveResponse);
+
+    /*
     ImportAccount imports an account backed by an account extended public key.
     The master key fingerprint denotes the fingerprint of the root key
     corresponding to the account public key (also known as the key with
     derivation path m/). This may be required by some hardware wallets for
     proper identification and signing.
-
     The address type can usually be inferred from the key's version, but may be
     required for certain keys to map them into the proper scope.
-
     For BIP-0044 keys, an address type must be specified as we intend to not
     support importing BIP-0044 keys into the wallet using the legacy
     pay-to-pubkey-hash (P2PKH) scheme. A nested witness address type will force
     the standard BIP-0049 derivation scheme, while a witness address type will
     force the standard BIP-0084 derivation scheme.
-
     For BIP-0049 keys, an address type must also be specified to make a
     distinction between the standard BIP-0049 address schema (nested witness
     pubkeys everywhere) and our own BIP-0049Plus address schema (nested pubkeys
     externally, witness pubkeys internally).
-
     NOTE: Events (deposits/spends) for keys derived from an account will only be
     detected by lnd if they happen after the import. Rescans to detect past
     events will be supported later on.
@@ -99,7 +103,6 @@ service WalletKit {
 
     /*
     ImportPublicKey imports a public key as watch-only into the wallet.
-
     NOTE: Events (deposits/spends) for a key will only be detected by lnd if
     they happen after the import. Rescans to detect past events will be
     supported later on.
@@ -134,7 +137,6 @@ service WalletKit {
     attempting to sweep within its central batching engine. Outputs with similar
     fee rates are batched together in order to sweep them within a single
     transaction.
-
     NOTE: Some of the fields within PendingSweepsRequest are not guaranteed to
     remain supported. This is an advanced API that depends on the internals of
     the UtxoSweeper, so things may change.
@@ -150,20 +152,16 @@ service WalletKit {
     any point with the addition of new inputs. The list of inputs that
     currently exist within lnd's central batching engine can be retrieved
     through the PendingSweeps RPC.
-
     When bumping the fee of an input that currently exists within lnd's central
     batching engine, a higher fee transaction will be created that replaces the
     lower fee transaction through the Replace-By-Fee (RBF) policy. If it
-
     This RPC also serves useful when wanting to perform a Child-Pays-For-Parent
     (CPFP), where the child transaction pays for its parent's fee. This can be
     done by specifying an outpoint within the low fee transaction that is under
     the control of the wallet.
-
     The fee preference can be expressed either as a specific fee rate or a delta
     of blocks in which the output should be swept on-chain within. If a fee
     preference is not explicitly specified, then an error is returned.
-
     Note that this RPC currently doesn't perform any validation checks on the
     fee preference being provided. For now, the responsibility of ensuring that
     the new fee preference is sufficient is delegated to the user.
@@ -191,16 +189,13 @@ service WalletKit {
     the outputs specified in the template. There are two ways of specifying a
     template: Either by passing in a PSBT with at least one output declared or
     by passing in a raw TxTemplate message.
-
     If there are no inputs specified in the template, coin selection is
     performed automatically. If the template does contain any inputs, it is
     assumed that full coin selection happened externally and no additional
     inputs are added. If the specified inputs aren't enough to fund the outputs
     with the given fee rate, an error is returned.
-
     After either selecting or verifying the inputs, all input UTXOs are locked
     with an internal app ID.
-
     NOTE: If this method returns without an error, it is the caller's
     responsibility to either spend the locked UTXOs (by finalizing and then
     publishing the transaction) or to unlock/release the locked UTXOs in case of
@@ -215,7 +210,6 @@ service WalletKit {
     set.
     If no error is returned, the PSBT is ready to be given to the next signer or
     to be finalized if lnd was the last signer.
-
     NOTE: This RPC only signs inputs (and only those it can sign), it does not
     perform any other tasks (such as coin selection, UTXO locking or
     input/output/fee value validation, PSBT finalization). Any input that is
@@ -231,7 +225,6 @@ service WalletKit {
     without witness data that do not belong to lnd's wallet, this method will
     fail. If no error is returned, the PSBT is ready to be extracted and the
     final TX within to be broadcast.
-
     NOTE: This method does NOT publish the transaction once finalized. It is the
     caller's responsibility to either publish the transaction on success or
     unlock/release any locked UTXOs in case of an error in this method.
@@ -406,6 +399,16 @@ message ListAccountsResponse {
     repeated Account accounts = 1;
 }
 
+message RequiredReserveRequest {
+    // The number of additional channels the user would like to open.
+    uint32 additional_public_channels = 1;
+}
+
+message RequiredReserveResponse {
+    // The amount of reserve required.
+    int64 required_reserve = 1;
+}
+
 message ImportAccountRequest {
     // A name to identify the account with.
     string name = 1;
@@ -486,7 +489,6 @@ message PublishResponse {
     If blank, then no error occurred and the transaction was successfully
     published. If not the empty string, then a string representation of the
     broadcast error.
-
     TODO(roasbeef): map to a proper enum type
     */
     string publish_error = 1;
@@ -759,7 +761,6 @@ message FundPsbtRequest {
     oneof template {
         /*
         Use an existing PSBT packet as the template for the funded PSBT.
-
         The packet must contain at least one non-dust output. If one or more
         inputs are specified, no coin selection is performed. In that case every
         input must be an UTXO known to the wallet that has not been locked
@@ -825,7 +826,6 @@ message TxTemplate {
     wallet that has not been locked before. The sum of all inputs must be
     sufficiently greater than the sum of all outputs to pay a miner fee with the
     fee rate specified in the parent message.
-
     If no inputs are specified, coin selection will be performed instead and
     inputs of sufficient value will be added to the resulting PSBT.
     */

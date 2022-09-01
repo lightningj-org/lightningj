@@ -60,7 +60,7 @@ class MessageSpec extends Specification {
 
     def "Verify that toJsonAsString returns json in string format"(){
         expect:
-        genOpenChannelRequest().toJsonAsString(false) == '{"satPerVbyte":0,"nodePubkey":"","nodePubkeyString":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","localFundingAmount":40000,"pushSat":25000,"targetConf":0,"satPerByte":0,"private":false,"minHtlcMsat":0,"remoteCsvDelay":0,"minConfs":0,"spendUnconfirmed":false,"closeAddress":"","fundingShim":{"chanPointShim":{"amt":0,"chanPoint":{"fundingTxidBytes":"","fundingTxidStr":"","outputIndex":0},"localKey":{"rawKeyBytes":"","keyLoc":{"keyFamily":0,"keyIndex":0}},"remoteKey":"","pendingChanId":"","thawHeight":0},"psbtShim":{"pendingChanId":"","basePsbt":"","noPublish":false}},"remoteMaxValueInFlightMsat":0,"remoteMaxHtlcs":0,"maxLocalCsv":0,"commitmentType":"UNKNOWN_COMMITMENT_TYPE"}'
+        genOpenChannelRequest().toJsonAsString(false) == '{"satPerVbyte":0,"nodePubkey":"","nodePubkeyString":"02ad1fddad0c572ec3e886cbea31bbafa30b5f7e745da7e936ed9d1471116cdc02","localFundingAmount":40000,"pushSat":25000,"targetConf":0,"satPerByte":0,"private":false,"minHtlcMsat":0,"remoteCsvDelay":0,"minConfs":0,"spendUnconfirmed":false,"closeAddress":"","fundingShim":{"chanPointShim":{"amt":0,"chanPoint":{"fundingTxidBytes":"","fundingTxidStr":"","outputIndex":0},"localKey":{"rawKeyBytes":"","keyLoc":{"keyFamily":0,"keyIndex":0}},"remoteKey":"","pendingChanId":"","thawHeight":0},"psbtShim":{"pendingChanId":"","basePsbt":"","noPublish":false}},"remoteMaxValueInFlightMsat":0,"remoteMaxHtlcs":0,"maxLocalCsv":0,"commitmentType":"UNKNOWN_COMMITMENT_TYPE","zeroConf":false,"scidAlias":false}'
         genOpenChannelRequest().toJsonAsString(true) == """
 {
     "satPerVbyte": 0,
@@ -104,7 +104,9 @@ class MessageSpec extends Specification {
     "remoteMaxValueInFlightMsat": 0,
     "remoteMaxHtlcs": 0,
     "maxLocalCsv": 0,
-    "commitmentType": "UNKNOWN_COMMITMENT_TYPE"
+    "commitmentType": "UNKNOWN_COMMITMENT_TYPE",
+    "zeroConf": false,
+    "scidAlias": false
 }"""
     }
 
@@ -167,7 +169,9 @@ class MessageSpec extends Specification {
     "remoteMaxValueInFlightMsat": 0,
     "remoteMaxHtlcs": 0,
     "maxLocalCsv": 0,
-    "commitmentType": "UNKNOWN_COMMITMENT_TYPE"
+    "commitmentType": "UNKNOWN_COMMITMENT_TYPE",
+    "zeroConf": false,
+    "scidAlias": false
 }"""
     }
 
