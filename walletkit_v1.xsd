@@ -73,6 +73,10 @@
 
   <xs:element name="ReleaseOutputResponse" type="tns:ReleaseOutputResponseType"/>
 
+  <xs:element name="RequiredReserveRequest" type="tns:RequiredReserveRequestType"/>
+
+  <xs:element name="RequiredReserveResponse" type="tns:RequiredReserveResponseType"/>
+
   <xs:element name="SendOutputsRequest" type="tns:SendOutputsRequestType"/>
 
   <xs:element name="SendOutputsResponse" type="tns:SendOutputsResponseType"/>
@@ -183,6 +187,18 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RequiredReserveRequestType">
+    <xs:sequence>
+      <xs:element name="additionalPublicChannels" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RequiredReserveResponseType">
+    <xs:sequence>
+      <xs:element name="requiredReserve" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 

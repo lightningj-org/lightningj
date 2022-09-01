@@ -153,6 +153,7 @@
     <xs:sequence>
       <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="route" type="RouteType" minOccurs="0"/>
+      <xs:element name="skipTempErr" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 

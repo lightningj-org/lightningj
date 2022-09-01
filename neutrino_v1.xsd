@@ -9,6 +9,10 @@
 
   <xs:element name="DisconnectPeerResponse" type="tns:DisconnectPeerResponseType"/>
 
+  <xs:element name="GetBlockHashRequest" type="tns:GetBlockHashRequestType"/>
+
+  <xs:element name="GetBlockHashResponse" type="tns:GetBlockHashResponseType"/>
+
   <xs:element name="GetBlockHeaderRequest" type="tns:GetBlockHeaderRequestType"/>
 
   <xs:element name="GetBlockHeaderResponse" type="tns:GetBlockHeaderResponseType"/>
@@ -149,6 +153,18 @@
   <xs:complexType name="GetCFilterResponseType">
     <xs:sequence>
       <xs:element name="filter" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetBlockHashRequestType">
+    <xs:sequence>
+      <xs:element name="height" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetBlockHashResponseType">
+    <xs:sequence>
+      <xs:element name="hash" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

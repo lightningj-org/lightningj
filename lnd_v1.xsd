@@ -13,6 +13,8 @@
 
   <xs:element name="AddInvoiceResponse" type="AddInvoiceResponseType"/>
 
+  <xs:element name="AliasMap" type="AliasMapType"/>
+
   <xs:element name="Amount" type="AmountType"/>
 
   <xs:element name="BakeMacaroonRequest" type="BakeMacaroonRequestType"/>
@@ -197,6 +199,10 @@
 
   <xs:element name="LightningNode" type="LightningNodeType"/>
 
+  <xs:element name="ListAliasesRequest" type="ListAliasesRequestType"/>
+
+  <xs:element name="ListAliasesResponse" type="ListAliasesResponseType"/>
+
   <xs:element name="ListChannelsRequest" type="ListChannelsRequestType"/>
 
   <xs:element name="ListChannelsResponse" type="ListChannelsResponseType"/>
@@ -294,6 +300,8 @@
   <xs:element name="PolicyUpdateRequest" type="PolicyUpdateRequestType"/>
 
   <xs:element name="PolicyUpdateResponse" type="PolicyUpdateResponseType"/>
+
+  <xs:element name="PreviousOutPoint" type="PreviousOutPointType"/>
 
   <xs:element name="PsbtShim" type="PsbtShimType"/>
 
@@ -452,6 +460,20 @@
       </xs:element>
       <xs:element name="rawTxHex" type="xs:string" minOccurs="0"/>
       <xs:element name="label" type="xs:string" minOccurs="0"/>
+      <xs:element name="previous_outpoints" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PreviousOutPoint" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PreviousOutPointType">
+    <xs:sequence>
+      <xs:element name="outpoint" type="xs:string" minOccurs="0"/>
+      <xs:element name="isOurOutput" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -613,6 +635,8 @@
       <xs:element name="maxAcceptedHtlcs" type="xs:int"/>
       <xs:element name="channelFlags" type="xs:int"/>
       <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
+      <xs:element name="wantsZeroConf" type="xs:boolean"/>
+      <xs:element name="wantsScidAlias" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -628,6 +652,7 @@
       <xs:element name="maxHtlcCount" type="xs:int"/>
       <xs:element name="minHtlcIn" type="xs:long"/>
       <xs:element name="minAcceptDepth" type="xs:int"/>
+      <xs:element name="zeroConf" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -870,6 +895,15 @@
       <xs:element name="thawHeight" type="xs:int"/>
       <xs:element name="localConstraints" type="ChannelConstraintsType" minOccurs="0"/>
       <xs:element name="remoteConstraints" type="ChannelConstraintsType" minOccurs="0"/>
+      <xs:element name="alias_scids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="aliasScids" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="zeroConf" type="xs:boolean"/>
+      <xs:element name="zeroConfConfirmedScid" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -889,6 +923,35 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element ref="Channel" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AliasMapType">
+    <xs:sequence>
+      <xs:element name="baseScid" type="xs:long"/>
+      <xs:element name="aliases" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="aliases" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListAliasesRequestType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ListAliasesResponseType">
+    <xs:sequence>
+      <xs:element name="alias_maps" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="AliasMap" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -916,6 +979,14 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="alias_scids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="aliasScids" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="zeroConfConfirmedScid" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1135,6 +1206,7 @@
       <xs:element name="satPerByte" type="xs:long"/>
       <xs:element name="deliveryAddress" type="xs:string" minOccurs="0"/>
       <xs:element name="satPerVbyte" type="xs:long"/>
+      <xs:element name="maxFeePerVbyte" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1223,6 +1295,8 @@
       <xs:element name="remoteMaxHtlcs" type="xs:int"/>
       <xs:element name="maxLocalCsv" type="xs:int"/>
       <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
+      <xs:element name="zeroConf" type="xs:boolean"/>
+      <xs:element name="scidAlias" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1464,6 +1538,7 @@
       <xs:element name="confirmedBalance" type="xs:long"/>
       <xs:element name="unconfirmedBalance" type="xs:long"/>
       <xs:element name="lockedBalance" type="xs:long"/>
+      <xs:element name="reservedBalanceAnchorChan" type="xs:long"/>
       <xs:element name="accountBalanceEntries" type="WalletBalanceResponseAccountBalanceEntriesType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
@@ -2541,6 +2616,7 @@
       <xs:element name="streamAuth" type="StreamAuthType" minOccurs="0"/>
       <xs:element name="request" type="RPCMessageType" minOccurs="0"/>
       <xs:element name="response" type="RPCMessageType" minOccurs="0"/>
+      <xs:element name="regComplete" type="xs:boolean"/>
       <xs:element name="msgId" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
@@ -2557,6 +2633,7 @@
       <xs:element name="streamRpc" type="xs:boolean"/>
       <xs:element name="typeName" type="xs:string" minOccurs="0"/>
       <xs:element name="serialized" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="isError" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
