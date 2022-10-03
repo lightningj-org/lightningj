@@ -10,15 +10,16 @@ repositories {
    // maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
-
+ext {
+    grpcVersion = "1.49.2"
+}
 
 dependencies {
     //gRPC
-    compile group: 'com.google.api.grpc', name: 'googleapis-common-protos', version: '0.0.3'
-    compile 'io.netty:netty-tcnative-boringssl-static:2.0.6.Final'
-    compile 'io.grpc:grpc-netty:1.7.0'
-    compile 'io.grpc:grpc-protobuf:1.7.0'
-    compile 'io.grpc:grpc-stub:1.7.0'
+    compile 'io.netty:netty-tcnative-boringssl-static:2.0.54.Final'
+    compile "io.grpc:grpc-netty:$grpcVersion"
+    compile "io.grpc:grpc-protobuf:$grpcVersion"
+    compile "io.grpc:grpc-stub:$grpcVersion"
 
     // JAX-B dependencies for JDK 9+
     compile "javax.xml.bind:jaxb-api:2.2.11"
