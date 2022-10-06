@@ -59,32 +59,32 @@ ext {
 
 dependencies {
     //gRPC
-    compile 'com.google.api.grpc:proto-google-common-protos:2.9.6'
-    compile 'io.netty:netty-tcnative-boringssl-static:2.0.54.Final'
-    compile "io.grpc:grpc-netty-shaded:$grpcVersion"
-    compile "io.grpc:grpc-protobuf:$grpcVersion"
-    compile "io.grpc:grpc-stub:$grpcVersion"
+    implementation 'com.google.api.grpc:proto-google-common-protos:2.9.6'
+    implementation 'io.netty:netty-tcnative-boringssl-static:2.0.54.Final'
+    implementation "io.grpc:grpc-netty-shaded:$grpcVersion"
+    implementation "io.grpc:grpc-protobuf:$grpcVersion"
+    implementation "io.grpc:grpc-stub:$grpcVersion"
 
     // JSON-P
-    compile 'javax.json:javax.json-api:1.1.4'
-    compile 'org.glassfish:javax.json:1.1.4'
+    implementation 'javax.json:javax.json-api:1.1.4'
+    implementation 'org.glassfish:javax.json:1.1.4'
 
     // JAX-B dependencies for JDK 9+
-    compile 'javax.xml.bind:jaxb-api:2.3.1'
-    compile 'com.sun.xml.bind:jaxb-core:4.0.1'
-    compile 'com.sun.xml.bind:jaxb-impl:4.0.1'
-    compile "javax.activation:activation:1.1.1"
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'com.sun.xml.bind:jaxb-core:4.0.1'
+    implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
+    implementation "javax.activation:activation:1.1.1"
 
-    compile("javax.annotation:javax.annotation-api:1.3.2")
+    implementation "javax.annotation:javax.annotation-api:1.3.2"
 
     // JMacaroon
-   // compile 'com.github.nitram509:jmacaroons:0.3.1'
+   // implementation 'com.github.nitram509:jmacaroons:0.3.1'
 
     // mandatory dependencies for using Spock
-    testCompile 'org.spockframework:spock-core:2.3-groovy-2.5'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-2.5'
 
     // optional dependencies for using Spock
-    testCompile 'org.hamcrest:hamcrest-core:2.2'   // only necessary if Hamcrest matchers are used
+    testImplementation 'org.hamcrest:hamcrest-core:2.2'   // only necessary if Hamcrest matchers are used
     testRuntime 'net.bytebuddy:byte-buddy:1.12.17' // allows mocking of classes (in addition to interfaces)
     testRuntime 'org.objenesis:objenesis:3.3'      // allows mocking of classes without default constructor (together with CGLIB)
 }
@@ -318,4 +318,3 @@ uploadArchives {
 }
 
 uploadArchives.dependsOn.add(signArchives)
-

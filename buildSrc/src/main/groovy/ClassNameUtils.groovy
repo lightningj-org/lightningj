@@ -17,7 +17,7 @@ import com.google.protobuf.Descriptors.FieldDescriptor.JavaType
 
 
 /**
- * Contains util method to caluculate generated class names.
+ * Contains util method to calculate generated class names.
  *
  * Created by Philip Vendil
  */
