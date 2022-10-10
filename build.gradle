@@ -5,11 +5,11 @@ version '0.15.1-Beta'
 apply plugin: "groovy"
 apply plugin: 'com.google.protobuf'
 apply plugin: 'idea'
-apply plugin: 'org.asciidoctor.convert'
+apply plugin: 'org.asciidoctor.jvm.convert'
 apply plugin: 'project-report'
 apply plugin: 'org.ajoberstar.git-publish'
 apply plugin: 'signing'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 description = "LightningJ - Lightning APIs for Java"
 
@@ -27,22 +27,21 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
-        maven { url "https://dl.bintray.com/asciidoctor/maven/"}
+       // maven { url "https://dl.bintray.com/asciidoctor/maven/"}
     }
     dependencies {
         classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.19"
 
-        classpath "org.spockframework:spock-core:1.3-groovy-2.5"
+        //classpath "org.spockframework:spock-core:1.3-groovy-2.5"
 
         // optional dependencies for using Spock
         classpath "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
         classpath "net.bytebuddy:byte-buddy:1.9.7"          // allows mocking of classes (in addition to interfaces)
         classpath "org.objenesis:objenesis:2.5.1"    // allows mocking of classes without default constructor (together with CGLIB)
 
-        // Documentation generation
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.7'
-        classpath 'org.ajoberstar:gradle-git-publish:2.1.3'
+        // https://mvnrepository.com/artifact/org.asciidoctor/asciidoctor-gradle-plugin
+        //classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.6.1'
+        classpath 'org.ajoberstar.git-publish:gradle-git-publish:4.1.1'
 
         // JAX-B dependencies for JDK 9+
         classpath "javax.xml.bind:jaxb-api:2.2.11"
@@ -81,12 +80,13 @@ dependencies {
    // implementation 'com.github.nitram509:jmacaroons:0.3.1'
 
     // mandatory dependencies for using Spock
-    testImplementation 'org.spockframework:spock-core:2.3-groovy-2.5'
+    testImplementation platform("org.spockframework:spock-bom:2.1-groovy-3.0")
+    testImplementation "org.spockframework:spock-core"
 
     // optional dependencies for using Spock
     testImplementation 'org.hamcrest:hamcrest-core:2.2'   // only necessary if Hamcrest matchers are used
-    testRuntime 'net.bytebuddy:byte-buddy:1.12.17' // allows mocking of classes (in addition to interfaces)
-    testRuntime 'org.objenesis:objenesis:3.3'      // allows mocking of classes without default constructor (together with CGLIB)
+    testRuntimeOnly 'net.bytebuddy:byte-buddy:1.12.17' // allows mocking of classes (in addition to interfaces)
+    testRuntimeOnly 'org.objenesis:objenesis:3.3'      // allows mocking of classes without default constructor (together with CGLIB)
 }
 
 /*
@@ -266,7 +266,7 @@ apply from: 'integrationTest.gradle'
 signing {
     required { gradle.taskGraph.hasTask(uploadArchives) }
     useGpgCmd()
-    sign configurations.archives
+    sign publishing.publications.mavenJava
 }
 
 signArchives.onlyIf {gradle.taskGraph.hasTask(uploadArchives)}

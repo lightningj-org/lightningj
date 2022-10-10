@@ -130,7 +130,7 @@ Or to your build.gradle
 
 [subs="attributes"]
 ----
-    compile 'org.lightningj:lightningj:{project-version}'
+    implementation 'org.lightningj:lightningj:{project-version}'
 ----
 
 All tags and releases is signed with the following link:lightningj-release-pubkey.asc[GPG Key].
