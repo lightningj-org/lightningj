@@ -41,7 +41,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
-* 0.15.1-Beta    : Generated against LND 0.15.1 API
+* 0.15.1-Beta    : Generated against LND 0.15.1 API and also verified to work with 0.15.2
 * 0.15.0-Beta    : Generated against LND 0.15.0 API, Added Dev, Peers and Neutrino RPC APIs.
 * 0.14.3-Beta    : Generated against LND 0.14.3 API
 * 0.14.2-Beta    : Generated against LND 0.14.2 API
