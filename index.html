@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.6.1">
+<meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="description" content="LightningJ is a project with the intention to simplify the integration of existing Lightning node implementations for Java developers. It contains simple to use API implementations and converters between JSON, XML.">
 <meta name="keywords" content="bitcoin,lightning,java,lnd,lightningj">
 <title>LightningJ</title>
@@ -729,6 +729,9 @@ p.tableblock.header { color: #6d6e71; }
 <body class="article toc2 toc-left">
 <div id="header">
 <h1>LightningJ</h1>
+<div class="details">
+<span id="revnumber">version 0.15.1-Beta</span>
+</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -794,7 +797,7 @@ p.tableblock.header { color: #6d6e71; }
 <div class="sectionbody">
 <div class="paragraph">
 <p><em>Lightning APIs for Java</em>
-V 0.15.1-Beta, 2022-10-12</p>
+V {project-version}, 2022-10-16</p>
 </div>
 </div>
 </div>
@@ -1036,10 +1039,10 @@ build it from source.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">   &lt;dependency&gt;
+<pre class="highlightjs highlight"><code data-lang="xml" class="language-xml hljs">   &lt;dependency&gt;
       &lt;groupId&gt;org.lightningj&lt;/groupId&gt;
       &lt;artifactId&gt;lightningj&lt;/artifactId&gt;
-      &lt;version&gt;0.15.1-Beta&lt;/version&gt;
+      &lt;version&gt;{project-version}&lt;/version&gt;
    &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -1048,7 +1051,7 @@ build it from source.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>    compile 'org.lightningj:lightningj:0.15.1-Beta'</pre>
+<pre>    implementation 'org.lightningj:lightningj:{project-version}'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1136,7 +1139,7 @@ as parameter). Or specify a custom SSL Context and Macaroon Context for more adv
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// To create a synchronousAPI there are three constructors available
+<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">// To create a synchronousAPI there are three constructors available
 // One simple with host,port and certificate to trust, last file is the file path to the macaroon, use null if no macaroons are used.
 SynchronousLndAPI synchronousLndAPI = new SynchronousLndAPI("localhost",10001,
 new File("/Library/Application Support/Lnd/tls.cert"),
@@ -1203,7 +1206,7 @@ is useful i GUI applications to give a more fluent experience.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Create  API, using the most simple constructor. There are alternatives
+<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">// Create  API, using the most simple constructor. There are alternatives
 // where it is possible to specify custom SSLContext or just a managed channel.
 // See SynchronousLndAPIExample for details.
 AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File("/Users/philip/Library/Application Support/Lnd/tls.cert"), null);
@@ -1272,7 +1275,7 @@ try {
 <div class="paragraph">
 <p>Starting from 0.6.0 there are several different APIs to the different services.</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. List of Available APIs</caption>
 <colgroup>
 <col style="width: 20%;">
@@ -1404,7 +1407,7 @@ in following example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Get API
+<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">// Get API
 SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
 // To convert JSON request data to a wrapped request object (High level)
@@ -1453,7 +1456,7 @@ version "1.0" exist and should still not be considered final and could change un
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Get API
+<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">// Get API
 SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
 // Create a XMLParserFactory
@@ -1491,7 +1494,7 @@ while(result.hasNext()){
 below for link to each schema, namespace and default prefix. in 0.11 is the walletunlocker API moved to its own
 XSD.</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. List of Available APIs</caption>
 <colgroup>
 <col style="width: 16.6666%;">
@@ -1616,7 +1619,7 @@ the future that will make the validation parts of the library more useful.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Get API
+<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">// Get API
 SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
 // To manually validate a wrapped Message it is possible to call the validate() method.
@@ -1667,7 +1670,7 @@ indicating the type of status problem that occurred and that could be handled di
 <div class="paragraph">
 <p>Here is a list of status exceptions</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 3. Types of Status Exceptions</caption>
 <colgroup>
 <col style="width: 50%;">
@@ -1705,7 +1708,7 @@ ServerSideException or CommunicationException separately.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Get API
+<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">// Get API
 SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
 try{
@@ -1756,7 +1759,7 @@ asynchronousLndAPI.channelBalance(new StreamObserver&lt;ChannelBalanceResponse&g
 <p>Below is a table detailing which high level excpetion is thrown for a given
 status code.</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 4. Status Code to High Level Status Exception Mappings</caption>
 <colgroup>
 <col style="width: 50%;">
@@ -1873,7 +1876,7 @@ messages and calls.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">File trustedServerCertificate = new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert");
+<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">File trustedServerCertificate = new File(System.getProperty("user.home") + "/Library/Application Support/Lnd/tls.cert");
 // Method to create SSL Context, trusting a specified LND node TLS certificate.
 // It is possible to customize the SSL setting by supplying a javax.net.ssl.SSLContext as well
 SslContext sslContext = GrpcSslContexts.configure(SslContextBuilder.forClient(), SslProvider.OPENSSL)
@@ -2061,11 +2064,12 @@ signing.gnupg.keyName=&lt;your key id&gt;</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-12 08:44:18 CEST
+Version 0.15.1-Beta<br>
+Last updated 2022-10-13 06:20:31 +0200
 </div>
 </div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
 <script>hljs.initHighlighting()</script>
 </body>
 </html>
