@@ -19,10 +19,9 @@ buildscript {
         classpath 'org.ajoberstar.git-publish:gradle-git-publish:3.0.1'
 
         // JAX-B dependencies for JDK 9+
-        classpath "javax.xml.bind:jaxb-api:2.2.11"
-        classpath "com.sun.xml.bind:jaxb-core:2.2.11"
-        classpath "com.sun.xml.bind:jaxb-impl:2.2.11"
-        classpath "javax.activation:activation:1.1.1"
+        classpath 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.0'
+        classpath 'com.sun.xml.bind:jaxb-impl:3.0.0'
+        classpath 'javax.annotation:javax.annotation-api:1.3.2'
     }
 }
 
@@ -64,15 +63,16 @@ dependencies {
     implementation 'org.glassfish:javax.json:1.1.4'
 
     // JAX-B dependencies for JDK 9+
-    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
-    implementation 'com.sun.xml.bind:jaxb-core:4.0.1'
-    implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
-    implementation "javax.activation:activation:1.1.1"
-
-    implementation "javax.annotation:javax.annotation-api:1.3.2"
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.0'
+    implementation 'com.sun.xml.bind:jaxb-impl:3.0.0'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
 
     // JMacaroon
    // implementation 'com.github.nitram509:jmacaroons:0.3.1'
+
+    testImplementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.0'
+    testImplementation 'com.sun.xml.bind:jaxb-impl:3.0.0'
+    testImplementation 'javax.annotation:javax.annotation-api:1.3.2'
 
     // mandatory dependencies for using Spock
     testImplementation platform("org.spockframework:spock-bom:2.1-groovy-3.0")

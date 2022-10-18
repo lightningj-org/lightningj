@@ -22,10 +22,9 @@ dependencies {
     implementation "io.grpc:grpc-stub:$grpcVersion"
 
     // JAX-B dependencies for JDK 9+
-    implementation "javax.xml.bind:jaxb-api:2.2.11"
-    implementation "com.sun.xml.bind:jaxb-core:2.2.11"
-    implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
-    implementation "javax.activation:activation:1.1.1"
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.0'
+    implementation 'com.sun.xml.bind:jaxb-impl:3.0.0'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
 
     // mandatory dependencies for using Spock
     testImplementation platform("org.spockframework:spock-bom:2.1-groovy-3.0")

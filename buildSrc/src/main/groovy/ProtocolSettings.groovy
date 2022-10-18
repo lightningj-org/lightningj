@@ -331,21 +331,21 @@ import org.lightningj.lnd.wrapper.message.FeatureBit;
 
     String getExternalNamespaces(){
         return """
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/lndjapi_1_0", prefix = ""),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/autopilot_1_0", prefix = "autopilot"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/chainnotifier_1_0", prefix = "chainnotifier"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/invoices_1_0", prefix = "invoices"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/router_1_0", prefix = "router"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/signer_1_0", prefix = "signer"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletkit_1_0", prefix = "walletkit"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/watchtower_1_0", prefix = "watchtower"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/wtclient_1_0", prefix = "wtclient"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/verrpc_1_0", prefix = "verrpc"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletunlocker_1_0", prefix = "walletunlocker"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/stateservice_1_0", prefix = "stateservice"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/dev_1_0", prefix = "dev"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/neutrino_1_0", prefix = "neutrino"),
-          @javax.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/peers_1_0", prefix = "peers")
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/lndjapi_1_0", prefix = ""),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/autopilot_1_0", prefix = "autopilot"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/chainnotifier_1_0", prefix = "chainnotifier"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/invoices_1_0", prefix = "invoices"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/router_1_0", prefix = "router"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/signer_1_0", prefix = "signer"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletkit_1_0", prefix = "walletkit"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/watchtower_1_0", prefix = "watchtower"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/wtclient_1_0", prefix = "wtclient"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/verrpc_1_0", prefix = "verrpc"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/walletunlocker_1_0", prefix = "walletunlocker"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/stateservice_1_0", prefix = "stateservice"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/dev_1_0", prefix = "dev"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/neutrino_1_0", prefix = "neutrino"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/peers_1_0", prefix = "peers")
 """
     }
 

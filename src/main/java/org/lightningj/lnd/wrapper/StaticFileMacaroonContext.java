@@ -14,7 +14,7 @@
 package org.lightningj.lnd.wrapper;
 
 
-import javax.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileInputStream;
 

@@ -16,8 +16,8 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
-import javax.xml.bind.JAXBContext
-import javax.xml.bind.SchemaOutputResolver
+import jakarta.xml.bind.JAXBContext
+import jakarta.xml.bind.SchemaOutputResolver
 import javax.xml.transform.Result
 import javax.xml.transform.stream.StreamResult
 import java.lang.reflect.Method
@@ -67,7 +67,7 @@ class XSDGenerator extends DefaultTask{
         ncl.addClasspath(findProjectClassPath(compileClasses))
         ncl.addClasspath(findProjectClassPath(generatedResourcesDir))
         URL f = ncl.getResource(findProjectClassPath(protocolSettings.getJAXBIndexResouceLocation()))
-        Class c = ncl.loadClass("javax.xml.bind.JAXBContext")
+        Class c = ncl.loadClass("jakarta.xml.bind.JAXBContext")
 
         Method m = c.getMethod("newInstance",String.class,ClassLoader.class)
         return  m.invoke(null,protocolSettings.getJaxbSrcDirectory(),ncl)

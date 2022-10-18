@@ -16,7 +16,7 @@ package ${wrapperBasePackageName}.message;
 import ${apiClassPath};
 
 import ${wrapperBasePackageName}.*;
-import javax.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.*;
 ${specialAPIImports}
 
 /**
