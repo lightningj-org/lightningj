@@ -6,7 +6,7 @@
 = LightningJ
 
 _Lightning APIs for Java_
-V {project-version}, {localdate}
+V {gradle-project-version}, {localdate}
 
 == Introduction
 

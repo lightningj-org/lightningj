@@ -12,6 +12,8 @@
  *                                                                       *
  *************************************************************************/
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 import javax.xml.bind.JAXBContext
@@ -28,14 +30,19 @@ import java.lang.reflect.Method
  */
 class XSDGenerator extends DefaultTask{
 
+    @Input
     List protocols
 
+    @Input
     def classpath
 
+    @Internal
     String compileClasses = "build/classes/java/main"
 
+    @Internal
     String generatedResourcesDir = "build/resources/main"
 
+    @Internal
     String systemId = "http://SomeURL"
 
     @TaskAction

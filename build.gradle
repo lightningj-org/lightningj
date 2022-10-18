@@ -1,36 +1,11 @@
-group 'org.lightningj'
-
-version '0.15.1-Beta'
-
-apply plugin: "groovy"
-apply plugin: 'com.google.protobuf'
-apply plugin: 'idea'
-apply plugin: 'org.asciidoctor.jvm.convert'
-apply plugin: 'project-report'
-apply plugin: 'org.ajoberstar.git-publish'
-apply plugin: 'signing'
-apply plugin: 'maven-publish'
-
-description = "LightningJ - Lightning APIs for Java"
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    // Spock releases are available from Maven Central
-    mavenCentral()
-    // Spock snapshots are available from the Sonatype OSS snapshot repository
-   // maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
-}
-
 buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-       // maven { url "https://dl.bintray.com/asciidoctor/maven/"}
+        gradlePluginPortal()
     }
     dependencies {
-        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.19"
+        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.16"
 
         //classpath "org.spockframework:spock-core:1.3-groovy-2.5"
 
@@ -40,8 +15,8 @@ buildscript {
         classpath "org.objenesis:objenesis:2.5.1"    // allows mocking of classes without default constructor (together with CGLIB)
 
         // https://mvnrepository.com/artifact/org.asciidoctor/asciidoctor-gradle-plugin
-        //classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.6.1'
-        classpath 'org.ajoberstar.git-publish:gradle-git-publish:4.1.1'
+        // classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.6.1'
+        classpath 'org.ajoberstar.git-publish:gradle-git-publish:3.0.1'
 
         // JAX-B dependencies for JDK 9+
         classpath "javax.xml.bind:jaxb-api:2.2.11"
@@ -51,16 +26,36 @@ buildscript {
     }
 }
 
-ext {
-    grpcVersion = "1.49.2"
-    protobufVersion = "3.21.7"
+plugins {
+    id 'java-library'
+    id 'groovy'
+    id 'com.google.protobuf' version "0.8.16"
+    id 'idea'
+    id 'project-report'
+    id 'org.ajoberstar.git-publish' version "3.0.1"
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'signing'
+    id 'maven-publish'
+}
+
+group 'org.lightningj'
+
+version '0.16.0-Beta-SNAPSHOT'
+
+description = "LightningJ - Lightning APIs for Java"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
     //gRPC
     implementation 'com.google.api.grpc:proto-google-common-protos:2.9.6'
     implementation 'io.netty:netty-tcnative-boringssl-static:2.0.54.Final'
-    implementation "io.grpc:grpc-netty-shaded:$grpcVersion"
+    api "io.grpc:grpc-netty-shaded:$grpcVersion"
     implementation "io.grpc:grpc-protobuf:$grpcVersion"
     implementation "io.grpc:grpc-stub:$grpcVersion"
 
@@ -69,7 +64,7 @@ dependencies {
     implementation 'org.glassfish:javax.json:1.1.4'
 
     // JAX-B dependencies for JDK 9+
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
     implementation 'com.sun.xml.bind:jaxb-core:4.0.1'
     implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
     implementation "javax.activation:activation:1.1.1"
@@ -115,6 +110,9 @@ compileJava {
     source += ['build/generated/source/wrapper/main/java']
 }
 
+test {
+    useJUnitPlatform()
+}
 
 /*
    Generate High Level LDN API using custom WrapperClassGenerator in buildSrc
@@ -132,8 +130,11 @@ task compileWrapperMessages(type: JavaCompile, dependsOn: generateWrappers){
     source = compileJava.source
     //classpath = files('build/classes/main')
     classpath = compileJava.classpath + files('build/classes/java/main')
-    destinationDir = compileJava.destinationDir
+    destinationDirectory.set(compileJava.destinationDirectory.get())
 }
+compileTestGroovy.dependsOn(compileWrapperMessages)
+javadoc.dependsOn(compileWrapperMessages)
+
 
 /*
   Generate XSD of all generated High Level Message classes, fist dependency configuration then
@@ -158,6 +159,7 @@ task generateXSD(type: XSDGenerator, dependsOn: compileWrapperMessages){
  */
 jar.dependsOn.add(generateXSD)
 
+//sourcesJar.dependsOn(generateProto)
 /*
   Adds generated source directories to be included in javadoc generation.
  */
@@ -176,7 +178,11 @@ asciidoctor {
     ]
 }
 
-task ('doc',type: Copy,dependsOn: [javadoc, asciidoctor, htmlDependencyReport]){
+
+task ('doc',type: Copy,dependsOn: [javadoc, asciidoctor, htmlDependencyReport, test]){
+    from('build/docs/'){
+        include('index.html')
+    }
     from('build/reports/project/'){
         include('dependencies/**')
     }
@@ -242,17 +248,19 @@ gitPublish {
 }
 
 task javadocJar(type: Jar) {
-    classifier = 'javadoc'
+    archiveClassifier.set('javadoc')
     from javadoc
 }
+javadocJar.dependsOn(asciidoctor)
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    archiveClassifier.set('sources')
     from sourceSets.main.allSource
     from 'build/generated/source/proto/main/grpc'
     from 'build/generated/source/proto/main/java'
     from 'build/generated/source/wrapper/main/java'
 }
+sourcesJar.dependsOn(compileWrapperMessages)
 
 artifacts {
     archives javadocJar, sourcesJar
@@ -261,60 +269,73 @@ artifacts {
 // Add integration test task, with source sets etc.
 apply from: 'integrationTest.gradle'
 
-// Use external gpg2 command to support signing by hardware keys (i.e. SmartCard) and sign only
-// if build should be uploaded to Maven Central.
-signing {
-    required { gradle.taskGraph.hasTask(uploadArchives) }
-    useGpgCmd()
-    sign publishing.publications.mavenJava
-}
 
-signArchives.onlyIf {gradle.taskGraph.hasTask(uploadArchives)}
-
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name 'lightningj'
-                packaging 'jar'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact tasks.sourcesJar
+            artifact tasks.javadocJar
+            pom {
+                name = 'lightningj'
+                packaging  = 'jar'
                 // optionally artifactId can be defined here
-                description 'LightningJ - Lightning APIs for Java'
-                url 'http://www.lightningj.org'
+                description = 'LightningJ - Lightning APIs for Java'
+                url ='http://www.lightningj.org'
+
 
                 scm {
-                    connection 'https://github.com/lightningj-org/lightningj.git'
-                    developerConnection 'https://github.com/lightningj-org/lightningj.git'
-                    url 'https://github.com/lightningj-org/lightningj'
+                    connection = 'https://github.com/lightningj-org/lightningj.git'
+                    developerConnection = 'https://github.com/lightningj-org/lightningj.git'
+                    url ='https://github.com/lightningj-org/lightningj'
                 }
 
                 licenses {
                     license {
-                        name 'GNU Lesser General Public License v3.0'
-                        url 'http://www.gnu.org/licenses/lgpl.txt'
+                        name = 'GNU Lesser General Public License v3.0'
+                        url = 'http://www.gnu.org/licenses/lgpl.txt'
                     }
                 }
 
                 developers {
                     developer {
-                        id 'herrvendil'
-                        name 'Philip Vendil'
-                        email 'info@lightningj.org'
+                        id = 'herrvendil'
+                        name = 'Philip Vendil'
+                        email = 'info@lightningj.org'
                     }
                 }
             }
         }
     }
+    repositories {
+        maven {
+            // Currently is only releaes published.
+            // To add support for snapshot releases add following logic
+            //url = isReleaseBuild() ? "https://oss.sonatype.org/service/local/staging/deploy/maven2/": "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = (project.version =~ "SNAPSHOT"? "https://oss.sonatype.org/content/repositories/snapshots/" : "https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = ossrhUsername
+                password = ossrhPassword
+            }
+        }
+    }
 }
 
-uploadArchives.dependsOn.add(signArchives)
+// Use external gpg2 command to support signing by hardware keys (i.e. SmartCard) and sign only
+// if build should be uploaded to Maven Central.
+signing {
+    required { gradle.taskGraph.hasTask(publish) }
+    useGpgCmd()
+    sign publishing.publications.maven
+}
+
+signMavenPublication.onlyIf {gradle.taskGraph.hasTask(publish)}
+
+publish.dependsOn.add(signMavenPublication)
+
+afterEvaluate {
+    generateTestProto.dependsOn(compileWrapperMessages)
+    extractIncludeTestProto.dependsOn(compileWrapperMessages)
+    extractIncludeIntegrationTestProto.dependsOn(compileWrapperMessages)
+    compileIntegrationTestGroovy.dependsOn(compileWrapperMessages)
+}
