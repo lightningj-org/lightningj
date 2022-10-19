@@ -11,3 +11,5 @@ http://www.lightningj.org
 Build status Master JDK 8: ![JDK 8 Build Status](https://github.com/lightningj-org/lightningj/actions/workflows/test_jdk8.yml/badge.svg?branch=master)
 
 Build status Master JDK 11: ![JDK 11 Build Status](https://github.com/lightningj-org/lightningj/actions/workflows/test_jdk11.yml/badge.svg?branch=master)
+
+Build status Master JDK 17: ![JDK 17 Build Status](https://github.com/lightningj-org/lightningj/actions/workflows/test_jdk17.yml/badge.svg?branch=master)
