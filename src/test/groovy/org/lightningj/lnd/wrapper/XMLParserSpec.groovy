@@ -38,7 +38,7 @@ import org.lightningj.lnd.wrapper.stateservice.message.GetStateRequest
 import org.lightningj.lnd.wrapper.dev.message.ImportGraphResponse
 import spock.lang.Specification
 
-import javax.xml.bind.UnmarshalException
+import jakarta.xml.bind.UnmarshalException
 import javax.xml.validation.Schema
 
 /**

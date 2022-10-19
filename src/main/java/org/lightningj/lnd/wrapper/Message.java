@@ -20,7 +20,7 @@ import org.lightningj.lnd.util.ValidationUtils;
 import javax.json.JsonException;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 /**
  * Base Wrapper Message class containing the base functionality for

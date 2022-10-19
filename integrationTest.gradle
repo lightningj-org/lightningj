@@ -21,7 +21,7 @@ sourceSets{
 }
 
 configurations {
-    integrationTestImplementation.extendsFrom testCompile
+    integrationTestImplementation.extendsFrom testImplementation
     integrationTestRuntimeOnly.extendsFrom runtimeOnly
 }
 
@@ -55,9 +55,12 @@ task integrationTest(type: Test, group: "verification", description: "Runs integ
     }
     testClassesDirs = project.sourceSets.integrationTest.output.classesDirs
     classpath = project.sourceSets.integrationTest.runtimeClasspath
+    useJUnitPlatform()
+    dependsOn(compileWrapperMessages)
 }
 
 integrationTest.shouldRunAfter test
+
 
 /*
   Task for specifying for Intellij which source directories to use.

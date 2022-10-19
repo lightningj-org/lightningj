@@ -19,7 +19,7 @@ import org.gradle.api.Project
 
 
 /**
- * File containing static metods to generate wrapped message classes files into
+ * File containing static methods to generate wrapped message classes files into
  * directory build/generated/source/wrapper/main/org/lightningj/wrapper/message/
  *
  * Created by Philip Vendil

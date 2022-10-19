@@ -1,7 +1,7 @@
 group 'test-buildsrc'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 repositories {
     // Spock releases are available from Maven Central
@@ -10,36 +10,34 @@ repositories {
    // maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
-
+ext {
+    grpcVersion = "1.49.2"
+}
 
 dependencies {
     //gRPC
-    compile group: 'com.google.api.grpc', name: 'googleapis-common-protos', version: '0.0.3'
-    compile 'io.netty:netty-tcnative-boringssl-static:2.0.6.Final'
-    compile 'io.grpc:grpc-netty:1.7.0'
-    compile 'io.grpc:grpc-protobuf:1.7.0'
-    compile 'io.grpc:grpc-stub:1.7.0'
+    implementation 'io.netty:netty-tcnative-boringssl-static:2.0.54.Final'
+    implementation "io.grpc:grpc-netty:$grpcVersion"
+    implementation "io.grpc:grpc-protobuf:$grpcVersion"
+    implementation "io.grpc:grpc-stub:$grpcVersion"
 
     // JAX-B dependencies for JDK 9+
-    compile "javax.xml.bind:jaxb-api:2.2.11"
-    compile "com.sun.xml.bind:jaxb-core:2.2.11"
-    compile "com.sun.xml.bind:jaxb-impl:2.2.11"
-    compile "javax.activation:activation:1.1.1"
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.0'
+    implementation 'com.sun.xml.bind:jaxb-impl:3.0.0'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
 
     // mandatory dependencies for using Spock
-    testCompile ("org.spockframework:spock-core:1.3-groovy-2.5"){
-        transitive false
-    }
-    testCompile ("junit:junit:4.12")
+    testImplementation platform("org.spockframework:spock-bom:2.1-groovy-3.0")
+    testImplementation "org.spockframework:spock-core"
+
+    testImplementation ("junit:junit:4.12")
     // optional dependencies for using Spock
-    testCompile "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
-    testRuntime "net.bytebuddy:byte-buddy:1.9.7"          // allows mocking of classes (in addition to interfaces)
-    testRuntime "org.objenesis:objenesis:2.5.1"    // allows mocking of classes without default constructor (together with CGLIB)
+    testImplementation "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
+    testRuntimeOnly "net.bytebuddy:byte-buddy:1.9.7"          // allows mocking of classes (in addition to interfaces)
+    testRuntimeOnly "org.objenesis:objenesis:2.5.1"    // allows mocking of classes without default constructor (together with CGLIB)
 
     // dependencies used by examples in this project
-    testRuntime "com.h2database:h2:1.4.182"
-
-
+    testRuntimeOnly "com.h2database:h2:1.4.182"
 }
 
 
