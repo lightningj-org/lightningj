@@ -102,9 +102,9 @@ public class JsonGenUtils {
                 Object fObject = jsonObject.get(fieldDescriptor.getJsonName());
                 if(fObject instanceof JsonString){
                     String fStringValue = ((JsonString) fObject).getString();
-                    if(fStringValue.equals(INFINITE)){
+                    if(fStringValue.equalsIgnoreCase(INFINITE)){
                         floatVal = Float.POSITIVE_INFINITY;
-                    }else if(fStringValue.equals(NAN)){
+                    }else if(fStringValue.equalsIgnoreCase(NAN)){
                         floatVal = Float.NaN;
                     }else{
                         throw new JsonException("Invalid Json String value for float value, It cannot be: " + fStringValue);
@@ -120,9 +120,9 @@ public class JsonGenUtils {
                 Object dObject = jsonObject.get(fieldDescriptor.getJsonName());
                 if(dObject instanceof JsonString){
                     String dStringValue = ((JsonString) dObject).getString();
-                    if(dStringValue.equals(INFINITE)){
+                    if(dStringValue.equalsIgnoreCase(INFINITE)){
                         doubleVal = Double.POSITIVE_INFINITY;
-                    }else if(dStringValue.equals(NAN)){
+                    }else if(dStringValue.equalsIgnoreCase(NAN)){
                         doubleVal = Double.NaN;
                     }else{
                         throw new JsonException("Invalid Json String value for double value, It cannot be: " + dStringValue);
