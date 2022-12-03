@@ -33,6 +33,9 @@ import java.util.Map;
  */
 public class JsonGenUtils {
 
+    public static final String INFINITE = "inf";
+    public static final String NAN = "nan";
+
     private static Map<String,Boolean> jsonPrettyPrintProperties = new HashMap(1);
     private static JsonGeneratorFactory jsonGeneratorFactory = Json.createGeneratorFactory( new HashMap<String,Boolean>(0));
     private static JsonGeneratorFactory jsonPrettyPrintGeneratorFactory;
@@ -95,11 +98,40 @@ public class JsonGenUtils {
                 apiObjectBuilder.setField(fieldDescriptor,jsonObject.getJsonNumber(fieldDescriptor.getJsonName()).longValueExact());
                 break;
             case FLOAT:
-                Float value = (float) jsonObject.getJsonNumber(fieldDescriptor.getJsonName()).doubleValue();
-                apiObjectBuilder.setField(fieldDescriptor,value);
+                float floatVal;
+                Object fObject = jsonObject.get(fieldDescriptor.getJsonName());
+                if(fObject instanceof JsonString){
+                    String fStringValue = ((JsonString) fObject).getString();
+                    if(fStringValue.equalsIgnoreCase(INFINITE)){
+                        floatVal = Float.POSITIVE_INFINITY;
+                    }else if(fStringValue.equalsIgnoreCase(NAN)){
+                        floatVal = Float.NaN;
+                    }else{
+                        throw new JsonException("Invalid Json String value for float value, It cannot be: " + fStringValue);
+                    }
+                }else{
+                    floatVal = (float) jsonObject.getJsonNumber(fieldDescriptor.getJsonName()).doubleValue();
+                }
+                apiObjectBuilder.setField(fieldDescriptor,floatVal);
                 break;
             case DOUBLE:
-                apiObjectBuilder.setField(fieldDescriptor,jsonObject.getJsonNumber(fieldDescriptor.getJsonName()).doubleValue());
+                // Here Infinite and NaN
+                double doubleVal;
+                Object dObject = jsonObject.get(fieldDescriptor.getJsonName());
+                if(dObject instanceof JsonString){
+                    String dStringValue = ((JsonString) dObject).getString();
+                    if(dStringValue.equalsIgnoreCase(INFINITE)){
+                        doubleVal = Double.POSITIVE_INFINITY;
+                    }else if(dStringValue.equalsIgnoreCase(NAN)){
+                        doubleVal = Double.NaN;
+                    }else{
+                        throw new JsonException("Invalid Json String value for double value, It cannot be: " + dStringValue);
+                    }
+                }else{
+                    doubleVal = jsonObject.getJsonNumber(fieldDescriptor.getJsonName()).doubleValue();
+                }
+
+                apiObjectBuilder.setField(fieldDescriptor,doubleVal);
                 break;
             case BOOLEAN:
                 apiObjectBuilder.setField(fieldDescriptor,jsonObject.getBoolean(fieldDescriptor.getJsonName()));
@@ -142,9 +174,25 @@ public class JsonGenUtils {
                   jsonObjectBuilder.add(fieldDescriptor.getJsonName(),(long) fieldValue);
                   break;
               case FLOAT:
+                  if(((Float) fieldValue).isInfinite()){
+                      jsonObjectBuilder.add(fieldDescriptor.getJsonName(), INFINITE);
+                      break;
+                  }
+                  if(((Float) fieldValue).isNaN()){
+                      jsonObjectBuilder.add(fieldDescriptor.getJsonName(), NAN);
+                      break;
+                  }
                   jsonObjectBuilder.add(fieldDescriptor.getJsonName(),(float) fieldValue);
                   break;
               case DOUBLE:
+                  if(((Double) fieldValue).isInfinite()){
+                      jsonObjectBuilder.add(fieldDescriptor.getJsonName(), INFINITE);
+                      break;
+                  }
+                  if(((Double) fieldValue).isNaN()){
+                      jsonObjectBuilder.add(fieldDescriptor.getJsonName(), NAN);
+                      break;
+                  }
                   jsonObjectBuilder.add(fieldDescriptor.getJsonName(),(double) fieldValue);
                   break;
               case BOOLEAN:

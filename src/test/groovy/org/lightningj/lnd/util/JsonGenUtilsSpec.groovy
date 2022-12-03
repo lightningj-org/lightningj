@@ -39,6 +39,8 @@ import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.MESSAGE
 import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.STRING
 import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.ENUM
 import static org.lightningj.lnd.proto.LightningApi.AddressType.WITNESS_PUBKEY_HASH
+import static org.lightningj.lnd.util.JsonGenUtils.INFINITE
+import static org.lightningj.lnd.util.JsonGenUtils.NAN
 
 /**
  * Unit test for class JsonGenUtils
@@ -117,6 +119,8 @@ class JsonGenUtilsSpec extends Specification {
         STRING            | LightningApi.Invoice.newInstance()           | "memo"               | "SomeString"                | '{"memo":"SomeString"}'
         INT               | LightningApi.Hop.newInstance()               | "expiry"             | 123                         | '{"expiry":123}'
         DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | (double) 1928127.00001      | '{"avgOutDegree":1928127.00001}'
+        DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | Double.POSITIVE_INFINITY    | '{"avgOutDegree":"inf"}'
+        DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | Double.NaN                  | '{"avgOutDegree":"nan"}'
         LONG              | LightningApi.Payment.newInstance()           | "fee"                | 1292817282L                 | '{"fee":1292817282}'
         BOOLEAN           | LightningApi.Invoice.newInstance()           | "settled"            | true                        | '{"settled":true}'
         BYTE_STRING       | LightningApi.Invoice.newInstance()           | "r_preimage"         | byteString                  | '{"rPreimage":"' + base64EncodedByteString + '"}'
@@ -147,6 +151,8 @@ class JsonGenUtilsSpec extends Specification {
         STRING            | LightningApi.Invoice.newInstance()           | "memo"               | "SomeString"                | '{"memo":"SomeString"}'
         INT               | LightningApi.Hop.newInstance()               | "expiry"             | 123                         | '{"expiry":123}'
         DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | (double) 1928127.00001      | '{"avgOutDegree":1928127.00001}'
+        DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | Double.NaN                  | """{"avgOutDegree": "${NAN}"}"""
+        DOUBLE            | LightningApi.NetworkInfo.newInstance()       | "avg_out_degree"     | Double.POSITIVE_INFINITY    | """{"avgOutDegree": "${INFINITE}"}"""
         LONG              | LightningApi.Payment.newInstance()           | "fee"                | 1292817282L                 | '{"fee":1292817282}'
         BOOLEAN           | LightningApi.Invoice.newInstance()           | "settled"            | true                        | '{"settled":true}'
         BYTE_STRING       | LightningApi.Invoice.newInstance()           | "r_preimage"         | byteString                  | '{"rPreimage":"' + base64EncodedByteString + '"}'
