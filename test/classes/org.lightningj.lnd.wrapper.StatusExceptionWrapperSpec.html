@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.055s</div>
+<div class="counter">0.008s</div>
 <p>duration</p>
 </div>
 </td>
@@ -76,12 +76,12 @@
 </thead>
 <tr>
 <td class="success">Verify that both io.grpc.StatusException and io.grpc.StatusRuntimeException is wrapped</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that exceptions that isn't io.grpc.StatusException nor io.grpc.StatusRuntimeException generates ServerSideException</td>
-<td class="success">0.005s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -91,22 +91,22 @@
 </tr>
 <tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=ABORTED, description=null, cause=null} into exception with type ServerSideException</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=ALREADY_EXISTS, description=null, cause=null} into exception with type ClientSideException</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=CANCELLED, description=null, cause=null} into exception with type ClientSideException</td>
-<td class="success">0.014s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=DATA_LOSS, description=null, cause=null} into exception with type ServerSideException</td>
-<td class="success">0s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -116,7 +116,7 @@
 </tr>
 <tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=FAILED_PRECONDITION, description=null, cause=null} into exception with type ServerSideException</td>
-<td class="success">0.012s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -126,12 +126,12 @@
 </tr>
 <tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=INVALID_ARGUMENT, description=null, cause=null} into exception with type ClientSideException</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=NOT_FOUND, description=null, cause=null} into exception with type ClientSideException</td>
-<td class="success">0.005s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -141,32 +141,32 @@
 </tr>
 <tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=PERMISSION_DENIED, description=null, cause=null} into exception with type ClientSideException</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=RESOURCE_EXHAUSTED, description=null, cause=null} into exception with type ServerSideException</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=UNAUTHENTICATED, description=null, cause=null} into exception with type ClientSideException</td>
-<td class="success">0.002s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=UNAVAILABLE, description=null, cause=null} into exception with type CommunicationException</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=RESOURCE_EXHAUSTED, description=null, cause=null} into exception with type ServerSideException</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=UNAUTHENTICATED, description=null, cause=null} into exception with type ClientSideException</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=UNAVAILABLE, description=null, cause=null} into exception with type CommunicationException</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=UNIMPLEMENTED, description=null, cause=null} into exception with type ServerSideException</td>
-<td class="success">0.006s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Verify that wrap converts to grpc StatusException with Code Status{code=UNKNOWN, description=null, cause=null} into exception with type ServerSideException</td>
-<td class="success">0.003s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -179,7 +179,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.5.1</a> at 19-Oct-2022 08:59:55</p>
+<a href="http://www.gradle.org">Gradle 7.5.1</a> at 03-Dec-2022 14:06:05</p>
 </div>
 </div>
 </body>

@@ -2683,6 +2683,7 @@
       <xs:enumeration value="SCRIPT_TYPE_NULLDATA"/>
       <xs:enumeration value="SCRIPT_TYPE_NON_STANDARD"/>
       <xs:enumeration value="SCRIPT_TYPE_WITNESS_UNKNOWN"/>
+      <xs:enumeration value="SCRIPT_TYPE_WITNESS_V1_TAPROOT"/>
     </xs:restriction>
   </xs:simpleType>
 
