@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (3f3bc40) tag : Downloaded 2022-08-20
+ * LND (71f2615) tag : Downloaded 2023-02-25
  */
 syntax = "proto3";
 
@@ -71,14 +71,12 @@ message AddHoldInvoiceRequest {
 
     /*
     The value of this invoice in satoshis
-
     The fields value and value_msat are mutually exclusive.
     */
     int64 value = 3;
 
     /*
     The value of this invoice in millisatoshis
-
     The fields value and value_msat are mutually exclusive.
     */
     int64 value_msat = 10;
@@ -90,7 +88,7 @@ message AddHoldInvoiceRequest {
     */
     bytes description_hash = 4;
 
-    // Payment request expiry time in seconds. Default is 3600 (1 hour).
+    // Payment request expiry time in seconds. Default is 86400 (24 hours).
     int64 expiry = 5;
 
     // Fallback on-chain address.

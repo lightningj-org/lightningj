@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (d6db386) tag : Downloaded 2022-05-29
+ * LND (4607dff) tag : Downloaded 2022-02-25
  */
 syntax = "proto3";
 
@@ -18,7 +18,6 @@ service ChainNotifier {
     RegisterConfirmationsNtfn is a synchronous response-streaming RPC that
     registers an intent for a client to be notified once a confirmation request
     has reached its required number of confirmations on-chain.
-
     A confirmation request must have a valid output script. It is also possible
     to give a transaction ID. If the transaction ID is not set, a notification
     is sent once the output script confirms. If the transaction ID is also set,
@@ -31,7 +30,6 @@ service ChainNotifier {
     RegisterSpendNtfn is a synchronous response-streaming RPC that registers an
     intent for a client to be notification once a spend request has been spent
     by a transaction that has confirmed on-chain.
-
     A client can specify whether the spend request should be for a particular
     outpoint  or for an output script by specifying a zero outpoint.
     */
@@ -43,7 +41,6 @@ service ChainNotifier {
     stream will return a hash and height tuple of a block for each new/stale
     block in the chain. It is the client's responsibility to determine whether
     the tuple returned is for a new or stale block in the chain.
-
     A client can also request a historical backlog of blocks from a particular
     point. This allows clients to be idempotent by ensuring that they do not
     missing processing a single block within the chain.
@@ -79,6 +76,12 @@ message ConfRequest {
     broadcast height of the transaction/output script.
     */
     uint32 height_hint = 4;
+
+    /*
+    If true, then the block that mines the specified txid/script will be
+    included in eventual the notification event.
+    */
+    bool include_block = 5;
 }
 
 message ConfDetails {
@@ -92,8 +95,14 @@ message ConfDetails {
     // in.
     uint32 block_height = 3;
 
-    // The index of the confirmed transaction within the transaction.
+    // The index of the confirmed transaction within the block.
     uint32 tx_index = 4;
+
+    /*
+    The raw bytes of the block that mined the transaction. Only included if
+    include_block was set in the request.
+    */
+    bytes raw_block = 5;
 }
 
 message Reorg {

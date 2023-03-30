@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/walletunlocker.proto
  * And is distributed under LNDs MIT License.
- * LND (ceb31f9) tag : Downloaded 2020-11-24
+ * LND (86e5f9d) tag : Downloaded 2023-02-25
  */
 syntax = "proto3";
 
@@ -188,6 +188,13 @@ message InitWalletRequest {
     corresponding private keys and can serve signing RPC requests.
     */
     WatchOnly watch_only = 9;
+
+    /*
+    macaroon_root_key is an optional 32 byte macaroon root key that can be
+    provided when initializing the wallet rather than letting lnd generate one
+    on its own.
+    */
+    bytes macaroon_root_key = 10;
 }
 message InitWalletResponse {
     /*
