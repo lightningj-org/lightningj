@@ -40,7 +40,8 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
-* 0.15.5-Beta    : Generated agains LND 0.15.5 and fix for NaN issue #79
+* 0.16.0-Beta    : Generated against LND 0.16.0 API
+* 0.15.5-Beta    : Generated against LND 0.15.5 and fix for NaN issue #79
 * 0.15.3-Beta    : Major update, Generated against 0.15.3 and updated Gradle to 7.5.1.
                    Updated grpc to 1.49.2 and protobuf to 3.21.7. Migrated from jaxb.xml.bind to jakarta.xml.bind.
                    Done with contribution from rachid-o.

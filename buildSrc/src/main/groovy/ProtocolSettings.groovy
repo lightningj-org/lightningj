@@ -314,7 +314,7 @@ import org.lightningj.lnd.wrapper.message.FeatureBit;
                 }
                 break
             case "router":
-                if(methodName == "sendPaymentV2" || methodName == "trackPaymentV2" || methodName == "sendToRouteV2"){
+                if(methodName == "sendPaymentV2" || methodName == "trackPaymentV2" || methodName == "sendToRouteV2" || methodName == "trackPayments"){
                     return "LightningApi"
                 }
             case "dev":

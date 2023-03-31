@@ -57,7 +57,22 @@ class ClassNameUtils {
         if(!name || name.empty){
             return name
         }
-        return name.split("_").collect{ upperCaseFirst(it)}.join("")
+
+        return name.split("_").collect{ capitalizeAfterNumber(it.capitalize())}.join("")
+    }
+
+    static String capitalizeAfterNumber(String inputString){
+        String outputString = ""
+        for(int i = 0; i < inputString.length(); i++) {
+            def ch = inputString.charAt(i)
+            if(ch.isDigit() && i < inputString.length() - 1) {
+                outputString += ch
+                outputString += inputString.charAt(++i).toUpperCase()
+            } else {
+                outputString += ch
+            }
+        }
+        return outputString
     }
 
     /**

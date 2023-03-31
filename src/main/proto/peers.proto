@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (5ab0cbd) tag : Downloaded 2022-05-29
+ * LND (9a368f0) tag : Downloaded 2023-02-25
  */
 syntax = "proto3";
 
@@ -13,7 +13,7 @@ option java_package = "org.lightningj.lnd.peers.proto";
 option go_package = "github.com/lightningnetwork/lnd/lnrpc/peersrpc";
 
 // Peers is a service that can be used to get information and interact
-// with the other nodes of the newtwork.
+// with the other nodes of the network.
 service Peers {
   /* lncli: peers updatenodeannouncement
   UpdateNodeAnnouncement allows the caller to update the node parameters

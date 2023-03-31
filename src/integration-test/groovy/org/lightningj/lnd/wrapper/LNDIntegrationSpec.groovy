@@ -111,7 +111,7 @@ class LNDIntegrationSpec extends Specification{
 
     def "Verify listChannels fetches all channels"(){
         when:
-        ListChannelsResponse channels = synchronousLndAPI.listChannels(false,false,false,false)
+        ListChannelsResponse channels = synchronousLndAPI.listChannels(false,false,false,false,null,false)
 
         for(Channel o : channels.channels){
             assert o != null

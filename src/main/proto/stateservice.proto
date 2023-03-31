@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (f5bac96) tag : Downloaded 2021-11-24
+ * LND (96326e0) tag : Downloaded 2023-02-25
  */
 syntax = "proto3";
 
@@ -42,14 +42,25 @@ service State {
 }
 
 enum WalletState {
+    // NON_EXISTING means that the wallet has not yet been initialized.
     NON_EXISTING = 0;
+
+    // LOCKED means that the wallet is locked and requires a password to unlock.
     LOCKED = 1;
+
+    // UNLOCKED means that the wallet was unlocked successfully, but RPC server
+    // isn't ready.
     UNLOCKED = 2;
+
+    // RPC_ACTIVE means that the lnd server is active but not fully ready for
+    // calls.
     RPC_ACTIVE = 3;
 
     // SERVER_ACTIVE means that the lnd server is ready to accept calls.
     SERVER_ACTIVE = 4;
 
+    // WAITING_TO_START means that node is waiting to become the leader in a
+    // cluster and is not started yet.
     WAITING_TO_START = 255;
 }
 
