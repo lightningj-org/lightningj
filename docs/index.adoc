@@ -238,7 +238,7 @@ Iterator<OpenStatusUpdate> result = synchronousLndAPI.openChannel(openChannelReq
 // generated in btc. If simnet is used you can manually generate blocks with
 // 'btcctl --simnet --rpcuser=kek --rpcpass=kek generate 3'
 
-while(result.hasNext()){
+while (result.hasNext()) {
     System.out.println("Received Update: " + result.next().toJsonAsString(true));
 }
 
@@ -262,7 +262,7 @@ And example on how to use the main LDN Asynchronous API
 // Create  API, using the most simple constructor. There are alternatives
 // where it is possible to specify custom SSLContext or just a managed channel.
 // See SynchronousLndAPIExample for details.
-AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File("/Users/philip/Library/Application Support/Lnd/tls.cert"), null);
+AsynchronousLndAPI asynchronousLndAPI = new AsynchronousLndAPI("localhost",10001,new File("/Users/philip/Library/Application Support/Lnd/tls.cert"),null);
 
 try {
     // Example of a simple asynchronous call.
@@ -316,7 +316,7 @@ try {
         Thread.sleep(1000);
     }
 
-}finally {
+} finally {
     // To close the api use the method
     asynchronousLndAPI.close();
 }
@@ -420,7 +420,7 @@ Starting from 0.6.0 there are several different APIs to the different services.
 
 The library uses the JSR 374 javax.json api to generate and parse JSON.
 
-To convert between JSON and High Level API object is pretty straight forward as shown
+Converting between JSON and High Level API objects is pretty straight forward as shown
 in following example:
 
 [source,java]
@@ -446,7 +446,7 @@ Iterator<OpenStatusUpdate> result = synchronousLndAPI.openChannel(openChannelReq
 // generated in btc. If simnet is used you can manually generate blocks with
 // 'btcctl --simnet --rpcuser=kek --rpcpass=kek generate 3'
 
-while(result.hasNext()){
+while (result.hasNext()) {
     // To generate JSON from a response there are three possiblities, either
     OpenStatusUpdate next = result.next();
     // To get JSON as String
@@ -619,13 +619,13 @@ validationResult.getMessageErrors();
 validationResult.getSubMessageResults();
 
 
-try{
+try {
     // Each call might throw a ValidationException
     synchronousLndAPI.channelBalance();
-}catch(ValidationException ve){
+} catch (ValidationException ve) {
     // A ValidationException has the faulty messages ValidationReport as a field.
     ValidationResult vr = ve.getValidationResult();
-}catch(StatusException se){
+} catch (StatusException se) {
     //...
 }
 ----
@@ -642,7 +642,7 @@ bundle is in src/main/resources/lightningj_messages
 The High Level API has two categories of exceptions that can be thrown during an API
 call. One is ValidationException indicating that a message didn't conform to GRPC Proto
 specification. The other category consist of a base StatusException, (wrapping the low level
- io.grpc.StatusException or io.grpc.StatusRuntimeException), and three sub exception
+ `io.grpc.StatusException` or `io.grpc.StatusRuntimeException`), and three sub exception
 indicating the type of status problem that occurred and that could be handled differently.
 
 Here is a list of status exceptions
@@ -674,25 +674,25 @@ ServerSideException or CommunicationException separately.
 // Get API
 SynchronousLndAPI synchronousLndAPI = getSynchronousLndAPI();
 
-try{
+try {
     // Perform a call
     synchronousLndAPI.channelBalance();
-}catch(ValidationException ve){
+} catch (ValidationException ve) {
     // Thrown if request or response contained invalid data
-}catch(StatusException se){
+} catch (StatusException se) {
     // Thrown if GRPC related exception happened.
 }
 
 // Example of more fine grained exception handling.
-try{
+try {
     synchronousLndAPI.channelBalance();
-}catch(ValidationException ve){
+} catch (ValidationException ve) {
     // Thrown if request or response contained invalid data
-}catch(ClientSideException cse){
+} catch (ClientSideException cse) {
     // Thrown if there is some problem on the client side such as invalid request data.
-}catch(ServerSideException sse){
+} catch (ServerSideException sse) {
     // Thrown if there is some problem on the server side that might persist for some time.
-}catch(CommunicationException ce){
+} catch (CommunicationException ce) {
     // Thrown if communication problems occurred such as  timeout or dropped package and request can be retried.
 }
 
@@ -755,7 +755,7 @@ The library uses the standard java.logging API for logging. Which is the same
 library as the underlying GRPC Java uses.
 
 It has one Logger defined "org.lightningj.lnd.wrapper.API" and it is possible to setting it to
-LogLevel.FINE to have incoming and outgoing messages logged in pretty printed JSON format
+`LogLevel.FINE` to have incoming and outgoing messages logged in pretty printed JSON format
 to help out when debugging.
 
 === Using the Low Level API Directly
@@ -789,10 +789,10 @@ LightningGrpc.LightningBlockingStub stub = LightningGrpc.newBlockingStub(channel
 // Create a request object using messages in "org.lightningj.lnd.proto.LightningApi"
 LightningApi.WalletBalanceRequest.Builder walletBalanceRequest = LightningApi.WalletBalanceRequest.newBuilder();
 walletBalanceRequest.setWitnessOnly(true);
-try{
+try {
     LightningApi.WalletBalanceResponse response = stub.walletBalance(walletBalanceRequest.build());
     System.out.println("Wallet Balance: " + response.getTotalBalance());
-}catch(StatusRuntimeException sre){
+} catch (StatusRuntimeException sre) {
     // Handle exceptions a with status code in sre.getStatus()
 }
 ----
