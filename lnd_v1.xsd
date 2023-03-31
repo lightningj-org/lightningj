@@ -231,6 +231,10 @@
 
   <xs:element name="ListUnspentResponse" type="ListUnspentResponseType"/>
 
+  <xs:element name="LookupHtlcResolutionRequest" type="LookupHtlcResolutionRequestType"/>
+
+  <xs:element name="LookupHtlcResolutionResponse" type="LookupHtlcResolutionResponseType"/>
+
   <xs:element name="MPPRecord" type="MPPRecordType"/>
 
   <xs:element name="MacaroonId" type="MacaroonIdType"/>
@@ -380,6 +384,20 @@
   <xs:element name="WalletBalanceRequest" type="WalletBalanceRequestType"/>
 
   <xs:element name="WalletBalanceResponse" type="WalletBalanceResponseType"/>
+
+  <xs:complexType name="LookupHtlcResolutionRequestType">
+    <xs:sequence>
+      <xs:element name="chanId" type="xs:long"/>
+      <xs:element name="htlcIndex" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LookupHtlcResolutionResponseType">
+    <xs:sequence>
+      <xs:element name="settled" type="xs:boolean"/>
+      <xs:element name="offchain" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:complexType name="SubscribeCustomMessagesRequestType">
     <xs:all/>
@@ -904,6 +922,7 @@
       </xs:element>
       <xs:element name="zeroConf" type="xs:boolean"/>
       <xs:element name="zeroConfConfirmedScid" type="xs:long"/>
+      <xs:element name="peerAlias" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -914,6 +933,7 @@
       <xs:element name="publicOnly" type="xs:boolean"/>
       <xs:element name="privateOnly" type="xs:boolean"/>
       <xs:element name="peer" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="peerAliasLookup" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1142,6 +1162,7 @@
       </xs:element>
       <xs:element name="featuresEntries" type="GetInfoResponseFeaturesEntriesType" minOccurs="0"/>
       <xs:element name="requireHtlcInterceptor" type="xs:boolean"/>
+      <xs:element name="storeFinalHtlcResolutions" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1297,6 +1318,11 @@
       <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
       <xs:element name="zeroConf" type="xs:boolean"/>
       <xs:element name="scidAlias" type="xs:boolean"/>
+      <xs:element name="baseFee" type="xs:long"/>
+      <xs:element name="feeRate" type="xs:long"/>
+      <xs:element name="useBaseFee" type="xs:boolean"/>
+      <xs:element name="useFeeRate" type="xs:boolean"/>
+      <xs:element name="remoteChanReserveSat" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1724,6 +1750,7 @@
       </xs:element>
       <xs:element name="color" type="xs:string" minOccurs="0"/>
       <xs:element name="featuresEntries" type="LightningNodeFeaturesEntriesType" minOccurs="0"/>
+      <xs:element name="customRecordsEntries" type="LightningNodeCustomRecordsEntriesType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1747,6 +1774,19 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="LightningNodeCustomRecordsEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="LightningNodeCustomRecordsEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LightningNodeCustomRecordsEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:long"/>
+      <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ChannelEdgeType">
     <xs:sequence>
       <xs:element name="channelId" type="xs:long"/>
@@ -1757,6 +1797,7 @@
       <xs:element name="capacity" type="xs:long"/>
       <xs:element name="node1Policy" type="RoutingPolicyType" minOccurs="0"/>
       <xs:element name="node2Policy" type="RoutingPolicyType" minOccurs="0"/>
+      <xs:element name="customRecordsEntries" type="ChannelEdgeCustomRecordsEntriesType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1769,6 +1810,33 @@
       <xs:element name="disabled" type="xs:boolean"/>
       <xs:element name="maxHtlcMsat" type="xs:long"/>
       <xs:element name="lastUpdate" type="xs:int"/>
+      <xs:element name="customRecordsEntries" type="RoutingPolicyCustomRecordsEntriesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RoutingPolicyCustomRecordsEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="RoutingPolicyCustomRecordsEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RoutingPolicyCustomRecordsEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:long"/>
+      <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelEdgeCustomRecordsEntriesType">
+    <xs:sequence>
+      <xs:element name="entry" type="ChannelEdgeCustomRecordsEntryType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ChannelEdgeCustomRecordsEntryType">
+    <xs:sequence>
+      <xs:element name="key" type="xs:long"/>
+      <xs:element name="value" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2096,6 +2164,8 @@
       <xs:element name="indexOffset" type="xs:long"/>
       <xs:element name="numMaxInvoices" type="xs:long"/>
       <xs:element name="reversed" type="xs:boolean"/>
+      <xs:element name="creationDateStart" type="xs:long"/>
+      <xs:element name="creationDateEnd" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2195,6 +2265,8 @@
       <xs:element name="maxPayments" type="xs:long"/>
       <xs:element name="reversed" type="xs:boolean"/>
       <xs:element name="countTotalPayments" type="xs:boolean"/>
+      <xs:element name="creationDateStart" type="xs:long"/>
+      <xs:element name="creationDateEnd" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2372,6 +2444,7 @@
       <xs:element name="endTime" type="xs:long"/>
       <xs:element name="indexOffset" type="xs:int"/>
       <xs:element name="numMaxEvents" type="xs:int"/>
+      <xs:element name="peerAliasLookup" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -2387,6 +2460,8 @@
       <xs:element name="amtInMsat" type="xs:long"/>
       <xs:element name="amtOutMsat" type="xs:long"/>
       <xs:element name="timestampNs" type="xs:long"/>
+      <xs:element name="peerAliasIn" type="xs:string" minOccurs="0"/>
+      <xs:element name="peerAliasOut" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 

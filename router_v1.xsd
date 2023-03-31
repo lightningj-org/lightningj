@@ -3,11 +3,17 @@
 
   <xs:import namespace="http://lightningj.org/xsd/lndjapi_1_0" schemaLocation="./lnd_v1.xsd"/>
 
+  <xs:element name="AprioriParameters" type="tns:AprioriParametersType"/>
+
+  <xs:element name="BimodalParameters" type="tns:BimodalParametersType"/>
+
   <xs:element name="BuildRouteRequest" type="tns:BuildRouteRequestType"/>
 
   <xs:element name="BuildRouteResponse" type="tns:BuildRouteResponseType"/>
 
   <xs:element name="CircuitKey" type="tns:CircuitKeyType"/>
+
+  <xs:element name="FinalHtlcEvent" type="tns:FinalHtlcEventType"/>
 
   <xs:element name="ForwardEvent" type="tns:ForwardEventType"/>
 
@@ -65,7 +71,11 @@
 
   <xs:element name="SubscribeHtlcEventsRequest" type="tns:SubscribeHtlcEventsRequestType"/>
 
+  <xs:element name="SubscribedEvent" type="tns:SubscribedEventType"/>
+
   <xs:element name="TrackPaymentRequest" type="tns:TrackPaymentRequestType"/>
+
+  <xs:element name="TrackPaymentsRequest" type="tns:TrackPaymentsRequestType"/>
 
   <xs:element name="UpdateChanStatusRequest" type="tns:UpdateChanStatusRequestType"/>
 
@@ -131,6 +141,12 @@
   <xs:complexType name="TrackPaymentRequestType">
     <xs:sequence>
       <xs:element name="paymentHash" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="noInflightUpdates" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TrackPaymentsRequestType">
+    <xs:sequence>
       <xs:element name="noInflightUpdates" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
@@ -241,6 +257,26 @@
       <xs:element name="weight" type="xs:float"/>
       <xs:element name="maximumPaymentResults" type="xs:int"/>
       <xs:element name="minimumFailureRelaxInterval" type="xs:long"/>
+      <xs:element name="model" type="tns:probabilityModel" minOccurs="0"/>
+      <xs:element name="apriori" type="tns:AprioriParametersType" minOccurs="0"/>
+      <xs:element name="bimodal" type="tns:BimodalParametersType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AprioriParametersType">
+    <xs:sequence>
+      <xs:element name="halfLifeSeconds" type="xs:long"/>
+      <xs:element name="hopProbability" type="xs:double"/>
+      <xs:element name="weight" type="xs:double"/>
+      <xs:element name="capacityFraction" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BimodalParametersType">
+    <xs:sequence>
+      <xs:element name="nodeWeight" type="xs:double"/>
+      <xs:element name="scaleMsat" type="xs:long"/>
+      <xs:element name="decayTime" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -307,6 +343,8 @@
       <xs:element name="forwardFailEvent" type="tns:ForwardFailEventType" minOccurs="0"/>
       <xs:element name="settleEvent" type="tns:SettleEventType" minOccurs="0"/>
       <xs:element name="linkFailEvent" type="tns:LinkFailEventType" minOccurs="0"/>
+      <xs:element name="subscribedEvent" type="tns:SubscribedEventType" minOccurs="0"/>
+      <xs:element name="finalHtlcEvent" type="tns:FinalHtlcEventType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -344,6 +382,17 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="SubscribedEventType">
+    <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="FinalHtlcEventType">
+    <xs:sequence>
+      <xs:element name="settled" type="xs:boolean"/>
+      <xs:element name="offchain" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="PaymentStatusType">
     <xs:sequence>
       <xs:element name="state" type="tns:paymentState" minOccurs="0"/>
@@ -376,6 +425,7 @@
       <xs:element name="outgoingExpiry" type="xs:int"/>
       <xs:element name="customRecordsEntries" type="tns:ForwardHtlcInterceptRequestCustomRecordsEntriesType" minOccurs="0"/>
       <xs:element name="onionBlob" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="autoFailHeight" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -412,6 +462,13 @@
   <xs:complexType name="UpdateChanStatusResponseType">
     <xs:all/>
   </xs:complexType>
+
+  <xs:simpleType name="probabilityModel">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="APRIORI"/>
+      <xs:enumeration value="BIMODAL"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:simpleType name="eventType">
     <xs:restriction base="xs:string">

@@ -7,9 +7,13 @@
 
   <xs:element name="Account" type="tns:AccountType"/>
 
+  <xs:element name="AccountWithAddresses" type="tns:AccountWithAddressesType"/>
+
   <xs:element name="AddrRequest" type="tns:AddrRequestType"/>
 
   <xs:element name="AddrResponse" type="tns:AddrResponseType"/>
+
+  <xs:element name="AddressProperty" type="tns:AddressPropertyType"/>
 
   <xs:element name="BumpFeeRequest" type="tns:BumpFeeRequestType"/>
 
@@ -35,6 +39,10 @@
 
   <xs:element name="ImportPublicKeyResponse" type="tns:ImportPublicKeyResponseType"/>
 
+  <xs:element name="ImportTapscriptRequest" type="tns:ImportTapscriptRequestType"/>
+
+  <xs:element name="ImportTapscriptResponse" type="tns:ImportTapscriptResponseType"/>
+
   <xs:element name="KeyReq" type="tns:KeyReqType"/>
 
   <xs:element name="LabelTransactionRequest" type="tns:LabelTransactionRequestType"/>
@@ -48,6 +56,10 @@
   <xs:element name="ListAccountsRequest" type="tns:ListAccountsRequestType"/>
 
   <xs:element name="ListAccountsResponse" type="tns:ListAccountsResponseType"/>
+
+  <xs:element name="ListAddressesRequest" type="tns:ListAddressesRequestType"/>
+
+  <xs:element name="ListAddressesResponse" type="tns:ListAddressesResponseType"/>
 
   <xs:element name="ListLeasesRequest" type="tns:ListLeasesRequestType"/>
 
@@ -81,15 +93,29 @@
 
   <xs:element name="SendOutputsResponse" type="tns:SendOutputsResponseType"/>
 
+  <xs:element name="SignMessageWithAddrRequest" type="tns:SignMessageWithAddrRequestType"/>
+
+  <xs:element name="SignMessageWithAddrResponse" type="tns:SignMessageWithAddrResponseType"/>
+
   <xs:element name="SignPsbtRequest" type="tns:SignPsbtRequestType"/>
 
   <xs:element name="SignPsbtResponse" type="tns:SignPsbtResponseType"/>
+
+  <xs:element name="TapLeaf" type="tns:TapLeafType"/>
+
+  <xs:element name="TapscriptFullTree" type="tns:TapscriptFullTreeType"/>
+
+  <xs:element name="TapscriptPartialReveal" type="tns:TapscriptPartialRevealType"/>
 
   <xs:element name="Transaction" type="tns:TransactionType"/>
 
   <xs:element name="TxTemplate" type="tns:TxTemplateType"/>
 
   <xs:element name="UtxoLease" type="tns:UtxoLeaseType"/>
+
+  <xs:element name="VerifyMessageWithAddrRequest" type="tns:VerifyMessageWithAddrRequestType"/>
+
+  <xs:element name="VerifyMessageWithAddrResponse" type="tns:VerifyMessageWithAddrResponseType"/>
 
   <xs:complexType name="ListUnspentRequestType">
     <xs:sequence>
@@ -171,6 +197,29 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="AddressPropertyType">
+    <xs:sequence>
+      <xs:element name="address" type="xs:string" minOccurs="0"/>
+      <xs:element name="isInternal" type="xs:boolean"/>
+      <xs:element name="balance" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AccountWithAddressesType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="addressType" type="tns:addressType" minOccurs="0"/>
+      <xs:element name="derivationPath" type="xs:string" minOccurs="0"/>
+      <xs:element name="addresses" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:AddressProperty" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ListAccountsRequestType">
     <xs:sequence>
       <xs:element name="name" type="xs:string" minOccurs="0"/>
@@ -199,6 +248,53 @@
   <xs:complexType name="RequiredReserveResponseType">
     <xs:sequence>
       <xs:element name="requiredReserve" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListAddressesRequestType">
+    <xs:sequence>
+      <xs:element name="accountName" type="xs:string" minOccurs="0"/>
+      <xs:element name="showCustomAccounts" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListAddressesResponseType">
+    <xs:sequence>
+      <xs:element name="account_with_addresses" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:AccountWithAddresses" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignMessageWithAddrRequestType">
+    <xs:sequence>
+      <xs:element name="msg" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="addr" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignMessageWithAddrResponseType">
+    <xs:sequence>
+      <xs:element name="signature" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VerifyMessageWithAddrRequestType">
+    <xs:sequence>
+      <xs:element name="msg" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="signature" type="xs:string" minOccurs="0"/>
+      <xs:element name="addr" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="VerifyMessageWithAddrResponseType">
+    <xs:sequence>
+      <xs:element name="valid" type="xs:boolean"/>
+      <xs:element name="pubkey" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -241,6 +337,48 @@
 
   <xs:complexType name="ImportPublicKeyResponseType">
     <xs:all/>
+  </xs:complexType>
+
+  <xs:complexType name="ImportTapscriptRequestType">
+    <xs:sequence>
+      <xs:element name="internalPublicKey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="fullTree" type="tns:TapscriptFullTreeType" minOccurs="0"/>
+      <xs:element name="partialReveal" type="tns:TapscriptPartialRevealType" minOccurs="0"/>
+      <xs:element name="rootHashOnly" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="fullKeyOnly" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TapscriptFullTreeType">
+    <xs:sequence>
+      <xs:element name="all_leaves" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns:TapLeaf" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TapLeafType">
+    <xs:sequence>
+      <xs:element name="leafVersion" type="xs:int"/>
+      <xs:element name="script" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TapscriptPartialRevealType">
+    <xs:sequence>
+      <xs:element name="revealedLeaf" type="tns:TapLeafType" minOccurs="0"/>
+      <xs:element name="fullInclusionProof" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ImportTapscriptResponseType">
+    <xs:sequence>
+      <xs:element name="p2TrAddress" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="TransactionType">
@@ -382,6 +520,7 @@
       <xs:element name="account" type="xs:string" minOccurs="0"/>
       <xs:element name="minConfs" type="xs:int"/>
       <xs:element name="spendUnconfirmed" type="xs:boolean"/>
+      <xs:element name="changeType" type="tns:changeAddressType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -444,6 +583,13 @@
   <xs:complexType name="SignPsbtResponseType">
     <xs:sequence>
       <xs:element name="signedPsbt" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="signed_inputs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="signedInputs" type="xs:int" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -503,6 +649,13 @@
       <xs:enumeration value="WITNESS_KEY_HASH"/>
       <xs:enumeration value="NESTED_WITNESS_KEY_HASH"/>
       <xs:enumeration value="COMMITMENT_ANCHOR"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="changeAddressType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CHANGE_ADDRESS_TYPE_UNSPECIFIED"/>
+      <xs:enumeration value="CHANGE_ADDRESS_TYPE_P2TR"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

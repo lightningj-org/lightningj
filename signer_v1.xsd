@@ -226,6 +226,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="taprootTweak" type="tns:TaprootTweakDescType" minOccurs="0"/>
+      <xs:element name="version" type="tns:muSig2Version" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -233,6 +234,7 @@
     <xs:sequence>
       <xs:element name="combinedKey" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="taprootInternalKey" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="version" type="tns:muSig2Version" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -261,6 +263,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="taprootTweak" type="tns:TaprootTweakDescType" minOccurs="0"/>
+      <xs:element name="version" type="tns:muSig2Version" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -271,6 +274,7 @@
       <xs:element name="taprootInternalKey" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="localPublicNonces" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="haveAllNonces" type="xs:boolean"/>
+      <xs:element name="version" type="tns:muSig2Version" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -343,6 +347,14 @@
       <xs:enumeration value="SIGN_METHOD_TAPROOT_KEY_SPEND_BIP0086"/>
       <xs:enumeration value="SIGN_METHOD_TAPROOT_KEY_SPEND"/>
       <xs:enumeration value="SIGN_METHOD_TAPROOT_SCRIPT_SPEND"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="muSig2Version">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MUSIG2_VERSION_UNDEFINED"/>
+      <xs:enumeration value="MUSIG2_VERSION_V040"/>
+      <xs:enumeration value="MUSIG2_VERSION_V100RC2"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>
