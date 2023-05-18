@@ -11,25 +11,25 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.lightningj.lnd.wrapper.wtclient
+package org.lightningj.lnd.wrapper.chainkit
 
-import org.lightningj.lnd.wrapper.watchtower.AsynchronousWatchtowerAPI
-import org.lightningj.lnd.wrapper.watchtower.SynchronousWatchtowerAPI
+
 import spock.lang.Shared
 import spock.lang.Specification
 
 /**
- * Integration tests running the watchtower client APIs against a live test-net LND node.
+ * Integration tests running the chainkit client APIs against a live test-net LND node.
  */
-class WtclientIntegrationSpec extends Specification{
+class ChainKitIntegrationSpec extends Specification{
+
 
     @Shared String lndHost
     @Shared int lndPort
     @Shared File tlsCertPath
     @Shared File macaroonPath
 
-    SynchronousWatchtowerClientAPI synchronousAPI
-    AsynchronousWatchtowerClientAPI asynchronousAPI
+    SynchronousChainKitAPI synchronousAPI
+    AsynchronousChainKitAPI asynchronousAPI
 
     def setupSpec(){
         lndHost = System.getProperty("lightningj.integration.test.lnd.host")
@@ -39,13 +39,13 @@ class WtclientIntegrationSpec extends Specification{
     }
 
     def setup(){
-        asynchronousAPI = new AsynchronousWatchtowerClientAPI(lndHost,lndPort,tlsCertPath, macaroonPath)
-        synchronousAPI = new SynchronousWatchtowerClientAPI(lndHost,lndPort,tlsCertPath, macaroonPath)
+        asynchronousAPI = new AsynchronousChainKitAPI(lndHost,lndPort,tlsCertPath, macaroonPath)
+        synchronousAPI = new SynchronousChainKitAPI(lndHost,lndPort,tlsCertPath, macaroonPath)
     }
 
-    def "Test to verify watchtower client api is available"(){
+    def "Test to verify chainkit api is available"(){
         expect:
-        synchronousAPI.listTowers(true,false)
+        synchronousAPI.getBlockHash(123L) != null
     }
 
 

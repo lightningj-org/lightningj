@@ -54,7 +54,8 @@ class XSDGenerator extends DefaultTask{
             ByteArraySchemaOutputResolver sor = new ByteArraySchemaOutputResolver(protocolSettings.getXMLNameSpace())
             jaxbContext.generateSchema(sor)
 
-            project.file(generatedResourcesDir+ "/" + protocolSettings.getXSDName()).write(new String(sor.bytes,"UTF-8"))
+            File xsdFile = new File(generatedResourcesDir+ "/" + protocolSettings.getXSDName())
+            xsdFile.text = new String(sor.bytes,"UTF-8")
         }
     }
 
