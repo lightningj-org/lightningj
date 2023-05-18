@@ -40,6 +40,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.16.2-Beta    : Generated against LND 0.16.2 API, added support for ChainKit RPC Service.
 * 0.16.0-Beta    : Generated against LND 0.16.0 API
 * 0.15.5-Beta    : Generated against LND 0.15.5 and fix for NaN issue #79
 * 0.15.3-Beta    : Major update, Generated against 0.15.3 and updated Gradle to 7.5.1.
@@ -537,6 +538,13 @@ XSD.
 | http://lightningj.org/xsd/chainnotifier_1_0
 | link:chainnotifier_v1.xsd[chainnotifier_v1.xsd]
 | 0.6-Beta-rc1
+
+| ChainKit API
+| Contains methods for the chain kit service.
+| chainkit:
+| http://lightningj.org/xsd/chainkit_1_0
+| link:chainkit_v1.xsd[chainkit_v1.xsd]
+| 0.16.2-Beta
 
 | Invoices API
 | Invoices is a service that can be used to create, accept, settle and cancel invoices

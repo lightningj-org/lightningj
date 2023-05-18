@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (c26917e) tag : Downloaded 2023-03-30
+ * LND (444bbfa) tag : Downloaded 2023-04-27
  */
 syntax = "proto3";
 
@@ -1548,6 +1548,9 @@ message Channel {
 
     // The configured alias name of our peer.
     string peer_alias = 34;
+
+    // This is the peer SCID alias.
+    uint64 peer_scid_alias = 35 [jstype = JS_STRING];
 }
 
 message ListChannelsRequest {
@@ -2270,6 +2273,13 @@ message OpenChannelRequest {
     capacity.
     */
     uint64 remote_chan_reserve_sat = 25;
+
+    /*
+    If set, then lnd will attempt to commit all the coins under control of the
+    internal wallet to open the channel, and the LocalFundingAmount field must
+    be zero and is ignored.
+    */
+    bool fund_max = 26;
 }
 message OpenStatusUpdate {
     oneof update {

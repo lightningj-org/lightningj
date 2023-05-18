@@ -29,6 +29,8 @@ class ProtocolSettings extends BaseProtocolSettings{
                 return "org.lightningj.lnd.autopilot.proto.AutopilotOuterClass"
             case "chainnotifier":
                 return "org.lightningj.lnd.chainnotifier.proto.ChainNotifierOuterClass"
+            case "chainkit":
+                return "org.lightningj.lnd.chainkit.proto.Chainkit"
             case "invoices":
                 return "org.lightningj.lnd.invoices.proto.InvoicesOuterClass"
             case "router":
@@ -139,6 +141,17 @@ import org.lightningj.lnd.wrapper.message.FeatureBit;
                                 baseProtoClassPath: 'org.lightningj.lnd.chainnotifier.proto.ChainNotifierOuterClass',
                                 baseStubClass: 'ChainNotifier',
                                 baseFileName: 'ChainNotifierAPI.java'
+                        )
+                ]
+            case "chainkit":
+                return [
+                        new ApiSettings(
+                                baseGrpcClassPath:'org.lightningj.lnd.chainkit.proto.ChainKitGrpc$ChainKit',
+                                grpcClassName: 'ChainKitGrpc    ',
+                                baseApiClassName: 'ChainKitAPI',
+                                baseProtoClassPath: 'org.lightningj.lnd.chainkit.proto.ChainKit',
+                                baseStubClass: 'ChainKit',
+                                baseFileName: 'ChainKitAPI.java'
                         )
                 ]
             case "invoices":
@@ -334,6 +347,7 @@ import org.lightningj.lnd.wrapper.message.FeatureBit;
           @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/lndjapi_1_0", prefix = ""),
           @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/autopilot_1_0", prefix = "autopilot"),
           @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/chainnotifier_1_0", prefix = "chainnotifier"),
+          @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/chainkit_1_0", prefix = "chainkit"),
           @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/invoices_1_0", prefix = "invoices"),
           @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/router_1_0", prefix = "router"),
           @jakarta.xml.bind.annotation.XmlNs(namespaceURI = "http://lightningj.org/xsd/signer_1_0", prefix = "signer"),

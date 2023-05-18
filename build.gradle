@@ -38,7 +38,7 @@ plugins {
 
 group 'org.lightningj'
 
-version '0.16.0-Beta'
+version '0.16.2-Beta'
 
 description = "LightningJ - Lightning APIs for Java"
 
@@ -118,7 +118,7 @@ test {
  */
 task generateWrappers(type: WrapperClassGenerator, dependsOn:compileJava){
     // When adding new protocols, remember to also add in WrapperFactory.
-    protocols = ["lnrpc","autopilot","chainnotifier","invoices","router","signer","walletkit","watchtower","wtclient",
+    protocols = ["lnrpc","autopilot","chainnotifier","chainkit","invoices","router","signer","walletkit","watchtower","wtclient",
                  "verrpc", "walletunlocker","stateservice","dev","peers","neutrino"]
 }
 
@@ -149,7 +149,7 @@ dependencies {
 
 task generateXSD(type: XSDGenerator, dependsOn: compileWrapperMessages){
     classpath=compileJava.classpath.asPath
-    protocols = ["lnrpc","autopilot","chainnotifier","invoices","router","signer","walletkit","watchtower","wtclient",
+    protocols = ["lnrpc","autopilot","chainnotifier","chainkit","invoices","router","signer","walletkit","watchtower","wtclient",
                  "verrpc","walletunlocker","stateservice","dev","peers","neutrino"]
 }
 
@@ -178,7 +178,7 @@ asciidoctor {
 }
 
 
-task ('doc',type: Copy,dependsOn: [javadoc, asciidoctor, htmlDependencyReport, test]){
+task ('doc',type: Copy,dependsOn: [javadoc, asciidoctor, htmlDependencyReport, test, generateXSD]){
     from('build/docs/'){
         include('index.html')
     }
