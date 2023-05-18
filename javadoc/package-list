@@ -1,4 +1,5 @@
 org.lightningj.lnd.autopilot.proto
+org.lightningj.lnd.chainkit.proto
 org.lightningj.lnd.chainnotifier.proto
 org.lightningj.lnd.dev.proto
 org.lightningj.lnd.invoices.proto
@@ -16,6 +17,8 @@ org.lightningj.lnd.watchtower.proto
 org.lightningj.lnd.wrapper
 org.lightningj.lnd.wrapper.autopilot
 org.lightningj.lnd.wrapper.autopilot.message
+org.lightningj.lnd.wrapper.chainkit
+org.lightningj.lnd.wrapper.chainkit.message
 org.lightningj.lnd.wrapper.chainnotifier
 org.lightningj.lnd.wrapper.chainnotifier.message
 org.lightningj.lnd.wrapper.dev
