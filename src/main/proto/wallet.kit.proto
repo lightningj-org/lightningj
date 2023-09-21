@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (44dcfec) tag : Downloaded 2023-04-27
+ * LND (31330f1) tag : Downloaded 2023-09-22
  */
 syntax = "proto3";
 
@@ -718,7 +718,9 @@ message ImportTapscriptResponse {
 
 message Transaction {
     /*
-    The raw serialized transaction.
+    The raw serialized transaction. Despite the field name, this does need to be
+    specified in raw bytes (or base64 encoded when using REST) and not in hex.
+    To not break existing software, the field can't simply be renamed.
     */
     bytes tx_hex = 1;
 
