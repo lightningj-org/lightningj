@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (7ceb46d) tag : Downloaded 2023-09-22
+ * LND (d94ae3f) tag : Downloaded 2023-10-07
  */
 syntax = "proto3";
 
@@ -9,6 +9,7 @@ package lnrpc;
 
 option java_package = "org.lightningj.lnd.proto";
 option go_package = "github.com/lightningnetwork/lnd/lnrpc";
+
 
 /*
  * Comments in this file will be directly parsed into the API
@@ -2459,6 +2460,11 @@ message ChanPointShim {
     the value is less than 500,000, or as an absolute height otherwise.
     */
     uint32 thaw_height = 6;
+
+    /*
+    Indicates that the funding output is using a MuSig2 multi-sig output.
+    */
+    bool musig2 = 7;
 }
 
 message PsbtShim {
