@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (13252ae) tag : Downloaded 2023-02-25
+ * LND (8405590) tag : Downloaded 2023-09-22
  */
 syntax = "proto3";
 
@@ -19,6 +19,7 @@ service Signer {
     concerning how the outputs should be signed, which keys they should be
     signed with, and also any optional tweaks. The return value is a fixed
     64-byte signature (the same format as we use on the wire in Lightning).
+
     If we are  unable to sign using the specified keys, then an error will be
     returned.
     */
@@ -30,6 +31,7 @@ service Signer {
     This method should be capable of generating the proper input script for both
     regular p2wkh/p2tr outputs and p2wkh outputs nested within a regular p2sh
     output.
+
     Note that when using this method to sign inputs belonging to the wallet,
     the only items of the SignDescriptor that need to be populated are pkScript
     in the TxOut field, the value in that same field, and finally the input
@@ -40,6 +42,7 @@ service Signer {
     /*
     SignMessage signs a message with the key specified in the key locator. The
     returned signature is fixed-size LN wire format encoded.
+
     The main difference to SignMessage in the main RPC is that a specific key is
     used to sign the message instead of the node identity private key.
     */
@@ -48,6 +51,7 @@ service Signer {
     /*
     VerifyMessage verifies a signature over a message using the public key
     provided. The signature must be fixed-size LN wire format encoded.
+
     The main difference to VerifyMessage in the main RPC is that the public key
     used to sign the message does not have to be a node known to the network.
     */
@@ -73,6 +77,7 @@ service Signer {
     public key that should be put in an on-chain output once all public keys are
     known. A signing session is only needed later when that output should be
     _spent_ again.
+
     NOTE: The MuSig2 BIP is not final yet and therefore this API must be
     considered to be HIGHLY EXPERIMENTAL and subject to change in upcoming
     releases. Backward compatibility is not guaranteed!
@@ -87,6 +92,7 @@ service Signer {
     key of the local signing key. If nonces of other parties are already known,
     they can be submitted as well to reduce the number of RPC calls necessary
     later on.
+
     NOTE: The MuSig2 BIP is not final yet and therefore this API must be
     considered to be HIGHLY EXPERIMENTAL and subject to change in upcoming
     releases. Backward compatibility is not guaranteed!
@@ -98,6 +104,7 @@ service Signer {
     MuSig2RegisterNonces (experimental!) registers one or more public nonces of
     other signing participants for a session identified by its ID. This RPC can
     be called multiple times until all nonces are registered.
+
     NOTE: The MuSig2 BIP is not final yet and therefore this API must be
     considered to be HIGHLY EXPERIMENTAL and subject to change in upcoming
     releases. Backward compatibility is not guaranteed!
@@ -112,6 +119,7 @@ service Signer {
     registered with the session. If this node isn't responsible for combining
     all the partial signatures, then the cleanup flag should be set, indicating
     that the session can be removed from memory once the signature was produced.
+
     NOTE: The MuSig2 BIP is not final yet and therefore this API must be
     considered to be HIGHLY EXPERIMENTAL and subject to change in upcoming
     releases. Backward compatibility is not guaranteed!
@@ -123,6 +131,7 @@ service Signer {
     with the local one, if it already exists. Once a partial signature of all
     participants is registered, the final signature will be combined and
     returned.
+
     NOTE: The MuSig2 BIP is not final yet and therefore this API must be
     considered to be HIGHLY EXPERIMENTAL and subject to change in upcoming
     releases. Backward compatibility is not guaranteed!
@@ -134,6 +143,7 @@ service Signer {
     MuSig2Cleanup (experimental!) allows a caller to clean up a session early in
     cases where it's obvious that the signing session won't succeed and the
     resources can be released.
+
     NOTE: The MuSig2 BIP is not final yet and therefore this API must be
     considered to be HIGHLY EXPERIMENTAL and subject to change in upcoming
     releases. Backward compatibility is not guaranteed!
@@ -202,6 +212,7 @@ message SignDescriptor {
     A descriptor that precisely describes *which* key to use for signing. This
     may provide the raw public key directly, or require the Signer to re-derive
     the key according to the populated derivation path.
+
     Note that if the key descriptor was obtained through walletrpc.DeriveKey,
     then the key locator MUST always be provided, since the derived keys are not
     persisted unlike with DeriveNextKey.
@@ -212,6 +223,7 @@ message SignDescriptor {
     A scalar value that will be added to the private key corresponding to the
     above public key to obtain the private key to be used to sign this input.
     This value is typically derived via the following computation:
+
       * derivedKey = privkey + sha256(perCommitmentPoint || pubKey) mod N
     */
     bytes single_tweak = 2;
@@ -223,6 +235,7 @@ message SignDescriptor {
     commitment secret from a previously revoked commitment transaction. This
     value is in combination with two hash values, and the original private key
     to derive the private key to be used when signing.
+
      * k = (privKey*sha256(pubKey || tweakPub) +
            tweakPriv*sha256(tweakPub || pubKey)) mod N
     */
@@ -232,7 +245,9 @@ message SignDescriptor {
     The 32 byte input to the taproot tweak derivation that is used to derive
     the output key from an internal key: outputKey = internalKey +
     tagged_hash("tapTweak", internalKey || tapTweak).
+
     When doing a BIP 86 spend, this field can be an empty byte slice.
+
     When doing a normal key path spend, with the output key committing to an
     actual script root, then this field should be: the tapscript root hash.
     */
@@ -549,6 +564,16 @@ message MuSig2SessionRequest {
     combined key and nonces are created.
     */
     MuSig2Version version = 6;
+
+    /*
+    A set of pre generated secret local nonces to use in the musig2 session.
+    This field is optional. This can be useful for protocols that need to send
+    nonces ahead of time before the set of signer keys are known. This value
+    MUST be 97 bytes and be the concatenation of two CSPRNG generated 32 byte
+    values and local public key used for signing as specified in the key_loc
+    field.
+    */
+    bytes pregenerated_local_nonce = 7;
 }
 
 message MuSig2SessionResponse {

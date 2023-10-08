@@ -1,7 +1,7 @@
 /**
  * This file is fetched from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
  * And is distributed under LNDs MIT License.
- * LND (74023fe) tag : Downloaded 2023-02-25
+ * LND (9ce02b9) tag : Downloaded 2023-09-22
  */
 syntax = "proto3";
 
@@ -55,9 +55,12 @@ service NeutrinoKit {
   rpc GetCFilter (GetCFilterRequest) returns (GetCFilterResponse);
 
   /*
+  Deprecated, use chainrpc.GetBlockHash instead.
   GetBlockHash returns the header hash of a block at a given height.
   */
-  rpc GetBlockHash (GetBlockHashRequest) returns (GetBlockHashResponse);
+  rpc GetBlockHash (GetBlockHashRequest) returns (GetBlockHashResponse) {
+    option deprecated = true;
+  }
 }
 
 message StatusRequest {

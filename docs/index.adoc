@@ -40,6 +40,7 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.17.0-Beta    : Generated against LND 0.17.0 API, upgraded to Gradle 8.1
 * 0.16.2-Beta    : Generated against LND 0.16.2 API, added support for ChainKit RPC Service.
 * 0.16.0-Beta    : Generated against LND 0.16.0 API
 * 0.15.5-Beta    : Generated against LND 0.15.5 and fix for NaN issue #79
