@@ -924,6 +924,7 @@
       <xs:element name="zeroConfConfirmedScid" type="xs:long"/>
       <xs:element name="peerAlias" type="xs:string" minOccurs="0"/>
       <xs:element name="peerScidAlias" type="xs:long"/>
+      <xs:element name="memo" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1282,6 +1283,17 @@
       <xs:element name="closeAddress" type="xs:string" minOccurs="0"/>
       <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="commitmentType" type="commitmentType" minOccurs="0"/>
+      <xs:element name="remoteMaxValueInFlightMsat" type="xs:long"/>
+      <xs:element name="remoteMaxHtlcs" type="xs:int"/>
+      <xs:element name="maxLocalCsv" type="xs:int"/>
+      <xs:element name="zeroConf" type="xs:boolean"/>
+      <xs:element name="scidAlias" type="xs:boolean"/>
+      <xs:element name="baseFee" type="xs:long"/>
+      <xs:element name="feeRate" type="xs:long"/>
+      <xs:element name="useBaseFee" type="xs:boolean"/>
+      <xs:element name="useFeeRate" type="xs:boolean"/>
+      <xs:element name="remoteChanReserveSat" type="xs:long"/>
+      <xs:element name="memo" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1325,6 +1337,14 @@
       <xs:element name="useFeeRate" type="xs:boolean"/>
       <xs:element name="remoteChanReserveSat" type="xs:long"/>
       <xs:element name="fundMax" type="xs:boolean"/>
+      <xs:element name="memo" type="xs:string" minOccurs="0"/>
+      <xs:element name="outpoints" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="OutPoint" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -1343,6 +1363,7 @@
       <xs:element name="remoteKey" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="pendingChanId" type="xs:base64Binary" minOccurs="0"/>
       <xs:element name="thawHeight" type="xs:int"/>
+      <xs:element name="musig2" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1467,6 +1488,7 @@
       <xs:element name="commitFee" type="xs:long"/>
       <xs:element name="commitWeight" type="xs:long"/>
       <xs:element name="feePerKw" type="xs:long"/>
+      <xs:element name="fundingExpiryBlocks" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1484,6 +1506,7 @@
       <xs:element name="numForwardingPackages" type="xs:long"/>
       <xs:element name="chanStatusFlags" type="xs:string" minOccurs="0"/>
       <xs:element name="private" type="xs:boolean"/>
+      <xs:element name="memo" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1557,7 +1580,9 @@
   </xs:complexType>
 
   <xs:complexType name="WalletBalanceRequestType">
-    <xs:all/>
+    <xs:sequence>
+      <xs:element name="account" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="WalletBalanceResponseType">
@@ -2801,6 +2826,7 @@
       <xs:enumeration value="STATIC_REMOTE_KEY"/>
       <xs:enumeration value="ANCHORS"/>
       <xs:enumeration value="SCRIPT_ENFORCED_LEASE"/>
+      <xs:enumeration value="SIMPLE_TAPROOT"/>
     </xs:restriction>
   </xs:simpleType>
 

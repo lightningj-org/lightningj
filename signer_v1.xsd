@@ -264,6 +264,7 @@
       </xs:element>
       <xs:element name="taprootTweak" type="tns:TaprootTweakDescType" minOccurs="0"/>
       <xs:element name="version" type="tns:muSig2Version" minOccurs="0"/>
+      <xs:element name="pregeneratedLocalNonce" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
