@@ -38,7 +38,7 @@ plugins {
 
 group 'org.lightningj'
 
-version '0.17.0-Beta'
+version '0.17.2-Beta'
 
 description = "LightningJ - Lightning APIs for Java"
 
