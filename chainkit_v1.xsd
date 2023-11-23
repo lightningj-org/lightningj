@@ -9,6 +9,10 @@
 
   <xs:element name="GetBlockHashResponse" type="tns:GetBlockHashResponseType"/>
 
+  <xs:element name="GetBlockHeaderRequest" type="tns:GetBlockHeaderRequestType"/>
+
+  <xs:element name="GetBlockHeaderResponse" type="tns:GetBlockHeaderResponseType"/>
+
   <xs:element name="GetBlockRequest" type="tns:GetBlockRequestType"/>
 
   <xs:element name="GetBlockResponse" type="tns:GetBlockResponseType"/>
@@ -22,6 +26,18 @@
   <xs:complexType name="GetBlockResponseType">
     <xs:sequence>
       <xs:element name="rawBlock" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetBlockHeaderRequestType">
+    <xs:sequence>
+      <xs:element name="blockHash" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetBlockHeaderResponseType">
+    <xs:sequence>
+      <xs:element name="rawBlockHeader" type="xs:base64Binary" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
