@@ -477,6 +477,7 @@
   <xs:complexType name="ListSweepsRequestType">
     <xs:sequence>
       <xs:element name="verbose" type="xs:boolean"/>
+      <xs:element name="startHeight" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
