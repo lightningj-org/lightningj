@@ -5,7 +5,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.16"
+        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.19"
 
         // optional dependencies for using Spock
         classpath "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
@@ -27,7 +27,7 @@ buildscript {
 plugins {
     id 'java-library'
     id 'groovy'
-    id 'com.google.protobuf' version "0.8.16"
+    id 'com.google.protobuf' version "0.8.19"
     id 'idea'
     id 'project-report'
     id 'org.ajoberstar.git-publish' version "3.0.1"
@@ -51,8 +51,8 @@ repositories {
 
 dependencies {
     //gRPC
-    implementation 'com.google.api.grpc:proto-google-common-protos:2.9.6'
-    implementation 'io.netty:netty-tcnative-boringssl-static:2.0.54.Final'
+    implementation 'com.google.api.grpc:proto-google-common-protos:2.31.0'
+    implementation 'io.netty:netty-tcnative-boringssl-static:2.0.62.Final'
     api "io.grpc:grpc-netty-shaded:$grpcVersion"
     implementation "io.grpc:grpc-protobuf:$grpcVersion"
     implementation "io.grpc:grpc-stub:$grpcVersion"

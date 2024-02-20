@@ -40,6 +40,8 @@ to the license agreement can be found link:LICENSE.txt[here].
 
 == Whats New
 
+* 0.17.4-Beta    : Generated against LND 0.17.4 API, updated Updated grpc to 1.61.0 and protobuf to 3.22.5,
+proto-google-common-protos:2.31.0 and netty-tcnative-boringssl-static to 2.0.62.Final thanx to help from theborakompanioni.
 * 0.17.2-Beta    : Generated against LND 0.17.2 API
 * 0.17.0-Beta    : Generated against LND 0.17.0 API, upgraded to Gradle 8.1
 * 0.16.2-Beta    : Generated against LND 0.16.2 API, added support for ChainKit RPC Service.
